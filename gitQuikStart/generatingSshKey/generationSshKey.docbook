@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbookxi.rng" type="xml"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude"
+    version="5.0">
+    
+    <title> Generationg SHH key</title>
+
+    <section>
+        <title>Linux</title>
+        <para> You bring up your favorite teminal and execute the command <screen> sifiso@gustav:~$ ssh-keygen -t rsa -C "sifiso@solms.co.za"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/sifiso/.ssh/id_rsa): </screen> </para>
+    </section>
+
+    <section>
+        <title> Windows</title>
+        <para>Once Sysgit is install there will be Git Bash available on the your machine. After you
+            have brought Git Bash up you can run <screen> $ ssh-keygen -t rsa
+</screen> You can accept the deafult location or choose your preferred location to save the generated
+            keys.After that it will ask you for the passphrase use can choose one or can leave it
+            blank as a time the whole point of generation keys is to enable you to do full
+            auto-login. </para>
+    </section>
+
+    <section>
+        <title> Mac OSX</title>
+        <para> To generate SSH key on Mac OS you lauch the terminal and execute the command <screen> sifiso@gustav:~$ ssh-keygen -t rsa -C "sifiso@solms.co.za"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/sifiso/.ssh/id_rsa):</screen> </para>
+    </section>
+
+</section>
