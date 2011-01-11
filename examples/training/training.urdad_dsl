@@ -229,7 +229,54 @@ ResponsibilityDomain training
 				
 				Exception PresentationNotOpenForEnrollmentException {},
 				
-				Exception EnrollmentConflictsWithStudentRosterException {}
+				Exception EnrollmentConflictsWithStudentRosterException {},
+				
+				Process
+				{
+					serviceRealized enrollForPresentation
+					processActivity ActivitySequence
+					{
+						activities
+						{
+							PreConditionActivity
+							{
+								preCondition studentRegistered
+							},
+							PreConditionActivity
+							{
+								preCondition studentMeetsCoursePrerequisites
+							},
+							PreConditionActivity
+							{
+								preCondition enrollmentDoesNotConflictWithStudentRoster
+							},
+							PrePostConditionActivity
+							{
+								preCondition presentationOpenForEnrollment
+								postCondition studentEnlistedForPresentation
+							},
+							PrePostConditionActivity
+							{
+								preCondition financialPrerequisitesSatisfied
+								postCondition invoiceIssued
+							},
+							ConcurrentActivities
+							{
+								activities
+								{
+									PostConditionActivity
+									{
+										postCondition proofOfEnrollmentProvided
+									},
+									PostConditionActivity
+									{
+										postCondition studyGuideProvided
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
