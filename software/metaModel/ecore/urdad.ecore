@@ -10,7 +10,28 @@
     <details key="documentation" value="This is a ecore encoding of the URDAD meta-model. URDAD is a services-oriented&#xA;&#x9; analysis and design methodology which is meant for technology neutral analysis&#xA;&#x9; and design resulting in a PIM (platform-independent model) which can be used &#xA;&#x9; in the context of model-driven development (e.g. MDA)."/>
   </eAnnotations>
   <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-    <details key="todo" value="Open Questions/Issues:1. Componentize meta-model2. How to support componentized models?3. Should primitives be sourced from OCL?4. Should awaiting on signals be supported and if so, how?5. Persistence6. Basic data types"/>
+    <details key="todo" value="Componentize meta-model"/>
+  </eAnnotations>
+  <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+    <details key="todo" value="How to support componentized models?"/>
+  </eAnnotations>
+  <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+    <details key="todo" value="Should primitives be sourced from OCL?"/>
+  </eAnnotations>
+  <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+    <details key="todo" value="Should awaiting on signals be supported and if so, how?"/>
+  </eAnnotations>
+  <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+    <details key="todo" value="Persistence &amp; CRUD methods via entity manager. Problem: these are in model, not meta-model domain"/>
+  </eAnnotations>
+  <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+    <details key="todo" value="Basic data types"/>
+  </eAnnotations>
+  <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+    <details key="todo" value="Exception message construction perhaps via OCL to include context info"/>
+  </eAnnotations>
+  <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+    <details key="todo" value="Fully qualified names support in XText (it is in ECore, but not in default XText mapping - can be done in XText)"/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Role" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true">
@@ -20,7 +41,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Package" eSuperTypes="#//NamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="ResponsibilityDomain" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
         eType="#//Element" containment="true"/>
   </eClassifiers>
@@ -31,8 +52,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BooleanExpression" eSuperTypes="#//Expression"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Constraint" abstract="true" eSuperTypes="#//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="constrainedElement" eType="#//Element"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Constraint" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="constraintExpression" eType="#//Expression"
         containment="true"/>
   </eClassifiers>
@@ -77,7 +97,8 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="documentation" value="A functional requirement is a requirement for some functionality. This includes the functionality to be able to assess some &#xA;&#x9;&#x9;precondition, the functionality which ensures that some post-condition holds true after a service has been provided or the&#xA;&#x9;&#x9;functionality of the service as a whole."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredService" eType="#//Service"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredService" lowerBound="1"
+        eType="#//Service"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="QualityRequirement" eSuperTypes="#//Requirement">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -95,25 +116,26 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="documentation" value="A requirement for a service."/>
     </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="documentation" value="Pre and post-conditions composed in service because constraint definitions are context specific"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="request" lowerBound="1"
         eType="#//DataStructure" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="result" eType="#//DataStructure"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="preConditions" upperBound="-1"
-        eType="#//PreCondition"/>
+        eType="#//PreCondition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="postConditions" upperBound="-1"
-        eType="#//PostCondition"/>
+        eType="#//PostCondition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="qualityRequirements" upperBound="-1"
         eType="#//QualityRequirement"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ServicesContract" eSuperTypes="#//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="services" upperBound="-1"
-        eType="#//Service"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Activity" abstract="true" eSuperTypes="#//Element"/>
   <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="serviceRealized" lowerBound="1"
         eType="#//Service"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processActivity" lowerBound="1"
+        eType="#//Activity" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BackgroundActivity" eSuperTypes="#//Activity">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -135,30 +157,31 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="conditionalActivities"
         upperBound="-1" eType="#//ConditionalActivity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="While" eSuperTypes="#//Activity">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="conditionalActivity" lowerBound="1"
-        eType="#//ConditionalActivity" containment="true"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="While" eSuperTypes="#//ConditionalActivity"/>
   <eClassifiers xsi:type="ecore:EClass" name="ConditionalActivity" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
         eType="#//BooleanExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
+        eType="#//Activity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PreConditionActivity" eSuperTypes="#//Activity">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="preCondition" lowerBound="1"
-        eType="#//PreCondition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceRequestActivity" abstract="true"
+      eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="requestContraints" upperBound="-1"
         eType="#//Constraint" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PreConditionActivity" eSuperTypes="#//ServiceRequestActivity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preCondition" lowerBound="1"
+        eType="#//PreCondition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exceptionContraints" upperBound="-1"
         eType="#//Constraint" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PostConditionActivity" eSuperTypes="#//Activity">
+  <eClassifiers xsi:type="ecore:EClass" name="PostConditionActivity" eSuperTypes="#//ServiceRequestActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="postCondition" lowerBound="1"
         eType="#//PostCondition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="requestContraints" upperBound="-1"
-        eType="#//Constraint" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inverseRequestContraints"
         upperBound="-1" eType="#//Constraint" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrePostConditionActivity" eSuperTypes="#//PreConditionActivity #//PostConditionActivity"/>
   <eClassifiers xsi:type="ecore:EClass" name="ReturnResultActivity" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="resultContraints" upperBound="-1"
         eType="#//Constraint" containment="true"/>
