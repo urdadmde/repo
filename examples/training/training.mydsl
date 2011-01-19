@@ -1,0 +1,272 @@
+ResponsibilityDomain training
+{
+	elements
+	{
+		ResponsibilityDomain Primitives
+		{
+			elements
+			{
+				BasicDataType DateTime
+			}
+		},
+		ResponsibilityDomain stakeholders
+		{
+			elements
+			{
+				Role Student,
+				Role Client,
+				Role TrainingInstitution,
+				Role TrainingRegulator,
+				Role CreditRegulator
+			}	
+		},
+		
+		ResponsibilityDomain registration
+		{
+			elements
+			{
+				Service isRegistered
+				{
+					request DataStructure IsRegisteredRequest
+					{
+						
+					}
+				},
+				Exception StudentNotRegisteredException {}
+			}
+		},
+		
+		ResponsibilityDomain finance
+		{
+			elements
+			{
+				DataStructure Invoice
+				{
+					
+				},
+				Service issueInvoice
+				{
+					request DataStructure IssueInvoiceRequest
+					{
+						
+					}
+				},
+				Exception FinancialPrerequisitesNotSatsfiedException
+				{
+					
+				}
+			}
+		},
+		
+		ResponsibilityDomain academics
+		{
+			elements
+			{
+				ResponsibilityDomain assessment
+				{
+					elements
+					{
+						Service studentSatisfiesCoursePrerequisites
+						{
+							request DataStructure StudentSatisfiesCoursePrerequisitesRequest
+							{
+								
+							}
+						},
+						Exception StudentDoesNotSatisfyCoursePrerequisites {}
+					}
+				},
+				ResponsibilityDomain studyGuides
+				{
+					elements
+					{
+						Service provideStudyGuide
+						{
+							request DataStructure ProvideStudyGuideRequest
+							{
+								
+							}							
+						}
+					}
+				}
+			}
+		},
+		
+		ResponsibilityDomain enrollment
+		{
+			elements
+			{
+				
+				Service enrollmentConflictsWithStudentRoster
+				{
+					request DataStructure EnrollmentConflictsWithStudentRosterRequest
+					{
+						
+					}
+				},
+				
+				Service generateProofOfEnrollment
+				{
+					request DataStructure GenerateProofOfEnrollmentRequest
+					{
+						
+					}
+				},
+				
+				Service enlistStudentForPresentation
+				{
+					request DataStructure EnlistStudentForPresentationRequest
+					{
+						
+					}
+					result DataStructure EnlistStudentForPresentationResult
+					{
+						
+					}
+				},
+				
+				Service enrollForPresentation
+				{
+					
+					request DataStructure EnrollForPresentationRequest
+					{
+						attributes
+						{
+							Attribute dateTime
+							{
+								type DateTime 
+							}
+						}
+						associations
+						{
+							Composition invoice
+							{
+								relatedType Invoice
+								multiplicityConstraint RangeMultiplicityConstraint
+								{
+									minOccurs 0
+									maxOccurs -1
+								}
+							}
+						}	
+					}
+					result DataStructure EnrollForPresentationResult
+					{
+						
+					}
+					preConditions
+					{
+						PreCondition studentRegistered
+						{
+							requiredBy (TrainingInstitution,TrainingRegulator)
+							requiredService isRegistered 
+							exception StudentNotRegisteredException
+						},
+						
+						PreCondition presentationOpenForEnrollment
+						{
+							requiredBy (TrainingInstitution, TrainingRegulator)
+							requiredService enlistStudentForPresentation
+							exception PresentationNotOpenForEnrollmentException
+						},
+						
+						PreCondition studentMeetsCoursePrerequisites
+						{
+							requiredBy (TrainingRegulator,Student,Client)
+							requiredService studentSatisfiesCoursePrerequisites
+							exception StudentDoesNotSatisfyCoursePrerequisites
+						},
+						
+						PreCondition financialPrerequisitesSatisfied
+						{
+							requiredBy (TrainingInstitution,CreditRegulator)
+							requiredService issueInvoice
+							exception FinancialPrerequisitesNotSatsfiedException
+						},
+						
+						PreCondition enrollmentDoesNotConflictWithStudentRoster
+						{
+							requiredBy (Student, TrainingRegulator, TrainingInstitution, Client)
+							requiredService enrollmentConflictsWithStudentRoster
+							exception EnrollmentConflictsWithStudentRosterException
+						}
+					}
+					postConditions
+					{
+						PostCondition studentEnlistedForPresentation
+						{
+							requiredBy (Student,Client)
+							requiredService enlistStudentForPresentation
+						},
+						PostCondition invoiceIssued
+						{
+							requiredBy (Client, TrainingInstitution)
+							requiredService issueInvoice
+						},
+						PostCondition proofOfEnrollmentProvided
+						{
+							requiredBy (Student,Client)
+							requiredService generateProofOfEnrollment		
+						},
+						PostCondition studyGuideProvided
+						{
+							requiredBy (TrainingRegulator,Student)
+							requiredService provideStudyGuide
+						}
+					}
+				},
+				
+				Exception PresentationNotOpenForEnrollmentException {},
+				
+				Exception EnrollmentConflictsWithStudentRosterException {},
+				
+				Process
+				{
+					serviceRealized enrollForPresentation
+					processActivity ActivitySequence
+					{
+						activities
+						{
+							PreConditionActivity
+							{
+								preCondition studentRegistered
+							},
+							PreConditionActivity
+							{
+								preCondition studentMeetsCoursePrerequisites
+							},
+							PreConditionActivity
+							{
+								preCondition enrollmentDoesNotConflictWithStudentRoster
+							},
+							PrePostConditionActivity
+							{
+								preCondition presentationOpenForEnrollment
+								postCondition studentEnlistedForPresentation
+							},
+							PrePostConditionActivity
+							{
+								preCondition financialPrerequisitesSatisfied
+								postCondition invoiceIssued
+							},
+							ConcurrentActivities
+							{
+								activities
+								{
+									PostConditionActivity
+									{
+										postCondition proofOfEnrollmentProvided
+									},
+									PostConditionActivity
+									{
+										postCondition studyGuideProvided
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
