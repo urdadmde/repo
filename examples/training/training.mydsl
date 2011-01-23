@@ -7,20 +7,17 @@ ResponsibilityDomain training
 			elements
 			{
 				BasicDataType DateTime
-				{
-					
-				}
 			}
 		},
 		ResponsibilityDomain stakeholders
 		{
 			elements
 			{
-				Role Student {},
-				Role Client {},
-				Role TrainingInstitution {},
-				Role TrainingRegulator {},
-				Role CreditRegulator {}
+				Role Student,
+				Role Client,
+				Role TrainingInstitution,
+				Role TrainingRegulator,
+				Role CreditRegulator
 			}	
 		},
 		
@@ -103,14 +100,6 @@ ResponsibilityDomain training
 				Service enrollmentConflictsWithStudentRoster
 				{
 					request DataStructure EnrollmentConflictsWithStudentRosterRequest
-					{
-						
-					}
-				},
-				
-				Service enlistStudentForPresentation
-				{
-					request DataStructure EnlistStudentForPresentationRequest
 					{
 						
 					}
