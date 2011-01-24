@@ -20,6 +20,10 @@ ResponsibilityDomain training
 				Role CreditRegulator
 			}	
 		},
+		PostCondition correctRegistrationStatusProvided
+		{
+			
+		},
 		
 		ResponsibilityDomain registration
 		{
@@ -30,6 +34,18 @@ ResponsibilityDomain training
 					request DataStructure IsRegisteredRequest
 					{
 						
+					}
+					result DataStructure IsRegisteredResult
+					{
+						
+					}
+					functionalRequirements
+					{
+						FunctionalRequirement 
+						{
+							requiredBy (TrainingInstitution)
+							functionalConstraint correctRegistrationStatusProvided 
+						} 
 					}
 				},
 				Exception StudentNotRegisteredException {}
@@ -44,11 +60,26 @@ ResponsibilityDomain training
 				{
 					
 				},
+				PostCondition invoiceIssued
+				{
+				},
 				Service issueInvoice
 				{
 					request DataStructure IssueInvoiceRequest
 					{
 						
+					}
+					result DataStructure IssueInvoiceResult
+					{
+						
+					}
+					functionalRequirements
+					{
+						FunctionalRequirement
+						{
+							requiredBy (TrainingInstitution)
+							functionalConstraint invoiceIssued
+						}
 					}
 				},
 				Exception FinancialPrerequisitesNotSatsfiedException
@@ -56,6 +87,10 @@ ResponsibilityDomain training
 					
 				}
 			}
+		},
+		PreCondition studentRegistered
+		{
+			exception StudentNotRegisteredException
 		},
 		
 		ResponsibilityDomain academics
@@ -72,9 +107,25 @@ ResponsibilityDomain training
 							{
 								
 							}
+							result DataStructure StudentSatisfiesCoursePrerequisitesResult
+							{
+								
+							}
+							functionalRequirements
+							{
+								FunctionalRequirement
+								{
+									requiredBy (TrainingInstitution)
+									functionalConstraint studentRegistered
+								}
+							}
 						},
 						Exception StudentDoesNotSatisfyCoursePrerequisites {}
 					}
+				},
+				PreCondition studentEnlistedForCourse
+				{
+					exception StudentNotEnlistedForCourseException 
 				},
 				ResponsibilityDomain studyGuides
 				{
@@ -85,6 +136,18 @@ ResponsibilityDomain training
 							request DataStructure ProvideStudyGuideRequest
 							{
 								
+							}
+							result DataStructure ProvideStudyGuideResult
+							{
+								
+							}
+							functionalRequirements
+							{
+								FunctionalRequirement
+								{
+									requiredBy (TrainingInstitution)
+									functionalConstraint studentEnlistedForCourse
+								}
 							}							
 						}
 					}
@@ -96,12 +159,27 @@ ResponsibilityDomain training
 		{
 			elements
 			{
-				
+				Exception StudentNotEnlistedForCourseException
+				{
+					
+				},
 				Service enrollmentConflictsWithStudentRoster
 				{
 					request DataStructure EnrollmentConflictsWithStudentRosterRequest
 					{
 						
+					}
+					result DataStructure EnrollmentConflictsWithStudentRosterResult
+					{
+						
+					}
+					functionalRequirements
+					{
+						FunctionalRequirement 
+						{
+							requiredBy (TrainingInstitution)
+							functionalConstraint studentRegistered
+						}
 					}
 				},
 				
@@ -110,6 +188,18 @@ ResponsibilityDomain training
 					request DataStructure GenerateProofOfEnrollmentRequest
 					{
 						
+					}
+					result DataStructure GenerateProofOfEnrollmentResult
+					{
+						
+					}
+					functionalRequirements
+					{
+						FunctionalRequirement
+						{
+							requiredBy (TrainingInstitution)
+							functionalConstraint studentEnlistedForCourse
+						}
 					}
 				},
 				
@@ -123,6 +213,54 @@ ResponsibilityDomain training
 					{
 						
 					}
+					functionalRequirements
+					{
+						FunctionalRequirement
+						{
+							requiredBy (TrainingInstitution)
+							functionalConstraint studentRegistered
+						}
+					}
+				},
+				PreCondition presentationOpenForEnrollment
+				{
+					requiredService enlistStudentForPresentation
+					exception PresentationNotOpenForEnrollmentException
+				},
+				
+				PreCondition studentMeetsCoursePrerequisites
+				{
+					requiredService studentSatisfiesCoursePrerequisites
+					exception StudentDoesNotSatisfyCoursePrerequisites
+				},
+				
+				PreCondition financialPrerequisitesSatisfied
+				{
+					requiredService issueInvoice
+					exception FinancialPrerequisitesNotSatsfiedException
+				},
+				
+				PreCondition enrollmentDoesNotConflictWithStudentRoster
+				{
+					requiredService enrollmentConflictsWithStudentRoster
+					exception EnrollmentConflictsWithStudentRosterException
+				},
+						
+				PostCondition studentEnlistedForPresentation
+				{
+					requiredService enlistStudentForPresentation
+				},
+				PostCondition invoiceIssued
+				{
+					requiredService issueInvoice
+				},
+				PostCondition proofOfEnrollmentProvided
+				{
+					requiredService generateProofOfEnrollment		
+				},
+				PostCondition studyGuideProvided
+				{
+					requiredService provideStudyGuide
 				},
 				
 				Service enrollForPresentation
@@ -137,81 +275,52 @@ ResponsibilityDomain training
 								type DateTime 
 							}
 						}
-						associations
-						{
-							Composition invoice
-							{
-								relatedType Invoice
-								multiplicityConstraint RangeMultiplicityConstraint
-								{
-									minOccurs 0
-									maxOccurs -1
-								}
-							}
-						}	
 					}
 					result DataStructure EnrollForPresentationResult
 					{
 						
 					}
-					preConditions
+					functionalRequirements
 					{
-						PreCondition studentRegistered
+						FunctionalRequirement
 						{
-							requiredBy (TrainingInstitution,TrainingRegulator)
-							requiredService isRegistered 
-							exception StudentNotRegisteredException
+							requiredBy (TrainingInstitution)
+							functionalConstraint studentRegistered
 						},
-						
-						PreCondition presentationOpenForEnrollment
+						FunctionalRequirement
 						{
-							requiredBy (TrainingInstitution, TrainingRegulator)
-							requiredService enlistStudentForPresentation
-							exception PresentationNotOpenForEnrollmentException
+							requiredBy (TrainingInstitution)
+							functionalConstraint presentationOpenForEnrollment
 						},
-						
-						PreCondition studentMeetsCoursePrerequisites
+						FunctionalRequirement
 						{
-							requiredBy (TrainingRegulator,Student,Client)
-							requiredService studentSatisfiesCoursePrerequisites
-							exception StudentDoesNotSatisfyCoursePrerequisites
+							requiredBy (Student, TrainingRegulator)
+							functionalConstraint enrollmentDoesNotConflictWithStudentRoster
 						},
-						
-						PreCondition financialPrerequisitesSatisfied
+						FunctionalRequirement
 						{
 							requiredBy (TrainingInstitution,CreditRegulator)
-							requiredService issueInvoice
-							exception FinancialPrerequisitesNotSatsfiedException
+							functionalConstraint financialPrerequisitesSatisfied
 						},
-						
-						PreCondition enrollmentDoesNotConflictWithStudentRoster
+						FunctionalRequirement
 						{
-							requiredBy (Student, TrainingRegulator, TrainingInstitution, Client)
-							requiredService enrollmentConflictsWithStudentRoster
-							exception EnrollmentConflictsWithStudentRosterException
-						}
-					}
-					postConditions
-					{
-						PostCondition studentEnlistedForPresentation
-						{
-							requiredBy (Student,Client)
-							requiredService enlistStudentForPresentation
+							requiredBy (Client,Student,TrainingRegulator)
+							functionalConstraint proofOfEnrollmentProvided
 						},
-						PostCondition invoiceIssued
+						FunctionalRequirement
 						{
-							requiredBy (Client, TrainingInstitution)
-							requiredService issueInvoice
+							requiredBy (TrainingInstitution,Client)
+							functionalConstraint invoiceIssued
 						},
-						PostCondition proofOfEnrollmentProvided
+						FunctionalRequirement
 						{
-							requiredBy (Student,Client)
-							requiredService generateProofOfEnrollment		
+							requiredBy (Student,TrainingRegulator)
+							functionalConstraint studyGuideProvided
 						},
-						PostCondition studyGuideProvided
+						FunctionalRequirement
 						{
-							requiredBy (TrainingRegulator,Student)
-							requiredService provideStudyGuide
+							requiredBy (Student,Client,TrainingRegulator,TrainingInstitution)
+							functionalConstraint studentEnlistedForCourse
 						}
 					}
 				},
@@ -220,7 +329,7 @@ ResponsibilityDomain training
 				
 				Exception EnrollmentConflictsWithStudentRosterException {},
 				
-				Process
+				Process 
 				{
 					serviceRealized enrollForPresentation
 					processActivity ActivitySequence
