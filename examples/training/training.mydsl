@@ -2,10 +2,14 @@ ResponsibilityDomain training
 {
 	elements
 	{
-		ResponsibilityDomain Primitives
+		ResponsibilityDomain primitives
 		{
 			elements
 			{
+				BasicDataType Integer,
+				BasicDataType FloatingPointNumber,
+				BasicDataType Boolean,
+				BasicDataType String,
 				BasicDataType DateTime
 			}
 		},
@@ -20,79 +24,80 @@ ResponsibilityDomain training
 				Role CreditRegulator
 			}	
 		},
-		PostCondition correctRegistrationStatusProvided
-		{
-			
-		},
-		
 		ResponsibilityDomain registration
 		{
 			elements
 			{
+				/* No Pre-Conditions are applicable */
+				PostCondition correctRegistrationStatusProvided
+				{
+					//TODO define constraint expression (if required)
+					//TODO determine if required service should be defined in this instance?
+					/* Inverse service is not applicable */
+				},
+				DataStructure Student
+				{
+					attributes
+					{
+						Attribute studentNumber 
+						{
+							type String
+						}
+					}
+				},	
+				DataStructure RegistrationStatus
+				{
+					attributes
+					{
+						Attribute registered 
+						{
+							type Boolean
+						}
+					}
+				},	
 				Service isRegistered
 				{
 					request DataStructure IsRegisteredRequest
 					{
-						
+						associations
+						{
+							Composition student
+							{
+								relatedType Student
+								multiplicityConstraint RangeMultiplicityConstraint OneToOne
+								{
+									minOccurs 1
+									maxOccurs 1
+								}
+							}
+						}
 					}
 					result DataStructure IsRegisteredResult
 					{
-						
+						associations
+						{
+							Composition registrationStatus
+							{
+								relatedType RegistrationStatus
+								multiplicityConstraint RangeMultiplicityConstraint OneToOne
+								{
+									minOccurs 1
+									maxOccurs 1
+								}
+							}
+						}
 					}
 					functionalRequirements
 					{
 						FunctionalRequirement 
 						{
-							requiredBy (TrainingInstitution)
-							functionalConstraint correctRegistrationStatusProvided 
+							requiredBy (???) //TODO define stakeholders for lower level services
+							functionalConstraint correctRegistrationStatusProvided
 						} 
 					}
-				},
-				Exception StudentNotRegisteredException {}
-			}
-		},
-		
-		ResponsibilityDomain finance
-		{
-			elements
-			{
-				DataStructure Invoice
-				{
-					
-				},
-				PostCondition invoiceIssued
-				{
-				},
-				Service issueInvoice
-				{
-					request DataStructure IssueInvoiceRequest
-					{
-						
-					}
-					result DataStructure IssueInvoiceResult
-					{
-						
-					}
-					functionalRequirements
-					{
-						FunctionalRequirement
-						{
-							requiredBy (TrainingInstitution)
-							functionalConstraint invoiceIssued
-						}
-					}
-				},
-				Exception FinancialPrerequisitesNotSatsfiedException
-				{
-					
 				}
 			}
 		},
-		PreCondition studentRegistered
-		{
-			exception StudentNotRegisteredException
-		},
-		
 		ResponsibilityDomain academics
 		{
 			elements
@@ -101,234 +106,801 @@ ResponsibilityDomain training
 				{
 					elements
 					{
+						/* No Pre-Conditions are applicable */
+						PostCondition correctPrerequisitesComplianceStatusProvided
+						{
+							//TODO define constraint expression (if required)
+							//TODO determine if required service should be defined in this instance?
+							/* Inverse service is not applicable */
+						},
+						DataStructure Student
+						{
+							attributes
+							{
+								Attribute studentNumber 
+								{
+									type String
+								}
+							}
+						},	
+						DataStructure PrerequisitesComplianceStatus
+						{
+							attributes
+							{
+								Attribute satisfied 
+								{
+									type Boolean
+								}
+							}
+						},
 						Service studentSatisfiesCoursePrerequisites
 						{
 							request DataStructure StudentSatisfiesCoursePrerequisitesRequest
 							{
-								
+								associations
+								{
+									Composition student
+									{
+										relatedType Student
+										multiplicityConstraint RangeMultiplicityConstraint OneToOne
+										{
+											minOccurs 1
+											maxOccurs 1
+										}
+									}
+								}
 							}
 							result DataStructure StudentSatisfiesCoursePrerequisitesResult
 							{
-								
+								associations
+								{
+									Composition prerequisitesComplianceStatus
+									{
+										relatedType PrerequisitesComplianceStatus
+										multiplicityConstraint RangeMultiplicityConstraint OneToOne
+										{
+											minOccurs 1
+											maxOccurs 1
+										}
+									}
+								}
 							}
 							functionalRequirements
 							{
-								FunctionalRequirement
+								FunctionalRequirement 
 								{
-									requiredBy (TrainingInstitution)
-									functionalConstraint studentRegistered
-								}
+									requiredBy (???) //TODO define stakeholders for lower level services
+									functionalConstraint correctPrerequisitesComplianceStatusProvided 
+								} 
 							}
-						},
-						Exception StudentDoesNotSatisfyCoursePrerequisites {}
+						}	
 					}
 				},
-				PreCondition studentEnlistedForCourse
-				{
-					exception StudentNotEnlistedForCourseException 
-				},
-				ResponsibilityDomain studyGuides
+				ResponsibilityDomain studyguides
 				{
 					elements
 					{
+						//TODO define PreConditions (If applicable)
+						PostCondition studyGuideProvided
+						{
+							//TODO define constraint expression (if required)
+							//TODO determine if required service should be defined in this instance?
+							//TODO determine if inverse service should be defined in this instance?
+						},
+						DataStructure Document
+						{
+						},
+						DataStructure StudyGuide
+						{
+							attributes
+							{
+								Attribute documentId
+								{
+									type String
+								}						
+							}
+							associations
+							{
+								Composition document
+								{
+									relatedType Document
+									multiplicityConstraint RangeMultiplicityConstraint OneToOne
+									{
+										minOccurs 1
+										maxOccurs 1
+									}
+								}							
+							}
+						},
 						Service provideStudyGuide
 						{
 							request DataStructure ProvideStudyGuideRequest
 							{
-								
+								//TODO define object structure
 							}
 							result DataStructure ProvideStudyGuideResult
 							{
-								
+								associations
+								{
+									Composition studyGuide
+									{
+										relatedType StudyGuide
+										multiplicityConstraint RangeMultiplicityConstraint OneToOne
+										{
+											minOccurs 1
+											maxOccurs 1
+										}
+									}
+								}
 							}
 							functionalRequirements
 							{
-								FunctionalRequirement
+								FunctionalRequirement 
 								{
-									requiredBy (TrainingInstitution)
-									functionalConstraint studentEnlistedForCourse
-								}
-							}							
-						}
-					}
+									requiredBy (???) //TODO define stakeholders for lower level services
+									functionalConstraint studyGuideProvided 
+								} 
+							}
+						}	
+					}	
 				}
 			}
 		},
-		
-		ResponsibilityDomain enrollment
+		ResponsibilityDomain rosterManagement
 		{
 			elements
 			{
-				Exception StudentNotEnlistedForCourseException
+				/* No Pre-Conditions are applicable */
+				PostCondition correctRosterConflictStatusProvided
 				{
-					
+					//TODO define constraint expression (if required)
+					//TODO determine if required service should be defined in this instance?
+					/* Inverse service is not applicable */
+				},
+				DataStructure Student
+				{
+					attributes
+					{
+						Attribute studentNumber 
+						{
+							type String
+						}
+					}
+				},	
+				DataStructure Presentation
+				{
+					attributes
+					{
+						Attribute presentationId
+						{
+							type String
+						}
+					}
+				},
+				DataStructure RosterConflictStatus
+				{
+					attributes
+					{
+						Attribute conflicts 
+						{
+							type Boolean
+						}
+					}
 				},
 				Service enrollmentConflictsWithStudentRoster
 				{
 					request DataStructure EnrollmentConflictsWithStudentRosterRequest
 					{
-						
+						associations
+						{
+							Composition student
+							{
+								relatedType Student
+								multiplicityConstraint RangeMultiplicityConstraint OneToOne
+								{
+									minOccurs 1
+									maxOccurs 1
+								}
+							},
+							Composition presentation
+							{
+								relatedType Presentation
+								multiplicityConstraint RangeMultiplicityConstraint OneToOne
+								{
+									minOccurs 1
+									maxOccurs 1
+								}
+							}
+						}
 					}
 					result DataStructure EnrollmentConflictsWithStudentRosterResult
 					{
-						
+						associations
+						{
+							Composition rosterConflictStatus
+							{
+								relatedType RosterConflictStatus
+								multiplicityConstraint RangeMultiplicityConstraint OneToOne
+								{
+									minOccurs 1
+									maxOccurs 1
+								}
+							}
+						}
 					}
 					functionalRequirements
 					{
 						FunctionalRequirement 
 						{
-							requiredBy (TrainingInstitution)
-							functionalConstraint studentRegistered
+							requiredBy (???) //TODO define stakeholders for lower level services
+							functionalConstraint correctRosterConflictStatusProvided 
+						} 
+					}
+				}
+			}
+		},
+		ResponsibilityDomain finance
+		{
+			elements
+			{
+				//TODO define PreConditions (If applicable)
+				PostCondition invoiceIssued
+				{
+					//TODO define constraint expression (if required)
+					//TODO determine if required service should be defined in this instance?
+					//TODO determine if inverse service should be defined in this instance?
+				},
+				DataStructure Invoice
+				{
+					attributes
+					{
+						Attribute invoiceNumber
+						{
+							type String
 						}
 					}
 				},
 				
-				Service generateProofOfEnrollment
+				Service issueInvoice
 				{
-					request DataStructure GenerateProofOfEnrollmentRequest
+					request DataStructure IssueInvoiceRequest
 					{
-						
+						//TODO Define object structure
 					}
-					result DataStructure GenerateProofOfEnrollmentResult
+					result DataStructure IssueInvoiceResult
 					{
-						
+						associations
+						{
+							Composition invoice
+							{
+								relatedType Invoice
+								multiplicityConstraint RangeMultiplicityConstraint OneToOne
+								{
+									minOccurs 1
+									maxOccurs 1
+								}
+							}
+						}
 					}
 					functionalRequirements
 					{
-						FunctionalRequirement
+						FunctionalRequirement 
 						{
-							requiredBy (TrainingInstitution)
-							functionalConstraint studentEnlistedForCourse
+							requiredBy (???) //TODO define stakeholders for lower level services
+							functionalConstraint invoiceIssued
 						}
 					}
-				},
-				
-				Service enlistStudentForPresentation
+				}
+			}
+		},
+		ResponsibilityDomain enrollments
+		{
+			elements
+			{
+				ResponsibilityDomain presentationManagement
 				{
-					request DataStructure EnlistStudentForPresentationRequest
-					{
-						
-					}
-					result DataStructure EnlistStudentForPresentationResult
-					{
-						
-					}
-					functionalRequirements
-					{
-						FunctionalRequirement
+					elements{
+						PreCondition presentationOpenForEnrollment
 						{
-							requiredBy (TrainingInstitution)
-							functionalConstraint studentRegistered
+							exception PresentatonNotOpenForEnrollmentException
+						},
+						Exception PresentatonNotOpenForEnrollmentException
+						{
+						},
+						PostCondition studentEnlistedForPresentation
+						{
+							//TODO define constraint expression (if required)
+							//TODO determine if required service should be defined in this instance?
+							//TODO define inverse service
+						},
+						DataStructure Student
+						{
+							attributes
+							{
+								Attribute studentNumber
+								{
+									type String
+								}
+							}
+						},
+						DataStructure Presentation
+						{
+							attributes
+							{
+								Attribute presentationId
+								{
+									type String
+								}
+							}
+						},
+						DataStructure PresentationEnlistmentStatus
+						{
+							attributes
+							{
+								Attribute enlisted 
+								{
+									type Boolean
+								}
+							}
+						},
+						Service enlistStudentForPresentation
+						{
+							request DataStructure EnlistStudentForPresentationRequest
+							{
+								associations
+								{
+									Composition student
+									{
+										relatedType Student
+										multiplicityConstraint RangeMultiplicityConstraint OneToOne
+										{
+											minOccurs 1
+											maxOccurs 1
+										}
+									},
+									Composition presentation
+									{
+										relatedType Presentation
+										multiplicityConstraint RangeMultiplicityConstraint OneToOne
+										{
+											minOccurs 1
+											maxOccurs 1
+										}
+									}
+								}
+							}
+							result DataStructure EnlistStudentForPresentationResult
+							{
+								associations
+								{
+									Composition presentationEnlistmentStatus
+									{
+										relatedType PresentationEnlistmentStatus
+										multiplicityConstraint RangeMultiplicityConstraint OneToOne
+										{
+											minOccurs 1
+											maxOccurs 1
+										}
+									}
+								}
+							}
+							functionalRequirements
+							{
+								FunctionalRequirement 
+								{
+									requiredBy (???) //TODO define stakeholders for lower level services
+									functionalConstraint presentationOpenForEnrollment
+								},
+								FunctionalRequirement 
+								{
+									requiredBy (???) //TODO define stakeholders for lower level services
+									functionalConstraint studentEnlistedForPresentation
+								}
+								
+							}
 						}
-					}
+					}	
 				},
-				PreCondition presentationOpenForEnrollment
+				ResponsibilityDomain proofOfEnrollments
 				{
-					requiredService enlistStudentForPresentation
-					exception PresentationNotOpenForEnrollmentException
+					elements{
+						//TODO define PreConditions (If applicable)
+						PostCondition proofOfEnrollmentProvided
+						{
+							//TODO define constraint expression (if required)
+							//TODO determine if required service should be defined in this instance?
+							//TODO determine if inverse service should be defined in this instance?
+						},
+						DataStructure Lecture
+						{
+							attributes
+							{
+								Attribute topic
+								{
+									type String
+								},
+								Attribute start
+								{
+									type DateTime
+								},
+								Attribute end
+								{
+									type DateTime
+								}
+							}
+							associations
+							{
+								Association venueDetails
+								{
+									relatedType VenueDetails
+									multiplicityConstraint RangeMultiplicityConstraint OneToOne
+									{
+										minOccurs 1
+										maxOccurs 1
+									}
+								},
+								Association presenterDetails
+								{
+									relatedType PresenterDetails
+									multiplicityConstraint RangeMultiplicityConstraint OneToMany
+									{
+										minOccurs 1
+										maxOccurs -1
+									}
+								}
+							}
+						},
+						DataStructure PresentationDetails
+						{
+							attributes
+							{
+								Attribute courseName
+								{
+									type String
+								}
+							}
+							associations
+							{
+								Composition lecture
+								{
+									relatedType Lecture
+									multiplicityConstraint RangeMultiplicityConstraint OneToMany
+									{
+										minOccurs 1
+										maxOccurs -1
+									}
+								}
+								
+							}
+						},
+						DataStructure VenueDetails
+						{
+						},
+						DataStructure PresenterDetails
+						{
+							attributes
+							{
+								Attribute employeeNumber
+								{
+									type String
+								},
+								Attribute firstNames
+								{
+									type String
+								},
+								Attribute surname
+								{
+									type String
+								}
+							}
+						},
+						DataStructure StudentDetails
+						{
+							attributes
+							{
+								Attribute studentNumber
+								{
+									type String
+								},
+								Attribute identityNumber
+								{
+									type String
+								},
+								Attribute firstNames
+								{
+									type String
+								},
+								Attribute surname
+								{
+									type String
+								}
+							}
+						},
+						DataStructure ProofOfEnrollment
+						{
+							associations
+							{
+								Composition presentationDetails
+								{
+									relatedType PresentationDetails
+									multiplicityConstraint RangeMultiplicityConstraint OneToOne
+									{
+										minOccurs 1
+										maxOccurs 1
+									}
+								},
+								Composition presenterDetails
+								{
+									relatedType PresenterDetails
+									multiplicityConstraint RangeMultiplicityConstraint OneToMany
+									{
+										minOccurs 1
+										maxOccurs -1
+									}
+								},
+								Composition venueDetails
+								{
+									relatedType VenueDetails
+									multiplicityConstraint RangeMultiplicityConstraint OneToMany
+									{
+										minOccurs 1
+										maxOccurs -1
+									}
+								},
+								Composition studentDetails
+								{
+									relatedType StudentDetails
+									multiplicityConstraint RangeMultiplicityConstraint OneToOne
+									{
+										minOccurs 1
+										maxOccurs 1
+									}
+								}						
+							}
+						},
+						Service generateProofOfEnrollment
+						{
+							request DataStructure GenerateProofOfEnrollmentRequest
+							{
+								//TODO Define object structure
+							}
+							result DataStructure GenerateProofOfEnrollmentResult
+							{
+								associations
+								{
+									Composition proofOfEnrollment
+									{
+										relatedType ProofOfEnrollment
+										multiplicityConstraint RangeMultiplicityConstraint OneToOne
+										{
+											minOccurs 1
+											maxOccurs 1
+										}
+									}
+								}
+							}
+							functionalRequirements
+							{
+								FunctionalRequirement 
+								{
+									requiredBy (???) //TODO define stakeholders for lower level services
+									functionalConstraint proofOfEnrollmentProvided
+								}
+							}
+						}
+					}		
 				},
-				
-				PreCondition studentMeetsCoursePrerequisites
+				PreCondition studentRegistered
+				{
+					requiredService isRegistered
+					exception StudentNotRegisteredException
+				},
+				Exception StudentNotRegisteredException
+				{
+				},
+				PreCondition studentSatisfiesCoursePrerequisites
 				{
 					requiredService studentSatisfiesCoursePrerequisites
-					exception StudentDoesNotSatisfyCoursePrerequisites
+					exception StudentDoesNotSatisfyCoursePrerequisitesException
 				},
-				
-				PreCondition financialPrerequisitesSatisfied
+				Exception StudentDoesNotSatisfyCoursePrerequisitesException
 				{
-					requiredService issueInvoice
-					exception FinancialPrerequisitesNotSatsfiedException
 				},
-				
 				PreCondition enrollmentDoesNotConflictWithStudentRoster
 				{
 					requiredService enrollmentConflictsWithStudentRoster
 					exception EnrollmentConflictsWithStudentRosterException
 				},
-						
-				PostCondition studentEnlistedForPresentation
+				Exception EnrollmentConflictsWithStudentRosterException
+				{
+				},
+				PreCondition presentationOpenForEnrollment
 				{
 					requiredService enlistStudentForPresentation
+					exception PresentatonNotOpenForEnrollmentException
+				},
+				Exception PresentatonNotOpenForEnrollmentException
+				{
+				},
+				PreCondition financialPrerequisitesSatisfied
+				{
+					requiredService issueInvoice
+					exception FinancialPrerequisitesNotSatisfiedException
+				},
+				Exception FinancialPrerequisitesNotSatisfiedException
+				{
 				},
 				PostCondition invoiceIssued
 				{
+					//TODO define constraint expression
 					requiredService issueInvoice
+					//TODO define inverse service
 				},
 				PostCondition proofOfEnrollmentProvided
 				{
-					requiredService generateProofOfEnrollment		
+					//TODO define constraint expression
+					requiredService generateProofOfEnrollment
+					//TODO define inverse service
+				},
+				PostCondition studentEnlistedForPresentation
+				{
+					//TODO define constraint expression
+					requiredService enlistStudentForPresentation
+					//TODO define inverse service
 				},
 				PostCondition studyGuideProvided
 				{
+					//TODO define constraint expression
 					requiredService provideStudyGuide
+					//TODO define inverse service
 				},
-				
+				DataStructure Student
+				{
+					attributes
+					{
+						Attribute studentNumber
+						{
+							type String
+						}
+					}
+				},
+				DataStructure Client
+				{
+					attributes
+					{
+						Attribute clientNumber
+						{
+							type String
+						}
+					}
+				},
+				DataStructure Presentation
+				{
+					attributes
+					{
+						Attribute presentationId
+						{
+							type String
+						}
+					}
+				},				
 				Service enrollForPresentation
 				{
-					
 					request DataStructure EnrollForPresentationRequest
 					{
-						attributes
+						associations
 						{
-							Attribute dateTime
+							Composition student
 							{
-								type DateTime 
+								relatedType Student
+								multiplicityConstraint RangeMultiplicityConstraint OneToOne
+								{
+									minOccurs 1
+									maxOccurs 1
+								}
+							},
+							Composition client
+							{
+								relatedType Client
+								multiplicityConstraint RangeMultiplicityConstraint OneToOne
+								{
+									minOccurs 1
+									maxOccurs 1
+								}
+							},
+							Composition presentation
+							{
+								relatedType Presentation
+								multiplicityConstraint RangeMultiplicityConstraint OneToOne
+								{
+									minOccurs 1
+									maxOccurs 1
+								}
 							}
 						}
 					}
 					result DataStructure EnrollForPresentationResult
 					{
-						
+						associations
+						{
+							Composition proofOfEnrollment
+							{
+								relatedType ProofOfEnrollment
+								multiplicityConstraint RangeMultiplicityConstraint OneToOne
+								{
+									minOccurs 1
+									maxOccurs 1
+								}
+							},
+							Composition invoice
+							{
+								relatedType Invoice
+								multiplicityConstraint RangeMultiplicityConstraint OneToOne
+								{
+									minOccurs 1
+									maxOccurs 1
+								}
+							},
+							Composition studyGuide
+							{
+								relatedType StudyGuide
+								multiplicityConstraint RangeMultiplicityConstraint OneToOne
+								{
+									minOccurs 1
+									maxOccurs 1
+								}
+							}
+						}
 					}
 					functionalRequirements
 					{
-						FunctionalRequirement
+						FunctionalRequirement 
 						{
-							requiredBy (TrainingInstitution)
-							functionalConstraint studentRegistered
+							requiredBy (TrainingInstitution, TrainingRegulator)
+							functionalConstraint studentRegistered 
 						},
-						FunctionalRequirement
+						FunctionalRequirement 
 						{
-							requiredBy (TrainingInstitution)
-							functionalConstraint presentationOpenForEnrollment
+							requiredBy (TrainingRegulator, Student)
+							functionalConstraint studentSatisfiesCoursePrerequisites 
 						},
-						FunctionalRequirement
+						FunctionalRequirement 
 						{
-							requiredBy (Student, TrainingRegulator)
-							functionalConstraint enrollmentDoesNotConflictWithStudentRoster
+							requiredBy (TrainingInstitution, TrainingRegulator, Student, Client)
+							functionalConstraint enrollmentDoesNotConflictWithStudentRoster 
 						},
-						FunctionalRequirement
+						FunctionalRequirement 
 						{
-							requiredBy (TrainingInstitution,CreditRegulator)
-							functionalConstraint financialPrerequisitesSatisfied
+							requiredBy (TrainingInstitution, TrainingRegulator)
+							functionalConstraint presentationOpenForEnrollment 
 						},
-						FunctionalRequirement
+						FunctionalRequirement 
 						{
-							requiredBy (Client,Student,TrainingRegulator)
-							functionalConstraint proofOfEnrollmentProvided
+							requiredBy (TrainingInstitution, CreditRegulator)
+							functionalConstraint financialPrerequisitesSatisfied 
 						},
-						FunctionalRequirement
+						FunctionalRequirement 
 						{
-							requiredBy (TrainingInstitution,Client)
-							functionalConstraint invoiceIssued
+							requiredBy (TrainingInstitution, CreditRegulator)
+							functionalConstraint invoiceIssued 
 						},
-						FunctionalRequirement
+						FunctionalRequirement 
 						{
-							requiredBy (Student,TrainingRegulator)
-							functionalConstraint studyGuideProvided
+							requiredBy (Student, Client)
+							functionalConstraint proofOfEnrollmentProvided 
 						},
-						FunctionalRequirement
+						FunctionalRequirement 
 						{
-							requiredBy (Student,Client,TrainingRegulator,TrainingInstitution)
-							functionalConstraint studentEnlistedForCourse
+							requiredBy (Student, Client)
+							functionalConstraint studentEnlistedForPresentation 
+						},
+						FunctionalRequirement 
+						{
+							requiredBy (TrainingRegulator, Student)
+							functionalConstraint studyGuideProvided 
 						}
 					}
 				},
-				
-				Exception PresentationNotOpenForEnrollmentException {},
-				
-				Exception EnrollmentConflictsWithStudentRosterException {},
-				
 				Process 
 				{
 					serviceRealized enrollForPresentation
@@ -338,25 +910,37 @@ ResponsibilityDomain training
 						{
 							PreConditionActivity
 							{
+								//TODO define request contraints
 								preCondition studentRegistered
+								//TODO define exception contraints
 							},
 							PreConditionActivity
 							{
-								preCondition studentMeetsCoursePrerequisites
+								//TODO define request contraints
+								preCondition studentSatisfiesCoursePrerequisites
+								//TODO define exception contraints
 							},
 							PreConditionActivity
 							{
+								//TODO define request contraints
 								preCondition enrollmentDoesNotConflictWithStudentRoster
+								//TODO define exception contraints
 							},
 							PrePostConditionActivity
 							{
+								//TODO define request contraints
 								preCondition presentationOpenForEnrollment
+								//TODO define exception contraints
 								postCondition studentEnlistedForPresentation
+								//TODO define inverse request contraints
 							},
 							PrePostConditionActivity
 							{
+								//TODO define request contraints
 								preCondition financialPrerequisitesSatisfied
+								//TODO define exception contraints
 								postCondition invoiceIssued
+								//TODO define inverse request contraints
 							},
 							ConcurrentActivities
 							{
@@ -364,13 +948,25 @@ ResponsibilityDomain training
 								{
 									PostConditionActivity
 									{
+										//TODO define request contraints
 										postCondition proofOfEnrollmentProvided
+										//TODO define inverse request contraints
 									},
 									PostConditionActivity
 									{
+										//TODO define request contraints
 										postCondition studyGuideProvided
+										//TODO define inverse request contraints
 									}
 								}
+							},
+							ReturnResultActivity
+							{
+								//TODO define result constraints
+								// - will potentially need to make use of 'other' services to 
+								// populate information need to be returned in proof of enrollment. 
+								// Information which hasn't been needed up until this part of the 
+								// process. 
 							}
 						}
 					}
