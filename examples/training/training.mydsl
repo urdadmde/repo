@@ -185,7 +185,7 @@ ResponsibilityDomain training
 				
 				Service generateProofOfEnrollment
 				{
-					request DataStructure GenerateProofOfEnrollmentRequest
+					request DataStructure GenerateProofOfEnrollmentReque
 					{
 						
 					}

@@ -38,14 +38,17 @@
     <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
     <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
   </eAnnotations>
-  <eClassifiers xsi:type="ecore:EClass" name="Role" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsibilityDomains"
+        upperBound="-1" eType="#//ResponsibilityDomain" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ResponsibilityDomain" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
-        eType="#//Element" containment="true"/>
+        eType="#//NamedElement" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Expression">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="language" lowerBound="1"
@@ -70,6 +73,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DataType" abstract="true" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="BasicDataType" eSuperTypes="#//DataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FloatingPointNumber" eSuperTypes="#//BasicDataType"/>
   <eClassifiers xsi:type="ecore:EClass" name="DataStructure" eSuperTypes="#//DataType">
     <eStructuralFeatures xsi:type="ecore:EReference" name="superType" eType="#//DataStructure"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
@@ -79,7 +83,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Exception" eSuperTypes="#//DataStructure"/>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//BasicDataType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//BasicDataType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Association" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="relatedType" lowerBound="1"
@@ -91,7 +95,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Composition" eSuperTypes="#//Aggregation"/>
   <eClassifiers xsi:type="ecore:EClass" name="Requirement" abstract="true" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EReference" name="requiredBy" lowerBound="1"
-        upperBound="-1" eType="#//Role"/>
+        upperBound="-1" eType="#//ResponsibilityDomain"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="QualityRequirement" eSuperTypes="#//Requirement">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -114,11 +118,18 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="inverseService" eType="#//Service"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="requestClassNameEqualsServiceNamePlusRequest resultClassNameEqualsServiceNamePlusResult"/>
+    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="documentation" value="A requirement for a service."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="documentation" value="Pre and post-conditions composed in service because constraint definitions are context specific"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+      <details key="requestClassNameEqualsServiceNamePlusRequest" value="&#xA;&#x9;&#x9;  (self.request.name.substring(self.request.name.size()-6,self.request.name.size()) = 'Request')&#xA;&#x9;&#x9;  and&#xA;&#x9;&#x9;  (self.request.name.substring(1,self.name.size()) = self.name.substring(1,1).toUpper().concat&#xA;&#x9;&#x9;  (self.name.substring(2,self.name.size())))"/>
+      <details key="resultClassNameEqualsServiceNamePlusResult" value="&#xA;&#x9;&#x9;  (self.request.name.substring(self.request.name.size()-5,self.request.name.size()) = 'Result')&#xA;&#x9;&#x9;  and&#xA;&#x9;&#x9;  (self.request.name.substring(1,self.name.size()) = self.name.substring(1,1).toUpper().concat&#xA;&#x9;&#x9;  (self.name.substring(2,self.name.size())))"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="request" lowerBound="1"
         eType="#//DataStructure" containment="true"/>
