@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="ASCII"?>
+<urdad:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:urdad="http://www.urdad.org/2010/urdad" xsi:schemaLocation="http://www.urdad.org/2010/urdad ../model/urdad.ecore" name="Training">
+  <responsibilityDomains name="Primitives">
+    <dataTypes xsi:type="urdad:BasicDataType" name="Integer"/>
+    <dataTypes xsi:type="urdad:BasicDataType" name="FloatingPointNumber"/>
+    <dataTypes xsi:type="urdad:BasicDataType" name="Boolean"/>
+    <dataTypes xsi:type="urdad:BasicDataType" name="String"/>
+    <dataTypes xsi:type="urdad:BasicDataType" name="DateTime"/>
+  </responsibilityDomains>
+  <responsibilityDomains name="Client"/>
+  <responsibilityDomains name="TrainingInstitution"/>
+  <responsibilityDomains name="TrainingRegulator"/>
+  <responsibilityDomains name="CreditRegulator"/>
+  <responsibilityDomains name="Registration">
+    <dataTypes xsi:type="urdad:DataStructure" name="Student">
+      <attributes name="studentNumber" type="//@responsibilityDomains.0/@dataTypes.3"/>
+    </dataTypes>
+    <dataTypes xsi:type="urdad:DataStructure" name="RegistrationStatus">
+      <attributes name="registered" type="//@responsibilityDomains.0/@dataTypes.2"/>
+    </dataTypes>
+    <services name="isRegistered">
+      <request name="IsRegisteredRequest">
+        <associations xsi:type="urdad:Composition" name="student" relatedType="//@responsibilityDomains.5/@dataTypes.0">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </request>
+      <result name="IsRegisteredResult">
+        <associations xsi:type="urdad:Composition" name="registrationStatus" relatedType="//@responsibilityDomains.5/@dataTypes.1">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </result>
+      <functionalRequirements name="" functionalConstraint="//@responsibilityDomains.5/@functionalConstraints.0"/>
+    </services>
+    <functionalConstraints xsi:type="urdad:PostCondition" name="correctRegistrationStatusProvided"/>
+  </responsibilityDomains>
+  <responsibilityDomains name="Student"/>
+  <responsibilityDomains name="Assessment">
+    <dataTypes xsi:type="urdad:DataStructure" name="Student">
+      <attributes name="studentNumber" type="//@responsibilityDomains.0/@dataTypes.3"/>
+    </dataTypes>
+    <dataTypes xsi:type="urdad:DataStructure" name="PrerequisitesComplianceStatus">
+      <attributes name="satisfied" type="//@responsibilityDomains.0/@dataTypes.2"/>
+    </dataTypes>
+    <services name="studentSatisfiesCoursePrerequisites">
+      <request name="StudentSatisfiesCoursePrerequisitesRequest">
+        <associations xsi:type="urdad:Composition" name="student" relatedType="//@responsibilityDomains.7/@dataTypes.0">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </request>
+      <result name="StudentSatisfiesCoursePrerequisitesResult">
+        <associations xsi:type="urdad:Composition" name="prerequisitesComplianceStatus" relatedType="//@responsibilityDomains.7/@dataTypes.1">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </result>
+      <functionalRequirements functionalConstraint="//@responsibilityDomains.7/@functionalConstraints.0"/>
+    </services>
+    <functionalConstraints xsi:type="urdad:PostCondition" name="correctPrerequisitesComplianceStatusProvided"/>
+  </responsibilityDomains>
+  <responsibilityDomains name="StudyGuides">
+    <dataTypes xsi:type="urdad:DataStructure" name="Document"/>
+    <dataTypes xsi:type="urdad:DataStructure" name="StudyGuide">
+      <attributes name="documentId" type="//@responsibilityDomains.0/@dataTypes.3"/>
+      <associations xsi:type="urdad:Composition" name="StudyGuide" relatedType="//@responsibilityDomains.8/@dataTypes.0">
+        <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+      </associations>
+    </dataTypes>
+    <services name="provideStudyGuide">
+      <request name="ProvideStudyGuideRequest"/>
+      <result name="ProvideStudyGuideResult">
+        <associations xsi:type="urdad:Composition" name="studyGuide" relatedType="//@responsibilityDomains.8/@dataTypes.1">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </result>
+      <functionalRequirements name="" functionalConstraint="//@responsibilityDomains.8/@functionalConstraints.0"/>
+    </services>
+    <functionalConstraints xsi:type="urdad:PostCondition" name="studyGuideProvided"/>
+  </responsibilityDomains>
+  <responsibilityDomains name="RosterManagement">
+    <dataTypes xsi:type="urdad:DataStructure" name="Student">
+      <attributes name="studentNumber" type="//@responsibilityDomains.0/@dataTypes.3"/>
+    </dataTypes>
+    <dataTypes xsi:type="urdad:DataStructure" name="Presentation">
+      <attributes name="presentationId" type="//@responsibilityDomains.0/@dataTypes.3"/>
+    </dataTypes>
+    <dataTypes xsi:type="urdad:DataStructure" name="RosterConflictStatus">
+      <attributes name="conflicts" type="//@responsibilityDomains.0/@dataTypes.2"/>
+    </dataTypes>
+    <services name="enrollmentConflictsWithStudentRoster">
+      <request name="EnrollmentConflictsWithStudentRosterRequest">
+        <associations xsi:type="urdad:Composition" name="student" relatedType="//@responsibilityDomains.9/@dataTypes.0">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+        <associations xsi:type="urdad:Composition" name="presentation" relatedType="//@responsibilityDomains.9/@dataTypes.1">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </request>
+      <result name="EnrollmentConflictsWithStudentRosterResult">
+        <associations xsi:type="urdad:Composition" name="rosterConflictStatus" relatedType="//@responsibilityDomains.9/@dataTypes.2">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </result>
+      <functionalRequirements name="" functionalConstraint="//@responsibilityDomains.9/@functionalConstraints.0"/>
+    </services>
+    <functionalConstraints xsi:type="urdad:PostCondition" name="correctRosterConflictStatusProvided"/>
+  </responsibilityDomains>
+  <responsibilityDomains name="Finance">
+    <dataTypes xsi:type="urdad:DataStructure" name="Invoice">
+      <attributes name="invoiceNumber" type="//@responsibilityDomains.0/@dataTypes.3"/>
+    </dataTypes>
+    <services name="issueInvoice">
+      <request name="IssueInvoiceRequest"/>
+      <result name="IssueInvoiceResult">
+        <associations xsi:type="urdad:Composition" name="invoice" relatedType="//@responsibilityDomains.10/@dataTypes.0">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </result>
+      <functionalRequirements functionalConstraint="//@responsibilityDomains.10/@functionalConstraints.0"/>
+    </services>
+    <functionalConstraints xsi:type="urdad:PostCondition" name="invoiceIssued"/>
+  </responsibilityDomains>
+  <responsibilityDomains name="PresentationManagement">
+    <dataTypes xsi:type="urdad:Exception" name="PresentatonNotOpenForEnrollmentException"/>
+    <dataTypes xsi:type="urdad:DataStructure" name="Student">
+      <attributes name="studentNumber" type="//@responsibilityDomains.0/@dataTypes.3"/>
+    </dataTypes>
+    <dataTypes xsi:type="urdad:DataStructure" name="Presentation">
+      <attributes name="presentationId" type="//@responsibilityDomains.0/@dataTypes.3"/>
+    </dataTypes>
+    <dataTypes xsi:type="urdad:DataStructure" name="PresentationEnlistmentStatus">
+      <attributes name="enlisted" type="//@responsibilityDomains.0/@dataTypes.2"/>
+    </dataTypes>
+    <services name="enlistStudentForPresentation">
+      <request name="EnlistStudentForPresentationRequest">
+        <associations xsi:type="urdad:Composition" name="student" relatedType="//@responsibilityDomains.11/@dataTypes.1">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+        <associations xsi:type="urdad:Composition" name="presentation" relatedType="//@responsibilityDomains.11/@dataTypes.2">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </request>
+      <result name="EnlistStudentForPresentationResult">
+        <associations xsi:type="urdad:Composition" name="presentationEnlistmentStatus" relatedType="//@responsibilityDomains.11/@dataTypes.3">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </result>
+      <functionalRequirements functionalConstraint="//@responsibilityDomains.11/@functionalConstraints.0"/>
+      <functionalRequirements name="" functionalConstraint="//@responsibilityDomains.11/@functionalConstraints.1"/>
+    </services>
+    <functionalConstraints xsi:type="urdad:PreCondition" name="presentationOpenForEnrollment" exception="//@responsibilityDomains.11/@dataTypes.0"/>
+    <functionalConstraints xsi:type="urdad:PostCondition" name="studentEnlistedForPresentation"/>
+  </responsibilityDomains>
+  <responsibilityDomains name="ProofOfEnrollments">
+    <dataTypes xsi:type="urdad:DataStructure" name="VenueDetails"/>
+    <dataTypes xsi:type="urdad:DataStructure" name="PresenterDetails">
+      <attributes name="employeeNumber" type="//@responsibilityDomains.0/@dataTypes.3"/>
+      <attributes name="firstNames" type="//@responsibilityDomains.0/@dataTypes.3"/>
+      <attributes name="surname" type="//@responsibilityDomains.0/@dataTypes.3"/>
+    </dataTypes>
+    <dataTypes xsi:type="urdad:DataStructure" name="Lecture">
+      <attributes name="topic" type="//@responsibilityDomains.0/@dataTypes.3"/>
+      <attributes name="start" type="//@responsibilityDomains.0/@dataTypes.4"/>
+      <attributes name="end" type="//@responsibilityDomains.0/@dataTypes.4"/>
+      <associations name="venueDetails" relatedType="//@responsibilityDomains.12/@dataTypes.0">
+        <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+      </associations>
+      <associations name="presenterDetails" relatedType="//@responsibilityDomains.12/@dataTypes.1">
+        <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToMany" maxOccurs="-1"/>
+      </associations>
+    </dataTypes>
+    <dataTypes xsi:type="urdad:DataStructure" name="PresentationDetails">
+      <attributes name="courseName" type="//@responsibilityDomains.0/@dataTypes.3"/>
+      <associations xsi:type="urdad:Composition" name="lecture" relatedType="//@responsibilityDomains.12/@dataTypes.2">
+        <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToMany" maxOccurs="-1"/>
+      </associations>
+    </dataTypes>
+    <dataTypes xsi:type="urdad:DataStructure" name="StudentDetails">
+      <attributes name="studentNumber" type="//@responsibilityDomains.0/@dataTypes.3"/>
+      <attributes name="identityNumber" type="//@responsibilityDomains.0/@dataTypes.3"/>
+      <attributes name="firstNames" type="//@responsibilityDomains.0/@dataTypes.3"/>
+      <attributes name="surname" type="//@responsibilityDomains.0/@dataTypes.3"/>
+    </dataTypes>
+    <dataTypes xsi:type="urdad:DataStructure" name="ProofOfEnrollment">
+      <associations xsi:type="urdad:Composition" name="presentationDetails" relatedType="//@responsibilityDomains.12/@dataTypes.3">
+        <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+      </associations>
+      <associations xsi:type="urdad:Composition" name="presenterDetails" relatedType="//@responsibilityDomains.12/@dataTypes.1">
+        <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToMany" maxOccurs="-1"/>
+      </associations>
+      <associations xsi:type="urdad:Composition" name="venueDetails" relatedType="//@responsibilityDomains.12/@dataTypes.0">
+        <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToMany" maxOccurs="-1"/>
+      </associations>
+      <associations xsi:type="urdad:Composition" name="studentDetails" relatedType="//@responsibilityDomains.12/@dataTypes.4">
+        <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+      </associations>
+    </dataTypes>
+    <services name="generateProofOfEnrollment">
+      <request name="GenerateProofOfEnrollmentRequest"/>
+      <result name="GenerateProofOfEnrollmentResult">
+        <associations xsi:type="urdad:Composition" name="proofOfEnrollment" relatedType="//@responsibilityDomains.12/@dataTypes.5">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </result>
+      <functionalRequirements functionalConstraint="//@responsibilityDomains.12/@functionalConstraints.0"/>
+    </services>
+    <functionalConstraints xsi:type="urdad:PostCondition" name="proofOfEnrollmentGenerated"/>
+  </responsibilityDomains>
+  <responsibilityDomains name="Enrollments">
+    <dataTypes xsi:type="urdad:Exception" name="StudentNotRegisteredException"/>
+    <dataTypes xsi:type="urdad:Exception" name="StudentDoesNotSatisfyCoursePrerequisitesException"/>
+    <dataTypes xsi:type="urdad:Exception" name="EnrollmentConflictsWithStudentRosterException"/>
+    <dataTypes xsi:type="urdad:Exception" name="PresentatonNotOpenForEnrollmentException"/>
+    <dataTypes xsi:type="urdad:Exception" name="FinancialPrerequisitesNotSatisfiedException"/>
+    <dataTypes xsi:type="urdad:DataStructure" name="Student">
+      <attributes name="studentNumber" type="//@responsibilityDomains.0/@dataTypes.3"/>
+    </dataTypes>
+    <dataTypes xsi:type="urdad:DataStructure" name="Client">
+      <attributes name="clientNumber" type="//@responsibilityDomains.0/@dataTypes.3"/>
+    </dataTypes>
+    <dataTypes xsi:type="urdad:DataStructure" name="Presentation">
+      <attributes name="presentationId" type="//@responsibilityDomains.0/@dataTypes.3"/>
+    </dataTypes>
+    <services name="enrollForPresentation">
+      <request name="EnrollForPresentationRequest">
+        <associations xsi:type="urdad:Composition" name="student" relatedType="//@responsibilityDomains.13/@dataTypes.5">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+        <associations xsi:type="urdad:Composition" name="client" relatedType="//@responsibilityDomains.13/@dataTypes.6">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+        <associations xsi:type="urdad:Composition" name="presentation" relatedType="//@responsibilityDomains.13/@dataTypes.7">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </request>
+      <result name="EnrollForPresentationResult">
+        <associations xsi:type="urdad:Composition" name="proofOfEnrollment" relatedType="//@responsibilityDomains.12/@dataTypes.5">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+        <associations xsi:type="urdad:Composition" name="invoice" relatedType="//@responsibilityDomains.10/@dataTypes.0">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+        <associations xsi:type="urdad:Composition" name="studyGuide" relatedType="//@responsibilityDomains.8/@dataTypes.1">
+          <multiplicityConstraint xsi:type="urdad:RangeMultiplicityConstraint" name="OneToOne"/>
+        </associations>
+      </result>
+      <functionalRequirements requiredBy="//@responsibilityDomains.2 //@responsibilityDomains.3" functionalConstraint="//@responsibilityDomains.13/@functionalConstraints.0"/>
+      <functionalRequirements requiredBy="//@responsibilityDomains.3 //@responsibilityDomains.6" functionalConstraint="//@responsibilityDomains.13/@functionalConstraints.1"/>
+      <functionalRequirements requiredBy="//@responsibilityDomains.2 //@responsibilityDomains.3 //@responsibilityDomains.6 //@responsibilityDomains.1" functionalConstraint="//@responsibilityDomains.13/@functionalConstraints.2"/>
+      <functionalRequirements requiredBy="//@responsibilityDomains.2 //@responsibilityDomains.3" functionalConstraint="//@responsibilityDomains.13/@functionalConstraints.3"/>
+      <functionalRequirements requiredBy="//@responsibilityDomains.2 //@responsibilityDomains.4" functionalConstraint="//@responsibilityDomains.13/@functionalConstraints.4"/>
+      <functionalRequirements requiredBy="//@responsibilityDomains.2 //@responsibilityDomains.4" functionalConstraint="//@responsibilityDomains.13/@functionalConstraints.5"/>
+      <functionalRequirements requiredBy="//@responsibilityDomains.6 //@responsibilityDomains.1" functionalConstraint="//@responsibilityDomains.13/@functionalConstraints.6"/>
+      <functionalRequirements requiredBy="//@responsibilityDomains.6 //@responsibilityDomains.1" functionalConstraint="//@responsibilityDomains.13/@functionalConstraints.7"/>
+      <functionalRequirements requiredBy="//@responsibilityDomains.3 //@responsibilityDomains.6" functionalConstraint="//@responsibilityDomains.13/@functionalConstraints.8"/>
+      <process>
+        <processActivity xsi:type="urdad:ActivitySequence">
+          <activities xsi:type="urdad:PreConditionActivity" preCondition="//@responsibilityDomains.13/@functionalConstraints.0"/>
+          <activities xsi:type="urdad:PreConditionActivity" preCondition="//@responsibilityDomains.13/@functionalConstraints.1"/>
+          <activities xsi:type="urdad:PreConditionActivity" preCondition="//@responsibilityDomains.13/@functionalConstraints.2"/>
+          <activities xsi:type="urdad:PrePostConditionActivity" preCondition="//@responsibilityDomains.13/@functionalConstraints.3" postCondition="//@responsibilityDomains.13/@functionalConstraints.7"/>
+          <activities xsi:type="urdad:PrePostConditionActivity" preCondition="//@responsibilityDomains.13/@functionalConstraints.4" postCondition="//@responsibilityDomains.13/@functionalConstraints.5"/>
+          <activities xsi:type="urdad:ConcurrentActivities">
+            <activities xsi:type="urdad:PostConditionActivity" postCondition="//@responsibilityDomains.13/@functionalConstraints.6"/>
+            <activities xsi:type="urdad:PostConditionActivity" postCondition="//@responsibilityDomains.13/@functionalConstraints.8"/>
+          </activities>
+          <activities xsi:type="urdad:ReturnResultActivity"/>
+        </processActivity>
+      </process>
+    </services>
+    <functionalConstraints xsi:type="urdad:PreCondition" name="studentRegistered" requiredService="//@responsibilityDomains.5/@services.0" exception="//@responsibilityDomains.13/@dataTypes.0"/>
+    <functionalConstraints xsi:type="urdad:PreCondition" name="studentSatisfiesCoursePrerequisites" requiredService="//@responsibilityDomains.7/@services.0" exception="//@responsibilityDomains.13/@dataTypes.1"/>
+    <functionalConstraints xsi:type="urdad:PreCondition" name="enrollmentDoesNotConflictWithStudentRoster" requiredService="//@responsibilityDomains.9/@services.0" exception="//@responsibilityDomains.13/@dataTypes.2"/>
+    <functionalConstraints xsi:type="urdad:PreCondition" name="presentationOpenForEnrollment" requiredService="//@responsibilityDomains.10/@services.0" exception="//@responsibilityDomains.13/@dataTypes.3"/>
+    <functionalConstraints xsi:type="urdad:PreCondition" name="financialPrerequisitesSatisfied" requiredService="//@responsibilityDomains.10/@services.0" exception="//@responsibilityDomains.13/@dataTypes.4"/>
+    <functionalConstraints xsi:type="urdad:PostCondition" name="invoiceIssued" requiredService="//@responsibilityDomains.10/@services.0"/>
+    <functionalConstraints xsi:type="urdad:PostCondition" name="proofOfEnrollmentProvided" requiredService="//@responsibilityDomains.11/@services.0"/>
+    <functionalConstraints xsi:type="urdad:PostCondition" name="studentEnlistedForPresentation" requiredService="//@responsibilityDomains.11/@services.0"/>
+    <functionalConstraints xsi:type="urdad:PostCondition" name="studyGuideProvided" requiredService="//@responsibilityDomains.8/@services.0"/>
+  </responsibilityDomains>
+</urdad:Model>
