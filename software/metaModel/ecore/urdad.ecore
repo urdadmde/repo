@@ -38,8 +38,7 @@
     <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
     <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
   </eAnnotations>
-  <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true" eSuperTypes="#//Element">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//NamedElement">
@@ -47,8 +46,14 @@
         upperBound="-1" eType="#//ResponsibilityDomain" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ResponsibilityDomain" eSuperTypes="#//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
-        eType="#//NamedElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataTypes" upperBound="-1"
+        eType="#//DataType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="services" upperBound="-1"
+        eType="#//Service" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="functionalConstraints"
+        upperBound="-1" eType="#//FunctionalConstraint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualityRequirements" upperBound="-1"
+        eType="#//QualityRequirement" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Expression">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="language" lowerBound="1"
@@ -57,7 +62,8 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BooleanExpression" eSuperTypes="#//Expression"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Constraint" eSuperTypes="#//NamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Constraint" abstract="true" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DefinedConstraint" eSuperTypes="#//Constraint">
     <eStructuralFeatures xsi:type="ecore:EReference" name="constraintExpression" eType="#//Expression"
         containment="true"/>
   </eClassifiers>
@@ -73,7 +79,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DataType" abstract="true" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="BasicDataType" eSuperTypes="#//DataType"/>
-  <eClassifiers xsi:type="ecore:EClass" name="FloatingPointNumber" eSuperTypes="#//BasicDataType"/>
   <eClassifiers xsi:type="ecore:EClass" name="DataStructure" eSuperTypes="#//DataType">
     <eStructuralFeatures xsi:type="ecore:EReference" name="superType" eType="#//DataStructure"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
@@ -93,7 +98,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Aggregation" eSuperTypes="#//Association"/>
   <eClassifiers xsi:type="ecore:EClass" name="Composition" eSuperTypes="#//Aggregation"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Requirement" abstract="true" eSuperTypes="#//Element">
+  <eClassifiers xsi:type="ecore:EClass" name="Requirement" abstract="true" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="requiredBy" lowerBound="1"
         upperBound="-1" eType="#//ResponsibilityDomain"/>
   </eClassifiers>
@@ -101,9 +106,11 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="documentation" value="A quality requirement is a non-functional requirement around quality of service. &#xA;&#x9;&#x9;Typical examples of quality requirements include scalability, reliability, performance, security and auditability."/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requirementExpression"
+        eType="#//Expression" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionalConstraint" abstract="true"
-      eSuperTypes="#//Constraint">
+      eSuperTypes="#//DefinedConstraint">
     <eStructuralFeatures xsi:type="ecore:EReference" name="requiredService" eType="#//Service"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionalRequirement" eSuperTypes="#//Requirement">
@@ -139,14 +146,14 @@
         lowerBound="1" upperBound="-1" eType="#//FunctionalRequirement" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="qualityRequirements" upperBound="-1"
         eType="#//QualityRequirement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="process" eType="#//Process"
+        containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Activity" abstract="true" eSuperTypes="#//Element">
+  <eClassifiers xsi:type="ecore:EClass" name="Activity" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="background" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//Activity">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="serviceRealized" lowerBound="1"
-        eType="#//Service"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Process">
     <eStructuralFeatures xsi:type="ecore:EReference" name="processActivity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
