@@ -55,6 +55,8 @@
         upperBound="-1" eType="#//FunctionalConstraint" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="qualityRequirements" upperBound="-1"
         eType="#//QualityRequirement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsibilityDomains"
+        upperBound="-1" eType="#//ResponsibilityDomain" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Expression" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="language" lowerBound="1"
@@ -136,8 +138,8 @@
       <details key="documentation" value="Pre and post-conditions composed in service because constraint definitions are context specific"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL">
-      <details key="requestClassNameEqualsServiceNamePlusRequest" value="&#xA;&#x9;&#x9;  (self.request.name.substring(self.request.name.size()-6,self.request.name.size()) = 'Request')&#xA;&#x9;&#x9;  and&#xA;&#x9;&#x9;  (self.request.name.substring(1,self.name.size()) = self.name.substring(1,1).toUpper().concat&#xA;&#x9;&#x9;  (self.name.substring(2,self.name.size())))"/>
-      <details key="resultClassNameEqualsServiceNamePlusResult" value="&#xA;&#x9;&#x9;  (self.request.name.substring(self.request.name.size()-5,self.request.name.size()) = 'Result')&#xA;&#x9;&#x9;  and&#xA;&#x9;&#x9;  (self.request.name.substring(1,self.name.size()) = self.name.substring(1,1).toUpper().concat&#xA;&#x9;&#x9;  (self.name.substring(2,self.name.size())))"/>
+      <details key="requestClassNameEqualsServiceNamePlusRequest" value="&#xA;&#x9;&#x9;  (self.request.name.substring(self.request.name.size()-6,self.request.name.size()) = 'Request')&#xA;&#x9;&#x9;  and&#xA;&#x9;&#x9;  (self.request.name.substring(1,self.name.size()) = self.name.substring(1,1).toUpperCase().concat&#xA;&#x9;&#x9;  (self.name.substring(2,self.name.size())))"/>
+      <details key="resultClassNameEqualsServiceNamePlusResult" value="&#xA;&#x9;&#x9;  (self.request.name.substring(self.request.name.size()-5,self.request.name.size()) = 'Result')&#xA;&#x9;&#x9;  and&#xA;&#x9;&#x9;  (self.request.name.substring(1,self.name.size()) = self.name.substring(1,1).toUpperCase().concat&#xA;&#x9;&#x9;  (self.name.substring(2,self.name.size())))"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="request" lowerBound="1"
         eType="#//DataStructure" containment="true"/>
@@ -150,23 +152,27 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="process" eType="#//Process"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Activity" abstract="true" eSuperTypes="#//Element">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="background" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="false"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Activity" abstract="true" eSuperTypes="#//Element"/>
   <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EReference" name="processActivity" lowerBound="1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CompositeActivity" abstract="true" eSuperTypes="#//Activity">
+  <eClassifiers xsi:type="ecore:EClass" name="ActivitySequence" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activities" upperBound="-1"
         eType="#//Activity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ActivitySequence" eSuperTypes="#//CompositeActivity"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ConcurrentActivities" eSuperTypes="#//CompositeActivity">
+  <eClassifiers xsi:type="ecore:EClass" name="ConcurrentActivity" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="blocking" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
+        eType="#//Activity" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConcurrentActivities" eSuperTypes="#//Activity">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="documentation" value="A collection of activities which are independent of one another and which can be performed concurrently. The end of this element implies a synchronization bar which blocks the process until all non-BackgroundThreads have been completed."/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activities" upperBound="-1"
+        eType="#//ConcurrentActivity" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Switch" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="conditionalActivities"
