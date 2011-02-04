@@ -109,35 +109,39 @@ RULES {
 	 (qualityRequirements[] )*
 	 (process)? "}";
 	Process ::= "process" processActivity;
-	ActivitySequence ::= "activitySequence" ("background" "=" background[])? "{"  (activities)* "}";
-	ConcurrentActivities ::= "concurrentActivities" ("background" "=" background[])? "{" (activities)* "}";
-	Switch ::= "switch" ("background" "=" background[])? "{" (conditionalActivities)* "}";
+	ActivitySequence ::= "activitySequence" "{"  (activities)* "}";
+	ConcurrentActivities ::= "concurrentActivities" "{" (activities)* "}";
+	ConcurrentActivity ::= "concurrentActivity" "{"
+		("blocking" blocking[]";")?
+		activity
+		"}";
+	Switch ::= "switch" "{" (conditionalActivities)* "}";
 	
-	While ::= "while" ("background" "=" background[])? "{" 
+	While ::= "while" "{" 
 		"condition" condition ";" 
 		"activity" activity ";"  "}";
 		
-	ConditionalActivity ::= "conditionalActivity" ("background" "=" background[])? "{" 
+	ConditionalActivity ::= "conditionalActivity" "{" 
 		"condition" condition ";" 
 		"activity" activity ";"  "}";
 	
-	PreConditionActivity ::= "preConditionActivity" ("background" "=" background[])? "{"  
+	PreConditionActivity ::= "preConditionActivity" "{"  
 		("requestContraint" requestContraints ";" )* 
 		"preCondition" preCondition[] ";" 
 		("exceptionContraint" exceptionContraints ";" )* "}";
 	
-	PostConditionActivity ::= "postConditionActivity"  ("background" "=" background[])? "{"  
+	PostConditionActivity ::= "postConditionActivity"  "{"  
 		("requestContraint" requestContraints ";" )* 
 		"postCondition" postCondition[] ";" 
 		("inverseRequestContraint" inverseRequestContraints ";" )* "}";
 	
-	PrePostConditionActivity ::= "prePostConditionActivity" ("background" "=" background[])? "{" 
+	PrePostConditionActivity ::= "prePostConditionActivity" "{" 
 		("requestContraint" requestContraints ";" )* 
 		"preCondition" preCondition[] ";" 
 		"postCondition" postCondition[] ";" 
 		("exceptionContraint" exceptionContraints ";" )* 
 		("inverseRequestContraint" inverseRequestContraints ";" )* "}";
 
-	ReturnResultActivity ::= "returnResultActivity" ("background" "=" background[])? "{"  
+	ReturnResultActivity ::= "returnResultActivity" "{"  
 		("resultContraint" resultContraints ";" )* "}";
 }
