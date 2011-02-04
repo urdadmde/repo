@@ -1,7 +1,7 @@
 \abstract{
 
 URDAD is a methodology which s used by business analysts to develop
-requirements models. Historically these requirements models was encoded in
+requirements models. Historically these requirements models were encoded in
 UML. However, in order to encode an URDAD model in UML, one has to
 enforce a strong discipline on the usage of UML. Furthermore, using UML
 requires that business analysts go through the mundane tasks of adding
