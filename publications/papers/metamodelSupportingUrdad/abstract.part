@@ -1,14 +1,17 @@
 \abstract{
 
-URDAD is a methodology which s used by business analysts to develop a
-requirements model. Historically the requirements model was encoded in
+URDAD is a methodology which s used by business analysts to develop
+requirements models. Historically these requirements models was encoded in
 UML. However, in order to encode an URDAD model in UML, one has to
 enforce a strong discipline on the usage of UML. Furthermore, using UML
-requires that business analysts add a range of mundane relationships 
-in order to fully capture the URDAD semantics. The resultant process
-is thus inefficient and errror prone. This paper presents and assesses
+requires that business analysts go through the mundane tasks of adding
+a range of mundane relationships in order to fully capture the URDAD semantics.
+The resultant process is thus inefficient and errror prone. This paper presents and assesses
 a metamodel supporting the URDAD methodology together with a simple concrete
-text syntax for URDAD which captures the URDAD semantics in a normalized way. The
-resultant model has significantly lowerd model complexity. Model validation
-and tool development is significantly sumplified.}
+text syntax for URDAD which captures the URDAD semantics in a normalized way. 
+The metamodel enforces the URDAD model structure and requires substantially
+less model validation. Furthermore, the resultant model has significantly lower
+model complexity than the semantically equivalent UML model simplifying 
+URDAD tool development.
+}
  
