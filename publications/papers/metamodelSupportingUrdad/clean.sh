@@ -1,4 +1,6 @@
 #!/bin/bash
+rm *.backup
+rm *.tex~
 rm *.aux
 rm *.log
 rm *.dvi
