@@ -1,1 +1,143 @@
 \section{The URDAD metamodel}
+
+Proposed structure
+Ideas for issues to be covered.
+Feel free to shuffle, remove, adjust, reword, mock, critique, hide, destroy etc
+References/related work still needs to be added
+Statements will need to be sanity checked
+
+\begin{itemize}
+
+	\item URDAD META MODEL JUSTIFICATION
+	\begin{itemize}
+		\item Currently URDAD is considered to be semi-formal requirements modeling methodology. (REF URDAD paper)
+		\item In an effort to formalise URDAD, there exists a need for the formal specification of URDAD's semantics.
+		\item The concepts and rules associated with the use of the URDAD methodology must be clearly defined.
+		\item The creation of an URDAD metamodel will assist with the formal definition of URDAD's semantics.
+		\item Define Metamodeling
+		\item Models versus metamodels. Matter of perception. Discuss levels of abstraction. (One particular metamodel may be considered to be an instance model of another more abstract metamodel.) 
+		\item A metamodel represents a level of abstraction.
+		\item	Metamodels are closely related to ontologies. (Concept definition, depiction, including relationships between concepts) DISCUSS
+		\item While the concepts associated with URDAD are independent of any particular technology or organisation, URDAD is currently used to produce Platform Independent Models (PIMs) as envisaged in Model Driven Architecture (MDA), the Object Management Group's (OMG) approach to Model Driven Engineering. 
+		\item PIMs are independent representations of processes, which may or may not be implemented as a software system. They are used to depict the functional requirements of a system. Once all non-functional requirements have been taken into consideration and an appropriate implementation environment has been selected, PIMs can be used to create Platform Specific Models (PSM) through a process of model transformation and refinement. Unlike PIMs, PSMs are inseparable from the actual technology platforms that will be used to implement the system.
+		\item	Historically UML has been used to encode URDAD models. 
+		\item	UML was a natural selection considering that it represents a standards-based modelling language that is managed by the OMG.
+		\item	Unfortunately encoding the URDAD model in UML is not a trivial exercise.
+		\item	It is difficult to ensure that the model is encoded in a consistent manner and it requires a strong discipline in the usage of UML.
+		\item For example, actors are used to represent the stakeholders in UML use case diagrams. URDAD prescribes the use of interfaces to depict the roles fulfilled by stakeholders.
+		\item For each service URDAD requires that there is a clear linkage between the service's stakeholders and their functional and quality requirements. (REF URDAD paper)
+		\item An URDAD UML profile was created in order to help ensure that URDAD UML models are consistently encoded.
+		\item For example, the URDAD profile introduced a <<requires>> dependency which facilitated the linkage between a service's stakeholders and their requirements.
+		\item However, while this profile has helped improve the quality and consistency of URDAD models encoded in UML, the process is still error prone and unintuitive.
+		\item Domain experts tasked with creating URDAD UML models are forced to add a range of mundane relationships and stereotypes in order to accurately capture URDAD's semantics. 
+		\item It is also not trivial to capture certain aspects of URDAD's semantics in UML, even with the assistance for a UML profile. (Examples?)
+		\item The creation of an URDAD metamodel attempts to address these issues.
+		\item Depending on the manner in which the metamodel is encoded, URDAD models that conform to the metamodel will require substantially less manual validation. These models will also hopefully be less complex, especially if tools are developed to support the creation of these models.
+	\end{itemize}
+
+	\item CONCEPTS THAT DEFINE URDAD'S METAMODEL
+		\begin{itemize}
+			\item The URDAD metamodel and the semantics it seeks to define, are independent of its physical encoding.
+			\item URDAD's metamodel can be encoded in more than one format.
+			\item When selecting a mechanism to encode the metamodel, it is critical that URDAD semantics are represented in their entirety. If this is not the case one could argue that the encoded metamodel does not truly represent URDAD.
+			\item The fundamental concepts that define the URDAD metamodel are as follows:
+			\begin{itemize}
+
+				\item THE MODEL
+					\begin{itemize}
+						\item Represents the requirements model instance and it constituents
+						\item A model represents the formal definition of requirements for a problem domain, modeled as services within responsibility domains, where each service is constrained by the functional and quality requirements of its stakeholders. The stakeholders are themselves represented as responsibility domains.
+					\end{itemize}
+					
+				\item RESPONSIBILITY DOMAINS
+					\begin{itemize}
+						\item Represents a logical grouping of elements within a model, where each element belongs to the responsibility domain.
+						\item Similar to the concept of packaging, but conceptually more consistent with the responsibility driven nature of URDAD.
+						\item Responsibility domains also provide a consistent mechanism of depicting the roles/stakeholders within the model.
+						\item Responsibilities domains may only be composed of data structures, services, requirements and other responsibility domains.
+						\item Each role is associated with a cohesive list of responsibilities.
+						\item The introduction of the concept of a responsibility domain eliminates the need for the separate definition of a services contract, which is traditionally used to group logical related services. Services are now grouped by the responsibility domain within which they reside.
+						\item In the tradition of namespaces each element within a responsibility domain is uniquely identified by its name appended to the fully qualified name of the domain itself.
+					\end{itemize}
+					
+				\item SERVICES
+					\item Each service exists to realise a use case and fulfil the requirements of its stakeholders.
+					\item Users of a service are also represented as stakeholders.
+					\item Services represent a level of granularity. Each level of granularity can be regarded as a level of abstraction.
+					\item Requirements exist at a particular level of granularity, and are themselves decomposed further across subsequent lower levels of granularity.
+					\item There are two forms of requirements that a service seeks to address namely functional and quality requirements.
+					\item It is important to note that both functional and quality requirements are not restricted to a single service. There exists the reality that more than one service may have requirements in common.
+					\item URDAD does not address any non-functional requirements other than the non-functional requirements of the requirements themselves. For example, requirements should be easy to maintain. Requirements should exhibit principles of good design, such as decomposition across layers of granularity, single responsibility, loose coupling and high cohesiveness.
+					\item Each service is represented as a formalised contract, with explicit pre and post conditions that seek to address the functional requirements of the service.
+					\item Pre-conditions represent the conditions under which the service may legally be refused. A pre-condition's existence must be justified by a tangible functional requirement. 
+					\item A pre-condition is contractually obligated to raise an exception if it is not fulfilled. This exception must be clearly specified on the service contract.
+					\item Post-conditions represent the conditions that must hold true if all the pre-conditions have be fulfilled and the service is complete.
+					\item Unless the service has been sourced from the environment, it must be possible to verify whether each post-condition has been fulfilled. (VERIFY THIS STATEMENT)
+					\item The fulfilment of a post condition may have a lasting impact on the state of the environment. Inverse services may be associated with each post-condition. These services are responsible for reversing the effects the post-condition had on the environment and returning the environment to its original state, in the event of an error occurring during the execution of the service.
+					\item Associated with each service there exists a process definition that is composed of all the activities that are required to provide the service. Each activity must either directly or directly be associated with:
+						\begin{itemize}
+							\item The validation of a pre-condition through the execution of a lower level service.
+							\item The fulfilment of a post-condition through the execution of a lower level service.
+							\item The simultaneous validation of a pre-condition and fulfilment of a post-condition; through the execution of a common lower level service.
+							\item The construction of the service result
+						\end{itemize}
+					\item The process defines the logical orchestration of the activities that are required to provide the service.
+					\item The lower level services utilised by each activity constitute the next level of granularity, when considered in the context of the particular service in question.
+					\item All activities within a process must directly address one or more of the functional requirements associated with the service.
+					\item No activities should exist that do not address functional requirements.
+					\item An important non-functional requirement of all activities that constitute a service, is that each activity must be able to be traced back to the fulfilment of a functional requirement. There should be no redundancy.
+					\item Each service has a consistent service signature. The signature takes the form of an appropriately named service, a single service request object that contains detailed information pertaining to the request and a single result object, which is composed of the information associated with the result of the service execution.
+					\item Traceability is one of the essential characteristics of the service contract and its process definition. Traceability is realised as follows:
+						\begin{itemize}
+							\item Ensuring that activities only exist to address a pre-condition, a post-condition or both a pre-condition and a post-condition simultaneously.
+							\item Associating each functional requirement with one or more stakeholder's represented as responsibility domains.
+							\item Ensuring that a service addresses all functional requirements and only the relevant functional requirements.
+						\end{itemize}
+			\end{itemize}
+		\end{itemize}
+		
+	
+	\item METAMODEL ENCODING OPTIONS
+		\begin{itemize}
+				\item There are many languages and approaches that can be used to encode the URDAD metamodel. 
+				\item It is important that the advantages and disadvantages of each encoding option are carefully taken into consideration.
+				\item Regardless of the encoding option that is ultimately selected, URDAD's semantics must be able to be represented in their entirety.
+				\item Each encoding may differ in the way in which URDAD's semantics are depicted.				
+				\item (INSERT REF - Quality in Model-Driven Engineering) argues that model quality is determined by five aspects. The modeling language and tools used to define the model, the modeling process itself, techniques used to assure quality and the relative experience of the individuals tasked with building the model.
+				\item An encoding option should be assessed according to these five aspects.
+				\item Three encoding options have been considered. Encoding options are not mutually exclusive and several may be concurrently utilised if each offers its own unique advantages. For example, one particular encoding option may make it easier to represent semantics and reason about the model, while another encoding option may be aligned with standards and offer extensive tool support for model tool smiths and practitioners. 
+				\item Currently three encoding options have been taken into consideration.
+				\item The first option is to attempt to improve the UML encoding of URDAD. While this will always be an option worth considering, it was quickly discarded for the reasons already mentioned in this paper.
+				\item Another encoding option that has been considered is the encoding of the URDAD metamodel in a knowledge representation language such as the Web Ontology Langauge (OWL) or more specifically OWL-DL one of OWL's sub languages. There are many benefits associated with this option... (ELABORATE)
+				\item The third opinion and the encoding which represents the focus of this paper is to encode the URDAD metamodel using the Eclipse Modeling Framework's (EMF) Ecore metamodel. 
+				\item It is possible to capture URDAD's metamodel by extending the Ecore metamodel and introducing URDAD's semantics.
+				\item The Eclipse 
+				
+		TODO COMPLETE...		
+
+		Discuss the tool support
+		Discuss Ecore and in particular the Eclipse Modeling Project's alignment with the OMG standards.
+			Natural selection considering URDAD current alignment with the OMG's MDA
+			Ecore <-> EMOF
+			OCL
+			QVT
+		M2T
+		Textual and graphical concrete syntaxes (XText and EMF Text)
+		Model Validation
+		IDE environment - services offered (syntax checking etc)
+		
+			\item One may consider the formalisation and encoding of URDAD's metamodel to be an attempt to establish a Domain Specific Language (DSL) for URDAD by defining its abstract syntax.
+			
+		\end{itemize}
+	
+	\item THE ECORE METAMODEL ENCODING 
+	
+	TODO COMPLETE...
+	
+	Discuss how the URDAD metamodel is realised in Ecore
+		
+	\item OUTSTANDING ISSUES AND POSSIBLE IMPROVEMENTS TO THE ECORE METAMODEL
+	
+	TODO COMPLETE...
+		
+\end{itemize}
