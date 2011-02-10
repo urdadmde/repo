@@ -1,17 +1,19 @@
 \abstract{
-
-URDAD is a methodology which s used by domain experts (e.g. business analysts) 
+URDAD is a methodology which is used by domain experts (e.g. business analysts) 
 to develop requirements models. Historically these requirements models were 
 encoded in UML. However, in order to encode an URDAD model in UML, one has to
-enforce a strong discipline on the usage of UML. Furthermore, using UML
+enforce a strong discipline on the usage of UML. Using UML
 requires that business analysts go through the mundane tasks of adding
 a range of semantic relationships in order to fully capture the URDAD semantics.
-The resultant process is inefficient and errror prone. This paper presents and assesses
-a metamodel supporting the URDAD methodology together with a simple concrete
+The resultant process is inefficient and error prone. To enforce model quality
+for a UML encoding of an URDAD model one needs to specify an URDAD UML profile introducing
+certain URDAD-specific semantics and extensive OCL constraints which constrain the
+UML model to a valid, consistent and ultimately complete URDAD model.
+This paper presents the alternative approach of introducing a domain-specific language
+supporting the URDAD methodology. We introduce and assesses an URDAD metamodel 
+which supports URDAD model encodings with significantly lower language and model 
+complexity. Model validation for completeness and consitency as well as
+URDAD tool development are simplified. We also present a simple concrete
 text syntax for URDAD which captures the URDAD semantics in a normalized way. 
-The metamodel enforces the URDAD model structure and requires substantially
-less model validation. Furthermore, the resultant model has significantly lower
-model complexity than the semantically equivalent UML model simplifying 
-URDAD tool development.
 }
  
