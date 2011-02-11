@@ -4,60 +4,25 @@ Requirements quality is still the core cause of system errors \cite{heck_experie
 
 Model-driven engineering (MDE) aims to address some of the above by using modeling languages with defined semantics which enforce a level of consistency across model elements, by requiring that the primary model should be a domain model and not a technical model and by providing a set of tools which support MDE processes. The technology neutral domain model is to be developed by domain experts and not by technical experts. In the case of enterprise system development domain experts are represented by business analysts.
 
-The {\em Object Management Group} (OMG) is a industry standards body which has, in the context of its {\em Model Driven Architecture} (MDA), introduced and standardized a number of technologies which aim to practically facilitate {\em model-driven development} (MDD). These include the {\em Meta-Object Facility} (MOF) for specifying modeling languages, the {\em Unified Modeling Language} (UML) as a candidate for a generic modeling language, the {\em Object Constraint Language} (OCL) used to specify constraints at the metamodel or model levels, {\em Query View Transformations} for model-to-model transformations and (\em Model-To-Text} (M2T) for generation of text artifacts like code.
+The {\em Object Management Group} (OMG) is a industry standards body which has, in the context of its {\em Model Driven Architecture} (MDA) \cite{siegel:developingInMDA}, introduced and standardized a number of technologies which aim to practically facilitate {\em model-driven development} (MDD). These include the {\em Meta-Object Facility} (MOF) for specifying modeling languages, the {\em Unified Modeling Language} (UML) as a candidate for a generic modeling language, the {\em Object Constraint Language} (OCL) used to specify constraints at the metamodel or model levels, {\em Query View Transformations} for model-to-model transformations and (\em Model-To-Text} (M2T) for generation of text artifacts like code. 
 
-URDAD, the {\em Use-Case, Responsibility-Driven Analysis and Design} \cite{solms_technology_2007} is services-oriented methodology used by business analysts to develop and validate a technology neutral domain/requirements model and to generate text-based documentation from the domain model. The domain/requirements model can be viewed as the {\em Platform Independent Model} (PIM) \cite{solms_urdad_2010} of the {\em Model Driven Architecture} (MDA).
+URDAD, the {\em Use-Case, Responsibility-Driven Analysis and Design} \cite{solms_technology_2007} methodology is used by business analysts to develop and validate a technology neutral domain/requirements model and to generate text-based documentation from the domain model. The domain/requirements model can be viewed as the {\em Platform Independent Model} (PIM) \cite{solms_urdad_2010} of the {\em Model Driven Architecture} (MDA).
 
-The URDAD methodology is independent of the technology used to encode the semantics of an URDAD model. Traditionally business analysts encoded URDAD domain/requirements models using UML. 
-The {\em Use-Case, Responsibility Driven Analysis and Design} methodology (URDAD) provides is used by 
-service-oriented analysis and design methodology which is used by business analysts in industry
- - algorithimic process to analysis and domain model design
- - requirements decomposition across levels of granularity
- - resultant domain model testable and traceable
+In its core URDAD is a services-oriented methodology which recursively decomposes requirements for a service into a tree of lower level service requirements. Thus, instead of having service requirements at a single level of granularity with complex pre- and post-conditions, the requirements are made more mangeable through recursive decomposition into lower level services which have their own pre-and post conditions and the specification of how processes are orchestrated across the lower level services. Note that, even though it is compelling to mirror the service requirements with corresponding service implementation during the implementation mapping phase, it is important to realize that the recursive decomposition of service requirements is purely a way to manage requirements complexity, make requirements more manageable and facilitate the reuse of requirements components. One could, in fact, role up the pre-and post conditions across the lower level granularity services and the corresponding process requirements into a single, flat level of granularity resulting in more complex pre-and post-conditions at a single level of granularity.
 
- 
+Traceability
+Validatability.
 
 
+The URDAD methodology is independent of the technology used to encode the semantics of an URDAD model. Working within MDA technologies, one has intrinsically three options for encoding an URDAD model. Traditionally domain experts encoded URDAD domain/requirements models using a standard UML tool enforcing model structure and qualities through an URDAD profile. UML is a natural choice due to its wide spread adoption in industry and strong tool support. However, this approach puts a lot of burden on domain experts to work within the subset of UML required by URDAD and to feed in the appropriate semantics into the model. It also requires an URDAD profile with extensive OCL constraints which constrain the resultant domain model to a valid URDAD model. However, the bulk and complexity of these constraints posed significant challanges. The modeling complexity and the incomplete constraints set resulted in high costs around developing and validating domain models, high model defect densities and, at times, even the aim of developing an URDAD model with model integrity was abandoned.
 
-UML enconding
-  - UML = established std
-  - strong tool support
-  - widely embraced in industry
-but
-  - large
-  - semantics not clear
-  - requires discipline
-  - 
+The second approach is to develop a front end which only allows domain experts to feed in model elements which comply to an URDAD model. The generated and persisted domain model would still be encoded through a UML tool. We have not persued this approach.
 
-To tighten up
- - profile
- - dsl
- - concrete syntax feeding into UML 
+A third approach is to use MOF to define a {\em domain specific language} (DSL) for URDAD. The domain is essentially that of a technology neutral services oriented domain/requirements model. There are a numbe of compelling advantages of this approach. Firstly, resultant language is a fraction of the size of UML and introduces precisely the semantics required by URDAD. This results in significantly lower model complexity, and, with the appropriate tools, simplifies the process through which domain experts specify domain/requirements models. Since only the required semantics is introduced, one also needs to specify a much smaller set of meta-model constraints which can be used to validate the resultant instance models.
 
-DSL adv
-  - smaller language
-  - lower model complexity
-  - well defined semantics
-Disadvantages
-  - not an established std
-  - requires learning
-  - tool support must be developed
-  - 
-
-In this paper we
-  - discuss the metamodel
-  - verify the internal integrity of the metamodel
-  - discuss the validatability of model instances (consistency, address all functional requirements and nothing but the FR)
-  - assess certain metamodel qualities like complexity, traceability, validatability, ...
-  - present an example concrete syntax
+On the other side, introducing a DSL requires that one specifies concrete test and/or diagrammatic syntaxes for the DSL and that one either develops or generates tools which capture and URDAD model through a concrete text or diagrammatic syntax. It also requires that domain experts learn a concrete syntax as well as the tool through which the concrete syntax is captured.
 
 
-In the context of OMG's vision of MDE, the {\em Model-Driven Architecture} (MDA), the first model is the 
-{\em Computation Independent Model} (CIM) which contains ... 
-
-CIM = BMM + BPM + RM
-The first level refinement is the {\em Platform Independent Mode} (PIM)
-is the
-
-PIM = interfaces, inputs
+In this paper we present the URDAD metamodel and the rationale behind it, verify the internal integrity of the metamodel,
+discuss the validatability of of domain/requirements models conforming to the URDAD metamodel, assess certain metamodel qualities like complexity, traceability, validatability, and present an example concrete syntax.
 
