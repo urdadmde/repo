@@ -65,6 +65,20 @@
 	pages = {111–121}
 },
 
+@inproceedings{ferguson_empirical_2006,
+	address = {Columbia, {MD,} {USA}},
+	title = {An Empirical Study on the Relationship between Defective Requirements and Test Failures},
+	url = {http://0-ieeexplore.ieee.org.innopac.up.ac.za/xpl/downloadCitations},
+	doi = {10.1109/SEW.2006.9},
+	booktitle = {2006 30th Annual {IEEE/NASA} Software Engineering Workshop},
+	author = {Robert Ferguson and Giuseppe Lami},
+	month = apr,
+	year = {2006},
+	pages = {7--10},
+	annote = {{{\textless}p{\textgreater}SUMMARY:{\textless}/p{\textgreater}}
+{\textless}p{\textgreater}- Have found direct correlation between expresiveness (semantics) of requirements language and quality of requirements and ultimate defect rate.{\textless}/p{\textgreater}}
+},
+
 @inproceedings{alsharif_assessing_2004,
 	address = {New York, {NY,} {USA}},
 	title = {Assessing the complexity of software architecture},
@@ -126,7 +140,23 @@
 	url = {http://www.enase.org/Abstracts/2010/ENASE_2010_Abstracts.htm},
 	abstract = {Compliance between a problem and a solution domain(s) is a well-known issue in software development. A usual way of development is focusing on the solution, and adapting the solution to the problem domain only in case of occurred issues. Sometimes, the cost of such adaptation is very high, and then the cheapest way is to change operation of the problem domain. Certainly, such ways cannot satisfy a client. This paper considers a computation independent model as a place where overcoming of the gap must occur. It discusses ways for overcoming a gap between a problem domain and a solution domain(s) that are proposed within {CIMs,} and suggests a mathematical mechanism, continuous mapping, provided by a topological functioning model together with its other topological and functional properties as a formal bridge between those domains. This mechanism is explained by an example.},
 	author = {Erika Asnina and Janis Osis},
-	year = {2010}
+	year = {2010},
+	annote = {{{\textless}p{\textgreater}SUMMARY:{\textless}/p{\textgreater}}
+{\textless}p{\textgreater}- important paper{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- provide a mathematical topological model for mapping technology neutral service requirements onto available concrete services pool{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- stress the need fro performing the modeling in the problem domain{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- discuss holistic model for {CIM} (single model absorbing all requirements) versus fragmented model for requirements (multiple artifacts which are not intrinsically connected){\textless}/p{\textgreater}
+{\textless}p{\textgreater}- mathematical framework for performing gap analysis which identifies required services for which one cannot define a mapping onto existing services{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- The {TFM} {(Topological} Functioning Model) is independent of the modeling technique and can be applied to an {URDAD} model{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- Effectively also do{\textless}/p{\textgreater}
+{\textless}p{\textgreater}* grouping of services into responsibility domains (feature sets){\textless}/p{\textgreater}
+{\textless}p{\textgreater}* decomposition of functional requirements across levels of granularity{\textless}/p{\textgreater}
+{\textless}p{\textgreater}* orchestration of processes realizing higher level services from lower level services{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- Their functional properties are similar to our services contracts:{\textless}/p{\textgreater}
+{\textless}p{\textgreater}* inputs and outputs{\textless}/p{\textgreater}
+{\textless}p{\textgreater}* cause and effect (lower level functional requirements = cause, post-conditions=effect){\textless}/p{\textgreater}
+{\textless}p{\textgreater}- quality requirements not discussed{\textless}/p{\textgreater}
+{\textless}p{\textgreater} {\textless}/p{\textgreater}}
 },
 
 @incollection{heidenreich_derivation_2009,
@@ -165,17 +195,16 @@
 {\textless}p{\textgreater}- identify immediate impact point, calculate potential impact tree, prune impact tree{\textless}/p{\textgreater}}
 },
 
-@misc{__????
-},
-
 @inproceedings{feuerlicht_determinants_2007,
 	address = {Amsterdam, The Netherlands, The Netherlands},
 	title = {Determinants of Service Reusability},
 	isbn = {978-1-58603-794-9},
-	booktitle = {Proceeding of the 2007 conference on New Trends in Software Methodologies, Tools and Techniques},
+	url = {http://0-portal.acm.org.innopac.up.ac.z℀itation.cfm?id=1566971.1567011},
+	booktitle = {Proceeding of the 2007 conference on New Trends in Software Methodologies, Tools and Techniques: Proceedings of the sixth {SoMeT\_07}},
 	publisher = {{IOS} Press},
 	author = {George Feuerlicht and Amalka Wijayaweera},
 	year = {2007},
+	keywords = {Service Granularity, Service Reuse, soa, Web services},
 	pages = {467–474}
 },
 
@@ -188,19 +217,27 @@
 	publisher = {{IEEE} Computer Society},
 	author = {Parastoo Mohagheghi and Jan Aagedal},
 	year = {2007},
-	pages = {6}
+	keywords = {{MDE,} model quality, quality assessment, quality measures, {UML}},
+	pages = {6},
+	annote = {{{\textless}p{\textgreater}SUMMARY:{\textless}/p{\textgreater}}
+{\textless}p{\textgreater}- Model quality affected by (1) modeling language (2) modeling process (3) {QA} techniques (4) experience of modelers (5) modeling tools{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- {MDE:} model = prime artifact{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- Models currently primarily used for communication btw stakeholders{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- Quality goals according to {SYSML:} correctness, precision, conciseness, consistency and understandability{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- quality requirements - see figure in paper: primary use (dev or maintenance) =\&gt; purpose (modification, testing, comprehension, communication, analysis, prediction, implementation \&amp; code generation) =\&gt; characteristic (complexity, balance, modularity, communicative, correspondence, self-descriptiveness, conciseness, precision, esthethics, detailedness, consistency \&amp; completeness){\textless}/p{\textgreater}
+{\textless}p{\textgreater}- complexity of modeling language determined by complexity of metamodel{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- some vague quality measures (e.g. for complexity){\textless}/p{\textgreater}}
 },
 
-@inproceedings{ziadi_requirements_2009,
-	title = {From Requirements to Code Revisited},
-	doi = {10.1109/ISORC.2009.29},
-	abstract = {In this article paper entitled {"From} {Play-In} Scenarios to Code: An Achievable {Dream",David} Harel presented a development schema that makes it possible to go from high-level user-friendly requirements to a full system model, and from there to the final implementation. Even if Harel's schema represents a real contribution to filing the gap between user requirements and final implementations, there is few work on its feasibility and none within {UML2.This} paper addresses this lack. First we use {UML2} sequence diagram as a formalism for requirement specification. Then an approach that synthesizes state machines from {UML2} sequence diagrams is presented. From the obtained state machines, we implement a transformation to code. The {AIBO} platform (one of several typesof robotic pets designed and manufactured by Sony) is used as a case study toillustrate our implementation.},
-	booktitle = {{Object/Component/Service-Oriented} {Real-Time} Distributed Computing, 2009. {ISORC} '09. {IEEE} International Symposium on},
-	author = {T. Ziadi and X. Blanc and A. Raji},
-	month = mar,
-	year = {2009},
-	keywords = {2, diagram;code, Language;formal, machine, modeling, requirement;requirement, sequence, specification;, specification;state, {synthesis;Unified,} transformation;high-level, {UML,} user-friendly},
-	pages = {228 --235}
+@inproceedings{heck_experiences_2008,
+	address = {Sliema, Malta},
+	title = {Experiences on Analysis of Requirements Quality},
+	url = {http://0-ieeexplore.ieee.org.innopac.up.ac.za/xpl/downloadCitations},
+	doi = {10.1109/ICSEA.2008.32},
+	booktitle = {2008 The Third International Conference on Software Engineering Advances},
+	author = {Petra Heck and Päivi Parviainen},
+	year = {2008},
+	pages = {367--372}
 },
 
 @article{cabot_uml/ocl_2010,
@@ -218,41 +255,31 @@
 	pages = {417 -- 440}
 },
 
-@article{lange_improving_2006,
-	title = {Improving the Quality of {UML} Models in Practice},
-	volume = {??},
-	number = {??},
-	journal = {{ICSE'06}},
-	author = {Christian {F.J.} Lange},
+@inproceedings{lange_improving_2006,
+	address = {New York, {NY,} {USA}},
+	series = {{ICSE} '06},
+	title = {Improving the quality of {UML} models in practice},
+	isbn = {1-59593-375-1},
+	location = {Shanghai, China},
+	url = {http://0-doi.acm.org.innopac.up.ac.za/10.1145/1134285.1134472},
+	doi = {http://0-doi.acm.org.innopac.up.ac.za/10.1145/1134285.1134472},
+	booktitle = {Proceedings of the 28th international conference on Software engineering},
+	publisher = {{ACM}},
+	author = {Christian F. J Lange},
 	year = {2006},
-	pages = {993–996}
+	keywords = {completeness, consistency, consistency checking, defect detection, model quality, quality, {UML}},
+	pages = {993–996},
+	annote = {{{\textless}p{\textgreater}SUMMARY:{\textless}/p{\textgreater}}
+{\textless}p{\textgreater}- model quality \&amp; defects largely in form of inconsistence, completeness{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- quality issues caused by lack of formal semantics for {UML,} large degrees of freedom, ability to provide same info througha number of diagrams/views.{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- {UML} model defects often remain undetected and cause misunderstandings{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- in process of assembling best practices for {UML} mapping{\textless}/p{\textgreater}}
 },
 
-@article{lange_practice:_2006,
-	title = {In practice: {UML} software architecture and design description},
-	volume = {23},
-	issn = {0740-7459},
-	doi = {10.1109/MS.2006.50},
-	abstract = {The Unified Modeling Language has attracted many organizations and practitioners. {UML} is now the de facto modeling language for software development. Several features account for its popularity: it's a standardized notation, rich in expressivity; {UML} 2.0 provides 13 diagram types that enable modeling several different views and abstraction levels. Furthermore, {UML} supports domain-specific extensions using stereotypes and tagged values. Finally, several case tools integrate {UML} modeling with other tasks such as generating code and reverse-engineering models from code. Our study focused on {UML} use and model quality in actual projects rather than on its adequacy as a notation or language.},
-	number = {2},
-	journal = {Software, {IEEE}},
-	author = {{C.F.J.} Lange and {M.R.V.} Chaudron and J. Muskens},
-	month = apr,
-	year = {2006},
-	keywords = {domain-specific modelling, formal specification, software architecture, software design description, software development, software metrics {UML,} Unified Modeling Language},
-	pages = {40–46}
-},
-
-@inproceedings{muskens_investigations_2004,
-	title = {Investigations in applying metrics to multi-view architecture models},
-	doi = {10.1109/EURMIC.2004.1333392},
-	abstract = {The goal of our research is to develop industry-proof software architecture and design metrics. We identify a number of problems that arise in computing software architecture and design metrics in industrial settings that were not encountered in computing source-code metrics. These problems include the absence of a single, unifying representation for architectures and they arise from the fact that architecture diagrams are used in an informal manner. We describe our approach towards defining metrics for architectures and designs which are represented in the 4+1 views paradigm using {UML.} We report our experiences with architectural metrics in industrial settings.},
-	booktitle = {Euromicro Conference, 2004. Proceedings. 30th},
-	author = {J. Muskens and M. Chaudron and C. Lange},
-	month = aug,
-	year = {2004},
-	keywords = {industrial settings, industry-proof software architecture, object-oriented programming, software architecture, software development management, software metrics {UML} design pattern, source-code metrics, Unified Modeling Language},
-	pages = {372–379}
+@misc{_introduction_????,
+	title = {Introduction to {JavaScript} - Online},
+	url = {http://www.hwg.org/services/classes/javascriptcourse.html},
+	howpublished = {http://www.hwg.org/services/classes/javascriptcourse.html}
 },
 
 @article{mattsson_linking_2009,
@@ -284,6 +311,7 @@
 	doi = {10.1109/EDOC.2008.55},
 	booktitle = {2008 12th International {IEEE} Enterprise Distributed Object Computing Conference},
 	author = {Philip Mayer and Andreas Schroeder and Nora Koch},
+	month = sep,
 	year = {2008},
 	keywords = {{MDD,} Service Orchestration, soa},
 	pages = {203--212},
@@ -293,27 +321,18 @@
 {\textless}p{\textgreater}- Claim that modeling for {SOA} still weak.{\textless}/p{\textgreater}}
 },
 
-@article{booch_measuring_2008,
-	title = {Measuring Architectural Complexity},
-	volume = {25},
-	issn = {0740-7459},
-	doi = {http://0-dx.doi.org.innopac.up.ac.za/10.1109/MS.2008.91},
-	number = {4},
-	journal = {{IEEE} Softw.},
-	author = {Grady Booch},
-	year = {2008},
-	pages = {14–15}
-},
-
 @article{salasin_metrics_2007,
 	title = {Metrics For {Service-Oriented} Architecture {(SOA)} Systems: What Developers Should Know},
 	volume = {11},
 	issn = {1092-0617},
+	abstract = {{Service-Oriented} Architectures {(SOA)} provide the first widely applicable approach to tying together diverse "stovepipe" (or "silo") systems. They are, therefore, a "pure" example of how to build Systems of Systems {(SOS).} With the growing interest in and increasing number of implementations of {SOAs,} there is a pressing need for measures and metrics that can help {SOA} developers {(Chief} Architects or Program Managers) in predicting potential problems in the development/evolution of their {SOA} system. For {SOA-based} systems, such assistance is vital since their success depends on melding appropriate technologies and design with organizational characteristics, customer profiles, and functions provided, a Systems of Systems {(SOS)} concern. This paper discusses an ongoing effort in this area. In addition to providing a useful tool, this effort is technically significant for three key reasons. First, {SOA} specification and assessment requires consideration of technology factors and their relationships to the organization, and to individual information consumers. Essentially, these are related to metrics for systems engineering. Second, requirements (e.g., ease of use, flexibility) are defined in terms of system characteristics that can be modeled and measured. Thus, the system is defined by a set of evolving models and metrics that allow continual evaluation of progress towards eliminating problems. Third, since requirements are initially expressed with coarse-grained conceptual models, measurement of the characteristics of these models can indicate areas where the system might not meet some requirement, thereby allowing early corrective action. Thereafter, more refined models, can be developed to track the success of corrective actions. This paper provides a background on {SOA,} challenges for {SOA} metrics, and proposes a model-based metrics framework for evaluating {SOAbased} systems on an ongoing basis. It provides exemplar metrics and measures for {SOA,} and discusses several approaches to metrics quantification and presentation.},
 	number = {2},
 	journal = {J. Integr. Des. Process Sci.},
 	author = {John Salasin and Azad M. Madni},
 	year = {2007},
-	pages = {55–71}
+	pages = {55–71},
+	annote = {{{\textless}p{\textgreater}SUMMARY:{\textless}/p{\textgreater}}
+{\textless}p{\textgreater}- propose model-based metrics framework for evaluating {SOA-based} systems{\textless}/p{\textgreater}}
 },
 
 @inproceedings{cardei_model_2008,
@@ -325,7 +344,15 @@
 	month = apr,
 	year = {2008},
 	keywords = {component architectures, component-based system development, formal specification, functional requirements, knowledge based systems, model based requirements specification, model based requirements validation, object-oriented programming, ontologies (artificial intelligence), ontology-based language, Prolog, quality of service, requirements driven design automation, ruled-based system, {SysML} {XMI} representation, system development cycle, systems {analysisOWL,} {UML/SysML} structure diagrams, Unified Modeling Language},
-	pages = {1–8}
+	pages = {1–8},
+	annote = {{{\textless}p{\textgreater}SUMMARY:{\textless}/p{\textgreater}}
+{\textless}p{\textgreater}- provide a methodology {(RDDA} - Requirements Driven Design Automation) for requirements specification{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- resultant functional requirements can be automatically validated for consistency and completeness{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- Define {ODL} {(OPP} Design Language, {OPP} - One Pass to Production), an {OWL-based} {DSL} for requirements specification{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- Users add semantic descriptions inside {SYS-ML,} {SYSML} diagrams exported as {XMI} and transformed via {XSLT} to {ODL} ontology{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- Validation of consistency and completeness done in Prolog against {ODL{\textless}/p{\textgreater}}
+{\textless}p{\textgreater}- very structure focused, no services contracts, no recursive orchestration of higher level services from lower level services{\textless}/p{\textgreater}
+{\textless}p{\textgreater} {\textless}/p{\textgreater}}
 },
 
 @article{aizenbud-reshef_model_2006,
@@ -345,6 +372,7 @@
 	doi = {10.1109/CSCWD.2006.253005},
 	booktitle = {2006 10th International Conference on Computer Supported Cooperative Work in Design},
 	author = {Shengjun Wang and Longfei Jin and Chengzhi Jin},
+	month = may,
 	year = {2006},
 	keywords = {consistency checking, model verification, {MOF,} ontology-based language, {OWL,} {UML}},
 	pages = {1--5},
@@ -370,6 +398,23 @@
 	pages = {726--760}
 },
 
+@inproceedings{lazar_realizing_2010,
+	address = {Athens, Greece},
+	title = {Realizing Use Cases for Full Code Generation in the Context of {fUML}},
+	url = {http://www.enase.org/Abstracts/2010/ENASE_2010_Abstracts.htm},
+	abstract = {We describe a pragmatic method for developing use case realizations as Foundational {UML} {(fUML)} active objects. The method allows developers to transform the textual representations of use cases into executable {UML} activities which represent the classifier behaviours of the corresponding use case realizations. The generated graphical representations help developers to find requirements defects. Moreover, developers implement the required system behaviour by adding code using again a concrete textual syntax for {fUML.} The result is an executable {fUML} model which helps developers to simulate and validate the implemented behaviour. Finally, completed code may be generated towards the existing platform specific frameworks which use structured programming constructs.},
+	author = {Ioan Lazar and Simona Motogna and Bazil Pârv and {Codrut-Lucian} Lazar},
+	year = {2010},
+	keywords = {{fUML,} textual use case description, use cases},
+	annote = {{{\textless}p{\textgreater}SUMMARY:{\textless}/p{\textgreater}}
+{\textless}p{\textgreater}- important for natural text encoding of use cases{\textless}/p{\textgreater}
+{\textless}p{\textgreater}* can compare to concrete text syntax for {URDAD{\textless}/p{\textgreater}}
+{\textless}p{\textgreater}* show some concrete examples of intuitive textual encodings{\textless}/p{\textgreater}
+{\textless}p{\textgreater}- perform mapping of textual use case description onto activity diagram within {fUML{\textless}/p{\textgreater}}
+{\textless}p{\textgreater}- {fUML} requires active, statefull classes vs {URDAD} stateless services{\textless}/p{\textgreater}
+{\textless}p{\textgreater} {\textless}/p{\textgreater}}
+},
+
 @article{horrocks_reducing_2004,
 	title = {Reducing {OWL} entailment to description logic satisfiability},
 	volume = {1},
@@ -393,6 +438,7 @@
 	doi = {10.1109/CAIDCD.2008.4730597},
 	booktitle = {2008 9th International Conference on {Computer-Aided} Industrial Design and Conceptual Design},
 	author = {Jinhong Zhao and Shufen Liu and Xianyan Wang and Liang Chen and Chuyi Wei},
+	month = nov,
 	year = {2008},
 	keywords = {executable modeling language, metamodel, ocl},
 	pages = {399--404}

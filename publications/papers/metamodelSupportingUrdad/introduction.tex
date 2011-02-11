@@ -1,13 +1,73 @@
 \section{Introduction}
 
+Requirements are critical and still core cause of system errors
+
+MDD aims to address this by moving the modeling into the problem domain .... Discuss CIM/PIM
+
+URDAD is a service-oriented analysis and design methodology which is used by business analysts in industry
+It aims
+
+Requirements quality determined by
+  - semantics
+  - level of granularity
+  - contracts (testability)
+  - traceability
+  - validatability
+
+
+UML enconding
+  - UML = established std
+  - strong tool support
+  - widely embraced in industry
+but
+  - large
+  - semantics not clear
+  - requires discipline
+  - 
+
+To tighten up
+ - profile
+ - dsl
+ - concrete syntax feeding into UML 
+
+DSL adv
+  - smaller language
+  - lower model complexity
+  - well defined semantics
+Disadvantages
+  - not an established std
+  - requires learning
+  - tool support must be developed
+  - 
+
+In this paper we
+  - discuss the metamodel
+  - verify the internal integrity of the metamodel
+  - discuss the validatability of model instances (consistency, address all functional requirements and nothing but the FR)
+  - assess certain metamodel qualities like complexity, traceability, validatability, ...
+  - present an example concrete syntax
+
+
+Requirements are still the main cause of system defects (see, for example, \cite{heck_experiences_2008}).
+
+Model-Driven Engineering (MDE) \cite{} aims to address this by shifting the emphasis to the requirements and
+requiring that the modeling be done in the problem domain. In the case of enterprise system development
+the problem domain is the business domain and the modeling needs to be done by business analysts.
+
+In the context of OMG's vision of MDE, the {\em Model-Driven Architecture} (MDA), the first model is the 
+{\em Computation Independent Model} (CIM) which contains ... 
+
+CIM = BMM + BPM + RM
+The first level refinement is the {\em Platform Independent Mode} (PIM)
+is the
+
+PIM = interfaces, inputs
+
+\cite{ferguson_empirical_2006} show that there is a direct relationship between the expressiveness defects in 
+the language within which requirements are provided and the resultant density of test failures.
+
 URDAD, the {\em  is a methodology used by business analysts for technology neutral requirements analysis and 
-business process design\cite{solms_technology_2007}. 
-The output of the methodology is a requirements model which can be viewed as the 
+business process design\cite{solms_technology_2007} is a methodology which assists domain experts to capture
+and validate requirements. The output of the methodology is a requirements model which can be viewed as the 
 {\em Platform Independent Model} (PIM) \cite{solms_urdad_2010} of the {\em Model Driven Architecture} (MDA).
-
-modeling in problem domain
-
-
-
- 
 
