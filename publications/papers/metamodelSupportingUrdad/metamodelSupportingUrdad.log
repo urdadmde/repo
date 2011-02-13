@@ -1,0 +1,171 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2011.2.3)  13 FEB 2011 12:46
+entering extended mode
+**C:/Users/craige/repo/publications/papers/metamodelSupportingUrdad/metamodelSupportingUrdad.tex
+(C:/Users/craige/repo/publications/papers/metamodelSupportingUrdad/metamodelSupportingUrdad.tex
+LaTeX2e <2005/12/01>
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, german, ngerman, german-x-2009-06-19, ngerm
+an-x-2009-06-19, french, loaded.
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\article.cls"
+Document Class: article 2005/09/16 v1.4f Standard LaTeX document class
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\size11.clo"
+File: size11.clo 2005/09/16 v1.4f Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\graphics.sty"
+Package: graphics 2006/02/20 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 90.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2009/08/25 v0.04m Graphics/color for pdfTeX
+\Gread@gobject=\count87
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\epsfig.sty"
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+\epsfxsize=\dimen105
+\epsfysize=\dimen106
+)
+(C:\Users\craige\repo\publications\papers\metamodelSupportingUrdad\metamodelSupportingUrdad.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\context\base\supp-pdf.tex"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count88
+\scratchdimen=\dimen107
+\scratchbox=\box26
+\nofMPsegments=\count89
+\nofMParguments=\count90
+\everyMPshowfont=\toks15
+\MPscratchCnt=\count91
+\MPscratchDim=\dimen108
+\MPnumerator=\count92
+\everyMPtoPDFconversion=\toks16
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 11.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 11.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 11.
+
+Overfull \hbox (14.99347pt too wide) in paragraph at lines 11--11
+ [] 
+ []
+
+(C:\Users\craige\repo\publications\papers\metamodelSupportingUrdad\abstract.tex)
+(C:\Users\craige\repo\publications\papers\metamodelSupportingUrdad\introduction.tex
+
+LaTeX Warning: Citation `somebodyPleaseFindASuitableReference' on page 1 undefined on input line 3.
+
+[1
+
+{C:/ProgramData/MiKTeX/2.8/pdftex/config/pdftex.map}] [2] [3])
+(C:\Users\craige\repo\publications\papers\metamodelSupportingUrdad\urdadMethodology.tex)
+(C:\Users\craige\repo\publications\papers\metamodelSupportingUrdad\urdadMetamodel.tex [4]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 43.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\omscmr.fd"
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 43.
+ [5] [6]
+Overfull \hbox (6.6321pt too wide) in paragraph at lines 81--82
+\OT1/cmr/m/n/10 ments for a prob-lem do-main, mod-eled as ser-vices within
+ []
+
+
+Overfull \hbox (10.38205pt too wide) in paragraph at lines 81--82
+\OT1/cmr/m/n/10 re-spon-si-bil-ity do-mains, where each ser-vice is con-strained
+ []
+
+
+Overfull \hbox (1.60431pt too wide) in paragraph at lines 81--82
+\OT1/cmr/m/n/10 by the func-tional and qual-ity re-quire-ments of its stake-
+ []
+
+[7]
+Overfull \hbox (2.99318pt too wide) in paragraph at lines 88--89
+[]\OT1/cmr/m/n/10 Responsibility do-mains also pro-vide a con-sis-tent mech-
+ []
+
+[8] [9] [10] [11]) (C:\Users\craige\repo\publications\papers\metamodelSupportingUrdad\example.tex)
+(C:\Users\craige\repo\publications\papers\metamodelSupportingUrdad\assessingMetamodel.tex [12])
+(C:\Users\craige\repo\publications\papers\metamodelSupportingUrdad\tools.tex)
+(C:\Users\craige\repo\publications\papers\metamodelSupportingUrdad\relatedWork.tex)
+(C:\Users\craige\repo\publications\papers\metamodelSupportingUrdad\conclusionsAndOutlook.tex)
+(C:\Users\craige\repo\publications\papers\metamodelSupportingUrdad\metamodelSupportingUrdad.bbl [13]
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no “ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no “ in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ¤ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no “ in font cmr10!
+) [14]
+(C:\Users\craige\repo\publications\papers\metamodelSupportingUrdad\metamodelSupportingUrdad.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 1006 strings out of 495285
+ 14970 string characters out of 3179876
+ 64565 words of memory out of 3000000
+ 4219 multiletter control sequences out of 15000+200000
+ 8541 words of font info for 30 fonts, out of 3000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 25i,6n,19p,1298b,352s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/
+type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Prog
+ram Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/publi
+c/amsfonts/cm/cmr17.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (
+x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on metamodelSupportingUrdad.pdf (14 pages, 142739 bytes).
+PDF statistics:
+ 76 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

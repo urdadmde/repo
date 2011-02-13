@@ -1,6 +1,6 @@
 \section{The URDAD metamodel \label{sec:metamodel}}
 
-The URDAD metamodel provides the semantics required by the URDAD methodology to store the requirements for a service/use case. The semantics can be encoded in a variety of technologies including ontology based technologies like OWL and object-oriented technologies like MOF. Stadard mappings between these two technologies exist \cite{} and we have performed a mapping onto OWL to be able to use standard reasoning services in order to proof the logical consistency of the metamodel.
+The URDAD metamodel provides the semantics required by the URDAD methodology to store the requirements for a service/use case. The semantics can be encoded in a variety of technologies including ontology based technologies like OWL and object-oriented technologies like MOF. Standard mappings between these two technologies exist \cite{} and we have performed a mapping onto OWL to be able to use standard reasoning services in order to proof the logical consistency of the metamodel.
 
 
 \subsection{Semantics required by URDAD}
@@ -12,7 +12,7 @@ semantics required by URDAD
 
 service = cohesive unit of required functionality
 
-Metamodel = services requirements recursively decomposed into lower level services requirements with pre- and post-conditions as well as quality requirements for each service and the data structure specifications for the inputs and outputs and the process specification on how a service is orchestraded across lower level services.
+Metamodel = services requirements recursively decomposed into lower level services requirements with pre- and post-conditions as well as quality requirements for each service and the data structure specifications for the inputs and outputs and the process specification on how a service is orchestrated across lower level services.
 
 post-conditions may change environment -> inverse services
 
@@ -141,7 +141,7 @@ Statements will need to be sanity checked
 				\item Three encoding options have been considered. Encoding options are not mutually exclusive and several may be concurrently utilised if each offers its own unique advantages. For example, one particular encoding option may make it easier to represent semantics and reason about the model, while another encoding option may be aligned with standards and offer extensive tool support for model tool smiths and practitioners. 
 				\item Currently three encoding options have been taken into consideration.
 				\item The first option is to attempt to improve the UML encoding of URDAD. While this will always be an option worth considering, it was quickly discarded for the reasons already mentioned in this paper.
-				\item Another encoding option that has been considered is the encoding of the URDAD metamodel in a knowledge representation language such as the Web Ontology Langauge (OWL) or more specifically OWL-DL one of OWL's sub languages. There are many benefits associated with this option... (ELABORATE)
+				\item Another encoding option that has been considered is the encoding of the URDAD metamodel in a knowledge representation language such as the Web Ontology Language (OWL) or more specifically OWL-DL one of OWL's sub languages. There are many benefits associated with this option... (ELABORATE)
 				\item The third opinion and the encoding which represents the focus of this paper is to encode the URDAD metamodel using the Eclipse Modeling Framework's (EMF) Ecore metamodel. 
 				\item It is possible to capture URDAD's metamodel by extending the Ecore metamodel and introducing URDAD's semantics.
 				\item The Eclipse 
