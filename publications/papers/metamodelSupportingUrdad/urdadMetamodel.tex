@@ -26,6 +26,14 @@ data types and data structures
 
 expressions including constraint expressions
 
+\subsubsection{Pre- and post-conditions}
+
+A pre-condition represents a condition under which the requested service can be refused. The process executed thus far is rolled back and the requester of the service is informed via an appropriate exception that the service was not provided. 
+
+The refusal of the service may be either due to information within the process (the original requests or any other information which has flown into the process via results from previous service requests), or due to the state of the environment. In the former case the pre-condition itself is specified as an OCL constraint on the information objects available to the process. In the latter case the pre-condition is the combination of a service request to obtain information about the environment and a OCL constraint on the results received from the request as well as potentially any other information objects available to the process. For a pre-condition we thus have an optional service requirement together with a constraint.
+
+A post-condition is a condition which must hold after the service has been provided. Since services themselves are stateless, the post-condition can only refer to a change in the environment. URDAD requires that one specifies the requirements for a service which makes those environmental changes and that the post-condition has a dependency on the service
+
 \subsection{The metamodel}
 
 
