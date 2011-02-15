@@ -3,6 +3,7 @@
 The URDAD metamodel provides the semantics required by the URDAD methodology to store the requirements for a service/use case. The semantics can be encoded in a variety of technologies including ontology based technologies like OWL and object-oriented technologies like MOF. Standard mappings between these two technologies exist \cite{} and we have performed a mapping onto OWL to be able to use standard reasoning services in order to proof the logical consistency of the metamodel.
 
 
+
 \subsection{Semantics required by URDAD}
 
 
@@ -10,39 +11,74 @@ aim of metamodel -> introduce required semantics, minimal, enforce compliance th
 
 semantics required by URDAD
 
-service = cohesive unit of required functionality
 
 Metamodel = services requirements recursively decomposed into lower level services requirements with pre- and post-conditions as well as quality requirements for each service and the data structure specifications for the inputs and outputs and the process specification on how a service is orchestrated across lower level services.
 
-post-conditions may change environment -> inverse services
 
-Fixing of levels of granularity
 
-responsibility domains as roles and packages
 
-functional and quality requirements can be reused across services.
+\subsubsection{Services}
+
+%service = cohesive unit of required functionality
+
+Services represent a cohesive unit of required functionality. They exist to address the functional and quality requirements of their stakeholders. These functional and quality requirements are not restricted to a single service and may be used by other services that share some of the same requirements.
+
+A service is specified as a formalised contract, with explicitly defined requirements. The stakeholders who have a direct or indirect interest in the fulfilment of the service, are related to the service via their requirements. Each service has a consistent service signature. The signature takes the form of an appropriately named service, a single service request object that contains detailed information pertaining to the request and a single result object, which is composed of the information associated with the result of the service execution.
+
+%Fixing of levels of granularity
+
+Levels of granularity are explicitly defined within URDAD. Each service exists at a particular level of granularity, when viewed within the context of its utilisation by other another service that exists at a higher level of granularity.
+
+\subsubsection{Responsibility domains}
+
+Responsibility domains represent two important aspects within an URDAD model. They are primarily used to depict the roles or stakeholders that have  a direct or indirect interest in the service requirements that are being modelled. Secondly, they introduce the concept of packaging, where model elements belonging to these domains are associated with a unique name space. 
+
+The model elements that may legally be defined within a responsibility domain include services, functional and quality requirements, data structures specifications such as service request and result objects, as well as and other lower level responsibility domains.
+
+
+
+
+
+functional and quality requirements can be reused across services. 
 
 data types and data structures
 
 expressions including constraint expressions
 
+
+
+
 \subsubsection{Pre- and post-conditions}
 
 A pre-condition represents a condition under which the requested service can be refused. The process executed thus far is rolled back and the requester of the service is informed via an appropriate exception that the service was not provided. 
 
+{\em Craig: Needs to be reworded for clarity and eliminate of the phrase 'flown in'}
 The refusal of the service may be either due to information within the process (the original requests or any other information which has flown into the process via results from previous service requests), or due to the state of the environment. In the former case the pre-condition itself is specified as an OCL constraint on the information objects available to the process. In the latter case the pre-condition is the combination of a service request to obtain information about the environment and a OCL constraint on the results received from the request as well as potentially any other information objects available to the process. For a pre-condition we thus have an optional service requirement together with a constraint.
 
-A post-condition is a condition which must hold after the service has been provided. Since services themselves are stateless, the post-condition can only refer to a change in the environment. URDAD requires that one specifies the requirements for a service which makes those environmental changes and that the post-condition has a dependency on the service
+A post-condition is a condition which must hold after the service has been provided. Since services themselves are stateless, the post-condition can only refer to a change in the environment. URDAD requires that one specifies the requirements for a service which makes those environmental changes and that the post-condition has a dependency on the service. An inverse service may also be specified, which is tasked with reversing the impact the fulfilment of a post-condition has had on its environment, in the event of an error occurring during the execution of the service.
+
+\subsubsection{Process definition}
+
+A process definition is associated with each service and is composed of all the activities that are required to provide the service. Each activity must either be associated with the validation of a pre-condition, or with the fulfilment of a post-condition, through the execution of a lower level service. A single activity may also be simultaneously responsible for both the validation of a pre-condition and fulfilment of a post-condition, through the execution of a single lower level service. Other activities such as concurrent, control and conditional activities are used for process orchestration, while a result activity is responsible for constructing the service's result object, once the process has finished executing. 
+
+An important non-functional requirement of all activities that constitute a service's process, is that each activity must be traceable back to the fulfilment of one or more of the functional requirements. There should be no redundancy and only the functional requirements that are associated with the service should be addressed by the process.
 
 \subsection{The metamodel}
 
 
 
-Proposed structure
+
+
+
+
+
+
+
+
+
+
+
 Ideas for issues to be covered.
-Feel free to shuffle, remove, adjust, reword, mock, critique, hide, destroy etc
-References/related work still needs to be added
-Statements will need to be sanity checked
 
 {\em Fritz: Need to check overlap between this section and introduction}
 
@@ -50,7 +86,7 @@ Statements will need to be sanity checked
 
 	\item URDAD META MODEL JUSTIFICATION
 	\begin{itemize}
-		\item In an effort to formalise URDAD, there exists a need for the formal specification of URDAD's semantics.
+		\item In an effort to formalise URDAD, there exists a need for the formal specification of URDAD's semantics. 
 		\item The concepts and rules associated with the use of the URDAD methodology must be clearly defined.
 		\item The creation of an URDAD metamodel will assist with the formal definition of URDAD's semantics.
 		\item Define Metamodeling
@@ -100,6 +136,9 @@ Statements will need to be sanity checked
 						\item In the tradition of namespaces each element within a responsibility domain is uniquely identified by its name appended to the fully qualified name of the domain itself.
 					\end{itemize}
 					
+					
+					
+					
 				\item SERVICES
 					\item Each service exists to realise a use case 
 {\em Fritz: at some level of granularity the user might be a higher level service, maybe we want to avoid the use case vs service mess and focus on using services} and fulfil the requirements of its stakeholders.
@@ -113,6 +152,9 @@ Statements will need to be sanity checked
 					\item Pre-conditions represent the conditions under which the service may legally be refused. A pre-condition's existence must be justified by a tangible functional requirement. 
 					\item A pre-condition is contractually obligated to raise an exception if it is not fulfilled. This exception must be clearly specified on the service contract.
 					\item Post-conditions represent the conditions that must hold true if all the pre-conditions have be fulfilled and the service is complete.
+			
+			
+			
 					\item Unless the service has been sourced from the environment, it must be possible to verify whether each post-condition has been fulfilled. (VERIFY THIS STATEMENT)
 					\item The fulfilment of a post condition may have a lasting impact on the state of the environment. Inverse services may be associated with each post-condition. These services are responsible for reversing the effects the post-condition had on the environment and returning the environment to its original state, in the event of an error occurring during the execution of the service.
 					\item Associated with each service there exists a process definition that is composed of all the activities that are required to provide the service. Each activity must either directly or directly be associated with:
@@ -136,6 +178,9 @@ Statements will need to be sanity checked
 						\end{itemize}
 			\end{itemize}
 		\end{itemize}
+		
+
+		
 		
 	
 	\item METAMODEL ENCODING OPTIONS
