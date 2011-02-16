@@ -117,14 +117,15 @@
         upperBound="-1" eType="#//ResponsibilityDomain"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="QualityConstraint" eSuperTypes="#//Constraint">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="requirementExpression"
-        eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualityExpression" eType="#//Expression"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="QualityRequirement" eSuperTypes="#//Requirement">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="documentation" value="A quality requirement is a non-functional requirement around quality of service. &#xA;&#x9;&#x9;Typical examples of quality requirements include scalability, reliability, &#xA; performance, security and auditability."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="qualityConstraint" eType="#//QualityConstraint"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualityConstraint" lowerBound="1"
+        eType="#//QualityConstraint"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionalConstraint" abstract="true"
       eSuperTypes="#//Constraint">
@@ -137,7 +138,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="PreCondition" eSuperTypes="#//FunctionalConstraint">
     <eStructuralFeatures xsi:type="ecore:EReference" name="exception" lowerBound="1"
         eType="#//Exception"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Expression"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//BooleanExpression"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PostCondition" eSuperTypes="#//FunctionalConstraint">
