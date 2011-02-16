@@ -1,0 +1,40 @@
+Model tst
+ResponsibilityDomain primitives
+{
+	Data types:
+		Basic data type String (Note en-za: "general text")
+		Basic data type Integer
+		Basic data type FloatingPoint
+		Basic data type Date
+}
+
+ResponsibilityDomain trainingProvider {
+	Data types:
+		Data structure PersonDetails
+			- has attribute streetAddress of type String
+			- has attribute city of type String
+		Data structure PresentationDetails	
+		Data structure enrollmentRequest
+			- has attribute enrollmentDate of type Date
+			- contains studentDetails of type PersonDetails
+			- is associated with presentation of type PresentationDetails
+		Exception NotRegisteredException
+			
+	Services:
+		Service isRegistered
+			Request: Data structure isRegisteredRequest
+			Result: Data structure isRegisteredResult
+		
+		Service enrollForPresentation
+			Functional requirements:
+				Request: Data structure enrollForPresentationRequest
+				Result: Data structure enrollForPresentationResult
+				PreCondition isRegistered requires getRegistrationDetails
+					raises NotRegisteredException 
+					when OCL: "isRegisteredResult.registrationStatus == 'registered'"
+								
+			
+		 	
+		
+}
+
