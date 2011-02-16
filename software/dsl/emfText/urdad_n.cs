@@ -11,14 +11,36 @@ TOKENS {
 
 TOKENSTYLES {
 	"Exception" COLOR #7F0055, BOLD;
+	"Model" COLOR #7F0055, BOLD;
+	"ResponsibilityDomain" COLOR #7F0055, BOLD;
+	"Services" COLOR #7F0055, BOLD;
+	"Constraint" COLOR #7F0055, BOLD;
+	"is" COLOR #7F0055, BOLD;
+	"PreCondition" COLOR #7F0055, BOLD;
+	"requires" COLOR #7F0055, BOLD;
+	"raises" COLOR #7F0055, BOLD;
+	"when" COLOR #7F0055, BOLD;
+	"PostCondition" COLOR #7F0055, BOLD;
+	"Service" COLOR #7F0055, BOLD;
+	"Process" COLOR #7F0055, BOLD;
+	"ActivitySequence" COLOR #7F0055, BOLD;
+	"ConcurrentActivities" COLOR #7F0055, BOLD;
+	"ConcurrentActivity" COLOR #7F0055, BOLD;
+	"blocking" COLOR #7F0055, BOLD;
+	"while" COLOR #7F0055, BOLD;
+	"if" COLOR #7F0055, BOLD;
+	"then" COLOR #7F0055, BOLD;
+	"check" COLOR #7F0055, BOLD;
+	"do" COLOR #7F0055, BOLD;
+	"Note" COLOR #7F0055, BOLD;
 }
 
 RULES {
-	Model ::= "model" name[] !0
+	Model ::= "Model" name[] !0
 	 (responsibilityDomains)*
 	 ("(" (annotations)*")")?;
 	 
-	ResponsibilityDomain ::= "responsibilityDomain" name[] "{" !1
+	ResponsibilityDomain ::= "ResponsibilityDomain" name[] "{" !1
 		("Data types" ":" (dataTypes)* )? !1
 		("Functional constraints" ":" !2 
 		  (functionalConstraints)*  )? !1
@@ -42,13 +64,12 @@ RULES {
 	BasicDataType ::= "Basic data type" name[]	  
 	  ("(" (annotations)*")")?;
 	
-	DataStructure ::= "Data structure" name[] ("is" superType[])? !1 
-	  (attributes)* !1 (associations)* 
-	  ("(" (annotations)*")")?;
-	Exception ::= "Exception" name[] ("is" superType[])? !1 
+	DataStructure ::= "Data structure" name[] ("is" superType[])? 
 	  (attributes)* (associations)* 
 	  ("(" (annotations)*")")?;
-	
+	Exception ::= "Exception" name[] ("is" superType[])? 
+	  (attributes)* (associations)* 
+	  ("(" (annotations)*")")?;
 	
 	Attribute ::= "- has attribute" name[] "of type" type[];
 	Association ::= "- is associated with" name[] "of type" relatedType[] (multiplicityConstraint)?; 
@@ -67,13 +88,13 @@ RULES {
 	 	functionalConstraint[]  
 	  ("(" (annotations)*")")?;
 	
-	PreCondition ::= "preCondition" name[]
+	PreCondition ::= "PreCondition" name[]
 		("requires" requiredService[])?
 		 "raises" exception[]
 		("when" condition)?
 	  ("(" (annotations)*")")?;
 
-	PostCondition ::= "postCondition" name[]
+	PostCondition ::= "PostCondition" name[]
 		("requires" requiredService[])?
 		("undone by" inverseService[])? 
 	  ("(" (annotations)*")")?;
@@ -86,11 +107,11 @@ RULES {
 	 (process)? 
 	  ("(" (annotations)*")")?;
 	 
-	Process ::= "process" processActivity ("(" (annotations)*")")?;
+	Process ::= "Process" processActivity ("(" (annotations)*")")?;
 
-	ActivitySequence ::= "activitySequence" "{" (activities)* "}";
-	ConcurrentActivities ::= "concurrentActivities" "{" (activities)* "}";
-	ConcurrentActivity ::= "concurrentActivity" ("(" "blocking" "=" blocking[]")")?
+	ActivitySequence ::= "ActivitySequence" "{" (activities)* "}";
+	ConcurrentActivities ::= "ConcurrentActivities" "{" (activities)* "}";
+	ConcurrentActivity ::= "ConcurrentActivity" ("(" "blocking" "=" blocking[]")")?
 		activity;
 	Switch ::= "Branching:" "{" (conditionalActivities)* "}";
 	
