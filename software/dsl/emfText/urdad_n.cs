@@ -10,72 +10,7 @@ TOKENS {
 
 
 TOKENSTYLES {
-	"model" COLOR #7F0055, BOLD;
-	"responsibilityDomain" COLOR #7F0055, BOLD;
-	"dataTypes" COLOR #7F0055, BOLD;
-	"services" COLOR #7F0055, BOLD;
-	"functionalConstraints" COLOR #7F0055, BOLD;
-	"qualityRequirements" COLOR #7F0055, BOLD;
-	"language" COLOR #7F0055, BOLD;
-	"expression" COLOR #7F0055, BOLD;
-	"constraintExpression" COLOR #7F0055, BOLD;
-	"rangeConstraint" COLOR #7F0055, BOLD;
-	"datatype" COLOR #7F0055, BOLD;
-	"dataStructure" COLOR #7F0055, BOLD;
-	"is" COLOR #7F0055, BOLD;
-	"exception" COLOR #7F0055, BOLD;
-	"attribute" COLOR #7F0055, BOLD;
-	"association" COLOR #7F0055, BOLD;
-	"aggregation" COLOR #7F0055, BOLD;
-	"composition" COLOR #7F0055, BOLD;
-	"qualityRequirement" COLOR #7F0055, BOLD;
-	"requiredBy" COLOR #7F0055, BOLD;
-	"requirementExpression" COLOR #7F0055, BOLD;
-	"functionalRequirement" COLOR #7F0055, BOLD;
-	"functionalConstraint" COLOR #7F0055, BOLD;
-	"preCondition" COLOR #7F0055, BOLD;
-	"requiredService" COLOR #7F0055, BOLD;
-	"postCondition" COLOR #7F0055, BOLD;
-	"inverseService" COLOR #7F0055, BOLD;
-	"service" COLOR #7F0055, BOLD;
-	"request" COLOR #7F0055, BOLD;
-	"result" COLOR #7F0055, BOLD;
-	"process" COLOR #7F0055, BOLD;
-	"activitySequence" COLOR #7F0055, BOLD;
-	"background" COLOR #7F0055, BOLD;
-	"concurrentActivities" COLOR #7F0055, BOLD;
-	"switch" COLOR #7F0055, BOLD;
-	"while" COLOR #7F0055, BOLD;
-	"condition" COLOR #7F0055, BOLD;
-	"activity" COLOR #7F0055, BOLD;
-	"conditionalActivity" COLOR #7F0055, BOLD;
-	"preConditionActivity" COLOR #7F0055, BOLD;
-	"requestContraint" COLOR #7F0055, BOLD;
-	"exceptionContraint" COLOR #7F0055, BOLD;
-	"postConditionActivity" COLOR #7F0055, BOLD;
-	"inverseRequestContraint" COLOR #7F0055, BOLD;
-	"prePostConditionActivity" COLOR #7F0055, BOLD;
-	"returnResultActivity" COLOR #7F0055, BOLD;
-	"resultContraint" COLOR #7F0055, BOLD;
-	"Services" COLOR #7F0055, BOLD;
-	"concurrentActivity" COLOR #7F0055, BOLD;
-	"blocking" COLOR #7F0055, BOLD;
-	"Annotation" COLOR #7F0055, BOLD;
-	"constraints" COLOR #7F0055, BOLD;
-	"annotations" COLOR #7F0055, BOLD;
-	"content" COLOR #7F0055, BOLD;
-	"Constraint" COLOR #7F0055, BOLD;
-	"has" COLOR #7F0055, BOLD;
-	"contains" COLOR #7F0055, BOLD;
-	"requires" COLOR #7F0055, BOLD;
-	"raises" COLOR #7F0055, BOLD;
-	"when" COLOR #7F0055, BOLD;
-	"if" COLOR #7F0055, BOLD;
-	"then" COLOR #7F0055, BOLD;
-	"check" COLOR #7F0055, BOLD;
-	"do" COLOR #7F0055, BOLD;
-	"emsure" COLOR #7F0055, BOLD;
-	"Note" COLOR #7F0055, BOLD;
+	"Exception" COLOR #7F0055, BOLD;
 }
 
 RULES {
@@ -143,16 +78,12 @@ RULES {
 		("undone by" inverseService[])? 
 	  ("(" (annotations)*")")?;
 	
-	Service ::= "service" name[] !1
-	 "Functional requirements:" !2
-	 (functionalRequirements )* !1
-	 "Quality requirements:" !2
-	 (qualityRequirements )* !1
-	 "Request structure:" !2
-	 "request" request !1  
-	 "Result structure:" !2
-	 "result" result !1
-	 (process)? !0
+	Service ::= "Service" name[] 
+	 ("Functional requirements:" (functionalRequirements )* )? 
+	 ("Quality requirements:" (qualityRequirements )*)? 
+	 "Request:" request   
+	 "Result:" result 
+	 (process)? 
 	  ("(" (annotations)*")")?;
 	 
 	Process ::= "process" processActivity ("(" (annotations)*")")?;
