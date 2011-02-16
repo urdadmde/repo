@@ -64,14 +64,27 @@ TOKENSTYLES {
 	"constraints" COLOR #7F0055, BOLD;
 	"annotations" COLOR #7F0055, BOLD;
 	"content" COLOR #7F0055, BOLD;
+	"Constraint" COLOR #7F0055, BOLD;
+	"has" COLOR #7F0055, BOLD;
+	"contains" COLOR #7F0055, BOLD;
+	"requires" COLOR #7F0055, BOLD;
+	"raises" COLOR #7F0055, BOLD;
+	"when" COLOR #7F0055, BOLD;
+	"if" COLOR #7F0055, BOLD;
+	"then" COLOR #7F0055, BOLD;
+	"check" COLOR #7F0055, BOLD;
+	"do" COLOR #7F0055, BOLD;
+	"emsure" COLOR #7F0055, BOLD;
+	"Note" COLOR #7F0055, BOLD;
 }
 
 RULES {
-	Model ::= "model" name[]  !0
-	 (responsibilityDomains)*;
+	Model ::= "model" name[] !0
+	 (responsibilityDomains)*
+	 ("(" (annotations)*")")?;
 	 
 	ResponsibilityDomain ::= "responsibilityDomain" name[] "{" !1
-		("Data types" ":" (dataTypes)* )? "." !1
+		("Data types" ":" (dataTypes)* )? !1
 		("Functional constraints" ":" !2 
 		  (functionalConstraints)*  )? !1
 		("Quality constraints" ":" !2 
@@ -79,7 +92,7 @@ RULES {
 		("Services" ":" !2 
 		  (services)* )? !1
 		("Responsibility domains" ":" !2 
-		  (services)* )? !1
+		  (responsibilityDomains)* )? !1
 	  	("(" (annotations)*")")?
 	"}" !0;
 
@@ -90,33 +103,33 @@ RULES {
 	
 	BooleanExpression ::=  language [] ":" expressionString['[',']'];
 
-	RangeMultiplicity ::= "["minOccurs[] "," maxOccurs[] "]" ";";
+	RangeMultiplicity ::= "["minOccurs[] "," maxOccurs[] "]";
 	BasicDataType ::= "Basic data type" name[]	  
 	  ("(" (annotations)*")")?;
 	
 	DataStructure ::= "Data structure" name[] ("is" superType[])? !1 
 	  (attributes)* !1 (associations)* 
 	  ("(" (annotations)*")")?;
-	Exception ::= "exception" name[] ("is" superType[])? !1 
+	Exception ::= "Exception" name[] ("is" superType[])? !1 
 	  (attributes)* (associations)* 
 	  ("(" (annotations)*")")?;
 	
 	
-	Attribute ::= "-" "has attribute" name[] "of type" type[];
-	Association ::= "-" "is associated with" name[] "of type" relatedType[] (multiplicityConstraint)?; 
-	Aggregation ::= "-" "has" name[] "of type" relatedType[] (multiplicityConstraint)?; 
-	Composition ::= "-" "contains" name[] "of type" relatedType[] (multiplicityConstraint)?;
+	Attribute ::= "- has attribute" name[] "of type" type[];
+	Association ::= "- is associated with" name[] "of type" relatedType[] (multiplicityConstraint)?; 
+	Aggregation ::= "- has" name[] "of type" relatedType[] (multiplicityConstraint)?; 
+	Composition ::= "- contains" name[] "of type" relatedType[] (multiplicityConstraint)?;
 	 
 	QualityRequirement ::= name[]   
 		"is required by" requiredBy[]
-		qualityConstraint[] "."
+		qualityConstraint[] 
 	  ("(" (annotations)*")")?;
 	  
 	QualityConstraint ::= name[] ":" (qualityExpression);	  
 		
 	FunctionalRequirement ::= name[]  
 		" is required by" requiredBy[] 
-	 	functionalConstraint[]  "."
+	 	functionalConstraint[]  
 	  ("(" (annotations)*")")?;
 	
 	PreCondition ::= "preCondition" name[]
@@ -127,18 +140,18 @@ RULES {
 
 	PostCondition ::= "postCondition" name[]
 		("requires" requiredService[])?
-		("undone by" inverseService[] ";" )? 
+		("undone by" inverseService[])? 
 	  ("(" (annotations)*")")?;
 	
 	Service ::= "service" name[] !1
 	 "Functional requirements:" !2
-	 (functionalRequirements )+ !1
+	 (functionalRequirements )* !1
 	 "Quality requirements:" !2
 	 (qualityRequirements )* !1
 	 "Request structure:" !2
 	 "request" request !1  
 	 "Result structure:" !2
-	 "result" result  !1
+	 "result" result !1
 	 (process)? !0
 	  ("(" (annotations)*")")?;
 	 
@@ -147,13 +160,12 @@ RULES {
 	ActivitySequence ::= "activitySequence" "{" (activities)* "}";
 	ConcurrentActivities ::= "concurrentActivities" "{" (activities)* "}";
 	ConcurrentActivity ::= "concurrentActivity" ("(" "blocking" "=" blocking[]")")?
-		activity
-		".";
+		activity;
 	Switch ::= "Branching:" "{" (conditionalActivities)* "}";
 	
-	While ::= "while" condition  activity ".";
+	While ::= "while" condition  activity;
 		
-	ConditionalActivity ::= "if" condition "then" activity ";";
+	ConditionalActivity ::= "if" condition "then" activity;
 	
 	PreConditionActivity ::= "check" preCondition[]  
 		("Request constraints:" (requestContraints)*)? 
@@ -167,8 +179,8 @@ RULES {
 		("(" (annotations)*")")?;
 	
 	PrePostConditionActivity ::=  
-		"emsure" preCondition[] ";" 
-		"do" postCondition[] ";" 
+		"ensure that" preCondition[] 
+		"do" postCondition[] 
 		("Request constraints:" (requestContraints)*)? 
 		("Exception constraints:" (exceptionContraints)*)? 
 		("Undo request constraints:" (inverseRequestContraints)*)? 
@@ -178,6 +190,6 @@ RULES {
 		("Result constraints:" (resultContraints)*)? 
 		("(" (annotations)*")")?;
 		
-	Annotation ::= "Note" language[] ":" content['"','"']".";
+	Annotation ::= "Note" language[] ":" content['"','"'];
 	
 }
