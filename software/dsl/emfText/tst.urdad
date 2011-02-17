@@ -8,6 +8,8 @@ ResponsibilityDomain primitives
 
 ResponsibilityDomain student
 
+ResponsibilityDomain trainingRegulator
+
 ResponsibilityDomain trainingProvider
 
 	ResponsibilityDomains :
@@ -23,14 +25,16 @@ ResponsibilityDomain trainingProvider
 					contains homeAddress ofType Address	
 				Exception NotRegisteredException
 			FunctionalConstraints :
-				PreCondition registered
-					requires checkWhetherRegistered 
+				PreCondition isRegistered
+					requires getRegistrationDetails 
 					raises NotRegisteredException			
-					when OCL: [checkWhetherRegistered.Result.registrationStatus NOT RegistrationStatus.active]
+					when OCL: "getRegistrationDetails.result != null"
+				PostCondition haveRegistrationDetails
+					requires getRegistrationDetails
 			Services :
-				Service checkWhetherRegistered
-					Request DataStructure checkWhetherRegisteredRequest
-					Result DataStructure checkWhetherRegisteredResult
+				Service getRegistrationDetails
+					Request DataStructure getRegistrationDetailsRequest
+					Result DataStructure getRegistrationDetailsResult
 					Process returnResult 
 						ResultConstraints : 
 							Constraint setEnrollmentField OCL : "" 
@@ -39,23 +43,40 @@ ResponsibilityDomain trainingProvider
 			DataTypes :
 				DataStructure PresentationDetails							  
 
-			ResponsibilityDomains :		
-				ResponsibilityDomain enrollments
-					Services :
-						Service enrollForPresentation 
-							FunctionalRequirements:
-								functionalConstraint registered  isRequiredBy student
-							Request DataStructure enrollForPresentationRequest
-								hasAttribute enrollmentDate ofType Date 
-								contains studentDetails ofType PersonDetails
-								isAssociatedWith presentation ofType PresentationDetails		
-							Result DataStructure enrollForPresentationResult
-							Process ActivitySequence
-								check isRegistered 
-									RequestConstraints :
-										Constraint idNoSet OCL: 
-											"getRegistrationDetails.idNo = enrollmentRequest.personalDetails.idNo"
-								ensure courseMaterialProvided	
+		ResponsibilityDomain enrollments
+			Services :
+				Service enrollForPresentation 
+					FunctionalRequirements:
+						FunctionalConstraint isRegistered  isRequiredBy trainingRegulator
+						FunctionalConstraint haveRegistrationDetails  isRequiredBy trainingProvider
+						FunctionalConstraint courseMaterialProvided isRequiredBy Student
+						FunctionalConstraint invoiceIssued isRequiredBy trainingProvider
+					Request DataStructure enrollForPresentationRequest
+						hasAttribute enrollmentDate ofType Date 
+						contains studentDetails ofType PersonDetails
+						isAssociatedWith presentation ofType PresentationDetails		
+					Result DataStructure enrollForPresentationResult
+					Process ActivitySequence
+						check coursePrerequisitesMet
+						given isRegistered ensure haveRegistrationDetails  
+							RequestConstraints :
+								Constraint idNoSet OCL: 
+									"getRegistrationDetails.idNo = enrollmentRequest.personalDetails.idNo"
+						ensure courseMaterialProvided
+						ensure invoiceIssued 	
+		
+		ResponsibilityDomain finance
+			FunctionalConstraints :
+				PostCondition invoiceIssued
+					requires issueInvoice
+					undoneVia issueCreditNote
+			Services : 
+				Service issueInvoice
+					Request DataStructure issueInvocieRequest
+					Result DataStructure issueInvoiceResult
+				Service issueCreditNote
+					Request DataStructure issueCreditNoteRequest
+					Result DataStructure issueCreditNoteResult
 		
 		ResponsibilityDomain trainingMaterial
 			FunctionalConstraints :
