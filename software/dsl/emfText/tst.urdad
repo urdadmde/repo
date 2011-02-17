@@ -1,40 +1,71 @@
 Model tst
 ResponsibilityDomain primitives
-{
-	Data types:
-		Basic data type String (Note en-za: "general text")
-		Basic data type Integer
-		Basic data type FloatingPoint
-		Basic data type Date
-}
+	DataTypes:
+		BasicDataType String (Note en-za: "general text")
+		BasicDataType Integer
+		BasicDataType FloatingPoint
+		BasicDataType Date
 
-ResponsibilityDomain trainingProvider {
-	Data types:
-		Data structure PersonDetails
-			- has attribute streetAddress of type String
-			- has attribute city of type String
-		Data structure PresentationDetails	
-		Data structure enrollmentRequest
-			- has attribute enrollmentDate of type Date
-			- contains studentDetails of type PersonDetails
-			- is associated with presentation of type PresentationDetails
-		Exception NotRegisteredException
-			
-	Services:
-		Service isRegistered
-			Request: Data structure isRegisteredRequest
-			Result: Data structure isRegisteredResult
-		
-		Service enrollForPresentation
-			Functional requirements:
-				Request: Data structure enrollForPresentationRequest
-				Result: Data structure enrollForPresentationResult
-				PreCondition isRegistered requires getRegistrationDetails
-					raises NotRegisteredException 
-					when OCL: "isRegisteredResult.registrationStatus == 'registered'"
-								
-			
-		 	
-		
-}
+ResponsibilityDomain student
 
+ResponsibilityDomain trainingProvider
+
+	ResponsibilityDomains :
+
+		ResponsibilityDomain customerRelationshipManagement
+			DataTypes:
+				DataStructure Address
+					hasAttribute streetAddress ofType String
+					hasAttribute city ofType String
+				DataStructure PersonDetails
+					hasAttribute name ofType String
+					hasAttribute idNo ofType Integer
+					contains homeAddress ofType Address	
+				Exception NotRegisteredException
+			FunctionalConstraints :
+				PreCondition registered
+					requires checkWhetherRegistered 
+					raises NotRegisteredException			
+					when OCL: [checkWhetherRegistered.Result.registrationStatus NOT RegistrationStatus.active]
+			Services :
+				Service checkWhetherRegistered
+					Request DataStructure checkWhetherRegisteredRequest
+					Result DataStructure checkWhetherRegisteredResult
+					Process returnResult 
+						ResultConstraints : 
+							Constraint setEnrollmentField OCL : "" 
+							
+		ResponsibilityDomain courseManagement
+			DataTypes :
+				DataStructure PresentationDetails							  
+
+			ResponsibilityDomains :		
+				ResponsibilityDomain enrollments
+					Services :
+						Service enrollForPresentation 
+							FunctionalRequirements:
+								functionalConstraint registered  isRequiredBy student
+							Request DataStructure enrollForPresentationRequest
+								hasAttribute enrollmentDate ofType Date 
+								contains studentDetails ofType PersonDetails
+								isAssociatedWith presentation ofType PresentationDetails		
+							Result DataStructure enrollForPresentationResult
+							Process ActivitySequence
+								check isRegistered 
+									RequestConstraints :
+										Constraint idNoSet OCL: 
+											"getRegistrationDetails.idNo = enrollmentRequest.personalDetails.idNo"
+								ensure courseMaterialProvided	
+		
+		ResponsibilityDomain trainingMaterial
+			FunctionalConstraints :
+				PostCondition courseMaterialProvided
+					requires provideCourseMaterial
+					undoneVia returnCourseMaterial	
+			Services :
+				Service provideCourseMaterial
+					Request DataStructure provideCourseMaterialRequest
+					Result DataStructure provideCourseMaterialResult
+				Service returnCourseMaterial
+					Request DataStructure returnCourseMaterialRequest
+					Result DataStructure returnCourseMaterialResult	

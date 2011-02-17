@@ -132,10 +132,18 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="requiredService" eType="#//Service"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionalRequirement" eSuperTypes="#//Requirement">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="documentation" value="The condition is the condition under which the functionality is required."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="functionalConstraint" lowerBound="1"
         eType="#//FunctionalConstraint"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//BooleanExpression"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PreCondition" eSuperTypes="#//FunctionalConstraint">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="documentation" value="The condition is the condition under which the precondition is not met and an exception is thrown."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exception" lowerBound="1"
         eType="#//Exception"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//BooleanExpression"
