@@ -14,14 +14,13 @@ ResponsibilityDomain trainingRegulator {}
 ResponsibilityDomain trainingProvider {
 	ResponsibilityDomain enrollments {
 		Service enrollForPresentation { 
-			FunctionalConstraint coursePrerequisitesMet isRequiredBy trainingRegulator
-			FunctionalConstraint isRegistered  isRequiredBy trainingRegulator
-			FunctionalConstraint haveRegistrationDetails  isRequiredBy trainingProvider
-			FunctionalConstraint placeOnPresentationBooked isRequiredBy student
-			FunctionalConstraint courseMaterialProvided isRequiredBy student
-			FunctionalConstraint invoiceIssued isRequiredBy trainingProvider
-			FunctionalConstraint countryGuidelinesProvided isRequiredBy student 
-				conditionUnderWhichRequired OCL: "enrollmentRequest.personalDetails.country <> 'RSA'"
+			FunctionalRequirement coursePrerequisitesMet isRequiredBy trainingRegulator
+			FunctionalRequirement isRegistered  isRequiredBy trainingRegulator
+			FunctionalRequirement haveRegistrationDetails  isRequiredBy trainingProvider
+			FunctionalRequirement placeOnPresentationBooked isRequiredBy student
+			FunctionalRequirement courseMaterialProvided isRequiredBy student
+			FunctionalRequirement invoiceIssued isRequiredBy trainingProvider
+			FunctionalRequirement countryGuidelinesProvided isRequiredBy student when OCL: "enrollmentRequest.personalDetails.country <> 'RSA'"
 			Request DataStructure enrollForPresentationRequest {
 				hasAttribute enrollmentDate ofType Date 
 				contains studentDetails ofType PersonDetails
@@ -38,7 +37,7 @@ ResponsibilityDomain trainingProvider {
 				ConcurrentActivities { 
 					concurrent ensure placeOnPresentationBooked
 					concurrent blocking='false': ensure courseMaterialProvided
-					concurrent blocking='false': if OCL : "someExpressionString" then ensure countryGuidelinesProvided
+					concurrent blocking='false': if OCL : "enrollmentRequest.personalDetails.country <> 'RSA'" then ensure countryGuidelinesProvided
 				}
 			}		
 		}
@@ -47,9 +46,7 @@ ResponsibilityDomain trainingProvider {
 	ResponsibilityDomain academics {
 		ResponsibilityDomain assessment {
 			Exception CoursePrerequisitesNotMetException {}
-			PreCondition coursePrerequisitesMet
-				requires checkCoursePrerequisitesMet
-				raises CoursePrerequisitesNotMetException
+			PreCondition coursePrerequisitesMet requires checkCoursePrerequisitesMet raises CoursePrerequisitesNotMetException
 			Service checkCoursePrerequisitesMet {
 				Request DataStructure checkCoursePrerequisitesMetRequest {}
 				Result DataStructure checkPrerequisitesMetResult {}
@@ -70,14 +67,10 @@ ResponsibilityDomain trainingProvider {
 			contains homeAddress ofType Address
 		}		
 		Exception NotRegisteredException {}
-		PreCondition isRegistered
-			requires getRegistrationDetails 
-			raises NotRegisteredException			
+		PreCondition isRegistered requires getRegistrationDetails raises NotRegisteredException	
 			when OCL: "getRegistrationDetails.result != null"
-		PostCondition haveRegistrationDetails
-			requires getRegistrationDetails
-		PostCondition countryGuidelinesProvided
-			requires provideCountryGuidelines	
+		PostCondition haveRegistrationDetails requires getRegistrationDetails
+		PostCondition countryGuidelinesProvided	requires provideCountryGuidelines	
 		Service getRegistrationDetails {
 			Request DataStructure getRegistrationDetailsRequest {}
 			Result DataStructure getRegistrationDetailsResult {}
@@ -93,8 +86,7 @@ ResponsibilityDomain trainingProvider {
 									
 	ResponsibilityDomain presentationManagement {
 		DataStructure PresentationDetails {}
-		PostCondition placeOnPresentationBooked 
-			requires bookPlaceOnPresentation	
+		PostCondition placeOnPresentationBooked requires bookPlaceOnPresentation	
 		Service bookPlaceOnPresentation	{	
 			Request DataStructure bookPlaceOnPresentationRequest {}
 			Result DataStructure bookPlaceOnPresentationResult {} 
@@ -102,9 +94,7 @@ ResponsibilityDomain trainingProvider {
 	}		
 	
 	ResponsibilityDomain finance {
-		PostCondition invoiceIssued
-			requires issueInvoice
-			undoneVia issueCreditNote
+		PostCondition invoiceIssued requires issueInvoice undoneVia issueCreditNote
 		Service issueInvoice {
 			Request DataStructure issueInvocieRequest {}
 			Result DataStructure issueInvoiceResult {}
@@ -116,9 +106,7 @@ ResponsibilityDomain trainingProvider {
 	}
 	
 	ResponsibilityDomain trainingMaterial {
-		PostCondition courseMaterialProvided
-			requires provideCourseMaterial
-			undoneVia returnCourseMaterial	
+		PostCondition courseMaterialProvided requires provideCourseMaterial undoneVia returnCourseMaterial	
 		Service provideCourseMaterial {
 			Request DataStructure provideCourseMaterialRequest {}
 			Result DataStructure provideCourseMaterialResult {}

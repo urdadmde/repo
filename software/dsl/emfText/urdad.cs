@@ -93,9 +93,10 @@ RULES {
 	  
 	QualityConstraint ::= "QualityConstraint" name[] ":" (qualityExpression);	  
  		
-	FunctionalRequirement ::= "FunctionalConstraint" functionalConstraint[]  
+	FunctionalRequirement ::= "FunctionalRequirement
+	" functionalConstraint[]  
 		"isRequiredBy" requiredBy[] 
-		("conditionUnderWhichRequired" (condition))?
+		("when" (condition))?
 	  ("(" (annotations)*")")?;
 	
 	PreCondition ::= "PreCondition" name[]

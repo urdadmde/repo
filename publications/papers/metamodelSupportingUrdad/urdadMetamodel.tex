@@ -1,12 +1,18 @@
 \section{The URDAD metamodel \label{sec:metamodel}}
 
-The URDAD metamodel provides the semantics required by the URDAD methodology to store the requirements for a service/use case. The semantics can be encoded in a variety of technologies including ontology based technologies like OWL and object-oriented technologies like MOF or its simplification, the {\em Esssential MOF} (EMOF). Standard mappings between these two technologies exist \cite{}.
+The URDAD metamodel provides the semantics required by the URDAD methodology to store the requirements for a service/use case. The semantics can be encoded in a variety of technologies including ontology based technologies like OWL and object-oriented technologies like MOF or its simplification, the {\em Esssential MOF} (EMOF). Standard mappings between these two technologies exist \cite{staab_model_2010}.
 
-The URDAD metamodel has been encoded in {\em ECore} which is the {\em Eclipse Foundations}'s implementation of {\em EMOF} and we have performed a mapping onto OWL to be able to use standard reasoning services in order to proof the logical consistency of the metamodel.
+The URDAD metamodel has been encoded in {\em ECore} which is the {\em Eclipse Foundations}'s implementation of {\em EMOF} and we have performed a mapping onto OWL to be able to use standard reasoning services in order to proof the logical consistency of the metamodel. 
 
+The choice of the encoding technology was guided by the support for OCL constraints at both the meta-model and model level as well as the rich tool set available within the Eclipse family of tools including tools for generating or defining concrete text and diagrammatic syntaxes for the domain specific language as well as the availability of a rich set of model-to-model and model-to-text transformation tools.
 
 
 \subsection{Semantics required by URDAD}
+
+ - responsibility domains which represent both, abstraction of roles and a packaging construct
+ - functional and non-functional requirements for services
+ - data structure requriements for exchanged value objects
+ - process requirements (designed business processes)
 
 
 aim of metamodel -> introduce required semantics, minimal, enforce compliance through enforced structure, absorb model constraints as constraints on metamodel
@@ -21,7 +27,8 @@ Metamodel = services requirements recursively decomposed into lower level servic
 
 \subsubsection{Services}
 
-%service = cohesive unit of required functionality
+An URDAD service is a service from a requirements perspective, i.e. it represents a required service, not a provided service. 
+
 
 Services represent a cohesive unit of required functionality. They exist to address the functional and quality requirements of their stakeholders. These functional and quality requirements are not restricted to a single service and may be used by other services that share some of the same requirements.
 
@@ -41,13 +48,15 @@ The model elements that may legally be defined within a responsibility domain in
 
 
 
+
+
 functional and quality requirements can be reused across services. 
 
 data types and data structures
 
 expressions including constraint expressions
 
-
+ In practice a service requirements represents a way of documenting the required functionality. It does not meanCan plug in different services with appropriate adapter
 
 
 \subsubsection{Pre- and post-conditions}
@@ -64,6 +73,21 @@ A post-condition is a condition which must hold after the service has been provi
 A process definition is associated with each service and is composed of all the activities that are required to provide the service. Each activity must either be associated with the validation of a pre-condition, or with the fulfilment of a post-condition, through the execution of a lower level service. A single activity may also be simultaneously responsible for both the validation of a pre-condition and fulfilment of a post-condition, through the execution of a single lower level service. Other activities such as concurrent, control and conditional activities are used for process orchestration, while a result activity is responsible for constructing the service's result object, once the process has finished executing. 
 
 An important non-functional requirement of all activities that constitute a service's process, is that each activity must be traceable back to the fulfilment of one or more of the functional requirements. There should be no redundancy and only the functional requirements that are associated with the service should be addressed by the process.
+
+\subsection{Business process design}
+- for a service we have pre- and post-conditions - some of these may be conditional
+- lower level services either just check a pre-condition or ensure a post-condition
+- these lower level post-condition addressing services may themselves have pre-conditions and some of those pre-conditions may be part of the pre-conditions for the higher level service.
+
+During business process design one
+  1. picks the required services to address the post-conditions
+  2. Check which of the higher level pre-conditions are not pre-conditions of lower level services and hence not checked by those services which address the post-conditions and sources the appropriate service spec for those remaining pre-conditions.
+  3. One then determines and dependencies between the services, e.g. 
+    - to assemble the request for service A I require the information provided by service A
+    - I should only issue an invoice if I could reserve a seat
+  4. This defines an activity sequence with number of activities equal to number of dependency levels.
+  5. Within a dependency level, there may be multiple services which do not have dependencies on each other - these can be executed concurrently.
+  6. For conditional pre-or post-conditions, the corresponding services need to be requested under the respective conditions.
 
 \subsection{The metamodel}
 
