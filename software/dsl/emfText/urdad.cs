@@ -12,11 +12,6 @@ TOKENS {
 TOKENSTYLES {
 	"Model" COLOR #7F0055, BOLD;
 	"ResponsibilityDomain" COLOR #7F0055, BOLD;
-	"DataTypes" COLOR #7F0055, BOLD;
-	"FunctionalConstraints" COLOR #7F0055, BOLD;
-	"QualityConstraints" COLOR #7F0055, BOLD;
-	"Services" COLOR #7F0055, BOLD;
-	"ResponsibilityDomains" COLOR #7F0055, BOLD;
 	"Constraint" COLOR #7F0055, BOLD;
 	"BasicDataType" COLOR #7F0055, BOLD;
 	"DataStructure" COLOR #7F0055, BOLD;
@@ -29,6 +24,7 @@ TOKENSTYLES {
 	"contains" COLOR #7F0055, BOLD;
 	"QualityOfService" COLOR #7F0055, BOLD;
 	"isRequiredBy" COLOR #7F0055, BOLD;
+	"QualityConstraint" COLOR #7F0055, BOLD;
 	"FunctionalConstraint" COLOR #7F0055, BOLD;
 	"conditionUnderWhichRequired" COLOR #7F0055, BOLD;
 	"PreCondition" COLOR #7F0055, BOLD;
@@ -38,8 +34,6 @@ TOKENSTYLES {
 	"PostCondition" COLOR #7F0055, BOLD;
 	"undoneVia" COLOR #7F0055, BOLD;
 	"Service" COLOR #7F0055, BOLD;
-	"FunctionalRequirements" COLOR #7F0055, BOLD;
-	"QualityRequirements" COLOR #7F0055, BOLD;
 	"Request" COLOR #7F0055, BOLD;
 	"Result" COLOR #7F0055, BOLD;
 	"Process" COLOR #7F0055, BOLD;
@@ -67,17 +61,8 @@ RULES {
 	 (responsibilityDomains)*
 	 ("(" (annotations)*")")?;
 	 
-	ResponsibilityDomain ::= "ResponsibilityDomain" name[] 
-		("DataTypes" ":" (dataTypes)* )? 
-		("FunctionalConstraints" ":" 
-		  (functionalConstraints)*  )? 
-		("QualityConstraints" ":" 
-		  (qualityConstraints)* )?
-		("Services" ":" 
-		  (services)* )?
-		("ResponsibilityDomains" ":" 
-		  (responsibilityDomains)* )?
-	  	("(" (annotations)*")")?;
+	ResponsibilityDomain ::= "ResponsibilityDomain" name[] "{"
+		(dataTypes | functionalConstraints | qualityConstraints | services | responsibilityDomains | annotations)*"}"; 
 
 	Expression ::= language [] ":" expressionString['"','"'];
 	
@@ -90,12 +75,12 @@ RULES {
 	BasicDataType ::= "BasicDataType" name[]	  
 	  ("(" (annotations)*")")?;
 	
-	DataStructure ::= "DataStructure" name[] ("is" superType[])? 
+	DataStructure ::= "DataStructure" name[] ("is" superType[])? "{"
 	  (attributes)* (associations)* 
-	  ("(" (annotations)*")")?;
-	Exception ::= "Exception" name[] ("is" superType[])? 
+	  ("(" (annotations)*")")?"}";
+	Exception ::= "Exception" name[] ("is" superType[])? "{" 
 	  (attributes)* (associations)* 
-	  ("(" (annotations)*")")?;
+	  ("(" (annotations)*")")?"}";
 	
 	Attribute ::= "hasAttribute" name[] "ofType" type[];
 	Association ::= "isAssociatedWith" name[] "ofType" relatedType[] (multiplicityConstraint)?; 
@@ -107,7 +92,7 @@ RULES {
 		"isRequiredBy" requiredBy[]
 	  ("(" (annotations)*")")?;
 	  
-	QualityConstraint ::= name[] ":" (qualityExpression);	  
+	QualityConstraint ::= "QualityConstraint" name[] ":" (qualityExpression);	  
 		
 	FunctionalRequirement ::= "FunctionalConstraint" functionalConstraint[]  
 		"isRequiredBy" requiredBy[] 
@@ -125,47 +110,47 @@ RULES {
 		("undoneVia" inverseService[])? 
 	  ("(" (annotations)*")")?;
 	
-	Service ::= "Service" name[] 
-	 ("FunctionalRequirements" ":" (functionalRequirements )* )? 
-	 ("QualityRequirements" ":" (qualityRequirements )*)? 
+	Service ::= "Service" name[] "{"
+	 (functionalRequirements )*
+	 (qualityRequirements )*
 	 "Request" request   
 	 "Result" result 
 	 (process)? 
-	  ("(" (annotations)*")")?;
+	  ("(" (annotations)*")")?"}";
 	 
 	Process ::= "Process" processActivity ("(" (annotations)*")")?;
 
-	ActivitySequence ::= "ActivitySequence" (activities)*;
-	ConcurrentActivities ::= "ConcurrentActivities" (activities)*;
+	ActivitySequence ::= "ActivitySequence" "{" (activities)* "}";
+	ConcurrentActivities ::= "ConcurrentActivities" "{" (activities)* "}";
 	ConcurrentActivity ::= "ConcurrentActivity" ("(" "blocking" "=" blocking[]")")?
 		activity;
-	Switch ::= "oneOf" (conditionalActivities)*;
+	Switch ::= "oneOf" "{" (conditionalActivities)* "}";
 	
 	While ::= "while" condition  activity;
 		
 	ConditionalActivity ::= "if" condition "then" activity;
 	
 	PreConditionActivity ::= "check" preCondition[]  
-		("RequestConstraints" ":" (requestContraints)*)? 
-		("ExceptionConstraints" ":" (exceptionContraints)*)? 
+		("RequestConstraints" "{" (requestConstraints)* "}")? 
+		("ExceptionConstraints" "{" (exceptionConstraints)* "}")? 
 		("(" (annotations)*")")?;
 		
 	
 	PostConditionActivity ::= "ensure"  postCondition[]  
-		("RequestConstraints" ":" (requestContraints)*)? 
-		("UndoRequestConstraints" ":" (inverseRequestContraints)*)? 
+		("RequestConstraints" "{" (requestConstraints)* "}")? 
+		("UndoRequestConstraints" "{" (inverseRequestConstraints)* "}")? 
 		("(" (annotations)*")")?;
 	
 	PrePostConditionActivity ::=  
 		"given" preCondition[] 
 		"ensure" postCondition[] 
-		("RequestConstraints" ":" (requestContraints)*)? 
-		("ExceptionConstraints" ":" (exceptionContraints)*)? 
-		("UndoRequestConstraints" ":" (inverseRequestContraints)*)? 
+		("RequestConstraints" "{" (requestConstraints)*"}")? 
+		("ExceptionConstraints" "{" (exceptionConstraints)*"}")? 
+		("UndoRequestConstraints" "{" (inverseRequestConstraints)*"}")? 
 		("(" (annotations)*")")?;
 
 	ReturnResultActivity ::= "returnResult"   
-		("ResultConstraints" ":" (resultContraints)*)? 
+		("ResultConstraints" "{" (resultConstraints)*"}")? 
 		("(" (annotations)*")")?;
 		
 	Annotation ::= "Note" language[] ":" content['"','"'];

@@ -212,19 +212,19 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ServiceRequestActivity" abstract="true"
       eSuperTypes="#//Activity">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="requestContraints" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestConstraints" upperBound="-1"
         eType="#//GeneralConstraint" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PreConditionActivity" eSuperTypes="#//ServiceRequestActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="preCondition" lowerBound="1"
         eType="#//PreCondition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="exceptionContraints" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exceptionConstraints" upperBound="-1"
         eType="#//GeneralConstraint" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PostConditionActivity" eSuperTypes="#//ServiceRequestActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="postCondition" lowerBound="1"
         eType="#//PostCondition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="inverseRequestContraints"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inverseRequestConstraints"
         upperBound="-1" eType="#//GeneralConstraint" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PrePostConditionActivity" eSuperTypes="#//PreConditionActivity #//PostConditionActivity">
@@ -236,7 +236,7 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReturnResultActivity" eSuperTypes="#//Activity">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="resultContraints" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultConstraints" upperBound="-1"
         eType="#//GeneralConstraint" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

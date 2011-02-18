@@ -1,127 +1,129 @@
 Model tst
 ResponsibilityDomain primitives
-	DataTypes:
-		BasicDataType String (Note en-za: "general text")
-		BasicDataType Integer
-		BasicDataType FloatingPoint
-		BasicDataType Date
+{
+	BasicDataType String (Note en-za: "general text")
+	BasicDataType Integer
+	BasicDataType FloatingPoint
+	BasicDataType Date
+}
 
-ResponsibilityDomain student
+ResponsibilityDomain student {}
 
-ResponsibilityDomain trainingRegulator
+ResponsibilityDomain trainingRegulator {}
 
-ResponsibilityDomain trainingProvider
-
-	ResponsibilityDomains :
-
-		ResponsibilityDomain enrollments
-			Services :
-				Service enrollForPresentation 
-					FunctionalRequirements:
-						FunctionalConstraint coursePrerequisitesMet isRequiredBy trainingRegulator
-						FunctionalConstraint isRegistered  isRequiredBy trainingRegulator
-						FunctionalConstraint haveRegistrationDetails  isRequiredBy trainingProvider
-						FunctionalConstraint placeOnPresentationBooked isRequiredBy student
-						FunctionalConstraint courseMaterialProvided isRequiredBy student
-						FunctionalConstraint invoiceIssued isRequiredBy trainingProvider
-						FunctionalConstraint countryGuidelinesProvided isRequiredBy student 
-							conditionUnderWhichRequired OCL: "enrollmentRequest.personalDetails.country <> 'RSA'"
-					Request DataStructure enrollForPresentationRequest
-						hasAttribute enrollmentDate ofType Date 
-						contains studentDetails ofType PersonDetails
-						isAssociatedWith presentation ofType PresentationDetails		
-					Result DataStructure enrollForPresentationResult
-					Process ActivitySequence
-						check coursePrerequisitesMet
-						given isRegistered ensure haveRegistrationDetails  
-							RequestConstraints :
-								Constraint idNoSet OCL: 
-									"getRegistrationDetails.idNo = enrollmentRequest.personalDetails.idNo"
-						ensure invoiceIssued 	
-						ConcurrentActivities
-							ensure placeOnPresentationBooked
-							ensure courseMaterialProvided
-							
+ResponsibilityDomain trainingProvider {
+	ResponsibilityDomain enrollments {
+		Service enrollForPresentation { 
+			FunctionalConstraint coursePrerequisitesMet isRequiredBy trainingRegulator
+			FunctionalConstraint isRegistered  isRequiredBy trainingRegulator
+			FunctionalConstraint haveRegistrationDetails  isRequiredBy trainingProvider
+			FunctionalConstraint placeOnPresentationBooked isRequiredBy student
+			FunctionalConstraint courseMaterialProvided isRequiredBy student
+			FunctionalConstraint invoiceIssued isRequiredBy trainingProvider
+			FunctionalConstraint countryGuidelinesProvided isRequiredBy student 
+				conditionUnderWhichRequired OCL: "enrollmentRequest.personalDetails.country <> 'RSA'"
+			Request DataStructure enrollForPresentationRequest {
+				hasAttribute enrollmentDate ofType Date 
+				contains studentDetails ofType PersonDetails
+				isAssociatedWith presentation ofType PresentationDetails
+			}			
+			Result DataStructure enrollForPresentationResult {}
+			Process ActivitySequence {
+				check coursePrerequisitesMet
+				given isRegistered ensure haveRegistrationDetails  
+					RequestConstraints {
+						Constraint idNoSet OCL: 
+							"getRegistrationDetails.idNo = enrollmentRequest.personalDetails.idNo"}
+				ensure invoiceIssued 	
+				ConcurrentActivities {
+					ensure placeOnPresentationBooked
+					ensure courseMaterialProvided 
+				}
+			}		
+		}
+	}
+			
+	ResponsibilityDomain academics {
+		ResponsibilityDomain assessment {
+			Exception CoursePrerequisitesNotMetException {}
+			PreCondition coursePrerequisitesMet
+				requires checkCoursePrerequisitesMet
+				raises CoursePrerequisitesNotMetException
+			Service checkCoursePrerequisitesMet {
+				Request DataStructure checkCoursePrerequisitesMetRequest {}
+				Result DataStructure checkPrerequisitesMetResult {}
+			}	
+		}			
+	}
 	
-		ResponsibilityDomain academics
-			ResponsibilityDomains :
-				ResponsibilityDomain assessment
-					DataTypes :
-						Exception CoursePrerequisitesNotMetException
-					FunctionalConstraints :
-						PreCondition coursePrerequisitesMet
-							requires checkCoursePrerequisitesMet
-							raises CoursePrerequisitesNotMetException
-					Services :
-						Service checkCoursePrerequisitesMet
-							Request DataStructure checkCoursePrerequisitesMetRequest
-							Result DataStructure checkPrerequisitesMetResult
-
-		ResponsibilityDomain customerRelationshipManagement
-			DataTypes:
-				DataStructure Address
-					hasAttribute streetAddress ofType String
-					hasAttribute city ofType String
-					hasAttribute postalCode ofType String
-					hasAttribute country ofType String
-				DataStructure PersonDetails
-					hasAttribute name ofType String
-					hasAttribute idNo ofType Integer
-					contains homeAddress ofType Address	
-				Exception NotRegisteredException
-			FunctionalConstraints :
-				PreCondition isRegistered
-					requires getRegistrationDetails 
-					raises NotRegisteredException			
-					when OCL: "getRegistrationDetails.result != null"
-				PostCondition haveRegistrationDetails
-					requires getRegistrationDetails
-				PostCondition countryGuidelinesProvided
-					requires provideCountryGuidelines	
-			Services :
-				Service getRegistrationDetails
-					Request DataStructure getRegistrationDetailsRequest
-					Result DataStructure getRegistrationDetailsResult
-					Process returnResult 
-						ResultConstraints : 
-							Constraint setEnrollmentField OCL : "" 
-				Service provideCountryGuidelines
-					Request DataStructure provideCountryGuidelinesRequest
-					Result DataStructure provideCountryGuidelinesResult
-								
-		ResponsibilityDomain presentationManagement
-			DataTypes :
-				DataStructure PresentationDetails
-			FunctionalConstraints :
-				PostCondition placeOnPresentationBooked
-					requires bookPlaceOnPresentation	
-			Services :
-				Service bookPlaceOnPresentation		
-					Request DataStructure bookPlaceOnPresentationRequest
-					Result DataStructure bookPlaceOnPresentationResult					  
-		
-		ResponsibilityDomain finance
-			FunctionalConstraints :
-				PostCondition invoiceIssued
-					requires issueInvoice
-					undoneVia issueCreditNote
-			Services : 
-				Service issueInvoice
-					Request DataStructure issueInvocieRequest
-					Result DataStructure issueInvoiceResult
-				Service issueCreditNote
-					Request DataStructure issueCreditNoteRequest
-					Result DataStructure issueCreditNoteResult
-		
-		ResponsibilityDomain trainingMaterial
-			FunctionalConstraints :
-				PostCondition courseMaterialProvided
-					requires provideCourseMaterial
-					undoneVia returnCourseMaterial	
-			Services :
-				Service provideCourseMaterial
-					Request DataStructure provideCourseMaterialRequest
-					Result DataStructure provideCourseMaterialResult
-				Service returnCourseMaterial
-					Request DataStructure returnCourseMaterialRequest
-					Result DataStructure returnCourseMaterialResult	
+	ResponsibilityDomain customerRelationshipManagement {
+		DataStructure Address {
+			hasAttribute streetAddress ofType String
+			hasAttribute city ofType String
+			hasAttribute postalCode ofType String
+			hasAttribute country ofType String
+		}	
+		DataStructure PersonDetails {
+			hasAttribute name ofType String
+			hasAttribute idNo ofType Integer
+			contains homeAddress ofType Address
+		}		
+		Exception NotRegisteredException {}
+		PreCondition isRegistered
+			requires getRegistrationDetails 
+			raises NotRegisteredException			
+			when OCL: "getRegistrationDetails.result != null"
+		PostCondition haveRegistrationDetails
+			requires getRegistrationDetails
+		PostCondition countryGuidelinesProvided
+			requires provideCountryGuidelines	
+		Service getRegistrationDetails {
+			Request DataStructure getRegistrationDetailsRequest {}
+			Result DataStructure getRegistrationDetailsResult {}
+			Process returnResult 
+				ResultConstraints {	Constraint setEnrollmentField OCL : "" }	
+		}			 
+		Service provideCountryGuidelines
+		{
+			Request DataStructure provideCountryGuidelinesRequest {}
+			Result DataStructure provideCountryGuidelinesResult {}
+		}	
+	}
+									
+	ResponsibilityDomain presentationManagement {
+		DataStructure PresentationDetails {}
+		PostCondition placeOnPresentationBooked 
+			requires bookPlaceOnPresentation	
+		Service bookPlaceOnPresentation	{	
+			Request DataStructure bookPlaceOnPresentationRequest {}
+			Result DataStructure bookPlaceOnPresentationResult {} 
+		}
+	}		
+	
+	ResponsibilityDomain finance {
+		PostCondition invoiceIssued
+			requires issueInvoice
+			undoneVia issueCreditNote
+		Service issueInvoice {
+			Request DataStructure issueInvocieRequest {}
+			Result DataStructure issueInvoiceResult {}
+		}
+		Service issueCreditNote {
+			Request DataStructure issueCreditNoteRequest {}
+			Result DataStructure issueCreditNoteResult {}
+		}
+	}
+	
+	ResponsibilityDomain trainingMaterial {
+		PostCondition courseMaterialProvided
+			requires provideCourseMaterial
+			undoneVia returnCourseMaterial	
+		Service provideCourseMaterial {
+			Request DataStructure provideCourseMaterialRequest {}
+			Result DataStructure provideCourseMaterialResult {}
+		}	
+		Service returnCourseMaterial {
+			Request DataStructure returnCourseMaterialRequest{}
+			Result DataStructure returnCourseMaterialResult	{}
+		}
+	}
