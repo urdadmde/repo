@@ -35,9 +35,10 @@ ResponsibilityDomain trainingProvider {
 						Constraint idNoSet OCL: 
 							"getRegistrationDetails.idNo = enrollmentRequest.personalDetails.idNo"}
 				ensure invoiceIssued 	
-				ConcurrentActivities {
-					ensure placeOnPresentationBooked
-					ensure courseMaterialProvided 
+				ConcurrentActivities { 
+					concurrent ensure placeOnPresentationBooked
+					concurrent blocking='false': ensure courseMaterialProvided
+					concurrent blocking='false': if OCL : "someExpressionString" then ensure countryGuidelinesProvided
 				}
 			}		
 		}
@@ -127,3 +128,4 @@ ResponsibilityDomain trainingProvider {
 			Result DataStructure returnCourseMaterialResult	{}
 		}
 	}
+}

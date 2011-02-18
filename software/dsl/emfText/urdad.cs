@@ -39,7 +39,6 @@ TOKENSTYLES {
 	"Process" COLOR #7F0055, BOLD;
 	"ActivitySequence" COLOR #7F0055, BOLD;
 	"ConcurrentActivities" COLOR #7F0055, BOLD;
-	"ConcurrentActivity" COLOR #7F0055, BOLD;
 	"blocking" COLOR #7F0055, BOLD;
 	"oneOf" COLOR #7F0055, BOLD;
 	"while" COLOR #7F0055, BOLD;
@@ -93,7 +92,7 @@ RULES {
 	  ("(" (annotations)*")")?;
 	  
 	QualityConstraint ::= "QualityConstraint" name[] ":" (qualityExpression);	  
-		
+ 		
 	FunctionalRequirement ::= "FunctionalConstraint" functionalConstraint[]  
 		"isRequiredBy" requiredBy[] 
 		("conditionUnderWhichRequired" (condition))?
@@ -122,8 +121,7 @@ RULES {
 
 	ActivitySequence ::= "ActivitySequence" "{" (activities)* "}";
 	ConcurrentActivities ::= "ConcurrentActivities" "{" (activities)* "}";
-	ConcurrentActivity ::= "ConcurrentActivity" ("(" "blocking" "=" blocking[]")")?
-		activity;
+	ConcurrentActivity ::= "concurrent" ("blocking" "=" "'" blocking[] "'" ":")?	activity;
 	Switch ::= "oneOf" "{" (conditionalActivities)* "}";
 	
 	While ::= "while" condition  activity;
