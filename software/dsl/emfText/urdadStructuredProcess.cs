@@ -1,6 +1,6 @@
 SYNTAXDEF urdad
 FOR <http://www.urdad.org/2010/urdad>
-START Model!!	
+START Model
 
 TOKENS {
 	DEFINE COMMENT $'//'(~('\n'|'\r'|'\uffff'))*$;
@@ -12,6 +12,7 @@ TOKENS {
 TOKENSTYLES {
 	"Model" COLOR #7F0055, BOLD;
 	"ResponsibilityDomain" COLOR #7F0055, BOLD;
+	"Query" COLOR #7F0055, BOLD;
 	"Constraint" COLOR #7F0055, BOLD;
 	"Condition" COLOR #7F0055, BOLD;
 	"QualityConstraint" COLOR #7F0055, BOLD;
@@ -27,7 +28,10 @@ TOKENSTYLES {
 	"QualityRequirement" COLOR #7F0055, BOLD;
 	"isRequiredBy" COLOR #7F0055, BOLD;
 	"PreCondition" COLOR #7F0055, BOLD;
+	"checks" COLOR #7F0055, BOLD;
+	"raises" COLOR #7F0055, BOLD;
 	"PostCondition" COLOR #7F0055, BOLD;
+	"ensures" COLOR #7F0055, BOLD;
 	"use" COLOR #7F0055, BOLD;
 	"if" COLOR #7F0055, BOLD;
 	"toAddress" COLOR #7F0055, BOLD;
@@ -36,10 +40,10 @@ TOKENSTYLES {
 	"Request" COLOR #7F0055, BOLD;
 	"Result" COLOR #7F0055, BOLD;
 	"Service" COLOR #7F0055, BOLD;
-	"realizing" COLOR #7F0055, BOLD;
+	"realizes" COLOR #7F0055, BOLD;
 	"Process" COLOR #7F0055, BOLD;
-	"do" COLOR #7F0055, BOLD;
 	"doSequential" COLOR #7F0055, BOLD;
+	"do" COLOR #7F0055, BOLD;
 	"doConcurrent" COLOR #7F0055, BOLD;
 	"blocking" COLOR #7F0055, BOLD;
 	"Concurrency" COLOR #7F0055, BOLD;
@@ -51,6 +55,9 @@ TOKENSTYLES {
 	"while" COLOR #7F0055, BOLD;
 	"forAll" COLOR #7F0055, BOLD;
 	"Note" COLOR #7F0055, BOLD;
+	"ExceptionHandler" COLOR #7F0055, BOLD;
+	"activity" COLOR #7F0055, BOLD;
+	"exception" COLOR #7F0055, BOLD;
 }
 
 RULES {
@@ -63,13 +70,14 @@ RULES {
 
 	Expression ::= language [] ":" expressionString['"','"'];
 	
-	Query ::= language [] ":" expressionString['"','"'];
+	Query ::= "Query" name[] (queryExpression);
 	
 	Constraint ::= "Constraint" name[] (constraintExpression)? 
 	  ("(" (annotations)*")")?;
 	
 	
-	Condition ::= "Condition" name[] (constraintExpression)? 
+	Condition ::= "Condition" name[] (constraintExpression)?
+      "raises" (exception)
 	  ("(" (annotations)*")")?;
 	
 	QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
@@ -92,15 +100,15 @@ RULES {
 	Composition ::= "contains" name[] "ofType" relatedType[] (multiplicityConstraint)?;
 	 
 	QualityRequirement ::= "QualityRequirement" name[] qualityConstraint[]
-		"isRequiredBy" requiredBy[]
+		"isRequiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
 	  
-	PreCondition ::= "PreCondition" name[] (condition)  
-		"isRequiredBy" requiredBy[]
+	PreCondition ::= "PreCondition" name[] "checks" condition[]  
+		"isRequiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
 	  
-	PostCondition ::= "PostCondition" name[] (condition)  
-		"isRequiredBy" requiredBy[]
+	PostCondition ::= "PostCondition" name[] "ensures" condition[]  
+		"isRequiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
  		
 	FunctionalRequirement ::= "use" requiredService[]
@@ -117,13 +125,12 @@ RULES {
 	 "Result" result 
 	  ("(" (annotations)*")")?"}";
 	  
-	Service ::= "Service" name[] "{"
-		"realizing" realizedContract[]
+	Service ::= "Service" name[] "realizes" realizedContract[] "{"
 		(functionalRequirements)*
 		(process)
 	"}";  
 	
-	Process ::= "Process" "do" (activity);
+	Process ::= "Process" (activity);
 	
 	ActivitySequence ::= "doSequential" "{" (activities)* "}"; 
 
@@ -137,6 +144,8 @@ RULES {
 	
 	RequestService ::= "requestService" requestedService[] 
 		("{" (requestConstraints)* "}")?;
+
+	ExceptionHandler ::= "handleException" exception[] "via" (activity);
 		
 	RaiseException ::= "raiseException" exception[]	
 		("{" (exceptionConstraints)* "}")?;
