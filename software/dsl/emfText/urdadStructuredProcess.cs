@@ -15,6 +15,7 @@ TOKENSTYLES {
 	"Query" COLOR #7F0055, BOLD;
 	"Constraint" COLOR #7F0055, BOLD;
 	"Condition" COLOR #7F0055, BOLD;
+	"raises" COLOR #7F0055, BOLD;
 	"QualityConstraint" COLOR #7F0055, BOLD;
 	"BasicDataType" COLOR #7F0055, BOLD;
 	"DataStructure" COLOR #7F0055, BOLD;
@@ -29,7 +30,6 @@ TOKENSTYLES {
 	"isRequiredBy" COLOR #7F0055, BOLD;
 	"PreCondition" COLOR #7F0055, BOLD;
 	"checks" COLOR #7F0055, BOLD;
-	"raises" COLOR #7F0055, BOLD;
 	"PostCondition" COLOR #7F0055, BOLD;
 	"ensures" COLOR #7F0055, BOLD;
 	"use" COLOR #7F0055, BOLD;
@@ -44,20 +44,21 @@ TOKENSTYLES {
 	"Process" COLOR #7F0055, BOLD;
 	"doSequential" COLOR #7F0055, BOLD;
 	"do" COLOR #7F0055, BOLD;
+	"ifNot" COLOR #7F0055, BOLD;
 	"doConcurrent" COLOR #7F0055, BOLD;
 	"blocking" COLOR #7F0055, BOLD;
 	"Concurrency" COLOR #7F0055, BOLD;
 	"wait" COLOR #7F0055, BOLD;
 	"until" COLOR #7F0055, BOLD;
 	"requestService" COLOR #7F0055, BOLD;
+	"handleException" COLOR #7F0055, BOLD;
+	"via" COLOR #7F0055, BOLD;
 	"raiseException" COLOR #7F0055, BOLD;
 	"returnResult" COLOR #7F0055, BOLD;
+	"resultConstraint" COLOR #7F0055, BOLD;
 	"while" COLOR #7F0055, BOLD;
 	"forAll" COLOR #7F0055, BOLD;
 	"Note" COLOR #7F0055, BOLD;
-	"ExceptionHandler" COLOR #7F0055, BOLD;
-	"activity" COLOR #7F0055, BOLD;
-	"exception" COLOR #7F0055, BOLD;
 }
 
 RULES {
@@ -77,7 +78,7 @@ RULES {
 	
 	
 	Condition ::= "Condition" name[] (constraintExpression)?
-      "raises" (exception)
+      ("raises" (exception))?
 	  ("(" (annotations)*")")?;
 	
 	QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
@@ -112,7 +113,7 @@ RULES {
 	  ("(" (annotations)*")")?;
  		
 	FunctionalRequirement ::= "use" requiredService[]
-		("if" (condition))?
+		("if" condition[])?
 	 	"toAddress" "("usedToAddress[]*")"
 	  ("(" (annotations)*")")?;
 	
@@ -134,13 +135,15 @@ RULES {
 	
 	ActivitySequence ::= "doSequential" "{" (activities)* "}"; 
 
-	ConditionalActivity ::= "if" (condition) "do" (activity);
+	If ::= "if" condition[] "do" (activity);
+	
+	IfNot ::= "ifNot" condition[] "do" (activity);
 	
 	ConcurrentActivity ::= "doConcurrent" (activity) ("blocking" "=" blocking[])?;
 	
 	Concurrency ::= "Concurrency" "{" (concurrentActivities)* "}"; 
 	
-	Wait ::= "wait" "until" (until);
+	Wait ::= "wait" "until" until[];
 	
 	RequestService ::= "requestService" requestedService[] 
 		("{" (requestConstraints)* "}")?;
@@ -151,9 +154,9 @@ RULES {
 		("{" (exceptionConstraints)* "}")?;
 		
 	ReturnResult ::= "returnResult"	
-		("{" (resultConstraints)* "}")?;
+		("{" "ResultConstraints:" (resultConstraints)* "}")?;
 		
-	While ::= "while" (condition) "do" (activity);	
+	While ::= "while" condition[] "do" (activity);	
 		
 	ForAll ::= "forAll" (query) "do" (activity); 	
 
