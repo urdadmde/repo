@@ -44,21 +44,26 @@ TOKENSTYLES {
 	"Process" COLOR #7F0055, BOLD;
 	"doSequential" COLOR #7F0055, BOLD;
 	"do" COLOR #7F0055, BOLD;
-	"ifNot" COLOR #7F0055, BOLD;
 	"doConcurrent" COLOR #7F0055, BOLD;
 	"blocking" COLOR #7F0055, BOLD;
 	"Concurrency" COLOR #7F0055, BOLD;
 	"wait" COLOR #7F0055, BOLD;
 	"until" COLOR #7F0055, BOLD;
+	"Create" COLOR #7F0055, BOLD;
 	"requestService" COLOR #7F0055, BOLD;
 	"handleException" COLOR #7F0055, BOLD;
 	"via" COLOR #7F0055, BOLD;
 	"raiseException" COLOR #7F0055, BOLD;
 	"returnResult" COLOR #7F0055, BOLD;
-	"resultConstraint" COLOR #7F0055, BOLD;
 	"while" COLOR #7F0055, BOLD;
 	"forAll" COLOR #7F0055, BOLD;
 	"Note" COLOR #7F0055, BOLD;
+	"Assign" COLOR #7F0055, BOLD;
+	"annotations" COLOR #7F0055, BOLD;
+	"name" COLOR #7F0055, BOLD;
+	"source" COLOR #7F0055, BOLD;
+	"to" COLOR #7F0055, BOLD;
+	"Add" COLOR #7F0055, BOLD;
 }
 
 RULES {
@@ -67,7 +72,7 @@ RULES {
 	 ("(" (annotations)*")")?;
 	 
 	ResponsibilityDomain ::= "ResponsibilityDomain" name[] "{"
-		(responsibilityDomains | dataTypes | servicesContracts | services | constraints | annotations)*"}"; 
+		(responsibilityDomains | dataTypes | servicesContracts | services | conditions | annotations)*"}"; 
 
 	Expression ::= language [] ":" expressionString['"','"'];
 	
@@ -86,7 +91,7 @@ RULES {
 
 	RangeMultiplicity ::= "["minOccurs[] "," maxOccurs[] "]";
 	BasicDataType ::= "BasicDataType" name[]	  
-	  ("(" (annotations)*")")?;
+	  ("(" (constraints)*")") ("(" (annotations)*")")?;
 	
 	DataStructure ::= "DataStructure" name[] ("is" superType[])? "{"
 	  (attributes)* (associations)* 
@@ -137,15 +142,18 @@ RULES {
 
 	If ::= "if" condition[] "do" (activity);
 	
-	IfNot ::= "ifNot" condition[] "do" (activity);
-	
 	ConcurrentActivity ::= "doConcurrent" (activity) ("blocking" "=" blocking[])?;
 	
 	Concurrency ::= "Concurrency" "{" (concurrentActivities)* "}"; 
 	
 	Wait ::= "wait" "until" until[];
 	
-	RequestService ::= "requestService" requestedService[] 
+	Create ::= "Create" name[] "ofType" dataType[] ("(" (constraints)*")");
+	
+	Assign ::= "Assign" source "to" to;
+	Add ::= "Add" source "to" to;
+	
+	RequestService ::= "requestService" requestedService[] ("yields" name[])? 
 		("{" (requestConstraints)* "}")?;
 
 	ExceptionHandler ::= "handleException" exception[] "via" (activity);
