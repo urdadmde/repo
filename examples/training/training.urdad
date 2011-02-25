@@ -1,119 +1,107 @@
-Model tst
-ResponsibilityDomain primitives
+Model Training
+ResponsibilityDomain Training
 {
-	BasicDataType String (Note en-za: "general text")
-	BasicDataType Integer
-	BasicDataType FloatingPoint
-	BasicDataType Date
-}
-
-ResponsibilityDomain student {}
-
-ResponsibilityDomain trainingRegulator {}
-
-ResponsibilityDomain trainingProvider {
-	ResponsibilityDomain enrollments {
-		Service enrollForPresentation { 
-			FunctionalRequirement coursePrerequisitesMet isRequiredBy trainingRegulator
-			FunctionalRequirement isRegistered  isRequiredBy trainingRegulator
-			FunctionalRequirement haveRegistrationDetails  isRequiredBy trainingProvider
-			FunctionalRequirement placeOnPresentationBooked isRequiredBy student
-			FunctionalRequirement courseMaterialProvided isRequiredBy student
-			FunctionalRequirement invoiceIssued isRequiredBy trainingProvider
-			FunctionalRequirement countryGuidelinesProvided isRequiredBy student when OCL: "enrollmentRequest.personalDetails.country <> 'RSA'"
-			Request DataStructure enrollForPresentationRequest {
-				hasAttribute enrollmentDate ofType Date 
-				contains studentDetails ofType PersonDetails
-				isAssociatedWith presentation ofType PresentationDetails
-			}			
-			Result DataStructure enrollForPresentationResult {}
-			Process ActivitySequence {
-				check coursePrerequisitesMet
-				given isRegistered ensure haveRegistrationDetails  
-					RequestConstraints {
-						Constraint idNoSet OCL: 
-							"getRegistrationDetails.idNo = enrollmentRequest.personalDetails.idNo"}
-				ensure invoiceIssued 	
-				ConcurrentActivities { 
-					concurrent ensure placeOnPresentationBooked
-					concurrent blocking='false': ensure courseMaterialProvided
-					concurrent blocking='false': if OCL : "enrollmentRequest.personalDetails.country <> 'RSA'" then ensure countryGuidelinesProvided
-				}
-			}		
-		}
+	ResponsibilityDomain primitives
+	{
+		BasicDataType String
+		BasicDataType Integer
+		BasicDataType FloatingPointNumber
+		BasicDataType Date
 	}
-			
-	ResponsibilityDomain academics {
-		ResponsibilityDomain assessment {
-			Exception CoursePrerequisitesNotMetException {}
-			PreCondition coursePrerequisitesMet requires checkCoursePrerequisitesMet raises CoursePrerequisitesNotMetException
-			Service checkCoursePrerequisitesMet {
-				Request DataStructure checkCoursePrerequisitesMetRequest {}
-				Result DataStructure checkPrerequisitesMetResult {}
-			}	
-		}			
-	}
-	
-	ResponsibilityDomain customerRelationshipManagement {
-		DataStructure Address {
-			hasAttribute streetAddress ofType String
-			hasAttribute city ofType String
-			hasAttribute postalCode ofType String
-			hasAttribute country ofType String
-		}	
-		DataStructure PersonDetails {
-			hasAttribute name ofType String
-			hasAttribute idNo ofType Integer
-			contains homeAddress ofType Address
-		}		
-		Exception NotRegisteredException {}
-		PreCondition isRegistered requires getRegistrationDetails raises NotRegisteredException	
-			when OCL: "getRegistrationDetails.result != null"
-		PostCondition haveRegistrationDetails requires getRegistrationDetails
-		PostCondition countryGuidelinesProvided	requires provideCountryGuidelines	
-		Service getRegistrationDetails {
-			Request DataStructure getRegistrationDetailsRequest {}
-			Result DataStructure getRegistrationDetailsResult {}
-			Process returnResult 
-				ResultConstraints {	Constraint setEnrollmentField OCL : "" }	
-		}			 
-		Service provideCountryGuidelines
+	ResponsibilityDomain TrainingInstitution
+	{
+		ResponsibilityDomain ClientRelationshipManagement
 		{
-			Request DataStructure provideCountryGuidelinesRequest {}
-			Result DataStructure provideCountryGuidelinesResult {}
-		}	
-	}
-									
-	ResponsibilityDomain presentationManagement {
-		DataStructure PresentationDetails {}
-		PostCondition placeOnPresentationBooked requires bookPlaceOnPresentation	
-		Service bookPlaceOnPresentation	{	
-			Request DataStructure bookPlaceOnPresentationRequest {}
-			Result DataStructure bookPlaceOnPresentationResult {} 
+			Condition StudentIsRegistered OCL:"provideRegistrationDetails(#provideRegistrationDetailsRequest) <> NULL"
+				raises Exception StudentNotRegisteredException {}
+			ServiceContract provideRegistrationDetails
+			{
+				Request DataStructure ProvideRegistrationDetailsRequest {}
+				Result DataStructure ProvideRegistrationDetailsResult {}
+			}
 		}
-	}		
-	
-	ResponsibilityDomain finance {
-		PostCondition invoiceIssued requires issueInvoice undoneVia issueCreditNote
-		Service issueInvoice {
-			Request DataStructure issueInvocieRequest {}
-			Result DataStructure issueInvoiceResult {}
+		ResponsibilityDomain Academic
+		{
+			ResponsibilityDomain Assessment
+			{
+				
+				ServiceContract checkStudentSatisfiesCoursePrerequisites
+				{
+				  PreCondition isRegistered checks StudentIsRegistered isRequiredBy (Assessment)
+				  
+				  Request DataStructure StudentSatisfiesCoursePrerequisitesRequest
+				  {
+				  }
+				  Result DataStructure StudentSatisfiesCoursePrerequisitesResult
+				  {
+				  } 
+				} 
+				 
+			}
 		}
-		Service issueCreditNote {
-			Request DataStructure issueCreditNoteRequest {}
-			Result DataStructure issueCreditNoteResult {}
+		ResponsibilityDomain Enrollment
+		{
+			ResponsibilityDomain Validation
+			{
+				Condition enrollmentMeetsPrerequisites raises Exception EnrollmentPrerequisitesNotMetException {}
+				ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
+				{
+					Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest {}
+					Result DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesResult{}
+				}
+			}
+			
+			ServiceContract enrollForPresentation
+			{
+				PreCondition prerequisitsMet checks enrollmentMeetsPrerequisites isRequiredBy (Student TrainingRegulator)
+				PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied 
+					isRequiredBy (Shareholder)
+				PostCondition invoiceForEnrollmentIssued ensures invoiceIssued isRequiredBy (Shareholder)
+				PostCondition studentEnrolled ensures studentEnrolledForPresentation isRequiredBy (Student Client)
+				Request DataStructure EnrollForPresentationRequest {}
+				Result DataStructure EnrollForPresentationResult {}
+			}
+			
+			Service enrollForPresentationImpl realizes enrollForPresentation 
+			{
+				use checkStudentSatisfiesCoursePrerequisites toAddress (prerequisitsMet)
+				use issueInvoice toAddress (invoiceForEnrollmentIssued financialPrerequisitesMet)
+				use performEnrollment toAddress (studentEnrolled)
+				Process doSequential
+				{
+					requestService checkStudentSatisfiesCoursePrerequisites
+					ifNot enrollmentMeetsPrerequisites
+						do raiseException EnrollmentPrerequisitesNotMetException
+					requestService issueInvoice 
+						handleException FinancialNotPrerequisitesSatisfiedException 
+							via raiseException FinancialNotPrerequisitesSatisfiedException
+					requestService performEnrollment 	
+					returnResult 
+				}
+			}
+			
+			Condition studentEnrolledForPresentation raises Exception StudentNotEnrolledForPresentationException {}
+			ServiceContract performEnrollment
+			{
+				Request DataStructure performEnrollmentRequest {}
+				Result DataStructure performEnrollmentResult {}
+			}
 		}
-	}
-	
-	ResponsibilityDomain trainingMaterial {
-		PostCondition courseMaterialProvided requires provideCourseMaterial undoneVia returnCourseMaterial	
-		Service provideCourseMaterial {
-			Request DataStructure provideCourseMaterialRequest {}
-			Result DataStructure provideCourseMaterialResult {}
-		}	
-		Service returnCourseMaterial {
-			Request DataStructure returnCourseMaterialRequest{}
-			Result DataStructure returnCourseMaterialResult	{}
+
+		ResponsibilityDomain Finance
+		{
+			Condition invoiceIssued raises Exception NoInvoiceIssuedException {}
+			Condition financialPrerequisitesSatisfied raises Exception FinancialNotPrerequisitesSatisfiedException {}
+			ServiceContract issueInvoice
+			{
+				PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied isRequiredBy ()
+				Request DataStructure IssueInvoiceRequest {}
+				Result DataStructure IssueInvoiceResult {}
+			}
 		}
-	}
+	}	
+	ResponsibilityDomain Student {}
+	ResponsibilityDomain TrainingRegulator {}
+	ResponsibilityDomain Shareholder {}
+	ResponsibilityDomain Client {}
 }

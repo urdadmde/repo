@@ -12,7 +12,11 @@ TOKENS {
 TOKENSTYLES {
 	"Model" COLOR #7F0055, BOLD;
 	"ResponsibilityDomain" COLOR #7F0055, BOLD;
+	"Query" COLOR #7F0055, BOLD;
 	"Constraint" COLOR #7F0055, BOLD;
+	"Condition" COLOR #7F0055, BOLD;
+	"raises" COLOR #7F0055, BOLD;
+	"QualityConstraint" COLOR #7F0055, BOLD;
 	"BasicDataType" COLOR #7F0055, BOLD;
 	"DataStructure" COLOR #7F0055, BOLD;
 	"is" COLOR #7F0055, BOLD;
@@ -22,57 +26,72 @@ TOKENSTYLES {
 	"isAssociatedWith" COLOR #7F0055, BOLD;
 	"has" COLOR #7F0055, BOLD;
 	"contains" COLOR #7F0055, BOLD;
-	"QualityOfService" COLOR #7F0055, BOLD;
+	"QualityRequirement" COLOR #7F0055, BOLD;
 	"isRequiredBy" COLOR #7F0055, BOLD;
-	"QualityConstraint" COLOR #7F0055, BOLD;
-	"FunctionalConstraint" COLOR #7F0055, BOLD;
-	"conditionUnderWhichRequired" COLOR #7F0055, BOLD;
 	"PreCondition" COLOR #7F0055, BOLD;
-	"requires" COLOR #7F0055, BOLD;
-	"raises" COLOR #7F0055, BOLD;
-	"when" COLOR #7F0055, BOLD;
+	"checks" COLOR #7F0055, BOLD;
 	"PostCondition" COLOR #7F0055, BOLD;
+	"ensures" COLOR #7F0055, BOLD;
+	"use" COLOR #7F0055, BOLD;
+	"if" COLOR #7F0055, BOLD;
+	"toAddress" COLOR #7F0055, BOLD;
+	"ServiceContract" COLOR #7F0055, BOLD;
 	"undoneVia" COLOR #7F0055, BOLD;
-	"Service" COLOR #7F0055, BOLD;
 	"Request" COLOR #7F0055, BOLD;
 	"Result" COLOR #7F0055, BOLD;
+	"Service" COLOR #7F0055, BOLD;
+	"realizes" COLOR #7F0055, BOLD;
 	"Process" COLOR #7F0055, BOLD;
-	"ActivitySequence" COLOR #7F0055, BOLD;
-	"ConcurrentActivities" COLOR #7F0055, BOLD;
+	"doSequential" COLOR #7F0055, BOLD;
+	"do" COLOR #7F0055, BOLD;
+	"doConcurrent" COLOR #7F0055, BOLD;
 	"blocking" COLOR #7F0055, BOLD;
-	"oneOf" COLOR #7F0055, BOLD;
-	"while" COLOR #7F0055, BOLD;
-	"if" COLOR #7F0055, BOLD;
-	"then" COLOR #7F0055, BOLD;
-	"check" COLOR #7F0055, BOLD;
-	"RequestConstraints" COLOR #7F0055, BOLD;
-	"ExceptionConstraints" COLOR #7F0055, BOLD;
-	"ensure" COLOR #7F0055, BOLD;
-	"UndoRequestConstraints" COLOR #7F0055, BOLD;
-	"given" COLOR #7F0055, BOLD;
+	"Concurrency" COLOR #7F0055, BOLD;
+	"wait" COLOR #7F0055, BOLD;
+	"until" COLOR #7F0055, BOLD;
+	"Create" COLOR #7F0055, BOLD;
+	"requestService" COLOR #7F0055, BOLD;
+	"handleException" COLOR #7F0055, BOLD;
+	"via" COLOR #7F0055, BOLD;
+	"raiseException" COLOR #7F0055, BOLD;
 	"returnResult" COLOR #7F0055, BOLD;
-	"ResultConstraints" COLOR #7F0055, BOLD;
+	"while" COLOR #7F0055, BOLD;
+	"forAll" COLOR #7F0055, BOLD;
 	"Note" COLOR #7F0055, BOLD;
+	"Assign" COLOR #7F0055, BOLD;
+	"annotations" COLOR #7F0055, BOLD;
+	"name" COLOR #7F0055, BOLD;
+	"source" COLOR #7F0055, BOLD;
+	"to" COLOR #7F0055, BOLD;
+	"Add" COLOR #7F0055, BOLD;
 }
 
 RULES {
 	Model ::= "Model" name[]
-	 (responsibilityDomains)*
+	 (responsibilityDomains)* 
 	 ("(" (annotations)*")")?;
 	 
 	ResponsibilityDomain ::= "ResponsibilityDomain" name[] "{"
-		(dataTypes | functionalConstraints | qualityConstraints | services | responsibilityDomains | annotations)*"}"; 
+		(responsibilityDomains | dataTypes | servicesContracts | services | conditions | annotations)*"}"; 
 
 	Expression ::= language [] ":" expressionString['"','"'];
 	
-	GeneralConstraint ::= "Constraint" name[] (constraintExpression)? 
+	Query ::= "Query" name[] (queryExpression);
+	
+	Constraint ::= "Constraint" name[] (constraintExpression)? 
 	  ("(" (annotations)*")")?;
 	
-	BooleanExpression ::=  language [] ":" expressionString['"','"'];
+	
+	Condition ::= "Condition" name[] (constraintExpression)?
+      ("raises" (exception))?
+	  ("(" (annotations)*")")?;
+	
+	QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
+	  ("(" (annotations)*")")?;
 
 	RangeMultiplicity ::= "["minOccurs[] "," maxOccurs[] "]";
 	BasicDataType ::= "BasicDataType" name[]	  
-	  ("(" (annotations)*")")?;
+	  ("(" (constraints)*")") ("(" (annotations)*")")?;
 	
 	DataStructure ::= "DataStructure" name[] ("is" superType[])? "{"
 	  (attributes)* (associations)* 
@@ -86,72 +105,68 @@ RULES {
 	Aggregation ::= "has" name[] "ofType" relatedType[] (multiplicityConstraint)?; 
 	Composition ::= "contains" name[] "ofType" relatedType[] (multiplicityConstraint)?;
 	 
-	QualityRequirement ::= "QualityOfService"   
-		qualityConstraint[] 
-		"isRequiredBy" requiredBy[]
+	QualityRequirement ::= "QualityRequirement" name[] qualityConstraint[]
+		"isRequiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
 	  
-	QualityConstraint ::= "QualityConstraint" name[] ":" (qualityExpression);	  
+	PreCondition ::= "PreCondition" name[] "checks" condition[]  
+		"isRequiredBy" "("(requiredBy[])*")"
+	  ("(" (annotations)*")")?;
+	  
+	PostCondition ::= "PostCondition" name[] "ensures" condition[]  
+		"isRequiredBy" "("(requiredBy[])*")"
+	  ("(" (annotations)*")")?;
  		
-	FunctionalRequirement ::= "FunctionalRequirement
-	" functionalConstraint[]  
-		"isRequiredBy" requiredBy[] 
-		("when" (condition))?
+	FunctionalRequirement ::= "use" requiredService[]
+		("if" condition[])?
+	 	"toAddress" "("usedToAddress[]*")"
 	  ("(" (annotations)*")")?;
 	
-	PreCondition ::= "PreCondition" name[]
-		("requires" requiredService[])?
-		 "raises" exception[]
-		("when" condition)?
-	  ("(" (annotations)*")")?;
-
-	PostCondition ::= "PostCondition" name[]
-		("requires" requiredService[])?
-		("undoneVia" inverseService[])? 
-	  ("(" (annotations)*")")?;
-	
-	Service ::= "Service" name[] "{"
-	 (functionalRequirements )*
+	ServiceContract ::= "ServiceContract" name[] "{"
+	 (preCondition)*
+	 (postCondition)*
 	 (qualityRequirements )*
+	 ("undoneVia" inverseService[])?
 	 "Request" request   
 	 "Result" result 
-	 (process)? 
 	  ("(" (annotations)*")")?"}";
-	 
-	Process ::= "Process" processActivity ("(" (annotations)*")")?;
+	  
+	Service ::= "Service" name[] "realizes" realizedContract[] "{"
+		(functionalRequirements)*
+		(process)
+	"}";  
+	
+	Process ::= "Process" (activity);
+	
+	ActivitySequence ::= "doSequential" "{" (activities)* "}"; 
 
-	ActivitySequence ::= "ActivitySequence" "{" (activities)* "}";
-	ConcurrentActivities ::= "ConcurrentActivities" "{" (activities)* "}";
-	ConcurrentActivity ::= "concurrent" ("blocking" "=" "'" blocking[] "'" ":")?	activity;
-	Switch ::= "oneOf" "{" (conditionalActivities)* "}";
+	If ::= "if" condition[] "do" (activity);
 	
-	While ::= "while" condition  activity;
-		
-	ConditionalActivity ::= "if" condition "then" activity;
+	ConcurrentActivity ::= "doConcurrent" (activity) ("blocking" "=" blocking[])?;
 	
-	PreConditionActivity ::= "check" preCondition[]  
-		("RequestConstraints" "{" (requestConstraints)* "}")? 
-		("ExceptionConstraints" "{" (exceptionConstraints)* "}")? 
-		("(" (annotations)*")")?;
-		
+	Concurrency ::= "Concurrency" "{" (concurrentActivities)* "}"; 
 	
-	PostConditionActivity ::= "ensure"  postCondition[]  
-		("RequestConstraints" "{" (requestConstraints)* "}")? 
-		("UndoRequestConstraints" "{" (inverseRequestConstraints)* "}")? 
-		("(" (annotations)*")")?;
+	Wait ::= "wait" "until" until[];
 	
-	PrePostConditionActivity ::=  
-		"given" preCondition[] 
-		"ensure" postCondition[] 
-		("RequestConstraints" "{" (requestConstraints)*"}")? 
-		("ExceptionConstraints" "{" (exceptionConstraints)*"}")? 
-		("UndoRequestConstraints" "{" (inverseRequestConstraints)*"}")? 
-		("(" (annotations)*")")?;
+	Create ::= "Create" name[] "ofType" dataType[] ("(" (constraints)*")");
+	
+	Assign ::= "Assign" source "to" to;
+	Add ::= "Add" source "to" to;
+	
+	RequestService ::= "requestService" requestedService[] ("yields" name[])? 
+		("{" (requestConstraints)* "}")?;
 
-	ReturnResultActivity ::= "returnResult"   
-		("ResultConstraints" "{" (resultConstraints)*"}")? 
-		("(" (annotations)*")")?;
+	ExceptionHandler ::= "handleException" exception[] "via" (activity);
 		
+	RaiseException ::= "raiseException" exception[]	
+		("{" (exceptionConstraints)* "}")?;
+		
+	ReturnResult ::= "returnResult"	
+		("{" "ResultConstraints:" (resultConstraints)* "}")?;
+		
+	While ::= "while" condition[] "do" (activity);	
+		
+	ForAll ::= "forAll" (query) "do" (activity); 	
+
 	Annotation ::= "Note" language[] ":" content['"','"'];
-	
 }
