@@ -645,7 +645,7 @@
 					<zoomFactor xmi:value='1.0'/>
 					<diagramOpened xmi:value='true'/>
 					<diagramFrameInitialSizeSet xmi:value='true'/>
-					<diagramWindowBounds>0, 0, 1414, 926</diagramWindowBounds>
+					<diagramWindowBounds>0, 0, 1238, 926</diagramWindowBounds>
 					<diagramScrollPositionX xmi:value='0'/>
 					<diagramScrollPositionY xmi:value='120'/>
 					<maximized xmi:value='true'/>
@@ -3195,7 +3195,7 @@
 							<propertyID>BROWSER_BOUNDS</propertyID>
 							<propertyDescriptionID>BROWSER_BOUNDS_DESCRIPTION</propertyDescriptionID>
 							<value></value>
-							<choice xmi:value='1^1^257^948'/>
+							<choice xmi:value='1^1^256^948'/>
 							<index xmi:value='-1'/>
 						</mdElement>
 						<mdElement elementClass='BooleanProperty'>
@@ -3292,7 +3292,7 @@
 						<mdElement elementClass='StringProperty'>
 							<propertyID>INFO_PROPERTY</propertyID>
 							<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-							<value>47 1e 19 15 74 3a 40 32 35 7b 5a 9a 51 3c c7 22 3a bf 42 fe 86 90 5e b6 eb 51 8 6f 25 55 1 e4 7 ee 67 ef 98 38 c 1a 73 6f 20 c6 d8 a1 b9 1c b0 bc a3 9d 25 98 ed 74 4d d7 5e e8 7a a7 c8 6c e 88 c0 ca 1b 30 1 </value>
+							<value>47 1e 19 15 74 3a 40 32 35 7b 5a 9a 51 3c c7 22 3a bf 42 fe 86 90 5e b6 eb 57 4 6f 21 5a 1 e4 7 ee 67 ef 98 38 c 1a 73 6f 20 c6 d8 a1 b9 1c b0 bc a3 9d 25 98 ed 74 4d d7 5e e8 7a a7 c8 6c e 88 c0 ca 1b 30 1 </value>
 						</mdElement>
 						<mdElement elementClass='LIST_PROPERTY'>
 							<propertyID>ADDITIONAL_CONTAINMENT_TREES</propertyID>

@@ -645,7 +645,7 @@
 					<zoomFactor xmi:value='1.0'/>
 					<diagramOpened xmi:value='true'/>
 					<diagramFrameInitialSizeSet xmi:value='true'/>
-					<diagramWindowBounds>0, 0, 1412, 926</diagramWindowBounds>
+					<diagramWindowBounds>0, 0, 1414, 926</diagramWindowBounds>
 					<diagramScrollPositionX xmi:value='0'/>
 					<diagramScrollPositionY xmi:value='120'/>
 					<maximized xmi:value='true'/>
@@ -803,7 +803,7 @@
 									<value xmi:value='true'/>
 								</mdElement>
 							</properties>
-							<geometry>87, 539, 134, 24</geometry>
+							<geometry>84, 539, 134, 24</geometry>
 						</mdElement>
 						<mdElement elementClass='Class' xmi:id='_16_5_6680230_1295832543197_272711_940'>
 							<elementID xmi:idref='_16_5_6680230_1295832544342_995795_941'/>
@@ -820,7 +820,7 @@
 							<elementID xmi:idref='_16_5_6680230_1295832613090_73124_965'/>
 							<linkFirstEndID xmi:idref='_16_5_6680230_1295832484544_609688_917'/>
 							<linkSecondEndID xmi:idref='_16_5_6680230_1295832543197_272711_940'/>
-							<geometry>125, 563; 125, 588; </geometry>
+							<geometry>122, 563; 122, 588; </geometry>
 							<nameVisible xmi:value='false'/>
 						</mdElement>
 						<mdElement elementClass='Class' xmi:id='_16_5_6680230_1295832635955_713016_967'>
@@ -1044,15 +1044,15 @@
 							<elementID xmi:idref='_16_5_6680230_1295833325639_428221_1159'/>
 							<linkFirstEndID xmi:idref='_16_5_6680230_1295832484544_609688_917'/>
 							<linkSecondEndID xmi:idref='_16_5_6680230_1295833066080_712992_1136'/>
-							<geometry>189, 539; 189, 430; </geometry>
+							<geometry>186, 539; 186, 430; </geometry>
 							<nameVisible xmi:value='true'/>
 							<mdOwnedViews>
 								<mdElement elementClass='Role' xmi:id='_16_5_6680230_1295833325641_783264_1163'>
 									<elementID xmi:idref='_16_5_6680230_1295833325639_126656_1160'/>
-									<geometry>184, 529, 10, 10</geometry>
+									<geometry>181, 529, 10, 10</geometry>
 									<mdOwnedViews>
 										<mdElement elementClass='TextBox' xmi:id='_16_5_6680230_1295833329196_652901_1170'>
-											<geometry>192, 524, 24, 12</geometry>
+											<geometry>189, 524, 24, 12</geometry>
 											<text>1</text>
 										</mdElement>
 									</mdOwnedViews>
@@ -1060,7 +1060,7 @@
 								</mdElement>
 								<mdElement elementClass='Role' xmi:id='_16_5_6680230_1295833325641_974602_1162'>
 									<elementID xmi:idref='_16_5_6680230_1295833325639_88185_1161'/>
-									<geometry>184, 430, 10, 10</geometry>
+									<geometry>181, 430, 10, 10</geometry>
 								</mdElement>
 							</mdOwnedViews>
 							<associationFirstEndID xmi:idref='_16_5_6680230_1295833325641_783264_1163'/>
@@ -3195,7 +3195,7 @@
 							<propertyID>BROWSER_BOUNDS</propertyID>
 							<propertyDescriptionID>BROWSER_BOUNDS_DESCRIPTION</propertyDescriptionID>
 							<value></value>
-							<choice xmi:value='1^1^259^948'/>
+							<choice xmi:value='1^1^257^948'/>
 							<index xmi:value='-1'/>
 						</mdElement>
 						<mdElement elementClass='BooleanProperty'>
@@ -3292,7 +3292,7 @@
 						<mdElement elementClass='StringProperty'>
 							<propertyID>INFO_PROPERTY</propertyID>
 							<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-							<value>47 1e 19 15 74 3a 40 32 35 7b 5a 9a 51 3c c7 22 3a bf 42 fe 86 90 5e b7 eb 57 3 6f 24 54 1 e4 7 ee 67 ef 98 38 c 1a 73 6f 20 c6 d8 a1 b9 1c b0 bc a3 9d 25 98 ed 74 4d d7 5e e8 7a a7 c8 6c e 88 c0 ca 1b 30 1 </value>
+							<value>47 1e 19 15 74 3a 40 32 35 7b 5a 9a 51 3c c7 22 3a bf 42 fe 86 90 5e b6 eb 51 8 6f 25 55 1 e4 7 ee 67 ef 98 38 c 1a 73 6f 20 c6 d8 a1 b9 1c b0 bc a3 9d 25 98 ed 74 4d d7 5e e8 7a a7 c8 6c e 88 c0 ca 1b 30 1 </value>
 						</mdElement>
 						<mdElement elementClass='LIST_PROPERTY'>
 							<propertyID>ADDITIONAL_CONTAINMENT_TREES</propertyID>
