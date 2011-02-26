@@ -227,6 +227,10 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Assign" eSuperTypes="#//ManipulateVariable"/>
   <eClassifiers xsi:type="ecore:EClass" name="Add" eSuperTypes="#//ManipulateVariable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Remove" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Query" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="While" eSuperTypes="#//ContainerActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
         eType="#//Condition"/>
@@ -250,7 +254,7 @@
         eType="#//ExceptionHandler" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TerminalActivity" abstract="true" eSuperTypes="#//Activity"/>
-  <eClassifiers xsi:type="ecore:EClass" name="RaiseException" eSuperTypes="#//TerminalActivity">
+  <eClassifiers xsi:type="ecore:EClass" name="RefuseService" eSuperTypes="#//TerminalActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="exception" lowerBound="1"
         eType="#//Exception"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exceptionConstraints" upperBound="-1"
