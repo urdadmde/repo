@@ -4,17 +4,38 @@ The URDAD metamodel provides the semantics required by the URDAD methodology to 
 
 The URDAD metamodel has been encoded in {\em ECore} which is the {\em Eclipse Foundations}'s implementation of {\em EMOF} and we have performed a mapping onto OWL to be able to use standard reasoning services in order to proof the logical consistency of the metamodel. 
 
-The choice of the encoding technology was guided by the support for OCL constraints at both the meta-model and model level as well as the rich tool set available within the Eclipse family of tools including tools for generating or defining concrete text and diagrammatic syntaxes for the domain specific language as well as the availability of a rich set of model-to-model and model-to-text transformation tools.
-
-
-Forces separation of data from services
-
-extend OCL by defining constraint parameters  in order to make constraints reusable (e.g. the constraint that a
-person with an id is a registered student may be the pre and/or post-condition for several services. Proposed
-constraint language uses #parameterName in the pseudo-OCL constraints which are populated in the pre-conditionalattached to service.
+The choice of the encoding technology was guided by the support for OCL constraints at both the meta-model and model levels as well as the rich tool set available within the Eclipse family of tools including tools for generating or defining concrete text and diagrammatic syntaxes for the domain specific language as well as the availability of a rich set of model-to-model and model-to-text transformation tools.
 
 
 \subsection{Semantics required by URDAD}
+
+The URDAD methodology requires the following semantics to store its outputs:
+\begin{itemize}
+  \item Responsibility domains which represent an abstraction a role and represents a packaging construct,
+  \item Standard semantics for object-oriented data structure specification,
+  \item Service contracts specifying service requirements including
+    \begin{itemize}
+      \item the data structure requirements for the service request and result,
+      \item pre- and post-conditions for the service representing the conditionsunder which the service may be refused and the conditions which must hold after the service has been provided, and
+      \item the quality or non-functional requirements for the service.
+     \end{itemize}
+  \item A ``requiredBy'' relationship between roles or responsibility domains and a pre-condition, post-condition or quality requirement.
+  \item The concept of a service which 
+    \begin{itemize}
+      \item encapsulates a specific conceptual process design for a service, and 
+      \item specifies the functional requirements vor the service representing requirements for lower level services from which the hogher level service is orchestrated and includes the linkage to the pre- and/or post-conditions which are being addressed in the context of using these lower level services.
+    \end{itemize}
+  \item the process semantics including the semantics of 
+    \begin{itemize}
+      \item service requests with the possibility to assign the result to variables which are maintained within the process,
+      \item the ability to specify activities for exception handling,
+      \item semantics for creating and manipulating local process objects,
+      \item logic for sequential, concurrent and conditional activities as well as iteration,
+      \item logic for waiting for certain conditions,
+      \item the concept of returning the result of the service,
+      \item the concept of refusing the service which is linked to the exception used to notify the user that the service is not going to be provided.
+    \end{itemize}
+\end{itemize}
 
  - responsibility domains which represent both, abstraction of roles and a packaging construct
  - functional and non-functional requirements for services
@@ -25,7 +46,14 @@ constraint language uses #parameterName in the pseudo-OCL constraints which are 
 
 aim of metamodel -> introduce required semantics, minimal, enforce compliance through enforced structure, absorb model constraints as constraints on metamodel
 
-semantics required by URDAD
+
+
+Forces separation of data from services
+
+extend OCL by defining constraint parameters  in order to make constraints reusable (e.g. the constraint that a
+person with an id is a registered student may be the pre and/or post-condition for several services. Proposed
+constraint language uses #parameterName in the pseudo-OCL constraints which are populated in the pre-conditionalattached to service.
+
 
 
 Metamodel = services requirements recursively decomposed into lower level services requirements with pre- and post-conditions as well as quality requirements for each service and the data structure specifications for the inputs and outputs and the process specification on how a service is orchestrated across lower level services.
