@@ -58,7 +58,7 @@ TOKENSTYLES {
 	"yields" COLOR #7F0055, BOLD;
 	"handleException" COLOR #7F0055, BOLD;
 	"via" COLOR #7F0055, BOLD;
-	"raiseException" COLOR #7F0055, BOLD;
+	"refuseService" COLOR #7F0055, BOLD;
 	"returnResult" COLOR #7F0055, BOLD;
 	"while" COLOR #7F0055, BOLD;
 	"forAll" COLOR #7F0055, BOLD;
@@ -131,10 +131,8 @@ RULES {
 	  
 	Service ::= "Service" name[] "realizes" realizedContract[] "{"
 		(functionalRequirements)*
-		(process)
+		(activity)
 	"}";  
-	
-	Process ::= "Process" (activity);
 	
 	ActivitySequence ::= "doSequential" "{" (activities)* "}"; 
 

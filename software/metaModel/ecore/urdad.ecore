@@ -177,12 +177,10 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inverseService" eType="#//ServiceContract"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//NamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//ContainerActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="realizedContract" eType="#//ServiceContract"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="functionalRequirements"
         upperBound="-1" eType="#//FunctionalRequirement" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="process" eType="#//Process"
-        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Activity" abstract="true" eSuperTypes="#//ElementWithOptionalName"/>
   <eClassifiers xsi:type="ecore:EClass" name="ActivitySequence" eSuperTypes="#//Activity">
@@ -210,9 +208,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="Wait" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="until" lowerBound="1" eType="#//Condition"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="VariableProducerActivity" abstract="true"
+  <eClassifiers xsi:type="ecore:EClass" name="VariableProduction" abstract="true"
       eSuperTypes="#//Activity"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Create" eSuperTypes="#//VariableProducerActivity">
+  <eClassifiers xsi:type="ecore:EClass" name="Create" eSuperTypes="#//VariableProduction">
     <eStructuralFeatures xsi:type="ecore:EReference" name="dataType" lowerBound="1"
         eType="#//DataType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" upperBound="-1"
@@ -243,7 +241,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="exception" lowerBound="1"
         eType="#//Exception"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="RequestService" eSuperTypes="#//VariableProducerActivity">
+  <eClassifiers xsi:type="ecore:EClass" name="RequestService" eSuperTypes="#//VariableProduction">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="documentation" value="The name of the request activity uniquely identifies the service request&#xA;&#x9;&#x9;and can be used to identify the result of a particular service request"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="requestedService" lowerBound="1"
         eType="#//ServiceContract"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="requestConstraints" upperBound="-1"
@@ -263,11 +264,5 @@
   <eClassifiers xsi:type="ecore:EClass" name="ReturnResult" eSuperTypes="#//TerminalActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="resultConstraints" upperBound="-1"
         eType="#//Constraint" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//ElementWithOptionalName">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="realizedService" lowerBound="1"
-        eType="#//Service"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activity" lowerBound="1"
-        eType="#//Activity" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>
