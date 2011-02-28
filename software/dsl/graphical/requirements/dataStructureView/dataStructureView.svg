@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg12807"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="dataStructureView.svg">
+  <defs
+     id="defs12809">
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lstart"
+       style="overflow:visible">
+      <path
+         id="path4468"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="EmptyDiamondL"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="EmptyDiamondL"
+       style="overflow:visible">
+      <path
+         id="path4575"
+         d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+         style="fill-rule:evenodd;fill:#FFFFFF;stroke:#000000;stroke-width:1.0pt;marker-start:none"
+         transform="scale(0.8)" />
+    </marker>
+    <marker
+       inkscape:stockid="DiamondL"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="DiamondL"
+       style="overflow:visible">
+      <path
+         id="path4548"
+         d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none"
+         transform="scale(0.8)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;">
+      <path
+         id="path4471"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none;"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="EmptyTriangleOutL"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="EmptyTriangleOutL"
+       style="overflow:visible">
+      <path
+         id="path4629"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         style="fill-rule:evenodd;fill:#FFFFFF;stroke:#000000;stroke-width:1.0pt;marker-start:none"
+         transform="scale(0.8) translate(-6,0)" />
+    </marker>
+    <linearGradient
+       id="linearGradient13325"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop13327" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.0724966"
+     inkscape:cx="305.54253"
+     inkscape:cy="933.49306"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1918"
+     inkscape:window-height="1176"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata12812">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g13821">
+      <g
+         id="g13363">
+        <rect
+           style="fill:none;stroke:#000000;stroke-width:0.71822441;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+           id="rect12815"
+           width="152.3037"
+           height="71.999886"
+           x="95.630836"
+           y="172.24821" />
+        <text
+           xml:space="preserve"
+           style="font-size:16px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans"
+           x="132.34343"
+           y="190.64766"
+           id="text13331"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan13333"
+             x="132.34343"
+             y="190.64766">ClassName</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:14px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans"
+           x="103.54995"
+           y="213.38583"
+           id="text13335"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan13337"
+             x="103.54995"
+             y="213.38583">attribute1 : BasicType1</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:14px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans"
+           x="103.54995"
+           y="235.39233"
+           id="text13339"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan13341"
+             x="103.54995"
+             y="235.39233">attribute2 : BasicType2</tspan></text>
+        <path
+           style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 95.702669,195.30298 152.168951,0"
+           id="path13343"
+           inkscape:connector-curvature="0" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 96.043855,220.89193 151.486575,0"
+           id="path13345"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+    <g
+       id="g13814">
+      <g
+         transform="translate(0,-37.530459)"
+         id="g13357">
+        <rect
+           style="fill:none;stroke:#000000;stroke-width:1.01658094;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+           id="rect13347"
+           width="151.79179"
+           height="54.07798"
+           x="96.38504"
+           y="101.30624" />
+        <text
+           xml:space="preserve"
+           style="font-size:14px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
+           x="99.114525"
+           y="115.80665"
+           id="text13351"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan13353"
+             x="99.114525"
+             y="115.80665"
+             style="font-size:16px">SupertypeClassName</tspan></text>
+        <path
+           style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 96.214448,122.97156 151.486582,0 -0.18202,0.67931"
+           id="path13355"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#EmptyTriangleOutL)"
+       d="m 167.01054,172.27293 0,-53.39561"
+       id="path13374"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot13560"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Nimbus Roman No9 L;font-style:normal;font-weight:bold;font-size:14px;-inkscape-font-specification:Sans Bold;line-height:125%;letter-spacing:0px;word-spacing:0px"><flowRegion
+         id="flowRegion13562"><rect
+           id="rect13564"
+           width="203.13664"
+           height="52.111065"
+           x="327.14166"
+           y="155.37637" /></flowRegion><flowPara
+         id="flowPara13566"></flowPara></flowRoot>    <g
+       id="g13576"
+       transform="translate(49.698514,-15.440315)">
+      <rect
+         y="122.5657"
+         x="300.60364"
+         height="47.285965"
+         width="160.60742"
+         id="rect13568"
+         style="fill:none;stroke:#000000;stroke-width:0.88917792;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text13570"
+         y="138.48853"
+         x="307.35876"
+         style="font-size:16px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
+         xml:space="preserve"><tspan
+           y="138.48853"
+           x="307.35876"
+           id="tspan13572"
+           sodipodi:role="line">AssociatedClassName</tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path13574"
+         d="m 300.60364,145.72618 160.67578,0"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 248.01006,182.39693 36.67075,0 0,-67.06887 63.20879,0"
+       id="path13582"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
+       x="288.54089"
+       y="108.57292"
+       id="text13770"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan13772"
+         x="288.54089"
+         y="108.57292"
+         style="font-size:12px;font-weight:normal;-inkscape-font-specification:Nimbus Roman No9 L">roleName</tspan></text>
+    <g
+       id="g13808">
+      <rect
+         y="181.4319"
+         x="350.5434"
+         height="47.285965"
+         width="160.60742"
+         id="rect13568-4"
+         style="fill:none;stroke:#000000;stroke-width:0.88917792;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text13570-5"
+         y="197.35474"
+         x="352.47342"
+         style="font-size:16px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
+         xml:space="preserve"><tspan
+           y="197.35474"
+           x="352.47342"
+           id="tspan13572-4"
+           sodipodi:role="line">AggregatedClassName</tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path13574-2"
+         d="m 350.54341,204.59239 160.67578,0"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.97088933000000011px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#EmptyDiamondL);marker-end:url(#Arrow1Lend)"
+       d="m 254.62251,207.00493 92.78458,0"
+       id="path13833"
+       inkscape:connector-curvature="0" />
+    <g
+       transform="translate(1.4475258,71.893971)"
+       id="g13808-4">
+      <rect
+         y="181.4319"
+         x="350.5434"
+         height="47.285965"
+         width="160.60742"
+         id="rect13568-4-9"
+         style="fill:none;stroke:#000000;stroke-width:0.88917792;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text13570-5-9"
+         y="197.35474"
+         x="352.47342"
+         style="font-size:16px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
+         xml:space="preserve"><tspan
+           y="197.35474"
+           x="352.47342"
+           id="tspan13572-4-9"
+           sodipodi:role="line">AggregatedClassName</tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path13574-2-4"
+         d="m 350.54341,204.59239 160.67578,0"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend);marker-start:url(#DiamondL)"
+       d="m 253.31767,235.47301 32.32816,0 0,30.88063 61.76126,0"
+       id="path14985"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
+       x="295.37671"
+       y="198.00916"
+       id="text13770-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan13772-8"
+         x="295.37671"
+         y="198.00916"
+         style="font-size:12px;font-weight:normal;-inkscape-font-specification:Nimbus Roman No9 L">roleName</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
+       x="293.44669"
+       y="258.80539"
+       id="text13770-9-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan13772-8-6"
+         x="293.44669"
+         y="258.80539"
+         style="font-size:12px;font-weight:normal;-inkscape-font-specification:Nimbus Roman No9 L">roleName</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
+       x="27.985569"
+       y="295.78671"
+       id="text15601"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan15603"
+         x="27.985569"
+         y="295.78671">Notes: </tspan><tspan
+         sodipodi:role="line"
+         x="27.985569"
+         y="313.28671"
+         id="tspan15605">1. The role name is the name of the association,</tspan><tspan
+         sodipodi:role="line"
+         x="27.985569"
+         y="330.78671"
+         id="tspan15607">aggregation or composition relationship.</tspan></text>
+  </g>
+</svg>
