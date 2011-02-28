@@ -15,7 +15,10 @@
    id="svg12807"
    version="1.1"
    inkscape:version="0.48.0 r9654"
-   sodipodi:docname="dataStructureView.svg">
+   sodipodi:docname="dataStructureView.svg"
+   inkscape:export-filename="/home/fritz/urdadMde/repo/software/dsl/graphical/requirements/dataStructureView/dataStructureView.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs12809">
     <marker
@@ -127,7 +130,8 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       id="g13821">
+       id="g13821"
+       transform="translate(6.2726279,27.503061)">
       <g
          id="g13363">
         <rect
@@ -183,7 +187,8 @@
       </g>
     </g>
     <g
-       id="g13814">
+       id="g13814"
+       transform="translate(6.2726279,27.503061)">
       <g
          transform="translate(0,-37.530459)"
          id="g13357">
@@ -215,22 +220,23 @@
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#EmptyTriangleOutL)"
-       d="m 167.01054,172.27293 0,-53.39561"
+       d="m 173.28317,199.77599 0,-53.39561"
        id="path13374"
        inkscape:connector-curvature="0" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot13560"
-       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Nimbus Roman No9 L;font-style:normal;font-weight:bold;font-size:14px;-inkscape-font-specification:Sans Bold;line-height:125%;letter-spacing:0px;word-spacing:0px"><flowRegion
+       style="font-size:14px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
+       transform="translate(6.2726279,27.503061)"><flowRegion
          id="flowRegion13562"><rect
            id="rect13564"
            width="203.13664"
            height="52.111065"
            x="327.14166"
            y="155.37637" /></flowRegion><flowPara
-         id="flowPara13566"></flowPara></flowRoot>    <g
+         id="flowPara13566" /></flowRoot>    <g
        id="g13576"
-       transform="translate(49.698514,-15.440315)">
+       transform="translate(56.453652,2.4125488)">
       <rect
          y="122.5657"
          x="300.60364"
@@ -257,23 +263,24 @@
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
-       d="m 248.01006,182.39693 36.67075,0 0,-67.06887 63.20879,0"
+       d="m 254.28269,209.89999 36.67075,0 0,-67.06887 63.20879,0"
        id="path13582"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:14px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
-       x="288.54089"
-       y="108.57292"
+       x="294.81351"
+       y="136.07599"
        id="text13770"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan13772"
-         x="288.54089"
-         y="108.57292"
+         x="294.81351"
+         y="136.07599"
          style="font-size:12px;font-weight:normal;-inkscape-font-specification:Nimbus Roman No9 L">roleName</tspan></text>
     <g
-       id="g13808">
+       id="g13808"
+       transform="translate(5.7901181,31.36314)">
       <rect
          y="181.4319"
          x="350.5434"
@@ -299,12 +306,12 @@
          style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.97088933000000011px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#EmptyDiamondL);marker-end:url(#Arrow1Lend)"
-       d="m 254.62251,207.00493 92.78458,0"
+       style="fill:none;stroke:#000000;stroke-width:0.97088933px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#EmptyDiamondL);marker-end:url(#Arrow1Lend)"
+       d="m 260.89514,234.50799 92.78458,0"
        id="path13833"
        inkscape:connector-curvature="0" />
     <g
-       transform="translate(1.4475258,71.893971)"
+       transform="translate(7.7201537,99.397032)"
        id="g13808-4">
       <rect
          y="181.4319"
@@ -331,52 +338,108 @@
          style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend);marker-start:url(#DiamondL)"
-       d="m 253.31767,235.47301 32.32816,0 0,30.88063 61.76126,0"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#DiamondL);marker-end:url(#Arrow1Lend)"
+       d="m 259.5903,262.97607 32.32816,0 0,30.88063 61.76126,0"
        id="path14985"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:14px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
-       x="295.37671"
-       y="198.00916"
+       x="301.64932"
+       y="225.51222"
        id="text13770-9"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan13772-8"
-         x="295.37671"
-         y="198.00916"
+         x="301.64932"
+         y="225.51222"
          style="font-size:12px;font-weight:normal;-inkscape-font-specification:Nimbus Roman No9 L">roleName</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:14px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
-       x="293.44669"
-       y="258.80539"
+       x="299.7193"
+       y="286.30844"
        id="text13770-9-1"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan13772-8-6"
-         x="293.44669"
-         y="258.80539"
+         x="299.7193"
+         y="286.30844"
          style="font-size:12px;font-weight:normal;-inkscape-font-specification:Nimbus Roman No9 L">roleName</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:14px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
-       x="27.985569"
-       y="295.78671"
+       x="34.258198"
+       y="323.28976"
        id="text15601"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan15603"
-         x="27.985569"
-         y="295.78671">Notes: </tspan><tspan
+         x="34.258198"
+         y="323.28976">Notes: </tspan><tspan
          sodipodi:role="line"
-         x="27.985569"
-         y="313.28671"
+         x="34.258198"
+         y="340.78976"
          id="tspan15605">1. The role name is the name of the association,</tspan><tspan
          sodipodi:role="line"
-         x="27.985569"
-         y="330.78671"
+         x="34.258198"
+         y="358.28976"
          id="tspan15607">aggregation or composition relationship.</tspan></text>
+    <g
+       id="g23692"
+       transform="matrix(0.70557882,0,0,0.66996606,-30.635475,59.845943)">
+      <rect
+         y="19.102747"
+         x="168.53729"
+         height="129.52568"
+         width="249.65738"
+         id="rect20967"
+         style="fill:none;stroke:#000000;stroke-width:1.45445681;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <rect
+         y="-9.6491451"
+         x="168.53729"
+         height="28.18252"
+         width="163.97102"
+         id="rect20969"
+         style="fill:none;stroke:#000000;stroke-width:1.45445681;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text20971"
+         y="7.7158451"
+         x="170.53"
+         style="font-size:16px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
+         xml:space="preserve"><tspan
+           style="font-size:14px;font-style:normal;font-weight:normal;-inkscape-font-specification:Nimbus Roman No9 L"
+           y="7.7158451"
+           x="170.53"
+           id="tspan20973"
+           sodipodi:role="line">ResponsibilityDomainName</tspan></text>
+    </g>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect20967-2"
+       width="226.01439"
+       height="254.97824"
+       x="54.182461"
+       y="46.123299" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect20969-4"
+       width="163.97102"
+       height="28.18252"
+       x="54.182461"
+       y="17.371407" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Roman No9 L;-inkscape-font-specification:Sans Bold"
+       x="56.175167"
+       y="34.736397"
+       id="text20971-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan20973-0"
+         x="56.175167"
+         y="34.736397"
+         style="font-size:14px;font-style:normal;font-weight:normal;-inkscape-font-specification:Nimbus Roman No9 L">ResponsibilityDomainName</tspan></text>
   </g>
 </svg>
