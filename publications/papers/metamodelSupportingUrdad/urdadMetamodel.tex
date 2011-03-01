@@ -1,29 +1,29 @@
 \section{The URDAD metamodel \label{sec:metamodel}}
 
-The URDAD metamodel provides the semantics required by the URDAD methodology to store the requirements for a service/use case. The semantics can be encoded in a variety of technologies including ontology based technologies like OWL and object-oriented technologies like MOF or its simplification, the {\em Esssential MOF} (EMOF). Standard mappings between these two technologies exist \cite{staab_model_2010}.
+\emph{AP: I substituted ``modeling features'' for ``semantics''. Please check.} The URDAD metamodel provides the modeling features required by the URDAD methodology to store the requirements for a service/use case. Modeling features can be encoded using a variety of formalisms including ontology-based technologies such as the Web Ontology Language (OWL) \cite{} or frame languages such as MOF or its simplification, the {\em Esssential MOF} (EMOF) \cite{}. Standard mappings between these two technologies exist \cite{staab_model_2010}. \emph{AP: How ``standard'' are these mappings? What about their practicality in practice?}
 
-The URDAD metamodel has been encoded in {\em ECore} which is the {\em Eclipse Foundations}'s implementation of {\em EMOF} and we have performed a mapping onto OWL to be able to use standard reasoning services in order to proof the logical consistency of the metamodel. 
+The URDAD metamodel was encoded in {\em ECore} which is the {\em Eclipse Foundations}'s implementation of {\em EMOF}. We performed a mapping onto OWL to be able to use standard reasoning services in order to show the logical consistency of the metamodel. \emph{AP: What ``standard'' reasoning services exactly: consistency, satisfyability,...?}
 
-The choice of the encoding technology was guided by the support for OCL constraints at both the meta-model and model levels as well as the rich tool set available within the Eclipse family of tools including tools for generating or defining concrete text and diagrammatic syntaxes for the domain specific language as well as the availability of a rich set of model-to-model and model-to-text transformation tools.
+\emph{AP: Sentence too long.} The choice of the encoding technology was guided by the support for OCL constraints at both the meta-model and model levels as well as the rich tool set available within the Eclipse family of tools including tools for generating or defining concrete text and diagrammatic syntaxes for the domain specific language as well as the availability of a rich set of model-to-model and model-to-text transformation tools.
 
 
-\subsection{Semantics required by URDAD}
+\subsection{URDAD modeling features}
 
-The URDAD methodology requires the following semantics to store its outputs:
+The URDAD methodology requires the following modeling features:
 \begin{itemize}
   \item Responsibility domains which represent an abstraction a role and represents a packaging construct,
   \item Standard semantics for object-oriented data structure specification,
   \item Service contracts specifying service requirements including
     \begin{itemize}
       \item the data structure requirements for the service request and result,
-      \item pre- and post-conditions for the service representing the conditionsunder which the service may be refused and the conditions which must hold after the service has been provided, and
+      \item pre- and post-conditions for the service representing the conditions under which the service may be refused and the conditions which must hold after the service has been provided, and
       \item the quality or non-functional requirements for the service.
      \end{itemize}
   \item A ``requiredBy'' relationship between roles or responsibility domains and a pre-condition, post-condition or quality requirement.
   \item The concept of a service which 
     \begin{itemize}
       \item encapsulates a specific conceptual process design for a service, and 
-      \item specifies the functional requirements vor the service representing requirements for lower level services from which the hogher level service is orchestrated and includes the linkage to the pre- and/or post-conditions which are being addressed in the context of using these lower level services.
+      \item specifies the functional requirements vor the service representing requirements for lower level services from which the higher level service is orchestrated and includes the linkage to the pre- and/or post-conditions which are being addressed in the context of using these lower level services.
     \end{itemize}
   \item the process semantics including the semantics of 
     \begin{itemize}
@@ -52,7 +52,7 @@ Forces separation of data from services
 
 extend OCL by defining constraint parameters  in order to make constraints reusable (e.g. the constraint that a
 person with an id is a registered student may be the pre and/or post-condition for several services. Proposed
-constraint language uses #parameterName in the pseudo-OCL constraints which are populated in the pre-conditionalattached to service.
+constraint language uses parameterName in the pseudo-OCL constraints which are populated in the pre-conditionalattached to service.
 
 
 
@@ -68,7 +68,7 @@ An URDAD service is a service from a requirements perspective, i.e. it represent
 
 Services represent a cohesive unit of required functionality. They exist to address the functional and quality requirements of their stakeholders. These functional and quality requirements are not restricted to a single service and may be used by other services that share some of the same requirements.
 
-A service is specified as a formalised contract, with explicitly defined requirements. The stakeholders who have a direct or indirect interest in the fulfilment of the service, are related to the service via their requirements. Each service has a consistent service signature. The signature takes the form of an appropriately named service, a single service request object that contains detailed information pertaining to the request and a single result object, which is composed of the information associated with the result of the service execution.
+A service is specified as a formalised contract, with explicitly defined requirements. The stakeholders who have a direct or indirect interest in the fulfilment of the service, are related to the service via their requirements. Each service has a service signature. The signature takes the form of an appropriately named service, a single service request object that contains information pertaining to the request and a single result object, which is composed of the information associated with the result of the service execution.
 
 %Fixing of levels of granularity
 
@@ -92,7 +92,7 @@ data types and data structures
 
 expressions including constraint expressions
 
- In practice a service requirements represents a way of documenting the required functionality. It does not meanCan plug in different services with appropriate adapter
+ In practice, service requirements are a way of documenting the required functionality. It does not meanCan plug in different services with appropriate adapter
 
 
 \subsubsection{Pre- and post-conditions}
@@ -113,12 +113,12 @@ An important non-functional requirement of all activities that constitute a serv
 \subsection{Business process design}
 - for a service we have pre- and post-conditions - some of these may be conditional
 - lower level services either just check a pre-condition or ensure a post-condition
-- these lower level post-condition addressing services may themselves have pre-conditions and some of those pre-conditions may be part of the pre-conditions for the higher level service.
+- these lower level post-condition addressing services may themselves have pre-conditions and some \emph{AP: Why only some?} of those pre-conditions may be part of the pre-conditions for the higher level service.
 
 During business process design one
   1. picks the required services to address the post-conditions
   2. Check which of the higher level pre-conditions are not pre-conditions of lower level services and hence not checked by those services which address the post-conditions and sources the appropriate service spec for those remaining pre-conditions.
-  3. One then determines and dependencies between the services, e.g. 
+  3. One then determines the dependencies between the services, e.g. 
     - to assemble the request for service A I require the information provided by service A
     - I should only issue an invoice if I could reserve a seat
   4. This defines an activity sequence with number of activities equal to number of dependency levels.
@@ -188,7 +188,7 @@ Ideas for issues to be covered.
 			\item URDAD's metamodel can be encoded in more than one format.
 			\item When selecting a mechanism to encode the metamodel, it is critical that URDAD semantics are represented in their entirety. If this is not the case one could argue that the encoded metamodel does not truly represent URDAD.
 {\em Fritz: What is meant by this?}
-			\item The fundamental concepts that define the URDAD metamodel are as follows:
+			\item The fundamental concepts \emph{AP: Are there more?} that define the URDAD metamodel are as follows:
 			\begin{itemize}
 
 				\item THE MODEL
@@ -202,9 +202,9 @@ Ideas for issues to be covered.
 						\item Represents a logical grouping of elements within a model, where each element belongs to the responsibility domain.
 						\item Similar to the concept of packaging, but conceptually more consistent with the responsibility driven nature of URDAD.
 						\item Responsibility domains also provide a consistent mechanism of depicting the roles/stakeholders within the model.
-						\item Responsibilities domains may only be composed of data structures, services, requirements and other responsibility domains.
+						\item Responsibility domains must only be composed of data structures, services, requirements and other responsibility domains.
 						\item Each role is associated with a cohesive list of responsibilities.
-						\item The introduction of the concept of a responsibility domain eliminates the need for the separate definition of a services contract, which is traditionally used to group logical related services. Services are now grouped by the responsibility domain within which they reside.
+						\item The introduction of the concept of a responsibility domain eliminates the need for the separate definition of a services contract, which is traditionally used to group logically related services. Services are now grouped by the responsibility domain within which they reside.
 						\item In the tradition of namespaces each element within a responsibility domain is uniquely identified by its name appended to the fully qualified name of the domain itself.
 					\end{itemize}
 					
@@ -218,7 +218,7 @@ Ideas for issues to be covered.
 					\item Services represent a level of granularity. Each level of granularity can be regarded as a level of abstraction.
 					\item Requirements exist at a particular level of granularity, and are themselves decomposed further across subsequent lower levels of granularity.
 					\item There are two forms of requirements that a service seeks to address namely functional and quality requirements.
-					\item It is important to note that both functional and quality requirements are not restricted to a single service. There exists the reality that more than one service may have requirements in common.
+					\item It is important to note that both functional and quality requirements are not restricted to a single service. There exists the reality that several services may have requirements in common.
 					\item URDAD does not address any non-functional requirements other than the non-functional requirements of the requirements themselves. For example, requirements should be easy to maintain. Requirements should exhibit principles of good design, such as decomposition across layers of granularity, single responsibility, loose coupling and high cohesiveness.
 					\item Each service is represented as a formalised contract, with explicit pre and post conditions that seek to address the functional requirements of the service.
 					\item Pre-conditions represent the conditions under which the service may legally be refused. A pre-condition's existence must be justified by a tangible functional requirement. 
