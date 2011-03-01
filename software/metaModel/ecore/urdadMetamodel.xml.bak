@@ -724,7 +724,7 @@
 					<diagramScrollPositionX xmi:value='0'/>
 					<diagramScrollPositionY xmi:value='0'/>
 					<maximized xmi:value='false'/>
-					<active xmi:value='true'/>
+					<active xmi:value='false'/>
 					<mdOwnedViews>
 						<mdElement elementClass='DiagramFrame' xmi:id='_16_5_6680230_1298841228539_40185_724'>
 							<elementID xmi:idref='_16_5_6680230_1298841228534_971596_711'/>
@@ -760,8 +760,13 @@
 					<type>Class Diagram</type>
 					<umlType>Class Diagram</umlType>
 					<zoomFactor xmi:value='1.3683169'/>
-					<diagramOpened xmi:value='false'/>
+					<diagramOpened xmi:value='true'/>
 					<diagramFrameInitialSizeSet xmi:value='true'/>
+					<diagramWindowBounds>0, 0, 1416, 926</diagramWindowBounds>
+					<diagramScrollPositionX xmi:value='0'/>
+					<diagramScrollPositionY xmi:value='0'/>
+					<maximized xmi:value='true'/>
+					<active xmi:value='true'/>
 					<mdOwnedViews>
 						<mdElement elementClass='DiagramFrame' xmi:id='_16_5_6680230_1295831989358_238877_477'>
 							<elementID xmi:idref='_16_5_6680230_1295831989310_474087_464'/>
@@ -3762,7 +3767,7 @@
 						<mdElement elementClass='StringProperty'>
 							<propertyID>INFO_PROPERTY</propertyID>
 							<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-							<value>48 4a 77 20 1 71 62 f a 74 d6 d6 d5 13 ff f bf 10 75 fe f9 b0 d1 7d 30 cd 35 93 be 24 e 2e f4 67 77 fd f 82 33 15 45 12 d1 58 f9 81 b9 9a 40 89 68 cf 7 98 5f 5a 4c 85 d5 cb bf 72 d6 9 7d 88 b6 16 4e d6 5e </value>
+							<value>48 4a 77 20 1 71 62 f a 74 d6 d6 d5 13 ff f bf 10 75 fe f9 b0 d1 7d 30 ce 30 93 bd 2d e 2e f4 67 77 fd f 82 33 15 45 12 d1 58 f9 81 b9 9a 40 89 68 cf 7 98 5f 5a 4c 85 d5 cb bf 72 d6 9 7d 88 b6 16 4e d6 5e </value>
 						</mdElement>
 						<mdElement elementClass='LIST_PROPERTY'>
 							<propertyID>ADDITIONAL_CONTAINMENT_TREES</propertyID>
@@ -3790,7 +3795,7 @@
 						<mdElement elementClass='ChoiceProperty'>
 							<propertyID>RECENT_DIAGRAMS</propertyID>
 							<propertyDescriptionID>RECENT_DIAGRAMS_DESCRIPTION</propertyDescriptionID>
-							<choice xmi:value='_16_5_6680230_1295831989310_474087_464'/>
+							<choice xmi:value=''/>
 							<index xmi:value='-1'/>
 						</mdElement>
 					</mdElement>

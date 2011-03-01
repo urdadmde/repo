@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbookxi.rng" type="xml"?>
+<section xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude"
+    version="5.0">
+
+    <title>The Basics </title>
+
+    <para> The set up you name and email address for all you Git repositories. You execute</para>
+
+    <screen>$ git config --global user.name "Sifiso Motha"
+$ git config --global user.email "sifiso@solms.co.za</screen>
+    <para> These are saved in ~/.gitconfig. Top check if there have been set up correctory you run
+        command <screen> git config user.name</screen></para>
+
+<para> To initialize a new Git repository will run
+        <screen>$ mkdir myFristProject
+$ cd myFristProject
+$ git init</screen></para>
+    <para>Once the repository is initialized you add and commint file. <screen>$ git add .
+    $ git commit -m 'my first commit'</screen></para>
+    
+    <para> To clone a Git repository, what would call checkout on version control system such as Subvesion.<screen> git clone git@github.com:urdadmde/repo.git</screen></para>
+    
+    <para>For futher commands on Git you can consult the Git manual and other tutorials available on the net</para>
+</section>
