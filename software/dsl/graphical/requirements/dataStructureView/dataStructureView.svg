@@ -102,8 +102,8 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.8619056"
-     inkscape:cx="538.26384"
+     inkscape:zoom="1.7564974"
+     inkscape:cx="372.04724"
      inkscape:cy="776.66541"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -549,6 +549,8 @@
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 543.85045,342.69535 c -0.22746,-0.0569 -0.45491,-0.11373 -0.68237,-0.1706"
        id="path25147"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
 </svg>
