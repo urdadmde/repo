@@ -1,10 +1,10 @@
 \section{The URDAD metamodel \label{sec:metamodel}}
 
-\emph{AP: I substituted ``modeling features'' for ``semantics''. Please check.} The URDAD metamodel provides the modeling features required by the URDAD methodology to store the requirements for a service/use case. Modeling features can be encoded using a variety of formalisms including ontology-based technologies such as the Web Ontology Language (OWL) \cite{} or frame languages such as MOF or its simplification, the {\em Esssential MOF} (EMOF) \cite{}. Standard mappings between these two technologies exist \cite{staab_model_2010}. \emph{AP: How ``standard'' are these mappings? What about their practicality in practice?}
+The URDAD metamodel provides the modeling features required by the URDAD methodology to store the requirements for a service/use case. Modeling features can be encoded using a variety of formalisms including ontology-based technologies such as the Web Ontology Language (OWL) \cite{} or frame languages such as MOF or its simplification, the {\em Esssential MOF} (EMOF) \cite{}. Standard mappings between these two technologies exist \cite{staab_model_2010}. \emph{AP: How ``standard'' are these mappings? What about their practicality in practice?}
 
 The URDAD metamodel was encoded in {\em ECore} which is the {\em Eclipse Foundations}'s implementation of {\em EMOF}. We performed a mapping onto OWL to be able to use standard reasoning services in order to show the logical consistency of the metamodel. \emph{AP: What ``standard'' reasoning services exactly: consistency, satisfyability,...?}
 
-\emph{AP: Sentence too long.} The choice of the encoding technology was guided by the support for OCL constraints at both the meta-model and model levels as well as the rich tool set available within the Eclipse family of tools including tools for generating or defining concrete text and diagrammatic syntaxes for the domain specific language as well as the availability of a rich set of model-to-model and model-to-text transformation tools.
+The choice of the encoding technology was guided by the support for OCL constraints at both the meta-model and model levels as well as the rich tool set available within the Eclipse family of tools. This set includes tools for generating or defining concrete text and diagrammatic syntaxes for the domain specific language as well as the availability of a rich set of model-to-model and model-to-text transformation tools.
 
 
 \subsection{URDAD modeling features}
@@ -144,6 +144,37 @@ I will clarify this. A service is a unit of functionality for which there is a c
 
 The URDAD-DSL is a simpler language to encode an URDAD model in resulting in lower model complexity, faster model encoding and reduced errors around missing links". For example, in a UML encoding the BA has to add the link connecting a use case with a service (otherwise they are not connected in UML, even though UML says a use case is a service which generates value to the user, there is no physical linkage in UML, linkage between functional requirements and pre/post-conditions, enforcing that the only exception which may be raised is one of the exceptions associated with one of the preconditions of the service, ..., and that a process can only end by either returning the deliverable or raising one of the allowed exceptions, etc etc. All that linkage is in the URDAD DSL)
 
+
+
+
+
+Domain experts collaborate to specify domain model
+
+Discuss recursive nature of URDAD, i.e. how URDAD can be used to design itself but refer to quality paper - feed that into quality paper.
+
+On the other hand, there is a recursive aspect to the URDAD method. If
+we view the process of performing the requirements elicitation and
+process design for  a level of granularity as a service with defined
+inputs and outputs, pre and post-conditions. That service will call
+itself for the lower level services, performing the same activities at
+the next lower level of granularity. That is of course only required for
+those lower level services which do not yet exist. In this sense the
+URDAD methodology is recursive, but the URDAD metamodel itself is more
+fractal than recursive.
+
+Another interesting aspect which I would like to cover in the quality
+paper is that one must be able to design URDAD using URDAD for URDAD to
+be a consistent methodology (this is independent of the metamodel and
+hence not in the metamodel paper). URDAD is meant to be a methodology of
+technology neutral analysis and process design of services. If we use
+URDAD to analyze the requirements for the service of doing the
+technology neutral analysis and design, we should end up with a process
+which is URDAD. Otherwise URDAD is not internally consistent.
+
+
+Explain responsibility domain
+
+An exception is the notification to a user/client that the requested service is not going to be provided. An exception is always associated with one of the preconditions of a service. If all preconditions are met, the service must be provided as per contract, otherwise there is an error. Thus, if I withdraw cash and my account is in its current state, I might get an InsufficientFundsException - there is no error, just a notification that the withdrawel service is not provided because one of the preconditions of the service is not met. However, if it calculates the service fees and there is a divide by zero or the DB is down, then there is an error which needs to be fixed. Exceptions are just as relevant at the business level as at the technical level.
 
 
 
