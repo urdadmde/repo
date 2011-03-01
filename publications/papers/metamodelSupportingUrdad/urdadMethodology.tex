@@ -1,24 +1,48 @@
 \section{Overview of the URDAD methodology \label{sec:urdadMethodology}}
 
-URDAD as a methodology generating the requirements model
+URDAD is an algorithmic, semi-formal method for eliciting and capturing service/use case requirements and technology neutral business process designs\cite{solms_urdad_2010}.
+Services are recursively decomposed until the lowest level services which are services sourced from the environment (e.g. operating system, frameworks, off-the shelf solutions and services sourced from external service providers). These low level provided by the environment are treated as atomic services.
 
-URDAD is an algorithmic, semi-formal methodology for eliciting and capturing service/use case requirements and technology neutral business process designs\cite{solms_urdad_2010}. 
-TODO: REWRITE FOLLOWING PART OF PARAGRAPH
- The methodology recursively decomposes cohesive units of functional requirements into lower level functional requirements until the functional requirements are
-fully specified in terms of well understood pieces of functionality.
+\subsection{The URDAD algorithm}
 
-Services are recursively decomposed until the lowest level services which are services sourced from the environment (e.g. operating system, frameworkd, off-the shelf solutions and services sourced from external service providers). These low level provided by the environment are treated as atomic services.
+URDAD aims to provide a repeatable engineering process for performing the technology neutral requirements analysis and process design around a use case or servcie. To this end it must be an algorithmic method with defined process steps and defined inputs and outputs for each process step. In its economized version URDAD has three core process steps for each level of granularity
+\begin{orderedlist}
+ \item {\bf Service contract specification:} This step includes the identification of stake holders (parties which have an interest in the use case/servcie and hence may have requirements around it) and, for each stake holder, the elicitation, documentation and validation pre, post-conditions and quality requirements resulting in the services contract for that level of granularity, 
+ \item {\bf Functional requirements:} In this step one identifies the abstract services (services contracts) one would like to use to address each of the pre- and post-conditions. 
+ \item {\bf Process specification:} The previous step identified the lower level services to be used to adress the pre- and post-conditions. In this step one orchestrates a process which, if all pre-conditions are met, yields the result and, if not, aborts the service delivery raising the exception which has been associated with the pre-condition which has not been met.
+\end{orderedlist}
 
-The process is an iterative process, iterating across levels of granularity. At each level of granularity the required functionality is decomposed into cohesive lower level functional units called services. The required logic for assembling the higher level functionality/service from lower level services is specified in a process.
+For eachThe process is repeated for the next lower level of
 
-The steps at any level of granularity include
-\begin{enumerate}
- \item lower level {functional requirements elicitation}
- 
-Decompose the higher level functional requirement (service) into lower level functional requirements required by different stake holders.
- \item Specify the services contract for the higher level service including the pre- and post-conditions, data structures for the result and the quality requirements
- \item 
-\end{enumerate}
+Domain experts collaborate to specify domain model
 
 Discuss recursive nature of URDAD, i.e. how URDAD can be used to design itself but refer to quality paper - feed that into quality paper.
+
+On the other hand, there is a recursive aspect to the URDAD method. If
+we view the process of performing the requirements elicitation and
+process design for  a level of granularity as a service with defined
+inputs and outputs, pre and post-conditions. That service will call
+itself for the lower level services, performing the same activities at
+the next lower level of granularity. That is of course only required for
+those lower level services which do not yet exist. In this sense the
+URDAD methodology is recursive, but the URDAD metamodel itself is more
+fractal than recursive.
+
+Another interesting aspect which I would like to cover in the quality
+paper is that one must be able to design URDAD using URDAD for URDAD to
+be a consistent methodology (this is independent of the metamodel and
+hence not in the metamodel paper). URDAD is meant to be a methodology of
+technology neutral analysis and process design of services. If we use
+URDAD to analyze the requirements for the service of doing the
+technology neutral analysis and design, we should end up with a process
+which is URDAD. Otherwise URDAD is not internally consistent.
+
+
+Explain responsibility domain
+
+An exception is the notification to a user/client that the requested service is not going to be provided. An exception is always associated with one of the preconditions of a service. If all preconditions are met, the service must be provided as per contract, otherwise there is an error. Thus, if I withdraw cash and my account is in its current state, I might get an InsufficientFundsException - there is no error, just a notification that the withdrawel service is not provided because one of the preconditions of the service is not met. However, if it calculates the service fees and there is a divide by zero or the DB is down, then there is an error which needs to be fixed. Exceptions are just as relevant at the business level as at the technical level.
+
+
+
+
 

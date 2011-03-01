@@ -134,6 +134,16 @@ During business process design one
 
 
 
+there are many options for process specification. Even in UML one can use multiple ways of specifying a process including sequence diagrams, activity diagrams and state machined. Our process specification is similar to that of BPEL (both are services oriented). Just that the semantics ties in with the rest of URDAD (services used to address pre/post conditions, service refused on account of a particular precondition not having been met, ...)
+
+Please also refer to the discussion on exceptions above. The URDAD DSL does not lcok into using OCL and leaves the constraint language pluggable. In practice, however, one would currently largely use OCL, and, yes, the formal specification of the pre and post conditions would be encoded in the chosen constraint language.
+
+> Page 8: The use of the terms "process", "activity", and "service"
+> is confusing. A diagram may help to make clear the relations.
+I will clarify this. A service is a unit of functionality for which there is a contract. A process is a special activity which realizes a service - i.e. a particular way of providing that unit of functionality. An activity is either the process as a whole or a process component. The concepts should be clear from the diagrammatic representation of the metamodel (attached and in Wiki - will be fed into paper).
+
+The URDAD-DSL is a simpler language to encode an URDAD model in resulting in lower model complexity, faster model encoding and reduced errors around missing links". For example, in a UML encoding the BA has to add the link connecting a use case with a service (otherwise they are not connected in UML, even though UML says a use case is a service which generates value to the user, there is no physical linkage in UML, linkage between functional requirements and pre/post-conditions, enforcing that the only exception which may be raised is one of the exceptions associated with one of the preconditions of the service, ..., and that a process can only end by either returning the deliverable or raising one of the allowed exceptions, etc etc. All that linkage is in the URDAD DSL)
+
 
 
 
