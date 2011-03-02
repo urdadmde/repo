@@ -1,5 +1,6 @@
 #!/bin/bash
 rm *.backup
+rm *.bak
 rm *.tex~
 rm *.aux
 rm *.log

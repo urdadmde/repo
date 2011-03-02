@@ -1,7 +1,6 @@
 \section{Overview of the URDAD methodology \label{sec:urdadMethodology}}
 
-URDAD is an algorithmic, semi-formal method for eliciting and capturing service/use case requirements and technology neutral business process designs\cite{solms_urdad_2010}.
-Services are recursively decomposed until the lowest level services which are services sourced from the environment (e.g. operating system, frameworks, off-the shelf solutions and services sourced from external service providers). These low level provided by the environment are treated as atomic services.
+URDAD is an algorithmic, semi-formal method for eliciting and capturing service/use case requirements and technology neutral business process designs\cite{solms_urdad_2010}. Services are recursively decomposed until the lowest level services which are services sourced from the environment (e.g. operating system, frameworks, off-the shelf solutions and services sourced from external service providers). These low level provided by the environment are treated as atomic services.
 
 URDAD aims to provide a repeatable engineering process for performing the technology neutral requirements analysis and process design around a use case or service. To this end it must be an algorithmic with defined process steps and defined inputs and outputs for each process step. The URDAD process steps include service contract specification, functional/service requirement identification, responsibility allocation and process specification.
 
@@ -19,13 +18,15 @@ A post-condition is a condition which must hold true after the service has been 
 The quality requirements are the non-functional requirements like scalability, performance, reliability, accessibility/integrability, security, auditability and cost requirements. 
 
 \subsection{Functional requirements elicitation}
-The functional requirements step determines the functions/services required to address the pre- and post-conditions of the service. For example, to be able to assess the {\em policy is active} pre-condition, one requires a \verb+providePolicyStatus+ service. 
+The functional requirements step determines, for each pre- and post-condition, the required functions/services. For example, to be able to assess the {\em policy is active} pre-condition, one requires a \verb+providePolicyStatus+ service. 
 
 The service requirements refer to service contracts and not specific service implementations, i.e. the requirement is to have any service available which realizes a particular service contract.
 
+Part of the functional requirements step is to see whether multiple service requirements can be abstracted into a single cohesive service (with a single purpose) which is assembled from any of the required services. For example, before one can enroll a candidate for a course one needs Combine services to fix level of granularity in repeatable way.
+
 \subsection{Responsibility allocation}
 
-URDAD has its roots in concepts from Responsibility Driven Design (RDD) \cite{wirfs-brock_object-oriented_1989,wirfs-brock_object_2002}. Services contracts and service designs are assigned to the responsibility domains into which the services fall. This provides the step which prompts
+URDAD has its roots in concepts from Responsibility Driven Design (RDD) \cite{wirfs-brock_object-oriented_1989,wirfs-brock_object_2002}. Services contracts and service designs are assigned to the responsibility domains into which the services fall. This provides the step which prompts the search for service reuse, and, if a required service does not exist
 
 \subsection{Process design}
 In the previous steps the lower level services to be used to adress the pre- and post-conditions were identified. In this step one orchestrates a process which, if all pre-conditions are met, yields the result and, if not, aborts the service delivery raising the exception which has been associated with the pre-condition which has not been met. The process will incorporate all services
