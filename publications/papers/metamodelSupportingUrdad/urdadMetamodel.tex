@@ -1,16 +1,17 @@
 \section{The URDAD metamodel \label{sec:metamodel}}
 
-+\emph{AP: I substituted ``modeling features'' for ``semantics''. Please check.} The URDAD metamodel provides the modeling features required by the URDAD methodology to store the requirements for a service/use case. Modeling features can be encoded using a variety of formalisms including ontology-based technologies such as the Web Ontology Language (OWL) \cite{} or frame languages such as MOF or its simplification, the {\em Esssential MOF} (EMOF) \cite{}. Standard mappings between these two technologies exist \cite{staab_model_2010}. \emph{AP: How ``standard'' are these mappings? What about their practicality in practice?}
+A metamodel contains the ``logical information model that specifies the modeling elements used within another (or the same) modeling notation
+metamodel'' \cite{_ieee_2003}.
 
-ADD:
-aim of metamodel -> introduce required semantics, minimal, enforce compliance through enforced structure, absorb model constraints as constraints on metamodel
+\cite{gonzalez-perez_metamodelling_2008}
 
-The URDAD metamodel was encoded in {\em ECore} which is the {\em Eclipse Foundations}'s implementation of {\em EMOF}. We performed a mapping onto OWL to be able to use standard reasoning services in order to show the logical consistency of the metamodel. \emph{AP: What ``standard'' reasoning services exactly: consistency, satisfyability,...?}
+\todo{Sort out whether to fo with semantics or modeling features - waiting for response on email sent to authors}
 
-The choice of the encoding technology was guided by the support for OCL constraints at both the meta-model and model levels as well as the rich tool set available within the Eclipse family of tools. This set includes tools for generating or defining concrete text and diagrammatic syntaxes for the domain specific language as well as the availability of a rich set of model-to-model and model-to-text transformation tools.
++\emph{AP: I substituted ``modeling features'' for ``semantics''. Please check.} 
 
+The URDAD metamodel provides the semantics required required by the URDAD methodology to store the requirements for a service/use case. for practicality reasons, the semantics has been encoded EMOF/Ecore instead of {\em Web Ontology Language}, OWL\cite{}. It is motivated by the technology support for developing a concrete textual and graphical syntax for the DSL, the support for model-to-model and model-to-text transformations and the availability of OCL as a constraint language for specifying constraints at both, the metamodel and model levels. Mappings between these two technologies can be readily performed \cite{staab_model_2010}. A trasformation to OWL facilitates reasoning services like consistency and completeness assessment.
 
-\subsection{URDAD modeling features}
+\subsection{Modeling semantics required by URDAD}
 
 The URDAD methodology requires the following modeling features:
 \begin{itemize}
@@ -180,11 +181,6 @@ An exception is the notification to a user/client that the requested service is 
 
 
 
-
-
-Ideas for issues to be covered.
-
-{\em Fritz: Need to check overlap between this section and introduction}
 
 \begin{itemize}
 

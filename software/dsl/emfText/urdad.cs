@@ -1,5 +1,11 @@
 SYNTAXDEF urdad
 FOR <http://www.urdad.org/2010/urdad>
+
+// IMPORTS { java : <http://www.emftext.org/java> 
+// <../../org/urdad/language/someOtherLanguage/metamodel/someOtherLanguage.genmodel> 
+// WITH SYNTAX java <../../org/urdad/language/someOtherLanguage/metamodel/someOtherLanguage.cs>}
+
+
 START Model
 
 TOKENS {
@@ -41,7 +47,6 @@ TOKENSTYLES {
 	"Result" COLOR #7F0055, BOLD;
 	"Service" COLOR #7F0055, BOLD;
 	"realizes" COLOR #7F0055, BOLD;
-	"Process" COLOR #7F0055, BOLD;
 	"doSequential" COLOR #7F0055, BOLD;
 	"do" COLOR #7F0055, BOLD;
 	"doConcurrent" COLOR #7F0055, BOLD;

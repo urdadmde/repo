@@ -5,6 +5,21 @@
 \newcommand{\comment}[1]{}
 \newcommand{\commentt}[2]{}{}
 
+%TODO commands by Henrik Skov Midtiby 
+%\newcommand{\todo}[1]{\marginpar{#1}}
+\newcommand{\todo}[1]{
+    \addcontentsline{tdo}{todo}{\protect{#1}}
+    \marginpar{#1}
+}
+
+% Additionally a command to generate the list of todos.
+\makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
+\newcommand\l@todo[2]
+  {\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
+
+%Now the list of todo's could be inserted by using the command
+%  \listoftodos
+
 \begin{document}
 
 %\title{A Metamodel Supporting URDAD}
@@ -15,6 +30,8 @@
 \maketitle
 
 \input{abstract.tex}
+
+\listoftodos
 
 %\keywords{model-driven development, metamodel, URDAD }
 
