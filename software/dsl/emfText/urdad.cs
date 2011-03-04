@@ -68,6 +68,10 @@ TOKENSTYLES {
 	"while" COLOR #7F0055, BOLD;
 	"forAll" COLOR #7F0055, BOLD;
 	"Note" COLOR #7F0055, BOLD;
+	"Choice" COLOR #7F0055, BOLD;
+	"annotations" COLOR #7F0055, BOLD;
+	"name" COLOR #7F0055, BOLD;
+	"conditionalActivities" COLOR #7F0055, BOLD;
 }
 
 RULES {
@@ -142,6 +146,8 @@ RULES {
 	ActivitySequence ::= "doSequential" "{" (activities)* "}"; 
 
 	If ::= "if" condition[] "do" (activity);
+
+	Choice ::= "choice" "{" (conditionalActivities)* "}";
 	
 	ConcurrentActivity ::= "doConcurrent" (activity) ("blocking" "=" blocking[])?;
 	

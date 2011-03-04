@@ -206,8 +206,14 @@
       eSuperTypes="#//ContainerActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
         eType="#//Condition"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="blocking" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="If" eSuperTypes="#//ConditionalActivity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Choice" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditionalActivities"
+        lowerBound="2" upperBound="-1" eType="#//ConditionalActivity" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Wait" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="until" lowerBound="1" eType="#//Condition"/>
   </eClassifiers>
@@ -239,6 +245,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="ForAll" eSuperTypes="#//ContainerActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="query" eType="#//Query"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="concurrent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExceptionHandler" eSuperTypes="#//ContainerActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="exception" lowerBound="1"
