@@ -1,44 +1,140 @@
-    Model Training
+Model Training
 ResponsibilityDomain Training
 {
-  ResponsibilityDomain primitives
+  ResponsibilityDomain Primitives
   {
     BasicDataType String
     BasicDataType Integer
     BasicDataType FloatingPointNumber
     BasicDataType Date
+    BasicDataType URI
+    
+    DataStructure Object {}
+  }
+  ResponsibilityDomain Collections
+  {
+    DataStructure Collection
+    {
+        has element ofType Object [ 1 , 100 ]
+    }
+  }
+  ResponsibilityDomain Storage
+  {
+    ResponsibilityDomain StorageClient
+    {
+    }
+    DataStructure Entity
+    {
+        hasAttribute identifier ofType Integer
+    }
+    
+    Condition EntityNotStored
+    Condition EntityStored
+    Exception EntityAlreadyStoredException {}
+    Exception EntityNotStoredException {}
+    ServiceContract storeEntity
+    {
+        PreCondition entityNotYetStored checks EntityNotStored 
+            raises EntityAlreadyStoredException isRequiredBy (StorageClient)
+        Request DataStructure StoreEntityRequest
+        {
+            has entityToPersist ofType Entity
+        }
+        Result DataStructure StoreEntityResult
+        {
+            has persistedEntity ofType Entity
+        }
+    }
+    ServiceContract retrieveEntity
+    {
+        PreCondition entityStored checks EntityStored 
+            raises EntityNotStoredException isRequiredBy (StorageClient)
+        Request DataStructure RetrieveEntityRequest
+        {
+            hasAttribute entityIdentifier ofType Integer
+        }
+        Result DataStructure RetrieveEntityResult
+        {
+            has retrievedEntity ofType Entity
+        }
+    }
+    ServiceContract removeEntity
+    {
+        Request DataStructure RemoveEntityRequest
+        {
+            hasAttribute entityIdentifier ofType Integer
+        }
+        Result DataStructure RemoveEntityResult
+        {
+        }
+    }
+    ServiceContract updateEntity
+    {
+        PreCondition entityNotStored checks EntityNotStored 
+            raises EntityNotStoredException isRequiredBy (StorageClient)
+        Request DataStructure UpdateEntityRequest
+        {
+            has newEntityState ofType Entity
+        }
+        Result DataStructure UpdateEntityResult
+        {
+            has persistedEntity ofType Entity
+        }
+    }
+    DataStructure StorageQuery
+    {
+        hasAttribute queryLanguage ofType URI
+        hasAttribute queryExpression ofType String 
+    }
+    ServiceContract findEntities
+    {
+        Request DataStructure FindEntitiesRequest
+        {
+            has query ofType StorageQuery
+        }
+        Result DataStructure ResultList is 
+    }
   }
   
   ResponsibilityDomain TrainingInstitution
   {
-    ResponsibilityDomain Enrollments
+    ResponsibilityDomain Finance
     {
-      ResponsibilityDomain PresentationManagement
+      Condition invoiceForEnrollmentIssued 
+      Exception NoInvoiceIssuedForEnrollmentException {}
+      Condition financialPrerequisitesSatisfied 
+      Exception FinancialPrerequisitesNotSatisfiedException {}
+      ServiceContract issueInvoice
       {
-        ServiceContract enlistStudentForPresentation
-        {
-          PreCondition studentRegistered checks studentIsRegistered isRequiredBy (Shareholder)
-          Request DataStructure EnlistStudentForPresentationRequest {}
-          Result DataStructure EnlistStudentForPresentationResult {}
-        }
-      }  
-      ResponsibilityDomain ProofOfEnrollments
+        PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied isRequiredBy ()
+        Request DataStructure IssueInvoiceRequest {}
+        Result DataStructure IssueInvoiceResult {}
+      }
+//      ServiceContract provideInvoiceForEnrollment
+//      {
+//        PreCondition 
+//      }
+    }
+    ResponsibilityDomain ClientRelationshipManagement
+    {
+      Condition studentIsRegistered OCL:"provideRegistrationDetails(#provideRegistrationDetailsRequest) <> NULL"
+      Exception StudentNotRegisteredException {}
+      ServiceContract provideRegistrationDetails
       {
-        ServiceContract provideProofOfEnrollment
-        {
-          PreCondition isRegistered checks StudentIsRegistered isRequiredBy (Shareholder TrainingRegulator)
-          Request DataStructure ProvideProofOfEnrollmentRequest {}
-          Result DataStructure ProvideProofOfEnrollmentResult {}
-        }
+        Request DataStructure ProvideRegistrationDetailsRequest {}
+        Result DataStructure ProvideRegistrationDetailsResult {}
       }
     }
     ResponsibilityDomain Academic
     {
       ResponsibilityDomain Assessment
       {
+        Exception StudentDoesNotSatisfyPrerequisitesException {}
         ServiceContract checkStudentSatisfiesCoursePrerequisites
         {
-          PreCondition studentRegistered checks studentIsRegistered isRequiredBy (Shareholder)
+        
+          PreCondition studentRegistered checks studentIsRegistered 
+            raises StudentNotRegisteredException isRequiredBy (Shareholder)
           
           Request DataStructure CheckStudentSatisfiesCoursePrerequisitesRequest
           {
@@ -47,12 +143,12 @@ ResponsibilityDomain Training
           {
           } 
         } 
-        ResponsibilityDomain Vaidation
+        ResponsibilityDomain Validation
         {
-            ServiceContract checkStudentSatisfiesPrerequisitesForEnrollment
+            ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
             {
-                Request DataStructure CheckStudentSatisfiesPrerequisitesForEnrollmentRequest {}
-                Result DataStructure CheckStudentSatisfiesPrerequisitesForEnrollmentResult {}
+                Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest {}
+                Result DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesResult {}
             }
         }
       }
@@ -67,29 +163,86 @@ ResponsibilityDomain Training
         }
       }
     }
-    ResponsibilityDomain Finance
+    ResponsibilityDomain Enrollments
     {
-      Condition invoiceForEnrollmentIssued raises Exception NoInvoiceIssuedForEnrollmentException {}
-      Condition financialPrerequisitesSatisfied raises Exception FinancialNotPrerequisitesSatisfiedException {}
-      ServiceContract issueInvoice
+      ResponsibilityDomain PresentationManagement
       {
-        PreCondition financialPrerequisitesMet checks meetsFinancialPrerequisites isRequiredBy ()
-        Request DataStructure IssueInvoiceRequest {}
-        Result DataStructure IssueInvoiceResult {}
+        ServiceContract enlistStudentForPresentation
+        {
+          PreCondition studentRegistered checks studentIsRegistered 
+            raises StudentNotRegisteredException isRequiredBy (Shareholder)
+          Request DataStructure EnlistStudentForPresentationRequest {}
+          Result DataStructure EnlistStudentForPresentationResult {}
+        }
+      }  
+      ResponsibilityDomain ProofOfEnrollments
+      {
+        ServiceContract provideProofOfEnrollment
+        {
+          PreCondition isRegistered checks studentIsRegistered 
+            raises StudentNotRegisteredException isRequiredBy (Shareholder TrainingRegulator)
+          Request DataStructure ProvideProofOfEnrollmentRequest {}
+          Result DataStructure ProvideProofOfEnrollmentResult {}
+        }
       }
-      ServiceContract provideInvoiceForEnrollment
+      Condition enrollmentPrerequisitesSatisfied OCL:"kjds"
+      Exception EnrollmentPrerequisitesNotSatisfiedException {}
+      ServiceContract enrollForPresentation
       {
-        PreCondition 
+        PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied
+            raises FinancialPrerequisitesNotSatisfiedException
+            isRequiredBy (Shareholder)    
+        PreCondition enrollmentPrerequisitesMet checks enrollmentPrerequisitesSatisfied
+            raises EnrollmentPrerequisitesNotSatisfiedException
+            isRequiredBy (TrainingRegulator Student) 
+        PostCondition enrollmentProcessPerformed ensures enrollmentPerformed
+            isRequiredBy (Student)    
+        PostCondition invoiceIssued ensures invoiceForEnrollmentIssued
+            isRequiredBy (Shareholder)    
+        Request DataStructure EnrollForPresentationRequest 
+        {
+            
+        }
+        Result DataStructure EnrollForPresentationResult {}
       }
-    }
-    ResponsibilityDomain ClientRelationshipManagement
-    {
-      Condition StudentIsRegistered OCL:"provideRegistrationDetails(#provideRegistrationDetailsRequest) <> NULL"
-        raises Exception StudentNotRegisteredException {}
-      ServiceContract provideRegistrationDetails
+      Service enrollForPresentationImpl realizes enrollForPresentation
       {
-        Request DataStructure ProvideRegistrationDetailsRequest {}
-        Result DataStructure ProvideRegistrationDetailsResult {}
+        use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
+        use issueInvoice toAddress (financialPrerequisitesMet invoiceIssued) 
+   //     use performEnrollment toAddress (enrollmentProcessPerformed)
+        doSequential
+        {
+            requestService checkStudentSatisfiesEnrollmentPrerequisites 
+                yields checkStudentSatisfiesEnrollmentPrerequisitesResult
+            {
+                
+            }
+            choice
+            {
+                if Condition enrollmentMeetsPrerequisites OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult."
+                    doSequential
+                    {
+                        requestService issueInvoice
+                        {
+                            on FinancialPrerequisitesNotSatisfiedException 
+                                raiseException FinancialPrerequisitesNotSatisfiedException
+                        }
+                        requestService performEnrollment
+                        {
+                        }
+                    }
+                else
+                    raiseException EnrollmentPrerequisitesNotSatisfiedException
+                        
+            }
+        }  
+      }
+      
+      Condition enrollmentPerformed
+      ServiceContract performEnrollment
+      {
+        Request DataStructure PerformEnrollmentRequest {}
+        Result DataStructure PerformEnrollmentResult {}
       }
     }
     ResponsibilityDomain RosterManagement
@@ -103,61 +256,3 @@ ResponsibilityDomain Training
   ResponsibilityDomain Client {}
   
 }  
-
-//====================================================================
-
-  ResponsibilityDomain TrainingInstitution2
-  {
-    ResponsibilityDomain Enrollment
-    {
-      ResponsibilityDomain Validation
-      {
-        Condition enrollmentMeetsPrerequisites raises Exception EnrollmentPrerequisitesNotMetException {}
-        ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
-        {
-          Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest {}
-          Result DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesResult{}
-        }
-      }
-      
-      ServiceContract enrollForPresentation
-      {
-        PreCondition prerequisitesMet checks enrollmentMeetsPrerequisites isRequiredBy (Student TrainingRegulator) 
-        PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied 
-          isRequiredBy (Shareholder)
-        PostCondition invoiceForEnrollmentIssued ensures invoiceForServiceIssued isRequiredBy (Shareholder)
-        PostCondition studentEnrolled ensures studentEnrolledForPresentation isRequiredBy (Student Client)
-        Request DataStructure EnrollForPresentationRequest {}
-        Result DataStructure EnrollForPresentationResult {}
-      }
-      
-      
-      Service enrollForPresentationImpl realizes enrollForPresentation 
-      {
-        use checkStudentSatisfiesCoursePrerequisites toAddress ( prerequisitesMet ) if studentEnrolledForPresentation
-        use issueInvoice toAddress ( financialPrerequisitesMet invoiceForEnrollmentIssued )
-        use performEnrollment toAddress (studentEnrolled)
-        doSequential
-        {
-          requestService checkStudentSatisfiesCoursePrerequisites yields coursePrerequisitesResult
-          create issueInvoiceRequest ofType IssueInvoiceRequest
-          add Query someSourceData OCL:"lkjlkj" to Query someDestinationPosition OCL:"thequery"
-          if enrollmentMeetsPrerequisites
-            do  refuseService EnrollmentPrerequisitesNotMetException
-          requestService issueInvoice 
-            handleException FinancialNotPrerequisitesSatisfiedException 
-              via refuseService FinancialNotPrerequisitesSatisfiedException
-          requestService performEnrollment   
-          returnResult 
-        }
-      }
-      
-      Condition studentEnrolledForPresentation raises Exception StudentNotEnrolledForPresentationException {}
-      ServiceContract performEnrollment
-      {
-        Request DataStructure performEnrollmentRequest {}
-        Result DataStructure performEnrollmentResult {}
-      }
-    }
-  }  
-}

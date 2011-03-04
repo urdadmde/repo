@@ -61,8 +61,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Condition" eSuperTypes="#//Constraint">
     <eStructuralFeatures xsi:type="ecore:EReference" name="inverse" eType="#//Condition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="exception" eType="#//Exception"
-        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="QualityConstraint" eSuperTypes="#//Constraint"/>
   <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//NamedElement">
@@ -143,7 +141,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
         eType="#//Condition"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PreCondition" eSuperTypes="#//ConditionRequirement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PreCondition" eSuperTypes="#//ConditionRequirement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exception" eType="#//Exception"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PostCondition" eSuperTypes="#//ConditionRequirement"/>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionalRequirement" eSuperTypes="#//ElementWithOptionalName">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -205,17 +205,20 @@
   <eClassifiers xsi:type="ecore:EClass" name="ConditionalActivity" abstract="true"
       eSuperTypes="#//ContainerActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
-        eType="#//Condition"/>
+        eType="#//Condition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="blocking" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="If" eSuperTypes="#//ConditionalActivity"/>
   <eClassifiers xsi:type="ecore:EClass" name="Choice" eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="conditionalActivities"
-        lowerBound="2" upperBound="-1" eType="#//ConditionalActivity" containment="true"/>
+        lowerBound="1" upperBound="-1" eType="#//ConditionalActivity" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elseActivity" eType="#//Activity"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Wait" eSuperTypes="#//Activity">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="until" lowerBound="1" eType="#//Condition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="until" lowerBound="1" eType="#//Condition"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="VariableProduction" abstract="true"
       eSuperTypes="#//Activity"/>
@@ -240,7 +243,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="While" eSuperTypes="#//ContainerActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
-        eType="#//Condition"/>
+        eType="#//Condition" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ForAll" eSuperTypes="#//ContainerActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="query" eType="#//Query"
@@ -266,7 +269,7 @@
         eType="#//ExceptionHandler" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TerminalActivity" abstract="true" eSuperTypes="#//Activity"/>
-  <eClassifiers xsi:type="ecore:EClass" name="RefuseService" eSuperTypes="#//TerminalActivity">
+  <eClassifiers xsi:type="ecore:EClass" name="RaiseException" eSuperTypes="#//TerminalActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="exception" lowerBound="1"
         eType="#//Exception"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exceptionConstraints" upperBound="-1"

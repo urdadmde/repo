@@ -21,7 +21,6 @@ TOKENSTYLES {
 	"Query" COLOR #7F0055, BOLD;
 	"Constraint" COLOR #7F0055, BOLD;
 	"Condition" COLOR #7F0055, BOLD;
-	"raises" COLOR #7F0055, BOLD;
 	"QualityConstraint" COLOR #7F0055, BOLD;
 	"BasicDataType" COLOR #7F0055, BOLD;
 	"DataStructure" COLOR #7F0055, BOLD;
@@ -36,6 +35,7 @@ TOKENSTYLES {
 	"isRequiredBy" COLOR #7F0055, BOLD;
 	"PreCondition" COLOR #7F0055, BOLD;
 	"checks" COLOR #7F0055, BOLD;
+	"raises" COLOR #7F0055, BOLD;
 	"PostCondition" COLOR #7F0055, BOLD;
 	"ensures" COLOR #7F0055, BOLD;
 	"use" COLOR #7F0055, BOLD;
@@ -48,7 +48,8 @@ TOKENSTYLES {
 	"Service" COLOR #7F0055, BOLD;
 	"realizes" COLOR #7F0055, BOLD;
 	"doSequential" COLOR #7F0055, BOLD;
-	"do" COLOR #7F0055, BOLD;
+	"choice" COLOR #7F0055, BOLD;
+	"else" COLOR #7F0055, BOLD;
 	"doConcurrent" COLOR #7F0055, BOLD;
 	"blocking" COLOR #7F0055, BOLD;
 	"Concurrency" COLOR #7F0055, BOLD;
@@ -61,17 +62,13 @@ TOKENSTYLES {
 	"remove" COLOR #7F0055, BOLD;
 	"requestService" COLOR #7F0055, BOLD;
 	"yields" COLOR #7F0055, BOLD;
-	"handleException" COLOR #7F0055, BOLD;
-	"via" COLOR #7F0055, BOLD;
-	"refuseService" COLOR #7F0055, BOLD;
+	"on" COLOR #7F0055, BOLD;
+	"raiseException" COLOR #7F0055, BOLD;
 	"returnResult" COLOR #7F0055, BOLD;
 	"while" COLOR #7F0055, BOLD;
+	"do" COLOR #7F0055, BOLD;
 	"forAll" COLOR #7F0055, BOLD;
 	"Note" COLOR #7F0055, BOLD;
-	"Choice" COLOR #7F0055, BOLD;
-	"annotations" COLOR #7F0055, BOLD;
-	"name" COLOR #7F0055, BOLD;
-	"conditionalActivities" COLOR #7F0055, BOLD;
 }
 
 RULES {
@@ -87,11 +84,9 @@ RULES {
 	Query ::= "Query" name[] (queryExpression);
 	
 	Constraint ::= "Constraint" name[] (constraintExpression)? 
-	  ("(" (annotations)*")")?;
-	
+	  ("(" (annotations)*")")?;	
 	
 	Condition ::= "Condition" name[] (constraintExpression)?
-      ("raises" (exception))?
 	  ("(" (annotations)*")")?;
 	
 	QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
@@ -104,6 +99,7 @@ RULES {
 	DataStructure ::= "DataStructure" name[] ("is" superType[])? "{"
 	  (attributes)* (associations)* 
 	  ("(" (annotations)*")")?"}";
+	  
 	Exception ::= "Exception" name[] ("is" superType[])? "{" 
 	  (attributes)* (associations)* 
 	  ("(" (annotations)*")")?"}";
@@ -118,6 +114,7 @@ RULES {
 	  ("(" (annotations)*")")?;
 	  
 	PreCondition ::= "PreCondition" name[] "checks" condition[]  
+      ("raises" exception[])?
 		"isRequiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
 	  
@@ -145,15 +142,15 @@ RULES {
 	
 	ActivitySequence ::= "doSequential" "{" (activities)* "}"; 
 
-	If ::= "if" condition[] "do" (activity);
+	If ::= "if" (condition) (activity);
 
-	Choice ::= "choice" "{" (conditionalActivities)* "}";
+	Choice ::= "choice" "{" (conditionalActivities)* ("else" (elseActivity)?) "}";
 	
 	ConcurrentActivity ::= "doConcurrent" (activity) ("blocking" "=" blocking[])?;
 	
 	Concurrency ::= "Concurrency" "{" (concurrentActivities)* "}"; 
 	
-	Wait ::= "wait" "until" until[];
+	Wait ::= "wait" "until" (until);
 	
 	Create ::= "create" name[] "ofType" dataType[] ("(" (constraints)*")")?;
 	
@@ -162,17 +159,20 @@ RULES {
 	Remove ::= "remove" target;
 	
 	RequestService ::= "requestService" requestedService[] ("yields" name[])? 
-		("{" (requestConstraints)* "}")?;
+		("{" 
+			(requestConstraints)*  
+			(exceptionHandlers)*
+		"}")?;
 
-	ExceptionHandler ::= "handleException" exception[] "via" (activity);
+	ExceptionHandler ::= "on" exception[] (activity);
 		
-	RefuseService ::= "refuseService" exception[]	
+	RaiseException ::= "raiseException" exception[]	
 		("{" (exceptionConstraints)* "}")?;
 		
 	ReturnResult ::= "returnResult"	
 		("{" "ResultConstraints:" (resultConstraints)* "}")?;
 		
-	While ::= "while" condition[] "do" (activity);	
+	While ::= "while" (condition) "do" (activity);	
 		
 	ForAll ::= "forAll" (query) "do" (activity); 	
 
