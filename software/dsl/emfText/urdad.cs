@@ -22,13 +22,16 @@ TOKENSTYLES {
 	"Constraint" COLOR #7F0055, BOLD;
 	"Condition" COLOR #7F0055, BOLD;
 	"QualityConstraint" COLOR #7F0055, BOLD;
+	"from" COLOR #7F0055, BOLD;
+	"to" COLOR #7F0055, BOLD;
+	"many" COLOR #7F0055, BOLD;
 	"BasicDataType" COLOR #7F0055, BOLD;
 	"DataStructure" COLOR #7F0055, BOLD;
 	"is" COLOR #7F0055, BOLD;
 	"Exception" COLOR #7F0055, BOLD;
 	"hasAttribute" COLOR #7F0055, BOLD;
 	"ofType" COLOR #7F0055, BOLD;
-	"isAssociatedWith" COLOR #7F0055, BOLD;
+	"identifies" COLOR #7F0055, BOLD;
 	"has" COLOR #7F0055, BOLD;
 	"contains" COLOR #7F0055, BOLD;
 	"QualityRequirement" COLOR #7F0055, BOLD;
@@ -57,7 +60,6 @@ TOKENSTYLES {
 	"until" COLOR #7F0055, BOLD;
 	"create" COLOR #7F0055, BOLD;
 	"assign" COLOR #7F0055, BOLD;
-	"to" COLOR #7F0055, BOLD;
 	"add" COLOR #7F0055, BOLD;
 	"remove" COLOR #7F0055, BOLD;
 	"requestService" COLOR #7F0055, BOLD;
@@ -92,7 +94,8 @@ RULES {
 	QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
 	  ("(" (annotations)*")")?;
 
-	RangeMultiplicity ::= "["minOccurs[] "," maxOccurs[] "]";
+	RangeMultiplicity ::= "from" minOccurs[] "to" maxOccurs[];
+	Many ::= "many";
 	BasicDataType ::= "BasicDataType" name[]	  
 	  ("(" (constraints)*")")? ("(" (annotations)*")")?;
 	
@@ -105,9 +108,9 @@ RULES {
 	  ("(" (annotations)*")")?"}";
 	
 	Attribute ::= "hasAttribute" name[] "ofType" type[];
-	Association ::= "isAssociatedWith" name[] "ofType" relatedType[] (multiplicityConstraint)?; 
-	Aggregation ::= "has" name[] "ofType" relatedType[] (multiplicityConstraint)?; 
-	Composition ::= "contains" name[] "ofType" relatedType[] (multiplicityConstraint)?;
+	Association ::= "identifies" (multiplicityConstraint)? name[] "ofType" relatedType[]; 
+	Aggregation ::= "has" (multiplicityConstraint)? name[] "ofType" relatedType[]; 
+	Composition ::= "contains" (multiplicityConstraint)? name[] "ofType" relatedType[];
 	 
 	QualityRequirement ::= "QualityRequirement" name[] qualityConstraint[]
 		"isRequiredBy" "("(requiredBy[])*")"

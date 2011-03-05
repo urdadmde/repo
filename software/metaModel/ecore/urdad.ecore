@@ -98,6 +98,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
         defaultValueLiteral="1"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Many" eSuperTypes="#//MultiplicityConstraint"/>
   <eClassifiers xsi:type="ecore:EClass" name="DataType" abstract="true" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" upperBound="-1"
         eType="#//Constraint" containment="true"/>

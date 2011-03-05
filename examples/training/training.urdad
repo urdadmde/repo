@@ -13,9 +13,34 @@ ResponsibilityDomain Training
   }
   ResponsibilityDomain Collections
   {
-    DataStructure Collection
+    DataStructure Collection {}
+    DataStructure  List is Collection {}
+    ServiceContract addObjectToCollection
     {
-        has element ofType Object [ 1 , 100 ]
+        Request DataStructure AddObjectToCollectionRequest
+        {
+            contains objectToAdd ofType Object
+            identifies collectionToAddTo ofType Collection
+        }
+        Result DataStructure AddObjectToCollectionResult {}
+    }
+    ServiceContract removeObjectFromCollection
+    {
+        Request DataStructure RemoveObjectFromCollectionRequest
+        {
+            contains objectToRemove ofType Object
+            identifies collectionToRemoveFrom ofType Collection
+        }
+        Result DataStructure RemoveObjectFromCollectionResult {}
+    }
+    ServiceContract provideObjectAtIndex
+    {
+        Request DataStructure ProvideObjectAtIndexRequest
+        {
+            contains objectToRemove ofType Object
+            identifies collectionToRemoveFrom ofType Collection
+        }
+        Result DataStructure RemoveObjectFromCollectionResult {}
     }
   }
   ResponsibilityDomain Storage
@@ -92,7 +117,8 @@ ResponsibilityDomain Training
         {
             has query ofType StorageQuery
         }
-        Result DataStructure ResultList is 
+        Result DataStructure ResultList is List
+        {}
     }
   }
   
@@ -110,10 +136,13 @@ ResponsibilityDomain Training
         Request DataStructure IssueInvoiceRequest {}
         Result DataStructure IssueInvoiceResult {}
       }
-//      ServiceContract provideInvoiceForEnrollment
-//      {
-//        PreCondition 
-//      }
+      ServiceContract provideInvoiceForEnrollment
+      {
+        PreCondition invoiceForEnrollmentExists checks invoiceForEnrollmentIssued 
+            raises NoInvoiceIssuedForEnrollmentException isRequiredBy (Finance)
+        Request DataStructure  ProvideInvoiceForEnrollmentRequest {}
+        Result DataStructure ProvideInvoiceForEnrollmentResult {}
+      }
     }
     ResponsibilityDomain ClientRelationshipManagement
     {
@@ -201,7 +230,7 @@ ResponsibilityDomain Training
             isRequiredBy (Shareholder)    
         Request DataStructure EnrollForPresentationRequest 
         {
-            
+                    
         }
         Result DataStructure EnrollForPresentationResult {}
       }
@@ -209,7 +238,7 @@ ResponsibilityDomain Training
       {
         use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
         use issueInvoice toAddress (financialPrerequisitesMet invoiceIssued) 
-   //     use performEnrollment toAddress (enrollmentProcessPerformed)
+  //      use performEnrollment toAddress (enrollmentProcessPerformed)
         doSequential
         {
             requestService checkStudentSatisfiesEnrollmentPrerequisites 
