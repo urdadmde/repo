@@ -28,6 +28,7 @@ TOKENSTYLES {
 	"BasicDataType" COLOR #7F0055, BOLD;
 	"DataStructure" COLOR #7F0055, BOLD;
 	"is" COLOR #7F0055, BOLD;
+	"abstract" COLOR #7F0055, BOLD;
 	"Exception" COLOR #7F0055, BOLD;
 	"hasAttribute" COLOR #7F0055, BOLD;
 	"ofType" COLOR #7F0055, BOLD;
@@ -97,9 +98,10 @@ RULES {
 	RangeMultiplicity ::= "from" minOccurs[] "to" maxOccurs[];
 	Many ::= "many";
 	BasicDataType ::= "BasicDataType" name[]	  
-	  ("(" (constraints)*")")? ("(" (annotations)*")")?;
+	  ("(" (constraints)*")")? ("(" (annotations)*")")?;  
 	
 	DataStructure ::= "DataStructure" name[] ("is" superType[])? "{"
+	  ("abstract" "=" abstract[])?
 	  (attributes)* (associations)* 
 	  ("(" (annotations)*")")?"}";
 	  

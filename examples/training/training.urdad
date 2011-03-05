@@ -1,6 +1,209 @@
 Model Training
 ResponsibilityDomain Training
 {
+  
+  ResponsibilityDomain TrainingInstitution
+  {
+    ResponsibilityDomain ClientRelationshipManagement
+    {
+      DataStructure Organization is Entity
+      {
+        hasAttribute name ofType String
+      }
+      DataStructure Identification is Entity
+      {
+        abstract = true
+        identifies person ofType Person
+        identifies issuingOrganization ofType Organization
+      }  
+      DataStructure Passport is Identification
+      {
+        hasAttribute passportNumber ofType String
+      }
+      DataStructure OrganizationMemberCard
+      {
+        hasAttribute cardNumber ofType String
+        Note
+      }
+      DataStructure Person is Entity
+      {
+        hasAttribute name ofType String
+      }
+      Condition personIsRegistered OCL:"provideRegistrationDetails(#provideRegistrationDetailsRequest) <> NULL"
+      Exception PersonNotRegisteredException {}
+      ServiceContract provideRegistrationDetails
+      {
+        Request DataStructure ProvideRegistrationDetailsRequest {}
+        Result DataStructure ProvideRegistrationDetailsResult {}
+      }
+    }
+    ResponsibilityDomain Academic
+    {
+      ResponsibilityDomain CourseManagement
+      {
+        DataStructure Course
+        {
+            hasAttribute name ofType String
+            identifies many coursePrerequisite ofType Course 
+        }
+      }
+      ResponsibilityDomain Assessment
+      {
+        Exception StudentDoesNotSatisfyPrerequisitesException {}
+        ServiceContract checkStudentSatisfiesCoursePrerequisites
+        {
+        
+          PreCondition studentRegistered checks personIsRegistered 
+            raises PersonNotRegisteredException isRequiredBy (Shareholder)
+          
+          Request DataStructure CheckStudentSatisfiesCoursePrerequisitesRequest
+          {
+          }
+          Result DataStructure CheckStudentSatisfiesCoursePrerequisitesResult
+          {
+          } 
+        } 
+        ResponsibilityDomain Validation
+        {
+            ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
+            {
+                Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest {}
+                Result DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesResult {}
+            }
+        }
+      }
+      ResponsibilityDomain StudyGuides
+      {
+        ServiceContract provideStudyGuide
+        {
+          PreCondition studentRegistered checks studentIsRegistered isRequiredBy (Shareholder)
+          
+          Request DataStructure ProvideStudyGuideRequest {}            
+          Result DataStructure ProvideStudyGuideRequest {}                     
+        }
+      }
+    }
+    ResponsibilityDomain Enrollments
+    {
+      ResponsibilityDomain PresentationManagement
+      {
+        DataStructure PresentationDetails
+        {
+            identifies course ofType Course
+        }
+        ServiceContract enlistStudentForPresentation
+        {
+          PreCondition studentRegistered checks studentIsRegistered 
+            raises StudentNotRegisteredException isRequiredBy (Shareholder)
+          Request DataStructure EnlistStudentForPresentationRequest {}
+          Result DataStructure EnlistStudentForPresentationResult {}
+        }
+      }  
+      ResponsibilityDomain ProofOfEnrollments
+      {
+        ServiceContract provideProofOfEnrollment
+        {
+          PreCondition isRegistered checks studentIsRegistered 
+            raises StudentNotRegisteredException isRequiredBy (Shareholder TrainingRegulator)
+          Request DataStructure ProvideProofOfEnrollmentRequest {}
+          Result DataStructure ProvideProofOfEnrollmentResult {}
+        }
+      }
+      Condition enrollmentPrerequisitesSatisfied OCL:"kjds"
+      Exception EnrollmentPrerequisitesNotSatisfiedException {}
+      ServiceContract enrollForPresentation
+      {
+        PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied
+            raises FinancialPrerequisitesNotSatisfiedException
+            isRequiredBy (Shareholder)    
+        PreCondition enrollmentPrerequisitesMet checks enrollmentPrerequisitesSatisfied
+            raises EnrollmentPrerequisitesNotSatisfiedException
+            isRequiredBy (TrainingRegulator Student) 
+        PostCondition enrollmentProcessPerformed ensures enrollmentPerformed
+            isRequiredBy (Student)    
+        PostCondition invoiceIssued ensures invoiceForEnrollmentIssued
+            isRequiredBy (Shareholder)    
+        Request DataStructure EnrollForPresentationRequest 
+        {
+            identifies presentation ofType Presentation
+            identifies student ofType Person         
+        }
+        Result DataStructure EnrollForPresentationResult {}
+      }
+      Service enrollForPresentationImpl realizes enrollForPresentation
+      {
+        use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
+        use issueInvoice toAddress (financialPrerequisitesMet invoiceIssued) 
+  //      use performEnrollment toAddress (enrollmentProcessPerformed)
+        doSequential
+        {
+            requestService checkStudentSatisfiesEnrollmentPrerequisites 
+                yields checkStudentSatisfiesEnrollmentPrerequisitesResult
+            {
+                
+            }
+            choice
+            {
+                if Condition enrollmentMeetsPrerequisites OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult."
+                    doSequential
+                    {
+                        requestService issueInvoice
+                        {
+                            on FinancialPrerequisitesNotSatisfiedException 
+                                raiseException FinancialPrerequisitesNotSatisfiedException
+                        }
+                        requestService performEnrollment
+                        {
+                        }
+                    }
+                else
+                    raiseException EnrollmentPrerequisitesNotSatisfiedException
+                        
+            }
+        }  
+      }
+      
+      Condition enrollmentPerformed
+      ServiceContract performEnrollment
+      {
+        Request DataStructure PerformEnrollmentRequest {}
+        Result DataStructure PerformEnrollmentResult {}
+      }
+    }
+    ResponsibilityDomain Finance
+    {
+      Condition invoiceForEnrollmentIssued 
+      Exception NoInvoiceIssuedForEnrollmentException {}
+      Condition financialPrerequisitesSatisfied 
+      Exception FinancialPrerequisitesNotSatisfiedException {}
+      ServiceContract issueInvoice
+      {
+        PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied isRequiredBy ()
+        Request DataStructure IssueInvoiceRequest {}
+        Result DataStructure IssueInvoiceResult {}
+      }
+      ServiceContract provideInvoiceForEnrollment
+      {
+        PreCondition invoiceForEnrollmentExists checks invoiceForEnrollmentIssued 
+            raises NoInvoiceIssuedForEnrollmentException isRequiredBy (Finance)
+        Request DataStructure  ProvideInvoiceForEnrollmentRequest {}
+        Result DataStructure ProvideInvoiceForEnrollmentResult {}
+      }
+    }
+    ResponsibilityDomain RosterManagement
+    {
+    }
+  }
+  ResponsibilityDomain Student {}
+  ResponsibilityDomain TrainingRegulator {}
+  ResponsibilityDomain CreditRegulator {}
+  ResponsibilityDomain Shareholder {}
+  ResponsibilityDomain Client {}
+  
+}  
+
+ResponsibilityDomain urdadStandardProfile
+{
   ResponsibilityDomain Primitives
   {
     BasicDataType String
@@ -9,11 +212,11 @@ ResponsibilityDomain Training
     BasicDataType Date
     BasicDataType URI
     
-    DataStructure Object {}
+    DataStructure Object { abstract = true }
   }
   ResponsibilityDomain Collections
   {
-    DataStructure Collection {}
+    DataStructure Collection {  }
     DataStructure  List is Collection {}
     ServiceContract addObjectToCollection
     {
@@ -48,8 +251,9 @@ ResponsibilityDomain Training
     ResponsibilityDomain StorageClient
     {
     }
-    DataStructure Entity
+    DataStructure Entity is Object 
     {
+        abstract = true
         hasAttribute identifier ofType Integer
     }
     
@@ -121,167 +325,4 @@ ResponsibilityDomain Training
         {}
     }
   }
-  
-  ResponsibilityDomain TrainingInstitution
-  {
-    ResponsibilityDomain Finance
-    {
-      Condition invoiceForEnrollmentIssued 
-      Exception NoInvoiceIssuedForEnrollmentException {}
-      Condition financialPrerequisitesSatisfied 
-      Exception FinancialPrerequisitesNotSatisfiedException {}
-      ServiceContract issueInvoice
-      {
-        PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied isRequiredBy ()
-        Request DataStructure IssueInvoiceRequest {}
-        Result DataStructure IssueInvoiceResult {}
-      }
-      ServiceContract provideInvoiceForEnrollment
-      {
-        PreCondition invoiceForEnrollmentExists checks invoiceForEnrollmentIssued 
-            raises NoInvoiceIssuedForEnrollmentException isRequiredBy (Finance)
-        Request DataStructure  ProvideInvoiceForEnrollmentRequest {}
-        Result DataStructure ProvideInvoiceForEnrollmentResult {}
-      }
-    }
-    ResponsibilityDomain ClientRelationshipManagement
-    {
-      Condition studentIsRegistered OCL:"provideRegistrationDetails(#provideRegistrationDetailsRequest) <> NULL"
-      Exception StudentNotRegisteredException {}
-      ServiceContract provideRegistrationDetails
-      {
-        Request DataStructure ProvideRegistrationDetailsRequest {}
-        Result DataStructure ProvideRegistrationDetailsResult {}
-      }
-    }
-    ResponsibilityDomain Academic
-    {
-      ResponsibilityDomain Assessment
-      {
-        Exception StudentDoesNotSatisfyPrerequisitesException {}
-        ServiceContract checkStudentSatisfiesCoursePrerequisites
-        {
-        
-          PreCondition studentRegistered checks studentIsRegistered 
-            raises StudentNotRegisteredException isRequiredBy (Shareholder)
-          
-          Request DataStructure CheckStudentSatisfiesCoursePrerequisitesRequest
-          {
-          }
-          Result DataStructure CheckStudentSatisfiesCoursePrerequisitesResult
-          {
-          } 
-        } 
-        ResponsibilityDomain Validation
-        {
-            ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
-            {
-                Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest {}
-                Result DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesResult {}
-            }
-        }
-      }
-      ResponsibilityDomain StudyGuides
-      {
-        ServiceContract provideStudyGuide
-        {
-          PreCondition studentRegistered checks studentIsRegistered isRequiredBy (Shareholder)
-          
-          Request DataStructure ProvideStudyGuideRequest {}            
-          Result DataStructure ProvideStudyGuideRequest {}                     
-        }
-      }
-    }
-    ResponsibilityDomain Enrollments
-    {
-      ResponsibilityDomain PresentationManagement
-      {
-        ServiceContract enlistStudentForPresentation
-        {
-          PreCondition studentRegistered checks studentIsRegistered 
-            raises StudentNotRegisteredException isRequiredBy (Shareholder)
-          Request DataStructure EnlistStudentForPresentationRequest {}
-          Result DataStructure EnlistStudentForPresentationResult {}
-        }
-      }  
-      ResponsibilityDomain ProofOfEnrollments
-      {
-        ServiceContract provideProofOfEnrollment
-        {
-          PreCondition isRegistered checks studentIsRegistered 
-            raises StudentNotRegisteredException isRequiredBy (Shareholder TrainingRegulator)
-          Request DataStructure ProvideProofOfEnrollmentRequest {}
-          Result DataStructure ProvideProofOfEnrollmentResult {}
-        }
-      }
-      Condition enrollmentPrerequisitesSatisfied OCL:"kjds"
-      Exception EnrollmentPrerequisitesNotSatisfiedException {}
-      ServiceContract enrollForPresentation
-      {
-        PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied
-            raises FinancialPrerequisitesNotSatisfiedException
-            isRequiredBy (Shareholder)    
-        PreCondition enrollmentPrerequisitesMet checks enrollmentPrerequisitesSatisfied
-            raises EnrollmentPrerequisitesNotSatisfiedException
-            isRequiredBy (TrainingRegulator Student) 
-        PostCondition enrollmentProcessPerformed ensures enrollmentPerformed
-            isRequiredBy (Student)    
-        PostCondition invoiceIssued ensures invoiceForEnrollmentIssued
-            isRequiredBy (Shareholder)    
-        Request DataStructure EnrollForPresentationRequest 
-        {
-                    
-        }
-        Result DataStructure EnrollForPresentationResult {}
-      }
-      Service enrollForPresentationImpl realizes enrollForPresentation
-      {
-        use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
-        use issueInvoice toAddress (financialPrerequisitesMet invoiceIssued) 
-  //      use performEnrollment toAddress (enrollmentProcessPerformed)
-        doSequential
-        {
-            requestService checkStudentSatisfiesEnrollmentPrerequisites 
-                yields checkStudentSatisfiesEnrollmentPrerequisitesResult
-            {
-                
-            }
-            choice
-            {
-                if Condition enrollmentMeetsPrerequisites OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult."
-                    doSequential
-                    {
-                        requestService issueInvoice
-                        {
-                            on FinancialPrerequisitesNotSatisfiedException 
-                                raiseException FinancialPrerequisitesNotSatisfiedException
-                        }
-                        requestService performEnrollment
-                        {
-                        }
-                    }
-                else
-                    raiseException EnrollmentPrerequisitesNotSatisfiedException
-                        
-            }
-        }  
-      }
-      
-      Condition enrollmentPerformed
-      ServiceContract performEnrollment
-      {
-        Request DataStructure PerformEnrollmentRequest {}
-        Result DataStructure PerformEnrollmentResult {}
-      }
-    }
-    ResponsibilityDomain RosterManagement
-    {
-    }
-  }
-  ResponsibilityDomain Student {}
-  ResponsibilityDomain TrainingRegulator {}
-  ResponsibilityDomain CreditRegulator {}
-  ResponsibilityDomain Shareholder {}
-  ResponsibilityDomain Client {}
-  
-}  
+}
