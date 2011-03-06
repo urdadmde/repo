@@ -29,12 +29,13 @@ TOKENSTYLES {
 	"DataStructure" COLOR #7F0055, BOLD;
 	"is" COLOR #7F0055, BOLD;
 	"abstract" COLOR #7F0055, BOLD;
-	"Exception" COLOR #7F0055, BOLD;
-	"hasAttribute" COLOR #7F0055, BOLD;
-	"ofType" COLOR #7F0055, BOLD;
-	"identifies" COLOR #7F0055, BOLD;
 	"has" COLOR #7F0055, BOLD;
-	"contains" COLOR #7F0055, BOLD;
+	"Exception" COLOR #7F0055, BOLD;
+	"attribute" COLOR #7F0055, BOLD;
+	"ofType" COLOR #7F0055, BOLD;
+	"association" COLOR #7F0055, BOLD;
+	"aggregate" COLOR #7F0055, BOLD;
+	"component" COLOR #7F0055, BOLD;
 	"QualityRequirement" COLOR #7F0055, BOLD;
 	"isRequiredBy" COLOR #7F0055, BOLD;
 	"PreCondition" COLOR #7F0055, BOLD;
@@ -102,17 +103,17 @@ RULES {
 	
 	DataStructure ::= "DataStructure" name[] ("is" superType[])? "{"
 	  ("abstract" "=" abstract[])?
-	  (attributes)* (associations)* 
+	  ("has" features)* 
 	  ("(" (annotations)*")")?"}";
 	  
 	Exception ::= "Exception" name[] ("is" superType[])? "{" 
-	  (attributes)* (associations)* 
+	  ("has" features)* 
 	  ("(" (annotations)*")")?"}";
 	
-	Attribute ::= "hasAttribute" name[] "ofType" type[];
-	Association ::= "identifies" (multiplicityConstraint)? name[] "ofType" relatedType[]; 
-	Aggregation ::= "has" (multiplicityConstraint)? name[] "ofType" relatedType[]; 
-	Composition ::= "contains" (multiplicityConstraint)? name[] "ofType" relatedType[];
+	Attribute ::= (multiplicityConstraint)? "attribute" name[] "ofType" type[];
+	Association ::= (multiplicityConstraint)? "association"  name[] "ofType" relatedType[]; 
+	Aggregation ::= (multiplicityConstraint)? "aggregate" (multiplicityConstraint)? name[] "ofType" relatedType[]; 
+	Composition ::= (multiplicityConstraint)? "component" (multiplicityConstraint)? name[] "ofType" relatedType[];
 	 
 	QualityRequirement ::= "QualityRequirement" name[] qualityConstraint[]
 		"isRequiredBy" "("(requiredBy[])*")"

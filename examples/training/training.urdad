@@ -1,4 +1,133 @@
 Model Training
+
+ResponsibilityDomain urdadStandardProfile
+{
+  ResponsibilityDomain Primitives
+  {
+    BasicDataType String
+    BasicDataType Integer
+    BasicDataType FloatingPointNumber
+    BasicDataType Date
+    BasicDataType URI
+    
+    DataStructure Object { abstract = true }
+  }
+  ResponsibilityDomain Collections
+  {
+    DataStructure Collection 
+    {
+        has association elementType ofType Object  
+    }
+    DataStructure  List is Collection {}
+    ServiceContract addObjectToCollection
+    {
+        Request DataStructure AddObjectToCollectionRequest
+        {
+            has component objectToAdd ofType Object
+            has association collectionToAddTo ofType Collection
+        }
+        Result DataStructure AddObjectToCollectionResult {}
+    }
+    ServiceContract removeObjectFromCollection
+    {
+        Request DataStructure RemoveObjectFromCollectionRequest
+        {
+            has component objectToRemove ofType Object
+            has association collectionToRemoveFrom ofType Collection
+        }
+        Result DataStructure RemoveObjectFromCollectionResult {}
+    }
+    ServiceContract provideObjectAtIndex
+    {
+        Request DataStructure ProvideObjectAtIndexRequest
+        {
+            has component objectToRemove ofType Object
+            has association collectionToRemoveFrom ofType Collection
+        }
+        Result DataStructure RemoveObjectFromCollectionResult {}
+    }
+  }
+  ResponsibilityDomain Storage
+  {
+    ResponsibilityDomain StorageClient
+    {
+    }
+    DataStructure Entity is Object 
+    {
+        abstract = true
+        has attribute identifier ofType Integer 
+    }
+    
+    Condition EntityNotStored
+    Condition EntityStored
+    Exception EntityAlreadyStoredException {}
+    Exception EntityNotStoredException {}
+    ServiceContract storeEntity
+    {
+        PreCondition entityNotYetStored checks EntityNotStored 
+            raises EntityAlreadyStoredException isRequiredBy (StorageClient)
+        Request DataStructure StoreEntityRequest
+        {
+            has component entityToPersist ofType Entity
+        }
+        Result DataStructure StoreEntityResult
+        {
+            has component persistedEntity ofType Entity
+        }
+    }
+    ServiceContract retrieveEntity
+    {
+        PreCondition entityStored checks EntityStored 
+            raises EntityNotStoredException isRequiredBy (StorageClient)
+        Request DataStructure RetrieveEntityRequest
+        {
+            has attribute entityIdentifier ofType Integer
+        }
+        Result DataStructure RetrieveEntityResult
+        {
+            has component retrievedEntity ofType Entity
+        }
+    }
+    ServiceContract removeEntity
+    {
+        Request DataStructure RemoveEntityRequest
+        {
+            has attribute entityIdentifier ofType Integer
+        }
+        Result DataStructure RemoveEntityResult
+        {
+        }
+    }
+    ServiceContract updateEntity
+    {
+        PreCondition entityNotStored checks EntityNotStored 
+            raises EntityNotStoredException isRequiredBy (StorageClient)
+        Request DataStructure UpdateEntityRequest
+        {
+            has component newEntityState ofType Entity
+        }
+        Result DataStructure UpdateEntityResult
+        {
+            has component persistedEntity ofType Entity
+        }
+    }
+    DataStructure StorageQuery
+    {
+        has attribute queryLanguage ofType URI
+        has attribute queryExpression ofType String 
+    }
+    ServiceContract findEntities
+    {
+        Request DataStructure FindEntitiesRequest
+        {
+            has component query ofType StorageQuery
+        }
+        Result DataStructure ResultList is List
+        {}
+    }
+  }
+}
+
 ResponsibilityDomain Training
 {
   
@@ -6,35 +135,57 @@ ResponsibilityDomain Training
   {
     ResponsibilityDomain ClientRelationshipManagement
     {
-      DataStructure Organization is Entity
+      DataStructure LegalEntity is Entity
       {
-        hasAttribute name ofType String
+        has attribute name ofType String
+        has component legalAddress ofType Address
+        (Note en-ZA: "Any party you can bill and take to court, e.g. a person or an organization.")
       }
+      DataStructure Organization is LegalEntity {}
       DataStructure Identification is Entity
       {
         abstract = true
-        identifies person ofType Person
-        identifies issuingOrganization ofType Organization
-      }  
-      DataStructure Passport is Identification
+        has association issuingOrganization ofType Organization
+      } 
+      DataStructure CompanyIdentification is Identification
       {
-        hasAttribute passportNumber ofType String
+        has attribute companyRegistrationNumber ofType String
       }
-      DataStructure OrganizationMemberCard
+      DataStructure Address
       {
-        hasAttribute cardNumber ofType String
-        Note
+        has many attribute addressLine ofType String
       }
-      DataStructure Person is Entity
+      DataStructure PersonIdentification is Identification
       {
-        hasAttribute name ofType String
+        abstract = true
+        has association person ofType Person
+      } 
+      DataStructure Passport is PersonIdentification
+      {
+        has attribute passportNumber ofType String
+      }
+      DataStructure OrganizationMemberCard is PersonIdentification
+      {
+        has attribute cardNumber ofType String
+        (Note en-ZA: "For example a student or and employee card")
+      }
+      DataStructure Person is LegalEntity
+      {
+        has attribute name ofType String
       }
       Condition personIsRegistered OCL:"provideRegistrationDetails(#provideRegistrationDetailsRequest) <> NULL"
       Exception PersonNotRegisteredException {}
       ServiceContract provideRegistrationDetails
       {
-        Request DataStructure ProvideRegistrationDetailsRequest {}
-        Result DataStructure ProvideRegistrationDetailsResult {}
+        Request DataStructure ProvideRegistrationDetailsRequest 
+        {
+            has component personIdentification ofType PersonIdentification
+            has association presentation ofType Presentation
+        }
+        Result DataStructure ProvideRegistrationDetailsResult 
+        {
+            
+        }
       }
     }
     ResponsibilityDomain Academic
@@ -43,8 +194,8 @@ ResponsibilityDomain Training
       {
         DataStructure Course
         {
-            hasAttribute name ofType String
-            identifies many coursePrerequisite ofType Course 
+            has attribute name ofType String
+            has many association coursePrerequisite ofType Course 
         }
       }
       ResponsibilityDomain Assessment
@@ -74,9 +225,10 @@ ResponsibilityDomain Training
       }
       ResponsibilityDomain StudyGuides
       {
+        DataStructure StudyGuide {}
         ServiceContract provideStudyGuide
         {
-          PreCondition studentRegistered checks studentIsRegistered isRequiredBy (Shareholder)
+          PreCondition studentIsRegistered checks personIsRegistered isRequiredBy (Shareholder)
           
           Request DataStructure ProvideStudyGuideRequest {}            
           Result DataStructure ProvideStudyGuideRequest {}                     
@@ -89,22 +241,27 @@ ResponsibilityDomain Training
       {
         DataStructure PresentationDetails
         {
-            identifies course ofType Course
+            has association course ofType Course
         }
         ServiceContract enlistStudentForPresentation
         {
-          PreCondition studentRegistered checks studentIsRegistered 
-            raises StudentNotRegisteredException isRequiredBy (Shareholder)
+          PreCondition studentIsRegistered checks personIsRegistered 
+            raises PersonNotRegisteredException isRequiredBy (Shareholder)
           Request DataStructure EnlistStudentForPresentationRequest {}
           Result DataStructure EnlistStudentForPresentationResult {}
         }
       }  
       ResponsibilityDomain ProofOfEnrollments
       {
+        DataStructure EnrollmentConfirmation is Entity
+        {
+            has component studentDetails ofType Person
+            has component presentationDetails ofType Presentation
+        }
         ServiceContract provideProofOfEnrollment
         {
-          PreCondition isRegistered checks studentIsRegistered 
-            raises StudentNotRegisteredException isRequiredBy (Shareholder TrainingRegulator)
+          PreCondition studentIsRegistered checks personIsRegistered 
+            raises PersonNotRegisteredException isRequiredBy (Shareholder TrainingRegulator)
           Request DataStructure ProvideProofOfEnrollmentRequest {}
           Result DataStructure ProvideProofOfEnrollmentResult {}
         }
@@ -125,16 +282,21 @@ ResponsibilityDomain Training
             isRequiredBy (Shareholder)    
         Request DataStructure EnrollForPresentationRequest 
         {
-            identifies presentation ofType Presentation
-            identifies student ofType Person         
+            has association presentation ofType Presentation
+            has component studentIdentification ofType PersonIdentification         
         }
-        Result DataStructure EnrollForPresentationResult {}
+        Result DataStructure EnrollForPresentationResult 
+        {
+            has component enrollmentConfirmation ofType EnrollmentConfirmation
+            has component invoice ofType Invoice
+            has many component studyGuide ofType StudyGuide
+        }
       }
       Service enrollForPresentationImpl realizes enrollForPresentation
       {
         use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
         use issueInvoice toAddress (financialPrerequisitesMet invoiceIssued) 
-  //      use performEnrollment toAddress (enrollmentProcessPerformed)
+//        use performEnrollment toAddress (enrollmentProcessPerformed)
         doSequential
         {
             requestService checkStudentSatisfiesEnrollmentPrerequisites 
@@ -189,9 +351,24 @@ ResponsibilityDomain Training
         Request DataStructure  ProvideInvoiceForEnrollmentRequest {}
         Result DataStructure ProvideInvoiceForEnrollmentResult {}
       }
+      DataStructure Invoice is Entity
+      {
+        has attribute invoiceNumber ofType String
+        has attribute invoiceDate ofType Date
+        has component clientDetails ofType LegalEntity
+        has component many invoiceItem ofType InvoiceItem
+      }
+      DataStructure Chargeable is Entity {}
+      DataStructure InvoiceItem
+      {
+        has attribute cost ofType FloatingPointNumber
+        has attribute quantity ofType Integer
+        has association chargeable ofType Chargeable
+      }
     }
-    ResponsibilityDomain RosterManagement
+    ResponsibilityDomain PresentationManagement
     {
+        DataStructure Presentation is Entity {}
     }
   }
   ResponsibilityDomain Student {}
@@ -201,128 +378,3 @@ ResponsibilityDomain Training
   ResponsibilityDomain Client {}
   
 }  
-
-ResponsibilityDomain urdadStandardProfile
-{
-  ResponsibilityDomain Primitives
-  {
-    BasicDataType String
-    BasicDataType Integer
-    BasicDataType FloatingPointNumber
-    BasicDataType Date
-    BasicDataType URI
-    
-    DataStructure Object { abstract = true }
-  }
-  ResponsibilityDomain Collections
-  {
-    DataStructure Collection {  }
-    DataStructure  List is Collection {}
-    ServiceContract addObjectToCollection
-    {
-        Request DataStructure AddObjectToCollectionRequest
-        {
-            contains objectToAdd ofType Object
-            identifies collectionToAddTo ofType Collection
-        }
-        Result DataStructure AddObjectToCollectionResult {}
-    }
-    ServiceContract removeObjectFromCollection
-    {
-        Request DataStructure RemoveObjectFromCollectionRequest
-        {
-            contains objectToRemove ofType Object
-            identifies collectionToRemoveFrom ofType Collection
-        }
-        Result DataStructure RemoveObjectFromCollectionResult {}
-    }
-    ServiceContract provideObjectAtIndex
-    {
-        Request DataStructure ProvideObjectAtIndexRequest
-        {
-            contains objectToRemove ofType Object
-            identifies collectionToRemoveFrom ofType Collection
-        }
-        Result DataStructure RemoveObjectFromCollectionResult {}
-    }
-  }
-  ResponsibilityDomain Storage
-  {
-    ResponsibilityDomain StorageClient
-    {
-    }
-    DataStructure Entity is Object 
-    {
-        abstract = true
-        hasAttribute identifier ofType Integer
-    }
-    
-    Condition EntityNotStored
-    Condition EntityStored
-    Exception EntityAlreadyStoredException {}
-    Exception EntityNotStoredException {}
-    ServiceContract storeEntity
-    {
-        PreCondition entityNotYetStored checks EntityNotStored 
-            raises EntityAlreadyStoredException isRequiredBy (StorageClient)
-        Request DataStructure StoreEntityRequest
-        {
-            has entityToPersist ofType Entity
-        }
-        Result DataStructure StoreEntityResult
-        {
-            has persistedEntity ofType Entity
-        }
-    }
-    ServiceContract retrieveEntity
-    {
-        PreCondition entityStored checks EntityStored 
-            raises EntityNotStoredException isRequiredBy (StorageClient)
-        Request DataStructure RetrieveEntityRequest
-        {
-            hasAttribute entityIdentifier ofType Integer
-        }
-        Result DataStructure RetrieveEntityResult
-        {
-            has retrievedEntity ofType Entity
-        }
-    }
-    ServiceContract removeEntity
-    {
-        Request DataStructure RemoveEntityRequest
-        {
-            hasAttribute entityIdentifier ofType Integer
-        }
-        Result DataStructure RemoveEntityResult
-        {
-        }
-    }
-    ServiceContract updateEntity
-    {
-        PreCondition entityNotStored checks EntityNotStored 
-            raises EntityNotStoredException isRequiredBy (StorageClient)
-        Request DataStructure UpdateEntityRequest
-        {
-            has newEntityState ofType Entity
-        }
-        Result DataStructure UpdateEntityResult
-        {
-            has persistedEntity ofType Entity
-        }
-    }
-    DataStructure StorageQuery
-    {
-        hasAttribute queryLanguage ofType URI
-        hasAttribute queryExpression ofType String 
-    }
-    ServiceContract findEntities
-    {
-        Request DataStructure FindEntitiesRequest
-        {
-            has query ofType StorageQuery
-        }
-        Result DataStructure ResultList is List
-        {}
-    }
-  }
-}
