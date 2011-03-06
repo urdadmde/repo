@@ -334,7 +334,7 @@ ResponsibilityDomain Training
     }
     ResponsibilityDomain Finance
     {
-      Condition invoiceForEnrollmentIssued 
+      Condition invoiceForEnrollmentIssued OCL:"oij"
       Exception NoInvoiceIssuedForEnrollmentException {}
       Condition financialPrerequisitesSatisfied 
       Exception FinancialPrerequisitesNotSatisfiedException {}
