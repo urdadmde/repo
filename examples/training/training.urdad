@@ -61,12 +61,16 @@ ResponsibilityDomain Training
           PreCondition studentIsRegistered checks personIsRegistered isRequiredBy (Shareholder)
           
           Request DataStructure ProvideStudyGuideRequest {}            
-          Result DataStructure ProvideStudyGuideRequest {}                     
+          Result DataStructure ProvideStudyGuideResult {}                     
         }
       }
     }
     ResponsibilityDomain ClientRelationshipManagement
     {
+	  DataStructure Address
+      {
+        has many attribute addressLine ofType String
+      }
       DataStructure LegalEntity is Entity
       {
         has attribute name ofType String
@@ -74,6 +78,7 @@ ResponsibilityDomain Training
         (Note en-ZA: "Any party you can bill and take to court, e.g. a person or an organization.")
       }
       DataStructure Organization is LegalEntity {}
+	  DataStructure Person is LegalEntity {}
       DataStructure Identification is Entity
       {
         abstract = true
@@ -83,10 +88,7 @@ ResponsibilityDomain Training
       {
         has attribute companyRegistrationNumber ofType String
       }
-      DataStructure Address
-      {
-        has many attribute addressLine ofType String
-      }
+      
       DataStructure PersonIdentification is Identification
       {
         abstract = true
@@ -96,14 +98,10 @@ ResponsibilityDomain Training
       {
         has attribute passportNumber ofType String
       }
-      DataStructure OrganizationMemberCard is PersonIdentification
+      DataStructure OrganizationMembershipCard is PersonIdentification
       {
         has attribute cardNumber ofType String
         (Note en-ZA: "For example a student or and employee card")
-      }
-      DataStructure Person is LegalEntity
-      {
-        has attribute name ofType String
       }
       Condition personIsRegistered OCL:"provideRegistrationDetails(#provideRegistrationDetailsRequest) <> NULL"
       Exception PersonNotRegisteredException {}
@@ -325,7 +323,7 @@ ResponsibilityDomain Training
   ResponsibilityDomain Client {}
   
 }  
-ResponsibilityDomain urdadStandardProfile
+ResponsibilityDomain UrdadStandardProfile
 {
   ResponsibilityDomain Primitives
   {
