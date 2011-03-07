@@ -63,21 +63,15 @@ ResponsibilityDomain Training
         ServiceContract provideStudyGuide
         {
           PreCondition studentIsRegistered checks personIsRegistered isRequiredBy (Shareholder)
-          
-<<<<<<< HEAD
-          Request DataStructure ProvideStudyGuideRequest {}            
-          Result DataStructure ProvideStudyGuideResult {}                     
-=======
           Request DataStructure ProvideStudyGuideRequest 
           {
             has association courseIdentifier ofType Course
             has association studentIdentifier ofType Student
           }            
-          Result DataStructure ProvideStudyGuideRequest 
+          Result DataStructure ProvideStudyGuideResult 
           {
             has component studyGuide ofType StudyGuide
           }                     
->>>>>>> f801bba0d1d4da0b1b5566f1136e0eabbeb73b81
         }
       }
     }
