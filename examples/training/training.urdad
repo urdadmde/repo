@@ -2,7 +2,11 @@ Model Training
 
 ResponsibilityDomain Training
 {
-
+  ResponsibilityDomain Student {}
+  ResponsibilityDomain TrainingRegulator {}
+  ResponsibilityDomain CreditRegulator {}
+  ResponsibilityDomain Shareholder {}
+  ResponsibilityDomain Client {}
   
   ResponsibilityDomain TrainingInstitution
   {
@@ -60,8 +64,20 @@ ResponsibilityDomain Training
         {
           PreCondition studentIsRegistered checks personIsRegistered isRequiredBy (Shareholder)
           
+<<<<<<< HEAD
           Request DataStructure ProvideStudyGuideRequest {}            
           Result DataStructure ProvideStudyGuideResult {}                     
+=======
+          Request DataStructure ProvideStudyGuideRequest 
+          {
+            has association courseIdentifier ofType Course
+            has association studentIdentifier ofType Student
+          }            
+          Result DataStructure ProvideStudyGuideRequest 
+          {
+            has component studyGuide ofType StudyGuide
+          }                     
+>>>>>>> f801bba0d1d4da0b1b5566f1136e0eabbeb73b81
         }
       }
     }
@@ -228,7 +244,7 @@ ResponsibilityDomain Training
         {
             has component enrollmentConfirmation ofType EnrollmentConfirmation
             has component invoice ofType Invoice
-            has many component studyGuide ofType StudyGuide
+            has component studyGuide ofType StudyGuide
         }
       }
       Service enrollForPresentationImpl realizes enrollForPresentation
@@ -284,8 +300,8 @@ ResponsibilityDomain Training
                             Query invoiceTarget OCL:"enrollmentResult.invoice"
                         assign Query enrollmentConfirmationSource OCL:"performEnrollmentResult.enrollmentCOnfirmation" to
                             Query enrollmentConfirmationTarget OCL:"enrollmentResult.enrollmentConfirmation"
-                        assign Query studyGuidesSource OCL:"performEnrollmentResult.sudyGuides" to
-                            Query studyGuidesTarget OCL:"enrollmentResult.studyGuides"    
+                        assign Query studyGuidesSource OCL:"performEnrollmentResult.studyGuide" to
+                            Query studyGuidesTarget OCL:"enrollmentResult.studyGuide"    
                         returnResult 
                         {
                             Constraint resultContainsInvoiceConstraint OCL:
@@ -310,18 +326,14 @@ ResponsibilityDomain Training
         Result DataStructure PerformEnrollmentResult 
         {
             has component enrollmentConfirmation ofType EnrollmentConfirmation
-            has many component studyGuides ofType StudyGuide
+            has component studyGuide ofType StudyGuide
         }
       }
     }
     
   }
-  ResponsibilityDomain Student {}
-  ResponsibilityDomain TrainingRegulator {}
-  ResponsibilityDomain CreditRegulator {}
-  ResponsibilityDomain Shareholder {}
-  ResponsibilityDomain Client {}
   
+
 }  
 ResponsibilityDomain UrdadStandardProfile
 {
