@@ -1,6 +1,9 @@
 \section{Use case description}
 
-The aim was to take a typical business service for which the requirements and h
+The provided use case is a typical business use case for enrolling a student for the presentation of a course. The target use case,
+\verb+enrollForPresentation+ contains the specifications for the data structures for the request and result, the functional requirements
+and the process specification which should enable the transformation team to generate the concrete implementation for that service
+assembled from
 
 \subsection{Subject modeled}
 
@@ -8,23 +11,10 @@ The input modeling language is the URDAD DSL. The metamodel specification and th
 
 Since the model is meant to be a technology neutral model, the output modeling language is left up to the team and would correspond to the target technology chosen. This could be, for example, a model for either a JavaEE, Spring or SOA based implementation.
 
-\subsection{Purpose of model}
-
-The purpose of the model is to provide the requirements and technology neutral process design of a typical business use case. 
-technology neutral. Teams which aim to perform the model transformation should select the target model for corresponding to their chosen
-
-typical business use case
-            (what are they typically used for from a larger perspective than the proposed case study?)
-
-scope of model
-
 \subsection{Use case variation points}
-      (divide up your case in core characteristics and extensions)
-
-diff technologies
-
-diagram generation
+Core use case variation points include
 \begin{itemize}
-      \item common quality requirements like security, auditability, reliability and scalability may be applied to this model.
-      \item it is suited to be implemented across different architectures and technologies (e.g., JavaEE, SOA, ...)
+  \item The implementation mapping for different architectures and technologies (e.g. implementaiton mapping onto SOA or JavaEE).
+  \item Mapping of the URDAD model onto a UML model.
+  \item Generation of UML diagrams showing the functional requirements, services contract and process specification.
 \end{itemize}
