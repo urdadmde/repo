@@ -1,136 +1,8 @@
 Model Training
 
-ResponsibilityDomain urdadStandardProfile
-{
-
 ResponsibilityDomain Training
 {
-  ResponsibilityDomain Primitives
-  {
-    BasicDataType Boolean
-    BasicDataType Integer
-    BasicDataType FloatingPointNumber
-    BasicDataType String
-    BasicDataType Date
-    BasicDataType URI
-    
-    DataStructure Object { abstract = true }
-  }
-  ResponsibilityDomain Collections
-  {
-    DataStructure Collection 
-    {
-        has association elementType ofType Object  
-    }
-    DataStructure  List is Collection {}
-    ServiceContract addObjectToCollection
-    {
-        Request DataStructure AddObjectToCollectionRequest
-        {
-            has component objectToAdd ofType Object
-            has association collectionToAddTo ofType Collection
-        }
-        Result DataStructure AddObjectToCollectionResult {}
-    }
-    ServiceContract removeObjectFromCollection
-    {
-        Request DataStructure RemoveObjectFromCollectionRequest
-        {
-            has component objectToRemove ofType Object
-            has association collectionToRemoveFrom ofType Collection
-        }
-        Result DataStructure RemoveObjectFromCollectionResult {}
-    }
-    ServiceContract provideObjectAtIndex
-    {
-        Request DataStructure ProvideObjectAtIndexRequest
-        {
-            has component objectToRemove ofType Object
-            has association collectionToRemoveFrom ofType Collection
-        }
-        Result DataStructure RemoveObjectFromCollectionResult {}
-    }
-  }
-  ResponsibilityDomain Storage
-  {
-    ResponsibilityDomain StorageClient
-    {
-    }
-    DataStructure Entity is Object 
-    {
-        abstract = true
-        has attribute identifier ofType Integer 
-    }
-    
-    Condition EntityNotStored
-    Condition EntityStored
-    Exception EntityAlreadyStoredException {}
-    Exception EntityNotStoredException {}
-    ServiceContract storeEntity
-    {
-        PreCondition entityNotYetStored checks EntityNotStored 
-            raises EntityAlreadyStoredException isRequiredBy (StorageClient)
-        Request DataStructure StoreEntityRequest
-        {
-            has component entityToPersist ofType Entity
-        }
-        Result DataStructure StoreEntityResult
-        {
-            has component persistedEntity ofType Entity
-        }
-    }
-    ServiceContract retrieveEntity
-    {
-        PreCondition entityStored checks EntityStored 
-            raises EntityNotStoredException isRequiredBy (StorageClient)
-        Request DataStructure RetrieveEntityRequest
-        {
-            has attribute entityIdentifier ofType Integer
-        }
-        Result DataStructure RetrieveEntityResult
-        {
-            has component retrievedEntity ofType Entity
-        }
-    }
-    ServiceContract removeEntity
-    {
-        Request DataStructure RemoveEntityRequest
-        {
-            has attribute entityIdentifier ofType Integer
-        }
-        Result DataStructure RemoveEntityResult
-        {
-        }
-    }
-    ServiceContract updateEntity
-    {
-        PreCondition entityNotStored checks EntityNotStored 
-            raises EntityNotStoredException isRequiredBy (StorageClient)
-        Request DataStructure UpdateEntityRequest
-        {
-            has component newEntityState ofType Entity
-        }
-        Result DataStructure UpdateEntityResult
-        {
-            has component persistedEntity ofType Entity
-        }
-    }
-    DataStructure StorageQuery
-    {
-        has attribute queryLanguage ofType URI
-        has attribute queryExpression ofType String 
-    }
-    ServiceContract findEntities
-    {
-        Request DataStructure FindEntitiesRequest
-        {
-            has component query ofType StorageQuery
-        }
-        Result DataStructure ResultList is List
-        {}
-    }
-  }
-}
+
   
   ResponsibilityDomain TrainingInstitution
   {
@@ -453,3 +325,131 @@ ResponsibilityDomain Training
   ResponsibilityDomain Client {}
   
 }  
+ResponsibilityDomain urdadStandardProfile
+{
+  ResponsibilityDomain Primitives
+  {
+    BasicDataType Boolean
+    BasicDataType Integer
+    BasicDataType FloatingPointNumber
+    BasicDataType String
+    BasicDataType Date
+    BasicDataType URI
+    
+    DataStructure Object { abstract = true }
+  }
+  ResponsibilityDomain Collections
+  {
+    DataStructure Collection 
+    {
+        has association elementType ofType Object  
+    }
+    DataStructure  List is Collection {}
+    ServiceContract addObjectToCollection
+    {
+        Request DataStructure AddObjectToCollectionRequest
+        {
+            has component objectToAdd ofType Object
+            has association collectionToAddTo ofType Collection
+        }
+        Result DataStructure AddObjectToCollectionResult {}
+    }
+    ServiceContract removeObjectFromCollection
+    {
+        Request DataStructure RemoveObjectFromCollectionRequest
+        {
+            has component objectToRemove ofType Object
+            has association collectionToRemoveFrom ofType Collection
+        }
+        Result DataStructure RemoveObjectFromCollectionResult {}
+    }
+    ServiceContract provideObjectAtIndex
+    {
+        Request DataStructure ProvideObjectAtIndexRequest
+        {
+            has component objectToRemove ofType Object
+            has association collectionToRemoveFrom ofType Collection
+        }
+        Result DataStructure RemoveObjectFromCollectionResult {}
+    }
+  }
+  ResponsibilityDomain Storage
+  {
+    ResponsibilityDomain StorageClient
+    {
+    }
+    DataStructure Entity is Object 
+    {
+        abstract = true
+        has attribute identifier ofType Integer 
+    }
+    
+    Condition EntityNotStored
+    Condition EntityStored
+    Exception EntityAlreadyStoredException {}
+    Exception EntityNotStoredException {}
+    ServiceContract storeEntity
+    {
+        PreCondition entityNotYetStored checks EntityNotStored 
+            raises EntityAlreadyStoredException isRequiredBy (StorageClient)
+        Request DataStructure StoreEntityRequest
+        {
+            has component entityToPersist ofType Entity
+        }
+        Result DataStructure StoreEntityResult
+        {
+            has component persistedEntity ofType Entity
+        }
+    }
+    ServiceContract retrieveEntity
+    {
+        PreCondition entityStored checks EntityStored 
+            raises EntityNotStoredException isRequiredBy (StorageClient)
+        Request DataStructure RetrieveEntityRequest
+        {
+            has attribute entityIdentifier ofType Integer
+        }
+        Result DataStructure RetrieveEntityResult
+        {
+            has component retrievedEntity ofType Entity
+        }
+    }
+    ServiceContract removeEntity
+    {
+        Request DataStructure RemoveEntityRequest
+        {
+            has attribute entityIdentifier ofType Integer
+        }
+        Result DataStructure RemoveEntityResult
+        {
+        }
+    }
+    ServiceContract updateEntity
+    {
+        PreCondition entityNotStored checks EntityNotStored 
+            raises EntityNotStoredException isRequiredBy (StorageClient)
+        Request DataStructure UpdateEntityRequest
+        {
+            has component newEntityState ofType Entity
+        }
+        Result DataStructure UpdateEntityResult
+        {
+            has component persistedEntity ofType Entity
+        }
+    }
+    DataStructure StorageQuery
+    {
+        has attribute queryLanguage ofType URI
+        has attribute queryExpression ofType String 
+    }
+    ServiceContract findEntities
+    {
+        Request DataStructure FindEntitiesRequest
+        {
+            has component query ofType StorageQuery
+        }
+        Result DataStructure ResultList is List
+        {}
+    }
+  }
+}
