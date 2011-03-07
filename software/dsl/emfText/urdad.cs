@@ -176,7 +176,7 @@ RULES {
 		("{" (exceptionConstraints)* "}")?;
 		
 	ReturnResult ::= "returnResult"	
-		("{" "ResultConstraints:" (resultConstraints)* "}")?;
+		("{" (resultConstraints)* "}")?;
 		
 	While ::= "while" (condition) "do" (activity);	
 		

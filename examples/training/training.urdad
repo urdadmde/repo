@@ -2,11 +2,15 @@ Model Training
 
 ResponsibilityDomain urdadStandardProfile
 {
+
+ResponsibilityDomain Training
+{
   ResponsibilityDomain Primitives
   {
-    BasicDataType String
+    BasicDataType Boolean
     BasicDataType Integer
     BasicDataType FloatingPointNumber
+    BasicDataType String
     BasicDataType Date
     BasicDataType URI
     
@@ -127,12 +131,68 @@ ResponsibilityDomain urdadStandardProfile
     }
   }
 }
-
-ResponsibilityDomain Training
-{
   
   ResponsibilityDomain TrainingInstitution
   {
+    ResponsibilityDomain Academic
+    {
+      ResponsibilityDomain CourseManagement
+      {
+        DataStructure Course
+        {
+            has attribute name ofType String
+            has many association coursePrerequisite ofType Course 
+        }
+      }
+      ResponsibilityDomain Assessment
+      {
+        Exception StudentDoesNotSatisfyPrerequisitesException {}
+        ServiceContract checkStudentSatisfiesCoursePrerequisites
+        {
+        
+          PreCondition studentRegistered checks personIsRegistered 
+            raises PersonNotRegisteredException isRequiredBy (Shareholder)
+          
+          Request DataStructure CheckStudentSatisfiesCoursePrerequisitesRequest
+          {
+            has component studentIdentification ofType PersonIdentification
+            has association presentation ofType Presentation
+          }
+          Result DataStructure CheckStudentSatisfiesCoursePrerequisitesResult
+          {
+            has attribute prerequisitesSatisfied ofType Boolean
+          } 
+        } 
+        ResponsibilityDomain Validation
+        {
+            ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
+            {
+                Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest 
+                {
+                    has component studentIdentification ofType PersonIdentification
+                    has association presentationIdentifier ofType Presentation
+                }
+                Result DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesResult 
+                {
+                    has attribute enrollmentPrerequisitesMet ofType Boolean
+                    has association personIdentifier ofType Person
+                    has association presentationIdentifier ofType Presentation
+                }
+            }
+        }
+      }
+      ResponsibilityDomain StudyGuides
+      {
+        DataStructure StudyGuide {}
+        ServiceContract provideStudyGuide
+        {
+          PreCondition studentIsRegistered checks personIsRegistered isRequiredBy (Shareholder)
+          
+          Request DataStructure ProvideStudyGuideRequest {}            
+          Result DataStructure ProvideStudyGuideRequest {}                     
+        }
+      }
+    }
     ResponsibilityDomain ClientRelationshipManagement
     {
       DataStructure LegalEntity is Entity
@@ -184,57 +244,65 @@ ResponsibilityDomain Training
         }
         Result DataStructure ProvideRegistrationDetailsResult 
         {
-            
+            has component personDetails ofType Person
         }
       }
     }
-    ResponsibilityDomain Academic
+    ResponsibilityDomain Finance
     {
-      ResponsibilityDomain CourseManagement
+      Condition invoiceForEnrollmentIssued
+      Exception NoInvoiceIssuedForEnrollmentException {}
+      Condition financialPrerequisitesSatisfied 
+      Exception FinancialPrerequisitesNotSatisfiedException {}
+      ServiceContract issueInvoice
       {
-        DataStructure Course
+        PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied isRequiredBy ()
+        Request DataStructure IssueInvoiceRequest 
+        {
+            has component clientIdentification ofType Identification
+            has many component invoiceItems ofType InvoiceItem
+        }
+        Result DataStructure IssueInvoiceResult 
+        {
+            has component invoice ofType Invoice
+        }
+      }
+      ServiceContract provideInvoiceForEnrollment
+      {
+        PreCondition invoiceForEnrollmentExists checks invoiceForEnrollmentIssued 
+            raises NoInvoiceIssuedForEnrollmentException isRequiredBy (Finance)
+        Request DataStructure  ProvideInvoiceForEnrollmentRequest {}
+        Result DataStructure ProvideInvoiceForEnrollmentResult {}
+      }
+      DataStructure Invoice is Entity
+      {
+        has attribute invoiceNumber ofType String
+        has attribute invoiceDate ofType Date
+        has component clientDetails ofType LegalEntity
+        has component many invoiceItem ofType InvoiceItem
+      }
+      DataStructure Chargeable is Entity {}
+      DataStructure InvoiceItem
+      {
+        has attribute cost ofType FloatingPointNumber
+        has attribute quantity ofType Integer
+        has association chargeableIdentifier ofType Chargeable
+      }
+    }
+    ResponsibilityDomain PresentationManagement
+    {
+        DataStructure Location is Entity
         {
             has attribute name ofType String
-            has many association coursePrerequisite ofType Course 
+            has component address ofType Address
         }
-      }
-      ResponsibilityDomain Assessment
-      {
-        Exception StudentDoesNotSatisfyPrerequisitesException {}
-        ServiceContract checkStudentSatisfiesCoursePrerequisites
+        DataStructure Presentation is Chargeable 
         {
-        
-          PreCondition studentRegistered checks personIsRegistered 
-            raises PersonNotRegisteredException isRequiredBy (Shareholder)
-          
-          Request DataStructure CheckStudentSatisfiesCoursePrerequisitesRequest
-          {
-          }
-          Result DataStructure CheckStudentSatisfiesCoursePrerequisitesResult
-          {
-          } 
-        } 
-        ResponsibilityDomain Validation
-        {
-            ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
-            {
-                Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest {}
-                Result DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesResult {}
-            }
+            has attribute name ofType String
+            has attribute startDate ofType Date
+            has association location ofType Location
         }
-      }
-      ResponsibilityDomain StudyGuides
-      {
-        DataStructure StudyGuide {}
-        ServiceContract provideStudyGuide
-        {
-          PreCondition studentIsRegistered checks personIsRegistered isRequiredBy (Shareholder)
-          
-          Request DataStructure ProvideStudyGuideRequest {}            
-          Result DataStructure ProvideStudyGuideRequest {}                     
-        }
-      }
-    }
+    }  
     ResponsibilityDomain Enrollments
     {
       ResponsibilityDomain PresentationManagement
@@ -266,7 +334,7 @@ ResponsibilityDomain Training
           Result DataStructure ProvideProofOfEnrollmentResult {}
         }
       }
-      Condition enrollmentPrerequisitesSatisfied OCL:"kjds"
+      Condition enrollmentPrerequisitesSatisfied OCL:""
       Exception EnrollmentPrerequisitesNotSatisfiedException {}
       ServiceContract enrollForPresentation
       {
@@ -282,8 +350,9 @@ ResponsibilityDomain Training
             isRequiredBy (Shareholder)    
         Request DataStructure EnrollForPresentationRequest 
         {
-            has association presentation ofType Presentation
-            has component studentIdentification ofType PersonIdentification         
+            has association presentationIdentifier ofType Presentation
+            has component studentIdentification ofType PersonIdentification
+            has component payerIdentification ofType Identification         
         }
         Result DataStructure EnrollForPresentationResult 
         {
@@ -296,27 +365,62 @@ ResponsibilityDomain Training
       {
         use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
         use issueInvoice toAddress (financialPrerequisitesMet invoiceIssued) 
-//        use performEnrollment toAddress (enrollmentProcessPerformed)
+        use performEnrollment toAddress (enrollmentProcessPerformed)
         doSequential
         {
+            create checkPrerequisitesRequest ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
+            assign Query studentDetailsSource OCL:"enrollForPresentationRequest.studentIdentification" to 
+                Query studentDetailsTarget OCL:"checkEnrollmentPrerequisitesRequest.studentIdentification"
+            assign Query presentationIdentifierSource OCL:"enrollForPresentationRequest.presentationIdentifier" to
+                Query presentationIdentifierTarget OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"     
             requestService checkStudentSatisfiesEnrollmentPrerequisites 
-                yields checkStudentSatisfiesEnrollmentPrerequisitesResult
+                yields checkPrerequisitesResult
             {
-                
+                Constraint populateRequest OCL:"checkPrerequisitesRequest = checkEnrollmentPrerequisitesRequest"
             }
             choice
             {
-                if Condition enrollmentMeetsPrerequisites OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult."
+                if Condition enrollmentMeetsPrerequisitesMet 
+                    OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true"
                     doSequential
                     {
-                        requestService issueInvoice
+                        create invoiceRequest ofType IssueInvoiceRequest
+                        assign Query clientIdentificationSource OCL: "enrollForPresentationRequest.payerIdentification" to 
+                            Query clientIdentificationTarget OCL:"issueInvoiceRequest.clientIdentifier"
+                        create invoiceItem ofType InvoiceItem    
+			            assign Query presentationIdentifierSource OCL:"enrollForPresentationRequest.presentationIdentifier" to
+			                Query presentationIdentifierTarget OCL:"invoiceItem.chargeableIdentifier"
+			            add Query invoiceItemSource OCL:"invoiceItem" to
+			                Query invoiceItemTarger OCL:"issueInvoiceRequest.invoiceItems"         
+                        requestService issueInvoice yields issueInvoiceResult
                         {
+                            Constraint populateRequest OCL:"issueInvoiceRequest = invoiceRequest"     
                             on FinancialPrerequisitesNotSatisfiedException 
                                 raiseException FinancialPrerequisitesNotSatisfiedException
+                                {
+                                }
                         }
-                        requestService performEnrollment
+                        create enrollRequest ofType PerformEnrollmentRequest 
+                        assign Query personIdentifierSource OCL:"checkPrerequisitesResult.personIdentifier" to
+                            Query personIdentierTarget OCL:"perfordmEnrollmentRequest.personIdentifier"
+                        assign Query presentationIdentifierSource OCL:"enrollmentRequest.presentationIdentifier" to
+                            Query presentationIdentifierTarget OCL:"performEnrollmentRequest.presentationIdentifier"    
+                        requestService performEnrollment yields performEnrollmentResult
                         {
+                           Constraint populateRequest OCL:"performEnrollmentRequest = enrollRequest"                            
                         }
+                        create enrollmentResult ofType EnrollForPresentationResult
+                        assign Query invoiceSource OCL:"issueInvoiceResult.invoice" to
+                            Query invoiceTarget OCL:"enrollmentResult.invoice"
+                        assign Query enrollmentConfirmationSource OCL:"performEnrollmentResult.enrollmentCOnfirmation" to
+                            Query enrollmentConfirmationTarget OCL:"enrollmentResult.enrollmentConfirmation"
+                        assign Query studyGuidesSource OCL:"performEnrollmentResult.sudyGuides" to
+                            Query studyGuidesTarget OCL:"enrollmentResult.studyGuides"    
+                        returnResult 
+                        {
+                            Constraint resultContainsInvoiceConstraint OCL:
+                                "enrollForPresentationResult = enrollmentResult"                     
+                        } 
                     }
                 else
                     raiseException EnrollmentPrerequisitesNotSatisfiedException
@@ -328,48 +432,19 @@ ResponsibilityDomain Training
       Condition enrollmentPerformed
       ServiceContract performEnrollment
       {
-        Request DataStructure PerformEnrollmentRequest {}
-        Result DataStructure PerformEnrollmentResult {}
+        Request DataStructure PerformEnrollmentRequest 
+        {
+            has association presentationIdentifier ofType Presentation
+            has association personIdentifier ofType Person
+        }
+        Result DataStructure PerformEnrollmentResult 
+        {
+            has component enrollmentConfirmation ofType EnrollmentConfirmation
+            has many component studyGuides ofType StudyGuide
+        }
       }
     }
-    ResponsibilityDomain Finance
-    {
-      Condition invoiceForEnrollmentIssued OCL:"oij"
-      Exception NoInvoiceIssuedForEnrollmentException {}
-      Condition financialPrerequisitesSatisfied 
-      Exception FinancialPrerequisitesNotSatisfiedException {}
-      ServiceContract issueInvoice
-      {
-        PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied isRequiredBy ()
-        Request DataStructure IssueInvoiceRequest {}
-        Result DataStructure IssueInvoiceResult {}
-      }
-      ServiceContract provideInvoiceForEnrollment
-      {
-        PreCondition invoiceForEnrollmentExists checks invoiceForEnrollmentIssued 
-            raises NoInvoiceIssuedForEnrollmentException isRequiredBy (Finance)
-        Request DataStructure  ProvideInvoiceForEnrollmentRequest {}
-        Result DataStructure ProvideInvoiceForEnrollmentResult {}
-      }
-      DataStructure Invoice is Entity
-      {
-        has attribute invoiceNumber ofType String
-        has attribute invoiceDate ofType Date
-        has component clientDetails ofType LegalEntity
-        has component many invoiceItem ofType InvoiceItem
-      }
-      DataStructure Chargeable is Entity {}
-      DataStructure InvoiceItem
-      {
-        has attribute cost ofType FloatingPointNumber
-        has attribute quantity ofType Integer
-        has association chargeable ofType Chargeable
-      }
-    }
-    ResponsibilityDomain PresentationManagement
-    {
-        DataStructure Presentation is Entity {}
-    }
+    
   }
   ResponsibilityDomain Student {}
   ResponsibilityDomain TrainingRegulator {}

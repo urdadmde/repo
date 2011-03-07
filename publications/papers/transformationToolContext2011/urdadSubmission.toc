@@ -5,12 +5,14 @@
 \contentsline {subsection}{\numberline {3.1}Subject modeled}{5}
 \contentsline {subsection}{\numberline {3.2}Purpose of model}{5}
 \contentsline {subsection}{\numberline {3.3}Use case variation points}{5}
-\contentsline {section}{\numberline {4}Evaluation guidelines}{6}
-\contentsline {subsection}{\numberline {4.1}Systematic Evaluation Guidelines}{6}
-\contentsline {section}{\numberline {5}Guidelines for the Implementation Mapping}{7}
-\contentsline {subsection}{\numberline {5.1}Responsibility domains}{7}
-\contentsline {subsection}{\numberline {5.2}Service contracts}{7}
-\contentsline {subsection}{\numberline {5.3}Service and process specification}{7}
-\contentsline {subsection}{\numberline {5.4}Data structures}{7}
-\contentsline {subsection}{\numberline {5.5}Unit tests}{7}
-\contentsline {subsection}{\numberline {5.6}Diagram generation}{7}
+\contentsline {section}{\numberline {4}Guidelines for the Implementation Mapping}{6}
+\contentsline {subsection}{\numberline {4.1}Responsibility domains}{6}
+\contentsline {subsection}{\numberline {4.2}Service contracts}{6}
+\contentsline {subsection}{\numberline {4.3}Service and process specification}{6}
+\contentsline {subsection}{\numberline {4.4}Data structures}{7}
+\contentsline {subsection}{\numberline {4.5}Unit tests}{7}
+\contentsline {section}{\numberline {5}Evaluation guidelines}{8}
+\contentsline {subsection}{\numberline {5.1}Mapping preferences}{8}
+\contentsline {subsection}{\numberline {5.2}Completeness measure}{8}
+\contentsline {subsection}{\numberline {5.3}Correctness tests}{8}
+\contentsline {subsection}{\numberline {5.4}Systematic Evaluation Guidelines}{9}
