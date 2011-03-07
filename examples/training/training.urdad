@@ -2,7 +2,11 @@ Model Training
 
 ResponsibilityDomain Training
 {
-
+  ResponsibilityDomain Student {}
+  ResponsibilityDomain TrainingRegulator {}
+  ResponsibilityDomain CreditRegulator {}
+  ResponsibilityDomain Shareholder {}
+  ResponsibilityDomain Client {}
   
   ResponsibilityDomain TrainingInstitution
   {
@@ -60,8 +64,15 @@ ResponsibilityDomain Training
         {
           PreCondition studentIsRegistered checks personIsRegistered isRequiredBy (Shareholder)
           
-          Request DataStructure ProvideStudyGuideRequest {}            
-          Result DataStructure ProvideStudyGuideRequest {}                     
+          Request DataStructure ProvideStudyGuideRequest 
+          {
+            has association courseIdentifier ofType Course
+            has association studentIdentifier ofType Student
+          }            
+          Result DataStructure ProvideStudyGuideRequest 
+          {
+            has component studyGuide ofType StudyGuide
+          }                     
         }
       }
     }
@@ -139,11 +150,14 @@ ResponsibilityDomain Training
             has component invoice ofType Invoice
         }
       }
-      ServiceContract provideInvoiceForEnrollment
+      ServiceContract provideInvoiceFor
       {
         PreCondition invoiceForEnrollmentExists checks invoiceForEnrollmentIssued 
             raises NoInvoiceIssuedForEnrollmentException isRequiredBy (Finance)
-        Request DataStructure  ProvideInvoiceForEnrollmentRequest {}
+        Request DataStructure  ProvideInvoiceForEnrollmentRequest 
+        {
+        
+        }
         Result DataStructure ProvideInvoiceForEnrollmentResult {}
       }
       DataStructure Invoice is Entity
@@ -230,7 +244,7 @@ ResponsibilityDomain Training
         {
             has component enrollmentConfirmation ofType EnrollmentConfirmation
             has component invoice ofType Invoice
-            has many component studyGuide ofType StudyGuide
+            has component studyGuide ofType StudyGuide
         }
       }
       Service enrollForPresentationImpl realizes enrollForPresentation
@@ -286,8 +300,8 @@ ResponsibilityDomain Training
                             Query invoiceTarget OCL:"enrollmentResult.invoice"
                         assign Query enrollmentConfirmationSource OCL:"performEnrollmentResult.enrollmentCOnfirmation" to
                             Query enrollmentConfirmationTarget OCL:"enrollmentResult.enrollmentConfirmation"
-                        assign Query studyGuidesSource OCL:"performEnrollmentResult.sudyGuides" to
-                            Query studyGuidesTarget OCL:"enrollmentResult.studyGuides"    
+                        assign Query studyGuidesSource OCL:"performEnrollmentResult.studyGuide" to
+                            Query studyGuidesTarget OCL:"enrollmentResult.studyGuide"    
                         returnResult 
                         {
                             Constraint resultContainsInvoiceConstraint OCL:
@@ -312,19 +326,15 @@ ResponsibilityDomain Training
         Result DataStructure PerformEnrollmentResult 
         {
             has component enrollmentConfirmation ofType EnrollmentConfirmation
-            has many component studyGuides ofType StudyGuide
+            has component studyGuide ofType StudyGuide
         }
       }
     }
     
   }
-  ResponsibilityDomain Student {}
-  ResponsibilityDomain TrainingRegulator {}
-  ResponsibilityDomain CreditRegulator {}
-  ResponsibilityDomain Shareholder {}
-  ResponsibilityDomain Client {}
   
-}  
+}
+  
 ResponsibilityDomain urdadStandardProfile
 {
   ResponsibilityDomain Primitives
