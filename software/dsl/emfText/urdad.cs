@@ -30,9 +30,10 @@ TOKENSTYLES {
 	"is" COLOR #7F0055, BOLD;
 	"abstract" COLOR #7F0055, BOLD;
 	"has" COLOR #7F0055, BOLD;
+	"Variable" COLOR #7F0055, BOLD;
+	"ofType" COLOR #7F0055, BOLD;
 	"Exception" COLOR #7F0055, BOLD;
 	"attribute" COLOR #7F0055, BOLD;
-	"ofType" COLOR #7F0055, BOLD;
 	"association" COLOR #7F0055, BOLD;
 	"aggregate" COLOR #7F0055, BOLD;
 	"component" COLOR #7F0055, BOLD;
@@ -65,6 +66,7 @@ TOKENSTYLES {
 	"add" COLOR #7F0055, BOLD;
 	"remove" COLOR #7F0055, BOLD;
 	"requestService" COLOR #7F0055, BOLD;
+	"with" COLOR #7F0055, BOLD;
 	"yields" COLOR #7F0055, BOLD;
 	"on" COLOR #7F0055, BOLD;
 	"raiseException" COLOR #7F0055, BOLD;
@@ -105,6 +107,8 @@ RULES {
 	  ("abstract" "=" abstract[])?
 	  ("has" features)* 
 	  ("(" (annotations)*")")?"}";
+
+	Variable ::= "Variable" name[] "ofType" type[];
 	  
 	Exception ::= "Exception" name[] ("is" superType[])? "{" 
 	  ("has" features)* 
@@ -142,6 +146,8 @@ RULES {
 	  ("(" (annotations)*")")?"}";
 	  
 	Service ::= "Service" name[] "realizes" realizedContract[] "{"
+		"Request" (requestVariable)
+		"Result" (resultVariable)
 		(functionalRequirements)*
 		(activity)
 	"}";  
@@ -158,25 +164,23 @@ RULES {
 	
 	Wait ::= "wait" "until" (until);
 	
-	Create ::= "create" name[] "ofType" dataType[] ("(" (constraints)*")")?;
+	Create ::= "create" (producedVariable);
 	
 	Assign ::= "assign" source "to" to;
 	Add ::= "add" source "to" to;
 	Remove ::= "remove" target;
 	
-	RequestService ::= "requestService" requestedService[] ("yields" name[])? 
+	RequestService ::= "requestService" requestedService[] "with" requestVariable[] 
+			("yields" (producedVariable))? 
 		("{" 
-			(requestConstraints)*  
 			(exceptionHandlers)*
 		"}")?;
 
 	ExceptionHandler ::= "on" exception[] (activity);
 		
-	RaiseException ::= "raiseException" exception[]	
-		("{" (exceptionConstraints)* "}")?;
+	RaiseException ::= "raiseException" exception[] ("with" exceptionObject[])?;	
 		
-	ReturnResult ::= "returnResult"	
-		("{" (resultConstraints)* "}")?;
+	ReturnResult ::= "returnResult"	resultObject[];
 		
 	While ::= "while" (condition) "do" (activity);	
 		

@@ -111,6 +111,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
         eType="#//Feature" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//DataType"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Exception" eSuperTypes="#//DataStructure"/>
   <eClassifiers xsi:type="ecore:EClass" name="Feature" abstract="true" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="multiplicityConstraint"
@@ -180,6 +183,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="inverseService" eType="#//ServiceContract"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//ContainerActivity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestVariable" lowerBound="1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultVariable" lowerBound="1"
+        eType="#//Variable" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="realizedContract" eType="#//ServiceContract"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="functionalRequirements"
         upperBound="-1" eType="#//FunctionalRequirement" containment="true"/>
@@ -220,13 +227,11 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="VariableProduction" abstract="true"
-      eSuperTypes="#//Activity"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Create" eSuperTypes="#//VariableProduction">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dataType" lowerBound="1"
-        eType="#//DataType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" upperBound="-1"
-        eType="#//Constraint" containment="true"/>
+      eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="producedVariable" lowerBound="1"
+        eType="#//Variable" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Create" eSuperTypes="#//VariableProduction"/>
   <eClassifiers xsi:type="ecore:EClass" name="ManipulateVariable" abstract="true"
       eSuperTypes="#//Activity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
@@ -260,10 +265,8 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="requestedService" lowerBound="1"
         eType="#//ServiceContract"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="requestConstraints" upperBound="-1"
-        eType="#//Constraint" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="requestVariable" lowerBound="1"
-        eType="#//Create"/>
+        eType="#//Variable"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exceptionHandlers" upperBound="-1"
         eType="#//ExceptionHandler" containment="true"/>
   </eClassifiers>
@@ -271,11 +274,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="RaiseException" eSuperTypes="#//TerminalActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="exception" lowerBound="1"
         eType="#//Exception"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="exceptionConstraints" upperBound="-1"
-        eType="#//Constraint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exceptionObject" eType="#//Variable"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReturnResult" eSuperTypes="#//TerminalActivity">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="resultConstraints" upperBound="-1"
-        eType="#//Constraint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultVariable" eType="#//Variable"/>
   </eClassifiers>
 </ecore:EPackage>

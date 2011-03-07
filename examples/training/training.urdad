@@ -201,7 +201,7 @@ ResponsibilityDomain Training
       }  
       ResponsibilityDomain ProofOfEnrollments
       {
-        DataStructure EnrollmentConfirmation is Entity
+        DataStructure ProofOfEnrollment is Entity
         {
             has component studentDetails ofType Person
             has component presentationDetails ofType Presentation
@@ -225,9 +225,9 @@ ResponsibilityDomain Training
             raises EnrollmentPrerequisitesNotSatisfiedException
             isRequiredBy (TrainingRegulator Student) 
         PostCondition enrollmentProcessPerformed ensures enrollmentPerformed
-            isRequiredBy (Student)    
+            isRequiredBy (Student Client TrainingRegulator)    
         PostCondition invoiceIssued ensures invoiceForEnrollmentIssued
-            isRequiredBy (Shareholder)    
+            isRequiredBy (Shareholder Client CreditRegulator)    
         Request DataStructure EnrollForPresentationRequest 
         {
             has association presentationIdentifier ofType Presentation
@@ -236,71 +236,65 @@ ResponsibilityDomain Training
         }
         Result DataStructure EnrollForPresentationResult 
         {
-            has component enrollmentConfirmation ofType EnrollmentConfirmation
+            has component proofOfEnrollment ofType ProofOfEnrollment
             has component invoice ofType Invoice
             has component studyGuide ofType StudyGuide
         }
       }
       Service enrollForPresentationImpl realizes enrollForPresentation
       {
+        Request Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+        Result Variable enrollForPresentationResult ofType EnrollForPresentationResult
         use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
         use issueInvoice toAddress (financialPrerequisitesMet invoiceIssued) 
         use performEnrollment toAddress (enrollmentProcessPerformed)
         doSequential
         {
-            create checkPrerequisitesRequest ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
+            create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
+                ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
             assign Query studentDetailsSource OCL:"enrollForPresentationRequest.studentIdentification" to 
                 Query studentDetailsTarget OCL:"checkEnrollmentPrerequisitesRequest.studentIdentification"
             assign Query presentationIdentifierSource OCL:"enrollForPresentationRequest.presentationIdentifier" to
                 Query presentationIdentifierTarget OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"     
             requestService checkStudentSatisfiesEnrollmentPrerequisites 
-                yields checkPrerequisitesResult
-            {
-                Constraint populateRequest OCL:"checkPrerequisitesRequest = checkEnrollmentPrerequisitesRequest"
-            }
+                with checkStudentSatisfiesEnrollmentPrerequisitesRequest 
+                yields Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+                    ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
             choice
             {
                 if Condition enrollmentMeetsPrerequisitesMet 
-                    OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true"
+                    OCL:"checkPrerequisitesResult.enrollmentPrerequisitesMet = true"
                     doSequential
                     {
-                        create invoiceRequest ofType IssueInvoiceRequest
+                        create Variable issueInvoiceRequest ofType IssueInvoiceRequest
                         assign Query clientIdentificationSource OCL: "enrollForPresentationRequest.payerIdentification" to 
-                            Query clientIdentificationTarget OCL:"issueInvoiceRequest.clientIdentifier"
-                        create invoiceItem ofType InvoiceItem    
+                            Query clientIdentificationTarget OCL:"issueInvoiceRequest.clientIdentification"
+                        create Variable invoiceItem ofType InvoiceItem    
 			            assign Query presentationIdentifierSource OCL:"enrollForPresentationRequest.presentationIdentifier" to
 			                Query presentationIdentifierTarget OCL:"invoiceItem.chargeableIdentifier"
 			            add Query invoiceItemSource OCL:"invoiceItem" to
 			                Query invoiceItemTarger OCL:"issueInvoiceRequest.invoiceItems"         
-                        requestService issueInvoice yields issueInvoiceResult
+                        requestService issueInvoice with issueInvoiceRequest 
+                            yields Variable issueInvoiceResult ofType IssueInvoiceResult
                         {
-                            Constraint populateRequest OCL:"issueInvoiceRequest = invoiceRequest"     
                             on FinancialPrerequisitesNotSatisfiedException 
                                 raiseException FinancialPrerequisitesNotSatisfiedException
-                                {
-                                }
                         }
-                        create enrollRequest ofType PerformEnrollmentRequest 
+                        create Variable enrollRequest ofType PerformEnrollmentRequest 
                         assign Query personIdentifierSource OCL:"checkPrerequisitesResult.personIdentifier" to
-                            Query personIdentierTarget OCL:"perfordmEnrollmentRequest.personIdentifier"
+                            Query personIdentierTarget OCL:"performEnrollmentRequest.personIdentifier"
                         assign Query presentationIdentifierSource OCL:"enrollmentRequest.presentationIdentifier" to
                             Query presentationIdentifierTarget OCL:"performEnrollmentRequest.presentationIdentifier"    
-                        requestService performEnrollment yields performEnrollmentResult
-                        {
-                           Constraint populateRequest OCL:"performEnrollmentRequest = enrollRequest"                            
-                        }
-                        create enrollmentResult ofType EnrollForPresentationResult
+                        requestService performEnrollment with enrollRequest 
+                            yields Variable performEnrollmentResult ofType PerformEnrollmentResult
+                        create Variable enrollForPresentationResult ofType EnrollForPresentationResult
                         assign Query invoiceSource OCL:"issueInvoiceResult.invoice" to
                             Query invoiceTarget OCL:"enrollmentResult.invoice"
                         assign Query enrollmentConfirmationSource OCL:"performEnrollmentResult.enrollmentCOnfirmation" to
                             Query enrollmentConfirmationTarget OCL:"enrollmentResult.enrollmentConfirmation"
                         assign Query studyGuidesSource OCL:"performEnrollmentResult.studyGuide" to
                             Query studyGuidesTarget OCL:"enrollmentResult.studyGuide"    
-                        returnResult 
-                        {
-                            Constraint resultContainsInvoiceConstraint OCL:
-                                "enrollForPresentationResult = enrollmentResult"                     
-                        } 
+                        returnResult enrollForPresentationResult
                     }
                 else
                     raiseException EnrollmentPrerequisitesNotSatisfiedException
@@ -339,53 +333,16 @@ ResponsibilityDomain UrdadStandardProfile
     BasicDataType String
     BasicDataType Date
     BasicDataType URI
-    
-    DataStructure Object { abstract = true }
-  }
-  ResponsibilityDomain Collections
-  {
-    DataStructure Collection 
-    {
-        has association elementType ofType Object  
-    }
-    DataStructure  List is Collection {}
-    ServiceContract addObjectToCollection
-    {
-        Request DataStructure AddObjectToCollectionRequest
-        {
-            has component objectToAdd ofType Object
-            has association collectionToAddTo ofType Collection
-        }
-        Result DataStructure AddObjectToCollectionResult {}
-    }
-    ServiceContract removeObjectFromCollection
-    {
-        Request DataStructure RemoveObjectFromCollectionRequest
-        {
-            has component objectToRemove ofType Object
-            has association collectionToRemoveFrom ofType Collection
-        }
-        Result DataStructure RemoveObjectFromCollectionResult {}
-    }
-    ServiceContract provideObjectAtIndex
-    {
-        Request DataStructure ProvideObjectAtIndexRequest
-        {
-            has component objectToRemove ofType Object
-            has association collectionToRemoveFrom ofType Collection
-        }
-        Result DataStructure RemoveObjectFromCollectionResult {}
-    }
   }
   ResponsibilityDomain Storage
   {
     ResponsibilityDomain StorageClient
     {
     }
-    DataStructure Entity is Object 
+    DataStructure Entity 
     {
         abstract = true
-        has attribute identifier ofType Integer 
+        has attribute identifier ofType URI 
     }
     
     Condition EntityNotStored
@@ -452,8 +409,10 @@ ResponsibilityDomain UrdadStandardProfile
         {
             has component query ofType StorageQuery
         }
-        Result DataStructure ResultList is List
-        {}
+        Result DataStructure FindEntitiesResult
+        {
+            has many component entity ofType Entity
+        }
     }
   }
 }
