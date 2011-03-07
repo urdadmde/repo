@@ -24,8 +24,9 @@ Service contracts are meant to be mapped onto service/method declarations on int
 
 The concrete services in the metamodel contain the functional requirements (the lower level services from which the sevice is to be assembled) as well as the technology-neutral process specification which specifies how the process is orchestrated across these lower level services. There are service request activities, control structures, activities which create and manipulate local process variables and termination activities which either returning the result or notify the user that the requested service is not provided because a particular precondition for the service is not met by raising the exception associated with that precondition. 
 
-%**************** THE HIGH_RISK PARAGRAPH **********************
-These need to be mapped onto the corresponding features in the target model. One of the core complexities is that of constructing the request objects for the lower level service request as well as the result object. This is specified in the model either solely using constraints or via a combination of creating process variables and tying them to the request objects via constraints.
+The technology neutral design does not specify how references to the service providers of the lower level services are obtained. For modern implementation technologies this would typically be via dependency injection. The implementation mapping for other technologies might need to introduce a service provider registry and generate the approapriate service provider lookup code.
+
+The process specification includes process variables which are accessible within the process and are maintained for the duration of the process. The inputs and outputs of the process (the request ond result objects for the core service itself) ae also process variables which can be queried and manipulated within the process.
 
 \subsection{Data structures}
 
