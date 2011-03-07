@@ -1,6 +1,6 @@
 \section{Guidelines for the Implementation Mapping}
 
-The following are some guidelines for the implementation mapping of specific URDAD model artifacts. The guidelines have a bias towards a typical modern object-oriented language like \verb+Java+ or \verb+C#+, but the concepts can be easily mapped onto other technologies.
+The following are some guidelines for the implementation mapping of specific URDAD model artefacts. The guidelines have a bias towards a typical modern object-oriented language like \verb+Java+ or \verb+C#+, but the concepts can be easily mapped onto other technologies.
 
 \subsection{Responsibility domains}
 
@@ -22,15 +22,15 @@ Service contracts are meant to be mapped onto service/method declarations on int
 
 \subsection{Service and process specification}
 
-The concrete services in the metamodel contain the functional requirements (the lower level services from which the sevice is to be assembled) as well as the technology-neutral process specification which specifies how the process is orchestrated across these lower level services. There are service request activities, control structures, activities which create and manipulate local process variables and termination activities which either returning the result or notify the user that the requested service is not provided because a particular precondition for the service is not met by raising the exception associated with that precondition. 
+The concrete services in the metamodel contain the functional requirements (the lower level services from which the service is to be assembled) as well as the technology-neutral process specification which specifies how the process is orchestrated across these lower level services. There are service request activities, control structures, activities which create and manipulate local process variables and termination activities which either returning the result, or notify the user that the requested service is not provided because a particular precondition for the service is not met by raising the exception associated with that precondition. 
 
-The technology neutral design does not specify how references to the service providers of the lower level services are obtained. For modern implementation technologies this would typically be via dependency injection. The implementation mapping for other technologies might need to introduce a service provider registry and generate the approapriate service provider lookup code.
+The technology neutral design does not specify how references to the service providers of the lower level services are obtained. For modern implementation technologies this would typically be via dependency injection. The implementation mapping for other technologies might need to introduce a service provider registry and generate the appropriate service provider lookup code.
 
-The process specification includes process variables which are accessible within the process and are maintained for the duration of the process. The inputs and outputs of the process (the request ond result objects for the core service itself) ae also process variables which can be queried and manipulated within the process.
+The process specification includes process variables which are accessible within the process and are maintained for the duration of the process. The inputs and outputs of the process (the request and result objects for the core service itself) are also process variables which can be queried and manipulated within the process.
 
 \subsection{Data structures}
 
-The URDAD data structure specification is essentially the same as in other object-oriented technologies supporting classes with attributes, association to other classes, inheritence and abstract classes. The different types of association relationships are meant to be implemented as follows:
+The URDAD data structure specification is essentially the same as in other object-oriented technologies supporting classes with attributes, association to other classes, inheritance and abstract classes. The different types of association relationships are meant to be implemented as follows:
 \begin{itemize}
   \item Plain \textit{association} relationships are mapped onto simple references or pointers.
   \item \textit{Aggregation} relationships are implemented the same as plain association relationships except in the case where state change notification is to be supported. In these cases one also needs to ensure that the aggregate object listens to state change events from its components and that it issues the appropriate state change event to its observers.
@@ -40,7 +40,7 @@ The URDAD data structure specification is essentially the same as in other objec
 
 \subsection{Unit tests}
 
-Unit tests should be developed for service contracts, not for concrete service definitions. They should only test the post-conditions for the current level of granularity, assuming that the lower level service providers fulfill their respective service contracts. In particular, they should test that
+Unit tests should be developed for service contracts, not for concrete service definitions. They should only test the post-conditions for the current level of granularity, assuming that the lower level service providers fulfil their respective service contracts. In particular, they should test that
 \begin{itemize}
   \item that the service is not refused if any of the preconditions do not hold true, i.e.\ that no exception is thrown, and
   \item that, when the service is provided (no exception thrown), all postconditions hold true after the service has been provided.
