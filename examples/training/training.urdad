@@ -42,7 +42,7 @@ ResponsibilityDomain Training
         ResponsibilityDomain Validation
         {
             ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
-            {
+            { 
                 Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest 
                 {
                     has component studentIdentification ofType PersonIdentification
@@ -113,7 +113,7 @@ ResponsibilityDomain Training
         has attribute cardNumber ofType String
         (Note en-ZA: "For example a student or and employee card")
       }
-      Condition personIsRegistered OCL:"provideRegistrationDetails(#provideRegistrationDetailsRequest) <> NULL"
+      Condition personIsRegistered
       Exception PersonNotRegisteredException {}
       ServiceContract provideRegistrationDetails
       {
@@ -263,7 +263,7 @@ ResponsibilityDomain Training
             choice
             {
                 if Condition enrollmentMeetsPrerequisitesMet 
-                    OCL:"checkPrerequisitesResult.enrollmentPrerequisitesMet = true"
+                    OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true"
                     doSequential
                     {
                         create Variable issueInvoiceRequest ofType IssueInvoiceRequest
@@ -281,20 +281,20 @@ ResponsibilityDomain Training
                                 raiseException FinancialPrerequisitesNotSatisfiedException
                         }
                         create Variable enrollRequest ofType PerformEnrollmentRequest 
-                        assign Query personIdentifierSource OCL:"checkPrerequisitesResult.personIdentifier" to
+                        assign Query personIdentifierSource OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.personIdentifier" to
                             Query personIdentierTarget OCL:"performEnrollmentRequest.personIdentifier"
-                        assign Query presentationIdentifierSource OCL:"enrollmentRequest.presentationIdentifier" to
+                        assign Query presentationIdentifierSource OCL:"enrollForPresentationRequest.presentationIdentifier" to
                             Query presentationIdentifierTarget OCL:"performEnrollmentRequest.presentationIdentifier"    
                         requestService performEnrollment with enrollRequest 
                             yields Variable performEnrollmentResult ofType PerformEnrollmentResult
                         create Variable enrollForPresentationResult ofType EnrollForPresentationResult
                         assign Query invoiceSource OCL:"issueInvoiceResult.invoice" to
-                            Query invoiceTarget OCL:"enrollmentResult.invoice"
+                            Query invoiceTarget OCL:"enrollForPresentationResult.invoice"
                         assign Query enrollmentConfirmationSource OCL:"performEnrollmentResult.enrollmentCOnfirmation" to
-                            Query enrollmentConfirmationTarget OCL:"enrollmentResult.enrollmentConfirmation"
+                            Query enrollmentConfirmationTarget OCL:"enrollForPresentationResult.enrollmentConfirmation"
                         assign Query studyGuidesSource OCL:"performEnrollmentResult.studyGuide" to
-                            Query studyGuidesTarget OCL:"enrollmentResult.studyGuide"    
-                        returnResult enrollForPresentationResult
+                            Query studyGuidesTarget OCL:"enrollForPresentationResult.studyGuide"    
+                        returnResult  enrollForPresentationResult
                     }
                 else
                     raiseException EnrollmentPrerequisitesNotSatisfiedException
@@ -313,7 +313,7 @@ ResponsibilityDomain Training
         }
         Result DataStructure PerformEnrollmentResult 
         {
-            has component enrollmentConfirmation ofType EnrollmentConfirmation
+            has component enrollmentConfirmation ofType ProofOfEnrollment
             has component studyGuide ofType StudyGuide
         }
       }

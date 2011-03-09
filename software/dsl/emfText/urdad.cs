@@ -178,9 +178,9 @@ RULES {
 
 	ExceptionHandler ::= "on" exception[] (activity);
 		
-	RaiseException ::= "raiseException" exception[] ("with" exceptionObject[])?;	
+	RaiseException ::= "raiseException" exception[] ("with" exceptionVariable[])?;	
 		
-	ReturnResult ::= "returnResult"	resultObject[];
+	ReturnResult ::= "returnResult"	resultVariable[];
 		
 	While ::= "while" (condition) "do" (activity);	
 		

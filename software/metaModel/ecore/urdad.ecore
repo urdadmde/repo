@@ -274,7 +274,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="RaiseException" eSuperTypes="#//TerminalActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="exception" lowerBound="1"
         eType="#//Exception"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="exceptionObject" eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exceptionVariable" eType="#//Variable"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReturnResult" eSuperTypes="#//TerminalActivity">
     <eStructuralFeatures xsi:type="ecore:EReference" name="resultVariable" eType="#//Variable"/>
