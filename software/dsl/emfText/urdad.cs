@@ -143,8 +143,7 @@ RULES {
 		("if" (condition))? ("(" (annotations)*")")?;
 	
 	ServiceContract ::= "ServiceContract" name[] "{"
-	 (preCondition)*
-	 (postCondition)*
+	 (preConditions | postConditions)*
 	 (qualityRequirements)*
 	 ("undoneVia" inverseService[])?
 	 "Request" request   

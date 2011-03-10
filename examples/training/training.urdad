@@ -132,12 +132,12 @@ ResponsibilityDomain Training
         {
             ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
             { 
+                PostCondition ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied ensures
+                    OCL:"result.isKindOf(StudentDoesNotMeetEnrollmentPrerequisites)"
+                    isRequiredBy (TrainingInstitution)  
                 PostCondition personIdentifierProvided
                     isRequiredBy (TrainingInstitution)
                 PostCondition ifNotRegisteredPrerequisitesNotSatisfied
-                    isRequiredBy (TrainingInstitution)
-                PostCondition ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied ensures
-                    OCL:"result.isKindOf(StudentDoesNotMeetEnrollmentPrerequisites)"
                     isRequiredBy (TrainingInstitution)
                 PostCondition ifCourseConditionsNotSatisfiedEnrollmentConditionsNotSatisfied
                     isRequiredBy (TrainingRegulator Student)    
@@ -165,74 +165,78 @@ ResponsibilityDomain Training
                 use checkWhetherEnrollmentConflictsWithStudentRoster toAddress 
                     (ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied)
                 use provideRegistrationDetails toAddress 
-                    (personIdentifierProvided ifNotRegisteredPrerequisitesNotSatisfied) 
+                    (personIdentifierProvided ifNotRegisteredPrerequisitesNotSatisfied)                     
+                use checkWhetherEnrollmentConflictsWithStudentRoster toAddress (ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied)                       
                 use checkStudentSatisfiesCoursePrerequisites toAddress
-                    (ifCourseConditionsNotSatisfiedEnrollmentConditionsNotSatisfied)                      
+                    (ifCourseConditionsNotSatisfiedEnrollmentConditionsNotSatisfied)   
                 doSequential
                 {
                     create Variable provideRegistrationDetailsRequest ofType ProvideRegistrationDetailsRequest
                     requestService provideRegistrationDetails with provideRegistrationDetailsRequest
                         yields Variable provideRegistrationDetailsResult ofType ProvideRegistrationDetailsResult
-                    choice
                     {
-                        if Condition notRegistered                         
-	                        doSequential
-	                        {
-	                            create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
-	                                ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
-	                            returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult    
-	                        }
-	                    else
-	                       doSequential
-	                       {
-		                       Concurrency
-		                       {
-		                          doConcurrent doSequential 
-		                          {
-		                              create Variable checkStudentSatisfiesCoursePrerequisitesRequest
-		                                  ofType CheckStudentSatisfiesCoursePrerequisitesRequest
-		                              requestService checkStudentSatisfiesCoursePrerequisites
-		                                  with checkStudentSatisfiesCoursePrerequisitesRequest
-		                                  yields Variable checkStudentSatisfiesCoursePrerequisitesResult
-		                                      ofType CheckStudentSatisfiesCoursePrerequisitesResult
-		                          }   
-		                          doConcurrent doSequential
-		                          {
-		                              create Variable checkWhetherEnrollmentConflictsWithStudentRosterRequest ofType
-		                                  CheckWhetherEnrollmentConflictsWithStudentRosterRequest
-		                              requestService checkWhetherEnrollmentConflictsWithStudentRoster 
-		                                  with checkWhetherEnrollmentConflictsWithStudentRosterResult
-		                                  yields Variable checkWhetherEnrollmentConflictsWithStudentRosterResult
-		                                      ofType CheckWhetherEnrollmentConflictsWithStudentRosterResult
-		                          }
-		                       }
-                                    
-		                       choice
-		                       {
-		                          if Condition coursePrerequisitesMetAndFitsInRoster doSequential
-		                          {
-		                              create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
-		                                  ofType StudentSatisfiesEnrollmentPrerequisites
-		                              returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult     
-		                          }
-		                          else doSequential
-		                          {
-	                                create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
-                                      ofType StudentDoesNotMeetEnrollmentPrerequisites
-                                    if Condition coursePrerequisitesNotMet 
-                                        OCL:"checkStudentSatisfiesCoursePrerequisitesResult.prerequisitesSatisfied = false"
-                                        doSequential
-                                        {
-                                            create Variable reason ofType String
-                                            add Constant "Course prerequisites not satisfied." to 
-                                                Query reasons OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.reasons"  
-                                        }                                          
-		                          
-                                    returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult    
-		                          }  
-		                       }
-		                   }        
+                        on PersonNotRegisteredException
+                            doSequential
+                            {
+                                create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+                                    ofType StudentDoesNotMeetEnrollmentPrerequisites
+                                returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult    
+                            }
                     }    
+                   Concurrency
+                   {
+                      doConcurrent doSequential 
+                      {
+                          create Variable checkStudentSatisfiesCoursePrerequisitesRequest
+                              ofType CheckStudentSatisfiesCoursePrerequisitesRequest
+                          requestService checkStudentSatisfiesCoursePrerequisites
+                              with checkStudentSatisfiesCoursePrerequisitesRequest
+                              yields Variable checkStudentSatisfiesCoursePrerequisitesResult
+                                  ofType CheckStudentSatisfiesCoursePrerequisitesResult
+                      }   
+                      doConcurrent doSequential
+                      {
+                          create Variable checkWhetherEnrollmentConflictsWithStudentRosterRequest ofType
+                              CheckWhetherEnrollmentConflictsWithStudentRosterRequest
+                          requestService checkWhetherEnrollmentConflictsWithStudentRoster 
+                              with checkWhetherEnrollmentConflictsWithStudentRosterResult
+                              yields Variable checkWhetherEnrollmentConflictsWithStudentRosterResult
+                                  ofType CheckWhetherEnrollmentConflictsWithStudentRosterResult
+                      }
+                   }
+                        
+                   choice
+                   {
+                      if Condition coursePrerequisitesMetAndFitsInRoster
+                          OCL:"(checkStudentSatisfiesCoursePrerequisitesResult.prerequisitesSatisfied = true) and 
+                            (checkWhetherEnrollmentConflictsWithStudentRosterResult.prerequisitesSatisfied = true)" 
+                      doSequential
+                      {
+                          create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+                              ofType StudentSatisfiesEnrollmentPrerequisites
+                          returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult     
+                      }
+                      else doSequential
+                      {
+                        create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+                          ofType StudentDoesNotMeetEnrollmentPrerequisites
+                        if Condition OCL:"checkStudentSatisfiesCoursePrerequisitesResult.prerequisitesSatisfied = false"
+                            doSequential
+                            {
+                                create Variable reason ofType String
+                                add Constant "Course prerequisites not satisfied." to 
+                                    Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.reasons"  
+                            }             
+                        if Condition OCL:"checkWhetherEnrollmentConflictsWithStudentRosterResult.prerequisitesSatisfied = false"
+                            doSequential
+                            {
+                                create Variable reason ofType String
+                                add Constant "Enrollment conflicts with student roster." to
+                                    Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.reasons"  
+                            }                                 
+                        returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult    
+                      }  
+                   }
                 }       
             }
         }
@@ -242,7 +246,7 @@ ResponsibilityDomain Training
         DataStructure StudyGuide {}
         ServiceContract provideStudyGuide
         {
-          PreCondition studentIsRegistered isRequiredBy (Shareholder)
+          PreCondition studentIsRegistered raises PersonNotRegisteredException isRequiredBy (Shareholder)
           Request DataStructure ProvideStudyGuideRequest 
           {
             has association courseIdentifier ofType Course
@@ -313,7 +317,7 @@ ResponsibilityDomain Training
       Exception FinancialPrerequisitesNotSatisfiedException {}
       ServiceContract issueInvoice
       {
-        PreCondition financialPrerequisitesMet isRequiredBy (Shareholder)
+        PreCondition financialPrerequisitesSatisfied raises FinancialPrerequisitesNotSatisfiedException isRequiredBy (Shareholder)
         Request DataStructure IssueInvoiceRequest 
         {
             has component clientIdentification ofType Identification
@@ -426,7 +430,7 @@ ResponsibilityDomain Training
       {
         Request Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
         use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
-        use issueInvoice toAddress (financialPrerequisitesMet invoiceIssued) 
+        use issueInvoice toAddress (financialPrerequisitesSatisfied invoiceIssued) 
         use performEnrollment toAddress ( invoiceIssued )
         doSequential
         {

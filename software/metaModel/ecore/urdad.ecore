@@ -180,10 +180,10 @@
         eType="#//DataStructure" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="qualityRequirements" upperBound="-1"
         eType="#//QualityRequirement" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="preCondition" eType="#//PreCondition"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="postCondition" eType="#//PostCondition"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preConditions" upperBound="-1"
+        eType="#//PreCondition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postConditions" upperBound="-1"
+        eType="#//PostCondition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inverseService" eType="#//ServiceContract"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//ContainerActivity">
