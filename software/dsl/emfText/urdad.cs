@@ -6,7 +6,7 @@ FOR <http://www.urdad.org/2010/urdad>
 // WITH SYNTAX java <../../org/urdad/language/someOtherLanguage/metamodel/someOtherLanguage.cs>}
 
 
-START Model
+START Model,ServiceRequirement
 
 TOKENS {
 	DEFINE COMMENT $'//'(~('\n'|'\r'|'\uffff'))*$;
@@ -32,6 +32,8 @@ TOKENSTYLES {
 	"has" COLOR #7F0055, BOLD;
 	"Variable" COLOR #7F0055, BOLD;
 	"ofType" COLOR #7F0055, BOLD;
+	"Constant" COLOR #7F0055, BOLD;
+	"ValueOf" COLOR #7F0055, BOLD;
 	"Exception" COLOR #7F0055, BOLD;
 	"attribute" COLOR #7F0055, BOLD;
 	"association" COLOR #7F0055, BOLD;
@@ -62,7 +64,8 @@ TOKENSTYLES {
 	"wait" COLOR #7F0055, BOLD;
 	"until" COLOR #7F0055, BOLD;
 	"create" COLOR #7F0055, BOLD;
-	"assign" COLOR #7F0055, BOLD;
+	"set" COLOR #7F0055, BOLD;
+	"equalTo" COLOR #7F0055, BOLD;
 	"add" COLOR #7F0055, BOLD;
 	"remove" COLOR #7F0055, BOLD;
 	"requestService" COLOR #7F0055, BOLD;
@@ -83,16 +86,16 @@ RULES {
 	 ("(" (annotations)*")")?;
 	 
 	ResponsibilityDomain ::= "ResponsibilityDomain" name[] "{"
-		(responsibilityDomains | dataTypes | servicesContracts | services | conditions | annotations)*"}"; 
+		(responsibilityDomains | dataTypes | servicesContracts | services | annotations)*"}"; 
 
 	Expression ::= language [] ":" expressionString['"','"'];
 	
-	Query ::= "Query" name[] (queryExpression);
+	Query ::= "Query" (name[])? (queryExpression);
 	
-	Constraint ::= "Constraint" name[] (constraintExpression)? 
+	Constraint ::= "Constraint" (name[])? (constraintExpression)? 
 	  ("(" (annotations)*")")?;	
 	
-	Condition ::= "Condition" name[] (constraintExpression)?
+	Condition ::= "Condition" (name[])? (constraintExpression)?
 	  ("(" (annotations)*")")?;
 	
 	QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
@@ -109,6 +112,10 @@ RULES {
 	  ("(" (annotations)*")")?"}";
 
 	Variable ::= "Variable" name[] "ofType" type[];
+
+	Constant ::= "Constant" value['"','"'];
+
+	VariableReference ::= "ValueOf" variable[];
 	  
 	Exception ::= "Exception" name[] ("is" superType[])? "{" 
 	  ("has" features)* 
@@ -119,27 +126,26 @@ RULES {
 	Aggregation ::= (multiplicityConstraint)? "aggregate" (multiplicityConstraint)? name[] "ofType" relatedType[]; 
 	Composition ::= (multiplicityConstraint)? "component" (multiplicityConstraint)? name[] "ofType" relatedType[];
 	 
-	QualityRequirement ::= "QualityRequirement" name[] qualityConstraint[]
+	QualityRequirement ::= "QualityRequirement" name[] (constraintExpression)? 
 		"isRequiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
 	  
-	PreCondition ::= "PreCondition" name[] "checks" condition[]  
-      ("raises" exception[])?
-		"isRequiredBy" "("(requiredBy[])*")"
+	PreCondition ::= "PreCondition" name[] ("checks" constraintExpression)? 
+      "raises" exception[] "isRequiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
 	  
-	PostCondition ::= "PostCondition" name[] "ensures" condition[]  
+	PostCondition ::= "PostCondition" name[] ("ensures" constraintExpression)? 
 		"isRequiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
  		
-	FunctionalRequirement ::= "use" requiredService[]
-	 	"toAddress" "("usedToAddress[]*")"
-		("if" condition[])? ("(" (annotations)*")")?;
+	ServiceRequirement ::= "use" requiredService[]
+	 	"toAddress" "("(usedToAddress[])*")"
+		("if" (condition))? ("(" (annotations)*")")?;
 	
 	ServiceContract ::= "ServiceContract" name[] "{"
 	 (preCondition)*
 	 (postCondition)*
-	 (qualityRequirements )*
+	 (qualityRequirements)*
 	 ("undoneVia" inverseService[])?
 	 "Request" request   
 	 "Result" result 
@@ -147,8 +153,7 @@ RULES {
 	  
 	Service ::= "Service" name[] "realizes" realizedContract[] "{"
 		"Request" (requestVariable)
-		"Result" (resultVariable)
-		(functionalRequirements)*
+		(serviceRequirements)*
 		(activity)
 	"}";  
 	
@@ -166,8 +171,8 @@ RULES {
 	
 	Create ::= "create" (producedVariable);
 	
-	Assign ::= "assign" source "to" to;
-	Add ::= "add" source "to" to;
+	Assign ::= "set" target "equalTo" source;
+	Add ::= "add" source "to" target;
 	Remove ::= "remove" target;
 	
 	RequestService ::= "requestService" requestedService[] "with" requestVariable[] 
