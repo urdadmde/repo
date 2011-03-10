@@ -37,10 +37,11 @@ TOKENSTYLES {
 	"Exception" COLOR #7F0055, BOLD;
 	"attribute" COLOR #7F0055, BOLD;
 	"association" COLOR #7F0055, BOLD;
+	"identifying" COLOR #7F0055, BOLD;
 	"aggregate" COLOR #7F0055, BOLD;
 	"component" COLOR #7F0055, BOLD;
 	"QualityRequirement" COLOR #7F0055, BOLD;
-	"isRequiredBy" COLOR #7F0055, BOLD;
+	"requiredBy" COLOR #7F0055, BOLD;
 	"PreCondition" COLOR #7F0055, BOLD;
 	"checks" COLOR #7F0055, BOLD;
 	"raises" COLOR #7F0055, BOLD;
@@ -50,7 +51,7 @@ TOKENSTYLES {
 	"toAddress" COLOR #7F0055, BOLD;
 	"if" COLOR #7F0055, BOLD;
 	"ServiceContract" COLOR #7F0055, BOLD;
-	"undoneVia" COLOR #7F0055, BOLD;
+	"undoneUsing" COLOR #7F0055, BOLD;
 	"Request" COLOR #7F0055, BOLD;
 	"Result" COLOR #7F0055, BOLD;
 	"Service" COLOR #7F0055, BOLD;
@@ -122,20 +123,20 @@ RULES {
 	  ("(" (annotations)*")")?"}";
 	
 	Attribute ::= (multiplicityConstraint)? "attribute" name[] "ofType" type[];
-	Association ::= (multiplicityConstraint)? "association"  name[] "ofType" relatedType[]; 
+	Association ::= (multiplicityConstraint)? "association"  name[] "identifying" relatedType[]; 
 	Aggregation ::= (multiplicityConstraint)? "aggregate" (multiplicityConstraint)? name[] "ofType" relatedType[]; 
 	Composition ::= (multiplicityConstraint)? "component" (multiplicityConstraint)? name[] "ofType" relatedType[];
 	 
 	QualityRequirement ::= "QualityRequirement" name[] (constraintExpression)? 
-		"isRequiredBy" "("(requiredBy[])*")"
+		"requiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
 	  
 	PreCondition ::= "PreCondition" name[] ("checks" constraintExpression)? 
-      "raises" exception[] "isRequiredBy" "("(requiredBy[])*")"
+      "raises" exception[] "requiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
 	  
 	PostCondition ::= "PostCondition" name[] ("ensures" constraintExpression)? 
-		"isRequiredBy" "("(requiredBy[])*")"
+		"requiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
  		
 	ServiceRequirement ::= "use" requiredService[]
@@ -145,7 +146,7 @@ RULES {
 	ServiceContract ::= "ServiceContract" name[] "{"
 	 (preConditions | postConditions)*
 	 (qualityRequirements)*
-	 ("undoneVia" inverseService[])?
+	 ("undoneUsing" inverseService[])?
 	 "Request" request   
 	 "Result" result 
 	  ("(" (annotations)*")")?"}";
