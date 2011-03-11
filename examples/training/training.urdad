@@ -26,8 +26,52 @@ ResponsibilityDomain UrdadStandardProfile
     Exception EntityNotStoredException {}
     ServiceContract storeEntity
     {
-        PreCondition entityNotYetStored 
-            raises EntityAlreadyStoredException requiredBy (StorageClient)
+        FunctionalRequirements receiving Variable storeEntityRequest ofType StoreEntityRequest
+            yielding Variable storeEntityResult ofType StoreEntityResult
+        {
+            PreCondition entityNotYetStored requiredBy (StorageClient) raises EntityAlreadyStoredException 
+	            checks FunctionalConstraint  
+	            {
+	              stateAssessmentProcess doSequential
+	              {
+	                create Variable entityAlreadyStored ofType Boolean
+	                set Query OCL:"entityAlreadyStored" equalTo Constant "true"
+	                create Variable retrieveEntityRequest ofType RetrieveEntityRequest
+	                set Query OCL:"retrieveEntityRequest.entityIdentifier" equalTo
+	                    Query OCL:"storeEntityRequest.identifier" 
+	                requestService retrieveEntity with retrieveEntityRequest yields Variable retrieveEntityResult ofType RetrieveEntityResult 
+	                {
+	                    on EntityNotStoredException 
+	                        set Query OCL:"entityAlreadyStored" equalTo Constant "false"
+	                }
+	              }
+	              Constraint OCL:"entityAlreadyStored = false"
+	            }
+            PostCondition entityStored requiredBy (StorageClient)                     
+                ensures FunctionalConstraint  
+                {
+                  stateAssessmentProcess doSequential
+                  {
+                    create Variable entityStored ofType Boolean
+                    set Query OCL:"entityStored" equalTo Constant "true"
+                    create Variable retrieveEntityRequest ofType RetrieveEntityRequest
+                    set Query OCL:"retrieveEntityRequest.entityIdentifier" equalTo
+                        Query OCL:"storeEntityRequest.identifier" 
+                    requestService retrieveEntity with retrieveEntityRequest yields Variable retrieveEntityResult ofType RetrieveEntityResult 
+                    {
+                        on EntityNotStoredException 
+                            set Query OCL:"entityAlreadyStored" equalTo Constant "false"
+                    }
+                  }
+                  Constraint OCL:"entityStored = true"
+                }
+            PostCondition entityIdentifierSet requiredBy (StorageClient)
+                ensures FunctionalConstraint
+                {
+                    Constraint OCL:"storeEntityResult.persistedEntity.identifier <> null"
+                }    
+        }
+        
         Request DataStructure StoreEntityRequest
         {
             has component entityToPersist ofType Entity
@@ -39,8 +83,11 @@ ResponsibilityDomain UrdadStandardProfile
     }
     ServiceContract retrieveEntity
     {
-        PreCondition entityStored
-            raises EntityNotStoredException requiredBy (StorageClient)
+        FunctionalRequirements receiving Variable retrieveEntityRequest ofType RetrieveEntityRequest
+        {
+	        PreCondition entityStored requiredBy (StorageClient)
+	            raises EntityNotStoredException
+	    }         
         Request DataStructure RetrieveEntityRequest
         {
             has attribute entityIdentifier ofType Integer
@@ -62,8 +109,10 @@ ResponsibilityDomain UrdadStandardProfile
     }
     ServiceContract updateEntity
     {
-        PreCondition entityNotStored
-            raises EntityNotStoredException requiredBy (StorageClient)
+        FunctionalRequirements receiving Variable updateEntityRequest ofType UpdateEntityRequest
+        {
+            PreCondition entityNotStored requiredBy (StorageClient) raises EntityNotStoredException
+        }    
         Request DataStructure UpdateEntityRequest
         {
             has component newEntityState ofType Entity
@@ -132,15 +181,21 @@ ResponsibilityDomain Training
         {
             ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
             { 
-                PostCondition ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied ensures
-                    OCL:"result.isKindOf(StudentDoesNotMeetEnrollmentPrerequisites)"
-                    requiredBy (TrainingInstitution)  
-                PostCondition personIdentifierProvided
-                    requiredBy (TrainingInstitution)
-                PostCondition ifNotRegisteredPrerequisitesNotSatisfied
-                    requiredBy (TrainingInstitution)
-                PostCondition ifCourseConditionsNotSatisfiedEnrollmentConditionsNotSatisfied
-                    requiredBy (TrainingRegulator Student)    
+                FunctionalRequirements 
+                    receiving Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
+                        ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
+                    yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+                        ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
+                {
+	                PostCondition ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied requiredBy (TrainingInstitution) 
+	                     
+	                PostCondition personIdentifierProvided
+	                    requiredBy (TrainingInstitution)
+	                PostCondition ifNotRegisteredPrerequisitesNotSatisfied
+	                    requiredBy (TrainingInstitution)
+	                PostCondition ifCourseConditionsNotSatisfiedEnrollmentConditionsNotSatisfied
+	                    requiredBy (TrainingRegulator Student)    
+                }
                 Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest 
                 {
                     has association studentIdentifier identifying Person
@@ -158,10 +213,9 @@ ResponsibilityDomain Training
             {
                 has many attribute reason ofType String
             }
-            Service checkStudentSatisfiesEnrollmentPrerequisitesImpl realizes checkStudentSatisfiesEnrollmentPrerequisites
+            Service checkStudentSatisfiesEnrollmentPrerequisitesImpl realizes checkStudentSatisfiesEnrollmentPrerequisites 
+                receiving Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
             {
-                Request Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
-                    ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
                 use provideRegistrationDetails toAddress 
                     (personIdentifierProvided ifNotRegisteredPrerequisitesNotSatisfied)                     
                 use checkWhetherEnrollmentConflictsWithStudentRoster toAddress 
@@ -248,7 +302,10 @@ ResponsibilityDomain Training
         DataStructure StudyGuide {}
         ServiceContract provideStudyGuide
         {
-          PreCondition studentIsRegistered raises PersonNotRegisteredException requiredBy (Shareholder)
+            FunctionalRequirements receiving Variable provideStudyGuideRequest ofType ProvideStudyGuideRequest
+            {
+              PreCondition studentIsRegistered requiredBy (Shareholder) raises PersonNotRegisteredException 
+            }
           Request DataStructure ProvideStudyGuideRequest 
           {
             has association courseIdentifier identifying Course
@@ -302,7 +359,10 @@ ResponsibilityDomain Training
       Exception PersonNotRegisteredException {}
       ServiceContract provideRegistrationDetails
       {
-        PreCondition personRegistered raises PersonNotRegisteredException requiredBy (TrainingInstitution)
+        FunctionalRequirements receiving Variable provideRegistrationDetailsResult ofType ProvideRegistrationDetailsResult
+        {
+            PreCondition personRegistered requiredBy (TrainingInstitution) raises PersonNotRegisteredException
+        }
         Request DataStructure ProvideRegistrationDetailsRequest 
         {
             has association personIdentifier identifying Person
@@ -313,9 +373,9 @@ ResponsibilityDomain Training
             has component personDetails ofType Person
         }
       }
-      Service provideRegistrationDetails realizes provideRegistrationDetails
+      Service provideRegistrationDetails realizes provideRegistrationDetails 
+        receiving Variable provideRegistrationDetailsRequest ofType ProvideRegistrationDetailsRequest
       {
-        Request Variable provideRegistrationDetailsRequest ofType ProvideRegistrationDetailsRequest
         doSequential
         {
             create Variable retrieveEntityRequest ofType RetrieveEntityRequest
@@ -338,7 +398,10 @@ ResponsibilityDomain Training
       Exception FinancialPrerequisitesNotSatisfiedException {}
       ServiceContract issueInvoice
       {
-        PreCondition financialPrerequisitesSatisfied raises FinancialPrerequisitesNotSatisfiedException requiredBy (Shareholder)
+        FunctionalRequirements receiving Variable issueInvoiceRequest ofType IssueInvoiceRequest
+        {
+            PreCondition financialPrerequisitesSatisfied requiredBy (Shareholder) raises FinancialPrerequisitesNotSatisfiedException
+        }
         Request DataStructure IssueInvoiceRequest 
         {
             has association clientIdentifier identifying LegalEntity
@@ -351,8 +414,10 @@ ResponsibilityDomain Training
       }
       ServiceContract provideInvoiceForEnrollment
       {
-        PreCondition invoiceForEnrollmentExists
-            raises NoInvoiceIssuedForEnrollmentException requiredBy (Finance)
+        FunctionalRequirements receiving Variable provideInvoiceForEnrollmentRequest ofType ProvideInvoiceForEnrollmentRequest
+        {
+            PreCondition invoiceForEnrollmentExists requiredBy (Finance) raises NoInvoiceIssuedForEnrollmentException
+        }
         Request DataStructure  ProvideInvoiceForEnrollmentRequest {}
         Result DataStructure ProvideInvoiceForEnrollmentResult {}
       }
@@ -400,8 +465,10 @@ ResponsibilityDomain Training
         }
         ServiceContract enlistStudentForPresentation
         {
-          PreCondition studentIsRegistered
-            raises PersonNotRegisteredException requiredBy (Shareholder)
+            FunctionalRequirements receiving Variable enlistStudentForPresentationRequest ofType EnlistStudentForPresentationRequest
+            {
+	          PreCondition studentIsRegistered requiredBy (Shareholder) raises PersonNotRegisteredException
+            }
           Request DataStructure EnlistStudentForPresentationRequest {}
           Result DataStructure EnlistStudentForPresentationResult {}
         }
@@ -415,8 +482,11 @@ ResponsibilityDomain Training
         }
         ServiceContract provideProofOfEnrollment
         {
-          PreCondition studentIsRegistered
-            raises PersonNotRegisteredException requiredBy (Shareholder TrainingRegulator)
+            FunctionalRequirements receiving Variable provideProofOfEnrollmentRequest ofType ProvideProofOfEnrollmentRequest
+            {
+	          PreCondition studentIsRegistered requiredBy (Shareholder TrainingRegulator) raises PersonNotRegisteredException
+            
+            }
           Request DataStructure ProvideProofOfEnrollmentRequest {}
           Result DataStructure ProvideProofOfEnrollmentResult {}
         }
@@ -424,16 +494,19 @@ ResponsibilityDomain Training
       Exception EnrollmentPrerequisitesNotSatisfiedException {}
       ServiceContract enrollForPresentation
       {
-        PreCondition financialPrerequisitesMet
-            raises FinancialPrerequisitesNotSatisfiedException
-            requiredBy (Shareholder)    
-        PreCondition enrollmentPrerequisitesMet
-            raises EnrollmentPrerequisitesNotSatisfiedException
-            requiredBy (TrainingRegulator Student) 
-        PostCondition enrollmentProcessPerformed
-            requiredBy (Student Client TrainingRegulator)    
-        PostCondition invoiceIssued
-            requiredBy (Shareholder Client CreditRegulator)    
+        FunctionalRequirements receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+        {
+	        PreCondition financialPrerequisitesMet
+                requiredBy (Shareholder)    
+	            raises FinancialPrerequisitesNotSatisfiedException
+	        PreCondition enrollmentPrerequisitesMet
+                requiredBy (TrainingRegulator Student) 
+	            raises EnrollmentPrerequisitesNotSatisfiedException
+	        PostCondition enrollmentProcessPerformed
+	            requiredBy (Student Client TrainingRegulator)    
+	        PostCondition invoiceIssued
+	            requiredBy (Shareholder Client CreditRegulator)    
+        }
         Request DataStructure EnrollForPresentationRequest 
         {
             has association presentationIdentifier identifying Presentation
@@ -447,9 +520,9 @@ ResponsibilityDomain Training
             has component studyGuide ofType StudyGuide
         }
       }
-      Service enrollForPresentationImpl realizes enrollForPresentation
+      Service enrollForPresentationImpl realizes enrollForPresentation 
+        receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
       {
-        Request Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
         use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
         use issueInvoice toAddress (financialPrerequisitesSatisfied invoiceIssued) 
         use performEnrollment toAddress (invoiceIssued)
@@ -506,7 +579,6 @@ ResponsibilityDomain Training
                     }
                 else
                     raiseException EnrollmentPrerequisitesNotSatisfiedException
-                        
             }
         }  
       }

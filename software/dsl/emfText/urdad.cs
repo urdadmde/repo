@@ -6,7 +6,7 @@ FOR <http://www.urdad.org/2010/urdad>
 // WITH SYNTAX java <../../org/urdad/language/someOtherLanguage/metamodel/someOtherLanguage.cs>}
 
 
-START Model,ServiceRequirement
+START Model
 
 TOKENS {
 	DEFINE COMMENT $'//'(~('\n'|'\r'|'\uffff'))*$;
@@ -22,6 +22,11 @@ TOKENSTYLES {
 	"Constraint" COLOR #7F0055, BOLD;
 	"Condition" COLOR #7F0055, BOLD;
 	"QualityConstraint" COLOR #7F0055, BOLD;
+	"FunctionalRequirements" COLOR #7F0055, BOLD;
+	"receiving" COLOR #7F0055, BOLD;
+	"yielding" COLOR #7F0055, BOLD;
+	"FunctionalConstraint" COLOR #7F0055, BOLD;
+	"stateAssessmentProcess" COLOR #7F0055, BOLD;
 	"from" COLOR #7F0055, BOLD;
 	"to" COLOR #7F0055, BOLD;
 	"many" COLOR #7F0055, BOLD;
@@ -43,8 +48,8 @@ TOKENSTYLES {
 	"QualityRequirement" COLOR #7F0055, BOLD;
 	"requiredBy" COLOR #7F0055, BOLD;
 	"PreCondition" COLOR #7F0055, BOLD;
-	"checks" COLOR #7F0055, BOLD;
 	"raises" COLOR #7F0055, BOLD;
+	"checks" COLOR #7F0055, BOLD;
 	"PostCondition" COLOR #7F0055, BOLD;
 	"ensures" COLOR #7F0055, BOLD;
 	"use" COLOR #7F0055, BOLD;
@@ -93,7 +98,7 @@ RULES {
 	
 	Query ::= "Query" (name[])? (queryExpression);
 	
-	Constraint ::= "Constraint" (name[])? (constraintExpression)? 
+	ExpressionBasedConstraint ::= "Constraint" (name[])? (constraintExpression)? 
 	  ("(" (annotations)*")")?;	
 	
 	Condition ::= "Condition" (name[])? (constraintExpression)?
@@ -101,6 +106,20 @@ RULES {
 	
 	QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
 	  ("(" (annotations)*")")?;
+
+	FunctionalRequirements ::= "FunctionalRequirements"
+		("receiving" (requestVariable))?
+		("yielding" (resultVariable))? 
+	"{"
+		 (preConditions)*
+		 (postConditions)*
+	"}";
+
+	FunctionalConstraint ::= "FunctionalConstraint" (name[])? 
+	"{" 
+	  ("stateAssessmentProcess" (stateAssessmentProcess))?  
+	  (stateConstraints)* 
+	"}";
 
 	RangeMultiplicity ::= "from" minOccurs[] "to" maxOccurs[];
 	Many ::= "many";
@@ -131,12 +150,15 @@ RULES {
 		"requiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
 	  
-	PreCondition ::= "PreCondition" name[] ("checks" constraintExpression)? 
-      "raises" exception[] "requiredBy" "("(requiredBy[])*")"
+	PreCondition ::= "PreCondition" name[]
+	  "requiredBy" "("(requiredBy[])*")" 
+      "raises" exception[] 
+	  ("checks" (functionalConstraint))? 
 	  ("(" (annotations)*")")?;
 	  
-	PostCondition ::= "PostCondition" name[] ("ensures" constraintExpression)? 
+	PostCondition ::= "PostCondition" name[] 
 		"requiredBy" "("(requiredBy[])*")"
+		 ("ensures" (functionalConstraint))?
 	  ("(" (annotations)*")")?;
  		
 	ServiceRequirement ::= "use" requiredService[]
@@ -144,15 +166,15 @@ RULES {
 		("if" (condition))? ("(" (annotations)*")")?;
 	
 	ServiceContract ::= "ServiceContract" name[] "{"
-	 (preConditions | postConditions)*
+	 (functionalRequirements)?
 	 (qualityRequirements)*
 	 ("undoneUsing" inverseService[])?
 	 "Request" request   
 	 "Result" result 
 	  ("(" (annotations)*")")?"}";
 	  
-	Service ::= "Service" name[] "realizes" realizedContract[] "{"
-		"Request" (requestVariable)
+	Service ::= "Service" name[] "realizes" realizedContract[] "receiving" (requestVariable)
+	"{"
 		(serviceRequirements)*
 		(activity)
 	"}";  
