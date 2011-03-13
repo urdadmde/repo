@@ -320,7 +320,8 @@ ResponsibilityDomain Training
     }
     ResponsibilityDomain ClientRelationshipManagement
     {
-	  DataStructure Address
+		
+	  DataStructure Address is Entity
       {
         has many attribute addressLine ofType String
       }
