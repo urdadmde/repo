@@ -213,7 +213,7 @@ ResponsibilityDomain Training
             {
                 has many attribute reason ofType String
             }
-            Service checkStudentSatisfiesEnrollmentPrerequisitesImpl realizes checkStudentSatisfiesEnrollmentPrerequisites 
+            Service checkStudentSatisfiesEnrollmentPrerequisites realizes checkStudentSatisfiesEnrollmentPrerequisites 
                 receiving Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
             {
                 use provideRegistrationDetails toAddress 
@@ -521,7 +521,7 @@ ResponsibilityDomain Training
             has component studyGuide ofType StudyGuide
         }
       }
-      Service enrollForPresentationImpl realizes enrollForPresentation 
+      Service enrollForPresentation realizes enrollForPresentation 
         receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
       {
         use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
