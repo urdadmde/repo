@@ -38,7 +38,7 @@ ResponsibilityDomain UrdadStandardProfile
 	                set Query OCL:"entityAlreadyStored" equalTo Constant "true"
 	                create Variable retrieveEntityRequest ofType RetrieveEntityRequest
 	                set Query OCL:"retrieveEntityRequest.entityIdentifier" equalTo
-	                    Query OCL:"storeEntityRequest.identifier" 
+	                    Query OCL:"storeEntityRequest.entityToPersist.identifier" 
 	                requestService retrieveEntity with retrieveEntityRequest yields Variable retrieveEntityResult ofType RetrieveEntityResult 
 	                {
 	                    on EntityNotStoredException 
@@ -56,11 +56,11 @@ ResponsibilityDomain UrdadStandardProfile
                     set Query OCL:"entityStored" equalTo Constant "true"
                     create Variable retrieveEntityRequest ofType RetrieveEntityRequest
                     set Query OCL:"retrieveEntityRequest.entityIdentifier" equalTo
-                        Query OCL:"storeEntityRequest.identifier" 
+                        Query OCL:"storeEntityRequest.entityToPersist.identifier" 
                     requestService retrieveEntity with retrieveEntityRequest yields Variable retrieveEntityResult ofType RetrieveEntityResult 
                     {
                         on EntityNotStoredException 
-                            set Query OCL:"entityAlreadyStored" equalTo Constant "false"
+                            set Query OCL:"entityStored" equalTo Constant "false"
                     }
                   }
                   Constraint OCL:"entityStored = true"
@@ -90,7 +90,7 @@ ResponsibilityDomain UrdadStandardProfile
 	    }         
         Request DataStructure RetrieveEntityRequest
         {
-            has attribute entityIdentifier ofType Integer
+            has attribute entityIdentifier ofType URI 
         }
         Result DataStructure RetrieveEntityResult
         {
@@ -101,7 +101,7 @@ ResponsibilityDomain UrdadStandardProfile
     {
         Request DataStructure RemoveEntityRequest
         {
-            has attribute entityIdentifier ofType Integer
+            has attribute entityIdentifier ofType URI 
         }
         Result DataStructure RemoveEntityResult
         {
@@ -173,7 +173,6 @@ ResponsibilityDomain Training
           }
           Result DataStructure CheckStudentSatisfiesCoursePrerequisitesResult
           {
-            abstract = true
             has attribute prerequisitesSatisfied ofType Boolean
           }
         } 
@@ -219,16 +218,14 @@ ResponsibilityDomain Training
                 use provideRegistrationDetails toAddress 
                     (personIdentifierProvided ifNotRegisteredPrerequisitesNotSatisfied)                     
                 use checkWhetherEnrollmentConflictsWithStudentRoster toAddress 
-                    (ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied)
-                use checkWhetherEnrollmentConflictsWithStudentRoster toAddress (ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied)                       
+					(ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied)                       
                 use checkStudentSatisfiesCoursePrerequisites toAddress
                     (ifCourseConditionsNotSatisfiedEnrollmentConditionsNotSatisfied)   
                 doSequential
                 {
                     create Variable provideRegistrationDetailsRequest ofType ProvideRegistrationDetailsRequest
                     set Query OCL:"provideRegistrationDetailsRequest.personIdentifier" equalTo
-                        Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesRequest.personIdentifier"
-                    
+                        Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesRequest.studentIdentifier"
                     requestService provideRegistrationDetails with provideRegistrationDetailsRequest
                         yields Variable provideRegistrationDetailsResult ofType ProvideRegistrationDetailsResult
                     {
@@ -237,6 +234,8 @@ ResponsibilityDomain Training
                             {
                                 create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
                                     ofType StudentDoesNotMeetEnrollmentPrerequisites
+								add Constant "Person not registered." to 
+									Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.reasons"  	
                                 returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult    
                             }
                     }    
@@ -246,6 +245,10 @@ ResponsibilityDomain Training
                       {
                           create Variable checkStudentSatisfiesCoursePrerequisitesRequest
                               ofType CheckStudentSatisfiesCoursePrerequisitesRequest
+						  set Query OCL:"checkStudentSatisfiesCoursePrerequisitesRequest.personIdentifier" equalTo
+							  Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesRequest.studentIdentifier"	  
+						  set Query OCL:"checkStudentSatisfiesCoursePrerequisitesRequest.presentationIdentifier" equalTo
+							  Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesRequest.presentationIdentifier"	  	  
                           requestService checkStudentSatisfiesCoursePrerequisites
                               with checkStudentSatisfiesCoursePrerequisitesRequest
                               yields Variable checkStudentSatisfiesCoursePrerequisitesResult
@@ -255,6 +258,10 @@ ResponsibilityDomain Training
                       {
                           create Variable checkWhetherEnrollmentConflictsWithStudentRosterRequest ofType
                               CheckWhetherEnrollmentConflictsWithStudentRosterRequest
+						  set Query OCL:"checkWhetherEnrollmentConflictsWithStudentRosterRequest.personIdentifier" equalTo
+							  Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesRequest.studentIdentifier"	  
+						  set Query OCL:"checkWhetherEnrollmentConflictsWithStudentRosterRequest.presentationIdentifier" equalTo
+							  Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesRequest.presentationIdentifier"		  
                           requestService checkWhetherEnrollmentConflictsWithStudentRoster 
                               with checkWhetherEnrollmentConflictsWithStudentRosterResult
                               yields Variable checkWhetherEnrollmentConflictsWithStudentRosterResult
@@ -265,7 +272,7 @@ ResponsibilityDomain Training
                    choice
                    {
                       if Condition OCL:"(checkStudentSatisfiesCoursePrerequisitesResult.prerequisitesSatisfied = true) and 
-                            (checkWhetherEnrollmentConflictsWithStudentRosterResult.prerequisitesSatisfied = true)" 
+                            (checkWhetherEnrollmentConflictsWithStudentRosterResult.noConflict = true)" 
                       doSequential
                       {
                           create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
@@ -279,11 +286,11 @@ ResponsibilityDomain Training
                         if Condition OCL:"checkStudentSatisfiesCoursePrerequisitesResult.prerequisitesSatisfied = false"
                             doSequential
                             {
-                                create Variable reason ofType String
+                               //create Variable reason ofType String
                                 add Constant "Course prerequisites not satisfied." to 
                                     Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.reasons"  
                             }             
-                        if Condition OCL:"checkWhetherEnrollmentConflictsWithStudentRosterResult.prerequisitesSatisfied = false"
+                        if Condition OCL:"checkWhetherEnrollmentConflictsWithStudentRosterResult.noConflict = false"
                             doSequential
                             {
                                 create Variable reason ofType String
@@ -366,8 +373,7 @@ ResponsibilityDomain Training
         }
         Request DataStructure ProvideRegistrationDetailsRequest 
         {
-            has association personIdentifier identifying Person
-            has association presentation identifying Presentation
+            has association personIdentifier identifying Person            
         }
         Result DataStructure ProvideRegistrationDetailsResult 
         {
@@ -381,7 +387,7 @@ ResponsibilityDomain Training
         {
             create Variable retrieveEntityRequest ofType RetrieveEntityRequest
             set Query OCL:"retrieveEntityRequest.entityIdentifier" equalTo
-                Query OCL:"provideRegistrationDetailsRequest.personIdentifier" 
+                Query OCL:"provideRegistrationDetailsRequest.personIdentifier.identifier" 
             requestService retrieveEntity with retrieveEntityRequest yields Variable retrieveEntityResult ofType RetrieveEntityResult
             {
                 on EntityNotStoredException raiseException PersonNotRegisteredException
@@ -452,8 +458,15 @@ ResponsibilityDomain Training
         }
         ServiceContract checkWhetherEnrollmentConflictsWithStudentRoster
         {
-            Request DataStructure CheckWhetherEnrollmentConflictsWithStudentRosterRequest{}
-            Result DataStructure CheckWhetherEnrollmentConflictsWithStudentRosterResult{}
+			Request DataStructure CheckWhetherEnrollmentConflictsWithStudentRosterRequest
+			{
+				has association studentIdentifier identifying Person
+				has association presentationIdentifier identifying Presentation
+			}
+			Result DataStructure CheckWhetherEnrollmentConflictsWithStudentRosterResult
+			{
+				has attribute noConflict ofType Boolean
+			}
         }
     }  
     ResponsibilityDomain Enrollments
