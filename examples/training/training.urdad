@@ -353,7 +353,7 @@ ResponsibilityDomain Training
       DataStructure PersonIdentification is Identification
       {
         abstract = true
-        has association person identifying Person
+		has aggregate person ofType Person
       } 
       DataStructure Passport is PersonIdentification
       {
@@ -440,7 +440,7 @@ ResponsibilityDomain Training
       {
         has attribute cost ofType FloatingPointNumber
         has attribute quantity ofType Integer
-        has association chargeableIdentifier identifying Chargeable
+        has aggregate chargeableIdentifier ofType Chargeable
       }
     }
     ResponsibilityDomain PresentationManagement
@@ -525,7 +525,7 @@ ResponsibilityDomain Training
         {
             has association presentationIdentifier identifying Presentation
             has association studentIdentifier identifying Person
-            has component clientIdentifier ofType LegalEntity         
+            has association clientIdentifier identifying LegalEntity         
         }
         Result DataStructure EnrollForPresentationResult 
         {
@@ -543,12 +543,11 @@ ResponsibilityDomain Training
         doSequential
         {
             create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
-                ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest               
-            set Query OCL:"enrollForPresentationRequest.studentIdentifier" equalTo 
-                Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier"
-            set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo
-                Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"
-                     
+                ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
+			set Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier" equalTo 
+                Query OCL:"enrollForPresentationRequest.studentIdentifier"
+            set Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier" equalTo
+                Query OCL:"enrollForPresentationRequest.presentationIdentifier"
             requestService checkStudentSatisfiesEnrollmentPrerequisites 
                 with checkStudentSatisfiesEnrollmentPrerequisitesRequest 
                 yields Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
@@ -560,14 +559,13 @@ ResponsibilityDomain Training
                     doSequential
                     {
                         create Variable issueInvoiceRequest ofType IssueInvoiceRequest
-                        set Query OCL:"enrollForPresentationRequest.clientIdentifier" equalTo 
-                            Query OCL:"issueInvoiceRequest.clientIdentifier"                            
+                        set Query OCL:"issueInvoiceRequest.clientIdentifier" equalTo 
+                            Query OCL:"enrollForPresentationRequest.clientIdentifier"                            
                         create Variable invoiceItem ofType InvoiceItem    
-			            set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo
-			                Query OCL:"invoiceItem.chargeableIdentifier"
+						set Query OCL:"invoiceItem.chargeableIdentifier" equalTo
+			                Query OCL:"enrollForPresentationRequest.presentationIdentifier"
 			            add Query OCL:"invoiceItem" to
 			                Query OCL:"issueInvoiceRequest.invoiceItems"    
-			                     
                         requestService issueInvoice with issueInvoiceRequest 
                             yields Variable issueInvoiceResult ofType IssueInvoiceResult
                         {
@@ -575,20 +573,22 @@ ResponsibilityDomain Training
                                 raiseException FinancialPrerequisitesNotSatisfiedException
                         }
                         
-                        create Variable enrollRequest ofType PerformEnrollmentRequest 
-                        set Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.personIdentifier" equalTo
-                            Query OCL:"performEnrollmentRequest.personIdentifier"
-                        set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo
-                            Query OCL:"performEnrollmentRequest.presentationIdentifier"    
-                        requestService performEnrollment with enrollRequest 
+                        create Variable performEnrollmentRequest ofType PerformEnrollmentRequest 
+               			set Query OCL:"performEnrollmentRequest.personIdentifier" equalTo
+                            Query OCL:"enrollForPresentationRequest.personIdentifier"
+                        set Query OCL:"performEnrollmentRequest.presentationIdentifier" equalTo
+                            Query OCL:"enrollForPresentationRequest.presentationIdentifier"  
+                        requestService performEnrollment with performEnrollmentRequest 
                             yields Variable performEnrollmentResult ofType PerformEnrollmentResult
+							
+							
                         create Variable enrollForPresentationResult ofType EnrollForPresentationResult
-                        set Query OCL:"issueInvoiceResult.invoice" equalTo
-                            Query OCL:"enrollForPresentationResult.invoice"
-                        set Query OCL:"performEnrollmentResult.enrollmentConfirmation" equalTo
-                            Query OCL:"enrollForPresentationResult.enrollmentConfirmation"
-                        set Query OCL:"performEnrollmentResult.studyGuide" equalTo
-                            Query OCL:"enrollForPresentationResult.studyGuide"    
+                        set Query OCL:"enrollForPresentationResult.invoice" equalTo
+                            Query OCL:"issueInvoiceResult.invoice"
+                        set Query OCL:"enrollForPresentationResult.proofOfEnrollment" equalTo
+                            Query OCL:"performEnrollmentResult.proofOfEnrollment"
+                        set Query OCL:"enrollForPresentationResult.studyGuide" equalTo
+                            Query OCL:"performEnrollmentResult.studyGuide"    
                         returnResult  enrollForPresentationResult
                     }
                 else
@@ -606,7 +606,7 @@ ResponsibilityDomain Training
         }
         Result DataStructure PerformEnrollmentResult 
         {
-            has component enrollmentConfirmation ofType ProofOfEnrollment
+            has component proofOfEnrollment ofType ProofOfEnrollment
             has component studyGuide ofType StudyGuide
         }
       }
