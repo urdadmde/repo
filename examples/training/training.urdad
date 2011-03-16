@@ -163,7 +163,7 @@ ResponsibilityDomain Training
       }
       ResponsibilityDomain Assessment
       {
-        Exception StudentDoesNotSatisfyPrerequisitesException {}
+        //FIXME NEEDED? Exception StudentDoesNotSatisfyPrerequisitesException {}
         ServiceContract checkStudentSatisfiesCoursePrerequisites
         {
           Request DataStructure CheckStudentSatisfiesCoursePrerequisitesRequest
@@ -272,7 +272,7 @@ ResponsibilityDomain Training
                    choice
                    {
                       if Condition OCL:"(checkStudentSatisfiesCoursePrerequisitesResult.prerequisitesSatisfied = true) and 
-                            (checkWhetherEnrollmentConflictsWithStudentRosterResult.noConflict = true)" 
+                            (checkWhetherEnrollmentConflictsWithStudentRosterResult.noRosterConflict = true)" 
                       doSequential
                       {
                           create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
@@ -286,14 +286,14 @@ ResponsibilityDomain Training
                         if Condition OCL:"checkStudentSatisfiesCoursePrerequisitesResult.prerequisitesSatisfied = false"
                             doSequential
                             {
-                               //create Variable reason ofType String
+                               //FIXME USED? create Variable reason ofType String
                                 add Constant "Course prerequisites not satisfied." to 
                                     Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.reasons"  
                             }             
-                        if Condition OCL:"checkWhetherEnrollmentConflictsWithStudentRosterResult.noConflict = false"
+                        if Condition OCL:"checkWhetherEnrollmentConflictsWithStudentRosterResult.noRosterConflict = false"
                             doSequential
                             {
-                                create Variable reason ofType String
+                                //FIXME USED? create Variable reason ofType String
                                 add Constant "Enrollment conflicts with student roster." to
                                     Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.reasons"  
                             }                                 
@@ -432,7 +432,7 @@ ResponsibilityDomain Training
       {
         has attribute invoiceNumber ofType String
         has attribute invoiceDate ofType Date
-        has component clientDetails ofType LegalEntity
+        has aggregate clientDetails ofType LegalEntity
         has component many invoiceItem ofType InvoiceItem
       }
       DataStructure Chargeable is Entity {}
@@ -465,7 +465,7 @@ ResponsibilityDomain Training
 			}
 			Result DataStructure CheckWhetherEnrollmentConflictsWithStudentRosterResult
 			{
-				has attribute noConflict ofType Boolean
+				has attribute noRosterConflict ofType Boolean
 			}
         }
     }  
