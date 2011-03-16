@@ -37,8 +37,8 @@ ResponsibilityDomain UrdadStandardProfile
 	                create Variable entityAlreadyStored ofType Boolean
 	                set Query OCL:"entityAlreadyStored" equalTo Constant "true"
 	                create Variable retrieveEntityRequest ofType RetrieveEntityRequest
-	                set Query OCL:"retrieveEntityRequest.entityIdentifier" equalTo
-	                    Query OCL:"storeEntityRequest.entityToPersist.identifier" 
+	                set Query OCL:"retrieveEntityRequest.entityToRetrieve" equalTo
+	                    Query OCL:"storeEntityRequest.entityToPersist" 
 	                requestService retrieveEntity with retrieveEntityRequest yields Variable retrieveEntityResult ofType RetrieveEntityResult 
 	                {
 	                    on EntityNotStoredException 
@@ -55,8 +55,8 @@ ResponsibilityDomain UrdadStandardProfile
                     create Variable entityStored ofType Boolean
                     set Query OCL:"entityStored" equalTo Constant "true"
                     create Variable retrieveEntityRequest ofType RetrieveEntityRequest
-                    set Query OCL:"retrieveEntityRequest.entityIdentifier" equalTo
-                        Query OCL:"storeEntityRequest.entityToPersist.identifier" 
+                    set Query OCL:"retrieveEntityRequest.entityToRetrieve" equalTo
+                        Query OCL:"storeEntityRequest.entityToPersist" 
                     requestService retrieveEntity with retrieveEntityRequest yields Variable retrieveEntityResult ofType RetrieveEntityResult 
                     {
                         on EntityNotStoredException 
@@ -90,7 +90,7 @@ ResponsibilityDomain UrdadStandardProfile
 	    }         
         Request DataStructure RetrieveEntityRequest
         {
-            has attribute entityIdentifier ofType URI 
+            has attribute entityToRetrieve ofType Entity
         }
         Result DataStructure RetrieveEntityResult
         {
@@ -101,7 +101,7 @@ ResponsibilityDomain UrdadStandardProfile
     {
         Request DataStructure RemoveEntityRequest
         {
-            has attribute entityIdentifier ofType URI 
+            has attribute entityToRemove ofType Entity
         }
         Result DataStructure RemoveEntityResult
         {
@@ -386,8 +386,8 @@ ResponsibilityDomain Training
         doSequential
         {
             create Variable retrieveEntityRequest ofType RetrieveEntityRequest
-            set Query OCL:"retrieveEntityRequest.entityIdentifier" equalTo
-                Query OCL:"provideRegistrationDetailsRequest.personIdentifier.identifier" 
+            set Query OCL:"retrieveEntityRequest.entityToRetrieve" equalTo
+                Query OCL:"provideRegistrationDetailsRequest.personIdentifier" 
             requestService retrieveEntity with retrieveEntityRequest yields Variable retrieveEntityResult ofType RetrieveEntityResult
             {
                 on EntityNotStoredException raiseException PersonNotRegisteredException
@@ -555,7 +555,7 @@ ResponsibilityDomain Training
             choice
             {
                 if Condition enrollmentMeetsPrerequisitesMet 
-                    OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true"
+                    OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.oclIsTypeOf(StudentSatisfiesEnrollmentPrerequisites)"
                     doSequential
                     {
                         create Variable issueInvoiceRequest ofType IssueInvoiceRequest
@@ -575,7 +575,7 @@ ResponsibilityDomain Training
                         
                         create Variable performEnrollmentRequest ofType PerformEnrollmentRequest 
                			set Query OCL:"performEnrollmentRequest.personIdentifier" equalTo
-                            Query OCL:"enrollForPresentationRequest.personIdentifier"
+                            Query OCL:"enrollForPresentationRequest.studentIdentifier"
                         set Query OCL:"performEnrollmentRequest.presentationIdentifier" equalTo
                             Query OCL:"enrollForPresentationRequest.presentationIdentifier"  
                         requestService performEnrollment with performEnrollmentRequest 
