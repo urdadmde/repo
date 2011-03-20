@@ -90,7 +90,7 @@ ResponsibilityDomain UrdadStandardProfile
 	    }         
         Request DataStructure RetrieveEntityRequest
         {
-            has attribute entityToRetrieve ofType Entity
+            has component entityToRetrieve ofType Entity
         }
         Result DataStructure RetrieveEntityResult
         {
@@ -101,7 +101,7 @@ ResponsibilityDomain UrdadStandardProfile
     {
         Request DataStructure RemoveEntityRequest
         {
-            has attribute entityToRemove ofType Entity
+            has component entityToRemove ofType Entity
         }
         Result DataStructure RemoveEntityResult
         {
