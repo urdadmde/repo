@@ -8,4 +8,5 @@ rm *.dvi
 rm *.pdf
 rm *.bbl
 rm *.blg
+rm *.toc
 
