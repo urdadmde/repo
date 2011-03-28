@@ -55,18 +55,38 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Constraint" abstract="true" eSuperTypes="#//ElementWithOptionalName"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Constraint" abstract="true" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ExpressionBasedConstraint" eSuperTypes="#//Constraint">
     <eStructuralFeatures xsi:type="ecore:EReference" name="constraintExpression" eType="#//Expression"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FunctionalConstraint" eSuperTypes="#//Constraint">
+  <eClassifiers xsi:type="ecore:EClass" name="Condition" eSuperTypes="#//Constraint">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="documentation" value="A condition is true if all state constraints hold true and false otherwise."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" eType="#//Variable"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stateAssessmentProcess"
         eType="#//Activity" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stateConstraints" upperBound="-1"
         eType="#//ExpressionBasedConstraint" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Condition" eSuperTypes="#//ExpressionBasedConstraint"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StructuredCondition" abstract="true"
+      eSuperTypes="#//Condition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryOperandCondition" abstract="true"
+      eSuperTypes="#//StructuredCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftOperand" lowerBound="1"
+        eType="#//Condition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightOperand" lowerBound="1"
+        eType="#//Condition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InverseCondition" eSuperTypes="#//StructuredCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operand" lowerBound="1"
+        eType="#//Condition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AndCondition" eSuperTypes="#//BinaryOperandCondition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OrCondition" eSuperTypes="#//BinaryOperandCondition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XorCondition" eSuperTypes="#//BinaryOperandCondition"/>
   <eClassifiers xsi:type="ecore:EClass" name="QualityConstraint" eSuperTypes="#//ExpressionBasedConstraint"/>
   <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="responsibilityDomains"
@@ -79,6 +99,8 @@
         eType="#//DataType" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="constants" upperBound="-1"
         eType="#//Constant" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditions" upperBound="-1"
+        eType="#//Condition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="servicesContracts" upperBound="-1"
         eType="#//ServiceContract" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="services" upperBound="-1"
@@ -145,11 +167,21 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="requiredBy" lowerBound="1"
         upperBound="-1" eType="#//ResponsibilityDomain"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FunctionalRequirement" abstract="true"
-      eSuperTypes="#//Requirement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="functionalConstraint" eType="#//FunctionalConstraint"
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionalConstraint" abstract="true"
+      eSuperTypes="#//Element"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConditionReference" eSuperTypes="#//FunctionalConstraint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constructConditionParameterProcess"
+        eType="#//Activity" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" eType="#//Assignable"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Condition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResultConstraint" eSuperTypes="#//FunctionalConstraint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraintExpression" eType="#//Expression"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionalRequirement" abstract="true"
+      eSuperTypes="#//Requirement"/>
   <eClassifiers xsi:type="ecore:EClass" name="QualityRequirement" eSuperTypes="#//Requirement">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="documentation" value="A quality requirement is a non-functional requirement around quality of service. &#xA;&#x9;&#x9;Typical examples of quality requirements include scalability, reliability, &#xA; performance, security and auditability."/>
@@ -158,8 +190,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="PreCondition" eSuperTypes="#//FunctionalRequirement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="exception" lowerBound="1"
         eType="#//Exception"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditionReference" eType="#//ConditionReference"
+        containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PostCondition" eSuperTypes="#//FunctionalRequirement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PostCondition" eSuperTypes="#//FunctionalRequirement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="functionalConstraint" eType="#//FunctionalConstraint"
+        containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionalRequirements" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EReference" name="requestVariable" eType="#//Variable"
         containment="true"/>
@@ -230,8 +267,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ConditionalActivity" abstract="true"
       eSuperTypes="#//ContainerActivity">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
-        eType="#//Condition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraint" lowerBound="1"
+        eType="#//Constraint" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="blocking" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>

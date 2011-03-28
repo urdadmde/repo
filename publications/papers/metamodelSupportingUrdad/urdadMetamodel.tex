@@ -3,8 +3,7 @@
 A metamodel contains the ``logical information model that specifies the modeling elements used within another (or the same) modeling notation
 metamodel'' \cite{_ieee_2003}. The URDAD metamodel provides the modeling constructs required required by the URDAD methodology to store the requirements for a service/use case and the technology neutral design of a business process realizing these requirements. 
 
-For practicality reasons, the semantics has been encoded EMOF/Ecore instead of {\em Web Ontology Language}, OWL\cite{}. It is motivated by the technology support for developing a concrete textual and graphical syntax for the DSL \cite{emfText,xText}, the support for model-to-model \cite{QVT relational, QVT operational, ,...} and model-to-text transformations \cite{model2text} and the availability of OCL as a constraint language \cite{OCL} for querying model instances and for specifying constraints at both, the metamodel and model levels. Mappings between these two technologies can be readily performed \cite{staab_model_2010}. A trasformation to OWL facilitates reasoning services like consistency and completeness assessment.
-
+For practicality reasons, the semantics has been encoded EMOF/Ecore instead of {\em Web Ontology Language}, OWL\cite{}. It is motivated by the technology support for developing a concrete textual and graphical syntax for the DSL \cite{emfText,xText}, the support for model-to-model \cite{QVT relational, QVT operational, ,...} and model-to-text transformations \cite{model2text} and the availability of OCL as a constraint language \cite{OCL} for querying model instances and for specifying constraints at both, the metamodel and model levels. Mappings between these two technologies can be readily performed \cite{staab_model_2010}. A transformation to OWL facilitates reasoning services like consistency and completeness assessment.
 
 The URDAD metamodel provides a minimalistic set of modeling constructs for services oriented analysis and design. It facilitates the recursive decomposition of service requirements into lower level services requirements with pre- and post-conditions as well as quality requirements for each service and the data structure specifications for the inputs and outputs and the process specification on how a service is orchestrated across lower level services.
 
@@ -30,8 +29,6 @@ The URDAD DSL is, however, a fraction of the size of the UML, yet adds some core
   \caption{my caption.}
   \label{fig:metamodel}
 \end{figure}
-
-forAll is equivalent to UML expansion regions
          
 
 
@@ -50,6 +47,8 @@ A service is specified as a formalised contract, with explicitly defined require
 %Fixing of levels of granularity
 
 Levels of granularity are explicitly defined within URDAD. Each service exists at a particular level of granularity, when viewed within the context of its utilisation by other another service that exists at a higher level of granularity.
+
+forAll is equivalent to UML expansion regions
 
 \subsubsection{Responsibility domains}
 

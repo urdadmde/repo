@@ -2,7 +2,7 @@ SYNTAXDEF urdad
 FOR <http://www.urdad.org/2010/urdad>
 
 // IMPORTS { java : <http://www.emftext.org/java> 
-// <../../org/urdad/language/someOtherLanguage/metamodel/someOtherLanguage.genmodel> 
+// <../../org/urdad/language/urdad/metamodel/urdad.genmodel> 
 // WITH SYNTAX java <../../org/urdad/language/someOtherLanguage/metamodel/someOtherLanguage.cs>}
 
 
@@ -25,7 +25,6 @@ TOKENSTYLES {
 	"FunctionalRequirements" COLOR #7F0055, BOLD;
 	"receiving" COLOR #7F0055, BOLD;
 	"yielding" COLOR #7F0055, BOLD;
-	"FunctionalConstraint" COLOR #7F0055, BOLD;
 	"stateAssessmentProcess" COLOR #7F0055, BOLD;
 	"from" COLOR #7F0055, BOLD;
 	"to" COLOR #7F0055, BOLD;
@@ -76,7 +75,6 @@ TOKENSTYLES {
 	"remove" COLOR #7F0055, BOLD;
 	"requestService" COLOR #7F0055, BOLD;
 	"with" COLOR #7F0055, BOLD;
-	"yields" COLOR #7F0055, BOLD;
 	"on" COLOR #7F0055, BOLD;
 	"raiseException" COLOR #7F0055, BOLD;
 	"returnResult" COLOR #7F0055, BOLD;
@@ -84,6 +82,28 @@ TOKENSTYLES {
 	"do" COLOR #7F0055, BOLD;
 	"forAll" COLOR #7F0055, BOLD;
 	"Note" COLOR #7F0055, BOLD;
+	"constructedUsing" COLOR #7F0055, BOLD;
+	"ConditionReference" COLOR #7F0055, BOLD;
+	"annotations" COLOR #7F0055, BOLD;
+	"constructConditionParameterProcess" COLOR #7F0055, BOLD;
+	"parameter" COLOR #7F0055, BOLD;
+	"condition" COLOR #7F0055, BOLD;
+	"ResultConstraint" COLOR #7F0055, BOLD;
+	"constraintExpression" COLOR #7F0055, BOLD;
+	"NotCondition" COLOR #7F0055, BOLD;
+	"operand" COLOR #7F0055, BOLD;
+	"AndCondition" COLOR #7F0055, BOLD;
+	"leftOperand" COLOR #7F0055, BOLD;
+	"rightOperand" COLOR #7F0055, BOLD;
+	"OrCondition" COLOR #7F0055, BOLD;
+	"XorCondition" COLOR #7F0055, BOLD;
+	"InverseCondition" COLOR #7F0055, BOLD;
+	"inverseOf" COLOR #7F0055, BOLD;
+	"AND" COLOR #7F0055, BOLD;
+	"OR" COLOR #7F0055, BOLD;
+	"XOR" COLOR #7F0055, BOLD;
+	"TypeIdentifier" COLOR #7F0055, BOLD;
+	"type" COLOR #7F0055, BOLD;
 }
 
 RULES {
@@ -92,7 +112,7 @@ RULES {
 	 ("(" (annotations)*")")?;
 	 
 	ResponsibilityDomain ::= "ResponsibilityDomain" name[] "{"
-		(responsibilityDomains | dataTypes | servicesContracts | services | annotations)*"}"; 
+		(responsibilityDomains | conditions | dataTypes | servicesContracts | services | annotations)*"}"; 
 
 	Expression ::= language [] ":" expressionString['"','"'];
 	
@@ -100,9 +120,6 @@ RULES {
 	
 	ExpressionBasedConstraint ::= "Constraint" (name[])? (constraintExpression)? 
 	  ("(" (annotations)*")")?;	
-	
-	Condition ::= "Condition" (name[])? (constraintExpression)?
-	  ("(" (annotations)*")")?;
 	
 	QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
 	  ("(" (annotations)*")")?;
@@ -115,14 +132,20 @@ RULES {
 		 (postConditions)*
 	"}";
 
-	FunctionalConstraint ::= "FunctionalConstraint" (name[])? 
+	Condition ::= "Condition" name[] ("receiving" (parameter))?
 	"{" 
 	  ("stateAssessmentProcess" (stateAssessmentProcess))?  
 	  (stateConstraints)* 
 	"}";
-
+	
+	InverseCondition ::= "InverseCondition" name[] "inverseOf" operand[];
+	AndCondition ::= "AndCondition" name[] "=" leftOperand[] "AND" rightOperand[];
+	OrCondition ::= "OrCondition" name[] "=" leftOperand[] "OR" rightOperand[];
+	XorCondition ::= "XorCondition" name[] "=" leftOperand[] "XOR" rightOperand[];
+	
 	RangeMultiplicity ::= "from" minOccurs[] "to" maxOccurs[];
 	Many ::= "many";
+
 	BasicDataType ::= "BasicDataType" name[]	  
 	  ("(" (constraints)*")")? ("(" (annotations)*")")?;  
 	
@@ -149,16 +172,21 @@ RULES {
 	QualityRequirement ::= "QualityRequirement" name[] (constraintExpression)? 
 		"requiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
+
+	ConditionReference ::= "condition" condition[] 
+		("with" (parameter) ("constructedUsing" (constructConditionParameterProcess))?)?; 
+	
+	ResultConstraint ::= "ResultConstraint" constraintExpression;
 	  
 	PreCondition ::= "PreCondition" name[]
 	  "requiredBy" "("(requiredBy[])*")" 
       "raises" exception[] 
-	  ("checks" (functionalConstraint))? 
+	  ("checks" conditionReference)? 
 	  ("(" (annotations)*")")?;
 	  
 	PostCondition ::= "PostCondition" name[] 
 		"requiredBy" "("(requiredBy[])*")"
-		 ("ensures" (functionalConstraint))?
+	  ("ensures" functionalConstraint)? 
 	  ("(" (annotations)*")")?;
  		
 	ServiceRequirement ::= "use" requiredService[]
@@ -179,9 +207,9 @@ RULES {
 		(activity)
 	"}";  
 	
-	ActivitySequence ::= "doSequential" "{" (activities)* "}"; 
+	ActivitySequence ::= "doSequential" (name[])? "{" (activities)* "}"; 
 
-	If ::= "if" (condition) (activity);
+	If ::= "if" (constraint) (activity);
 
 	Choice ::= "choice" "{" (conditionalActivities)* ("else" (elseActivity)?) "}";
 	
@@ -198,7 +226,7 @@ RULES {
 	Remove ::= "remove" target;
 	
 	RequestService ::= "requestService" requestedService[] "with" requestVariable[] 
-			("yields" (producedVariable))? 
+			("yielding" (producedVariable))? 
 		("{" 
 			(exceptionHandlers)*
 		"}")?;

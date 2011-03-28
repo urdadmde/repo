@@ -11,6 +11,7 @@ ResponsibilityDomain UrdadStandardProfile
     BasicDataType Date
     BasicDataType URI
   }
+  
   ResponsibilityDomain Storage
   {
     ResponsibilityDomain StorageClient
@@ -22,124 +23,108 @@ ResponsibilityDomain UrdadStandardProfile
         has attribute identifier ofType URI 
     }
     
+    ServiceContract persistEntity 
+    {
+      Request DataStructure PersistEntityRequest 
+      {
+        has component entity ofType Entity
+      }
+      Result DataStructure PersistEntityResult
+      {
+        has component entity ofType Entity
+      } 
+    } 
+    
+    ServiceContract retrieveEntity 
+    {
+        FunctionalRequirements receiving Variable retrieveEntityRequest ofType RetrieveEntityRequest
+            yielding Variable retrieveEntityResult ofType RetrieveEntityResult
+        {
+            PreCondition entityStored requiredBy (PersistenceClient)
+                raises EntityNotStoredException checks condition entityIsStored 
+                    with Query OCL:"retrieveEntityRequest.entityIdentifier"
+                     
+        }
+        Request DataStructure RetrieveEntityRequest
+        {
+            has attribute entityIdentifier ofType URI
+        }
+        Result DataStructure RetrieveEntityResult
+        {
+            has component entity ofType Entity
+        }
+        
+    }
+
+    Condition entityIsStored receiving Variable entityIdentifier ofType URI 
+    {
+        stateAssessmentProcess doSequential
+        {
+            create Variable entityStored ofType Boolean
+            set Query OCL:"entityStored" equalTo Constant "true"
+            create Variable retrieveEntityRequest ofType RetrieveEntityRequest
+            set Query OCL:"retrieveEntityRequest.entityIdentifier" 
+                equalTo Query OCL:"entityIdentifier"
+            requestService retrieveEntity with retrieveEntityRequest yielding
+                Variable retrieveEntityResult ofType RetrieveEntityResult
+                   on EntityNotStoredException set Query OCL:"entityStored" equalTo Constant "false"       
+        }
+        Constraint OCL:"entityStored = true"
+    }
+    InverseCondition entityIsNotStored inverseOf entityIsStored
     Exception EntityAlreadyStoredException {}
     Exception EntityNotStoredException {}
+    
     ServiceContract storeEntity
     {
         FunctionalRequirements receiving Variable storeEntityRequest ofType StoreEntityRequest
             yielding Variable storeEntityResult ofType StoreEntityResult
         {
-            PreCondition entityNotYetStored requiredBy (StorageClient) raises EntityAlreadyStoredException 
-	            checks FunctionalConstraint  
-	            {
-	              stateAssessmentProcess doSequential
-	              {
-	                create Variable entityAlreadyStored ofType Boolean
-	                set Query OCL:"entityAlreadyStored" equalTo Constant "true"
-	                create Variable retrieveEntityRequest ofType RetrieveEntityRequest
-	                set Query OCL:"retrieveEntityRequest.entityToRetrieve" equalTo
-	                    Query OCL:"storeEntityRequest.entityToPersist" 
-	                requestService retrieveEntity with retrieveEntityRequest yields Variable retrieveEntityResult ofType RetrieveEntityResult 
-	                {
-	                    on EntityNotStoredException 
-	                        set Query OCL:"entityAlreadyStored" equalTo Constant "false"
-	                }
-	              }
-	              Constraint OCL:"entityAlreadyStored = false"
-	            }
-            PostCondition entityStored requiredBy (StorageClient)                     
-                ensures FunctionalConstraint  
-                {
-                  stateAssessmentProcess doSequential
-                  {
-                    create Variable entityStored ofType Boolean
-                    set Query OCL:"entityStored" equalTo Constant "true"
-                    create Variable retrieveEntityRequest ofType RetrieveEntityRequest
-                    set Query OCL:"retrieveEntityRequest.entityToRetrieve" equalTo
-                        Query OCL:"storeEntityRequest.entityToPersist" 
-                    requestService retrieveEntity with retrieveEntityRequest yields Variable retrieveEntityResult ofType RetrieveEntityResult 
-                    {
-                        on EntityNotStoredException 
-                            set Query OCL:"entityStored" equalTo Constant "false"
-                    }
-                  }
-                  Constraint OCL:"entityStored = true"
-                }
-            PostCondition entityIdentifierSet requiredBy (StorageClient)
-                ensures FunctionalConstraint
-                {
-                    Constraint OCL:"storeEntityResult.persistedEntity.identifier <> null"
-                }    
+            PreCondition entityNotStored requiredBy (PersistenceClient)
+                raises EntityNotStoredException checks condition entityIsNotStored 
+                    with Query OCL:"retrieveEntityRequest.entityIdentifier"
+            PostCondition entityStored requiredBy (PersistenceClient)
+                ensures condition entityIsStored 
+                    with Query OCL:"storeEntityRequest.entityIdentifier"
         }
         
         Request DataStructure StoreEntityRequest
         {
-            has component entityToPersist ofType Entity
+            has component entity ofType Entity
         }
         Result DataStructure StoreEntityResult
         {
-            has component persistedEntity ofType Entity
+            has component entity ofType Entity
         }
     }
-    ServiceContract retrieveEntity
-    {
-        FunctionalRequirements receiving Variable retrieveEntityRequest ofType RetrieveEntityRequest
-        {
-	        PreCondition entityStored requiredBy (StorageClient)
-	            raises EntityNotStoredException
-	    }         
-        Request DataStructure RetrieveEntityRequest
-        {
-            has component entityToRetrieve ofType Entity
-        }
-        Result DataStructure RetrieveEntityResult
-        {
-            has component retrievedEntity ofType Entity
-        }
-    }
+    
     ServiceContract removeEntity
     {
-        Request DataStructure RemoveEntityRequest
+        FunctionalRequirements receiving Variable storeEntityRequest ofType StoreEntityRequest
+            yielding Variable storeEntityResult ofType StoreEntityResult
         {
-            has component entityToRemove ofType Entity
+            PreCondition entityNotStored requiredBy (PersistenceClient)
+                raises EntityNotStoredException checks condition entityIsNotStored 
+                    with Query OCL:"retrieveEntityRequest.entityIdentifier"
+           PostCondition entityNotStored requiredBy (PersistenceClient)
+                ensures condition entityIsNotStored 
+                    with Query OCL:"storeEntityRequest.entityIdentifier"
         }
-        Result DataStructure RemoveEntityResult
+        
+        Request DataStructure StoreEntityRequest
         {
+            has attribute entityIdentifier ofType URI
         }
-    }
-    ServiceContract updateEntity
-    {
-        FunctionalRequirements receiving Variable updateEntityRequest ofType UpdateEntityRequest
+        Result DataStructure StoreEntityResult
         {
-            PreCondition entityNotStored requiredBy (StorageClient) raises EntityNotStoredException
-        }    
-        Request DataStructure UpdateEntityRequest
-        {
-            has component newEntityState ofType Entity
-        }
-        Result DataStructure UpdateEntityResult
-        {
-            has component persistedEntity ofType Entity
+            has component entity ofType Entity
         }
     }
-    DataStructure StorageQuery
-    {
-        has attribute queryLanguage ofType URI
-        has attribute queryExpression ofType String 
-    }
-    ServiceContract findEntities
-    {
-        Request DataStructure FindEntitiesRequest
-        {
-            has component query ofType StorageQuery
-        }
-        Result DataStructure FindEntitiesResult
-        {
-            has many component entity ofType Entity
-        }
-    }
+    
+    ResponsibilityDomain PersistenceClient {}
   }
 }
+
 
 ResponsibilityDomain Training
 {
@@ -151,254 +136,6 @@ ResponsibilityDomain Training
   
   ResponsibilityDomain TrainingInstitution
   {
-    ResponsibilityDomain Academic
-    {
-      ResponsibilityDomain CourseManagement
-      {
-        DataStructure Course
-        {
-            has attribute name ofType String
-            has many association coursePrerequisites identifying Course 
-        }
-      }
-      ResponsibilityDomain Assessment
-      {
-        //FIXME NEEDED? Exception StudentDoesNotSatisfyPrerequisitesException {}
-        ServiceContract checkStudentSatisfiesCoursePrerequisites
-        {
-          Request DataStructure CheckStudentSatisfiesCoursePrerequisitesRequest
-          {
-            has association studentIdentifier identifying Person
-            has association presentationIdentifier identifying Presentation
-          }
-          Result DataStructure CheckStudentSatisfiesCoursePrerequisitesResult
-          {
-            has attribute prerequisitesSatisfied ofType Boolean
-          }
-        } 
-        ResponsibilityDomain Validation
-        {
-            ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
-            { 
-                FunctionalRequirements 
-                    receiving Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
-                        ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
-                    yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
-                        ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
-                {
-	                PostCondition ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied requiredBy (TrainingInstitution) 
-	                     
-	                PostCondition personIdentifierProvided
-	                    requiredBy (TrainingInstitution)
-	                PostCondition ifNotRegisteredPrerequisitesNotSatisfied
-	                    requiredBy (TrainingInstitution)
-	                PostCondition ifCourseConditionsNotSatisfiedEnrollmentConditionsNotSatisfied
-	                    requiredBy (TrainingRegulator Student)    
-                }
-                Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest 
-                {
-                    has association studentIdentifier identifying Person
-                    has association presentationIdentifier identifying Presentation
-                }
-                Result DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesResult
-                {
-                    abstract = true
-                    has association personIdentifier identifying Person
-                    has association presentationIdentifier identifying Presentation
-                }
-            }
-            DataStructure StudentSatisfiesEnrollmentPrerequisites is CheckStudentSatisfiesEnrollmentPrerequisitesResult{}
-            DataStructure StudentDoesNotMeetEnrollmentPrerequisites is CheckStudentSatisfiesEnrollmentPrerequisitesResult
-            {
-                has many attribute reason ofType String
-            }
-            Service checkStudentSatisfiesEnrollmentPrerequisites realizes checkStudentSatisfiesEnrollmentPrerequisites 
-                receiving Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
-            {
-                use provideRegistrationDetails toAddress 
-                    (personIdentifierProvided ifNotRegisteredPrerequisitesNotSatisfied)                     
-                use checkWhetherEnrollmentConflictsWithStudentRoster toAddress 
-					(ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied)                       
-                use checkStudentSatisfiesCoursePrerequisites toAddress
-                    (ifCourseConditionsNotSatisfiedEnrollmentConditionsNotSatisfied)   
-                doSequential
-                {
-                    create Variable provideRegistrationDetailsRequest ofType ProvideRegistrationDetailsRequest
-                    set Query OCL:"provideRegistrationDetailsRequest.personIdentifier" equalTo
-                        Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesRequest.studentIdentifier"
-                    requestService provideRegistrationDetails with provideRegistrationDetailsRequest
-                        yields Variable provideRegistrationDetailsResult ofType ProvideRegistrationDetailsResult
-                    {
-                        on PersonNotRegisteredException
-                            doSequential
-                            {
-                                create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
-                                    ofType StudentDoesNotMeetEnrollmentPrerequisites
-								add Constant "Person not registered." to 
-									Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.reasons"  	
-                                returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult    
-                            }
-                    }    
-                   Concurrency
-                   {
-                      doConcurrent doSequential 
-                      {
-                          create Variable checkStudentSatisfiesCoursePrerequisitesRequest
-                              ofType CheckStudentSatisfiesCoursePrerequisitesRequest
-						  set Query OCL:"checkStudentSatisfiesCoursePrerequisitesRequest.personIdentifier" equalTo
-							  Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesRequest.studentIdentifier"	  
-						  set Query OCL:"checkStudentSatisfiesCoursePrerequisitesRequest.presentationIdentifier" equalTo
-							  Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesRequest.presentationIdentifier"	  	  
-                          requestService checkStudentSatisfiesCoursePrerequisites
-                              with checkStudentSatisfiesCoursePrerequisitesRequest
-                              yields Variable checkStudentSatisfiesCoursePrerequisitesResult
-                                  ofType CheckStudentSatisfiesCoursePrerequisitesResult
-                      }   
-                      doConcurrent doSequential
-                      {
-                          create Variable checkWhetherEnrollmentConflictsWithStudentRosterRequest ofType
-                              CheckWhetherEnrollmentConflictsWithStudentRosterRequest
-						  set Query OCL:"checkWhetherEnrollmentConflictsWithStudentRosterRequest.personIdentifier" equalTo
-							  Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesRequest.studentIdentifier"	  
-						  set Query OCL:"checkWhetherEnrollmentConflictsWithStudentRosterRequest.presentationIdentifier" equalTo
-							  Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesRequest.presentationIdentifier"		  
-                          requestService checkWhetherEnrollmentConflictsWithStudentRoster 
-                              with checkWhetherEnrollmentConflictsWithStudentRosterResult
-                              yields Variable checkWhetherEnrollmentConflictsWithStudentRosterResult
-                                  ofType CheckWhetherEnrollmentConflictsWithStudentRosterResult
-                      }
-                   }
-                        
-                   choice
-                   {
-                      if Condition OCL:"(checkStudentSatisfiesCoursePrerequisitesResult.prerequisitesSatisfied = true) and 
-                            (checkWhetherEnrollmentConflictsWithStudentRosterResult.noRosterConflict = true)" 
-                      doSequential
-                      {
-                          create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
-                              ofType StudentSatisfiesEnrollmentPrerequisites
-                          returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult     
-                      }
-                      else doSequential
-                      {
-                        create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
-                          ofType StudentDoesNotMeetEnrollmentPrerequisites
-                        if Condition OCL:"checkStudentSatisfiesCoursePrerequisitesResult.prerequisitesSatisfied = false"
-                            doSequential
-                            {
-                               //FIXME USED? create Variable reason ofType String
-                                add Constant "Course prerequisites not satisfied." to 
-                                    Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.reasons"  
-                            }             
-                        if Condition OCL:"checkWhetherEnrollmentConflictsWithStudentRosterResult.noRosterConflict = false"
-                            doSequential
-                            {
-                                //FIXME USED? create Variable reason ofType String
-                                add Constant "Enrollment conflicts with student roster." to
-                                    Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.reasons"  
-                            }                                 
-                        returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult    
-                      }  
-                   }
-                }       
-            }
-        }
-      }
-      ResponsibilityDomain StudyGuides
-      {
-        DataStructure StudyGuide {}
-        ServiceContract provideStudyGuide
-        {
-            FunctionalRequirements receiving Variable provideStudyGuideRequest ofType ProvideStudyGuideRequest
-            {
-              PreCondition studentIsRegistered requiredBy (Shareholder) raises PersonNotRegisteredException 
-            }
-          Request DataStructure ProvideStudyGuideRequest 
-          {
-            has association courseIdentifier identifying Course
-            has association studentIdentifier identifying Person
-          }            
-          Result DataStructure ProvideStudyGuideResult 
-          {
-            has component studyGuide ofType StudyGuide
-          }                     
-        }
-      }
-    }
-    ResponsibilityDomain ClientRelationshipManagement
-    {
-		
-	  DataStructure Address is Entity
-      {
-        has many attribute addressLine ofType String
-      }
-      DataStructure LegalEntity is Entity
-      {
-        has attribute name ofType String
-        has component legalAddress ofType Address
-        (Note en-ZA: "Any party you can bill and take to court, e.g. a person or an organization.")
-      }
-      DataStructure Organization is LegalEntity {}
-	  DataStructure Person is LegalEntity {}
-      DataStructure Identification is Entity
-      {
-        abstract = true
-        has association issuingOrganization identifying Organization
-      } 
-      DataStructure CompanyIdentification is Identification
-      {
-        has attribute companyRegistrationNumber ofType String
-      }
-      
-      DataStructure PersonIdentification is Identification
-      {
-        abstract = true
-		has aggregate person ofType Person
-      } 
-      DataStructure Passport is PersonIdentification
-      {
-        has attribute passportNumber ofType String
-      }
-      DataStructure OrganizationMembershipCard is PersonIdentification
-      {
-        has attribute cardNumber ofType String
-        (Note en-ZA: "For example a student or and employee card")
-      }
-      Exception PersonNotRegisteredException {}
-      ServiceContract provideRegistrationDetails
-      {
-        FunctionalRequirements receiving Variable provideRegistrationDetailsResult ofType ProvideRegistrationDetailsResult
-        {
-            PreCondition personRegistered requiredBy (TrainingInstitution) raises PersonNotRegisteredException
-        }
-        Request DataStructure ProvideRegistrationDetailsRequest 
-        {
-            has association personIdentifier identifying Person            
-        }
-        Result DataStructure ProvideRegistrationDetailsResult 
-        {
-            has component personDetails ofType Person
-        }
-      }
-      Service provideRegistrationDetails realizes provideRegistrationDetails 
-        receiving Variable provideRegistrationDetailsRequest ofType ProvideRegistrationDetailsRequest
-      {
-        doSequential
-        {
-            create Variable retrieveEntityRequest ofType RetrieveEntityRequest
-            set Query OCL:"retrieveEntityRequest.entityToRetrieve" equalTo
-                Query OCL:"provideRegistrationDetailsRequest.personIdentifier" 
-            requestService retrieveEntity with retrieveEntityRequest yields Variable retrieveEntityResult ofType RetrieveEntityResult
-            {
-                on EntityNotStoredException raiseException PersonNotRegisteredException
-            }
-            create Variable provideRegistrationDetailsResult ofType ProvideRegistrationDetailsResult
-            set Query OCL:"provideRegistrationDetailsResult.personDetails" equalTo
-                Query OCL:"retrieveEntityResult.retrievedEntity"
-            returnResult provideRegistrationDetailsResult
-        }
-      }
-    }
     ResponsibilityDomain Finance
     {
       Exception NoInvoiceIssuedForEnrollmentException {}
@@ -432,7 +169,7 @@ ResponsibilityDomain Training
       {
         has attribute invoiceNumber ofType String
         has attribute invoiceDate ofType Date
-        has aggregate clientDetails ofType LegalEntity
+        has component clientDetails ofType LegalEntity
         has component many invoiceItem ofType InvoiceItem
       }
       DataStructure Chargeable is Entity {}
@@ -440,11 +177,21 @@ ResponsibilityDomain Training
       {
         has attribute cost ofType FloatingPointNumber
         has attribute quantity ofType Integer
-        has aggregate chargeableIdentifier ofType Chargeable
+        has association chargeableIdentifier identifying Chargeable
       }
     }
-    ResponsibilityDomain PresentationManagement
+    ResponsibilityDomain Academic
     {
+      ResponsibilityDomain CourseManagement
+      {
+        DataStructure Course
+        {
+            has attribute name ofType String
+            has many association coursePrerequisites identifying Course 
+        }
+      }
+      ResponsibilityDomain PresentationManagement
+      {
         DataStructure Location is Entity
         {
             has attribute name ofType String
@@ -458,17 +205,246 @@ ResponsibilityDomain Training
         }
         ServiceContract checkWhetherEnrollmentConflictsWithStudentRoster
         {
-			Request DataStructure CheckWhetherEnrollmentConflictsWithStudentRosterRequest
-			{
-				has association studentIdentifier identifying Person
-				has association presentationIdentifier identifying Presentation
-			}
-			Result DataStructure CheckWhetherEnrollmentConflictsWithStudentRosterResult
-			{
-				has attribute noRosterConflict ofType Boolean
-			}
+            Request DataStructure CheckWhetherEnrollmentConflictsWithStudentRosterRequest{}
+            Result DataStructure CheckWhetherEnrollmentConflictsWithStudentRosterResult{}
         }
-    }  
+      }  
+      ResponsibilityDomain Assessment
+      {
+        Exception StudentDoesNotSatisfyPrerequisitesException {}
+        ServiceContract checkStudentSatisfiesCoursePrerequisites
+        {
+          Request DataStructure CheckStudentSatisfiesCoursePrerequisitesRequest
+          {
+            has association studentIdentifier identifying Person
+            has association presentationIdentifier identifying Presentation
+          }
+          Result DataStructure CheckStudentSatisfiesCoursePrerequisitesResult
+          {
+            abstract = true
+            has attribute prerequisitesSatisfied ofType Boolean
+          }
+        } 
+        ResponsibilityDomain Validation
+        {
+            ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
+            { 
+                FunctionalRequirements 
+                    receiving Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
+                        ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
+                    yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+                        ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
+                {
+                    PostCondition ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied requiredBy (TrainingInstitution) 
+                         
+                    PostCondition personIdentifierProvided
+                        requiredBy (TrainingInstitution)
+                    PostCondition ifNotRegisteredPrerequisitesNotSatisfied
+                        requiredBy (TrainingInstitution)
+                    PostCondition ifCourseConditionsNotSatisfiedEnrollmentConditionsNotSatisfied
+                        requiredBy (TrainingRegulator Student)    
+                }
+                Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest 
+                {
+                    has association studentIdentifier identifying Person
+                    has association presentationIdentifier identifying Presentation
+                }
+                Result DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesResult
+                {
+                    abstract = true
+                    has association personIdentifier identifying Person
+                    has association presentationIdentifier identifying Presentation
+                }
+            }
+            DataStructure StudentSatisfiesEnrollmentPrerequisites is CheckStudentSatisfiesEnrollmentPrerequisitesResult{}
+            DataStructure StudentDoesNotMeetEnrollmentPrerequisites is CheckStudentSatisfiesEnrollmentPrerequisitesResult
+            {
+                has many attribute reason ofType String
+            }
+            Service checkStudentSatisfiesEnrollmentPrerequisitesImpl realizes checkStudentSatisfiesEnrollmentPrerequisites 
+                receiving Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
+            {
+                use provideRegistrationDetails toAddress 
+                    (personIdentifierProvided ifNotRegisteredPrerequisitesNotSatisfied)                     
+                use checkWhetherEnrollmentConflictsWithStudentRoster toAddress 
+                    (ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied)
+                use checkWhetherEnrollmentConflictsWithStudentRoster toAddress (ifEnrollmentConflictsWithRosterPrerequisitesNotSatisfied)                       
+                use checkStudentSatisfiesCoursePrerequisites toAddress
+                    (ifCourseConditionsNotSatisfiedEnrollmentConditionsNotSatisfied)   
+                doSequential
+                {
+                    create Variable provideRegistrationDetailsRequest ofType ProvideRegistrationDetailsRequest
+                    set Query OCL:"provideRegistrationDetailsRequest.personIdentifier" equalTo
+                        Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesRequest.personIdentifier"
+                    
+                    requestService provideRegistrationDetails with provideRegistrationDetailsRequest
+                        yielding Variable provideRegistrationDetailsResult ofType ProvideRegistrationDetailsResult
+                    {
+                        on PersonNotRegisteredException
+                            doSequential
+                            {
+                                create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+                                    ofType StudentDoesNotMeetEnrollmentPrerequisites
+                                returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult    
+                            }
+                    }    
+                   Concurrency
+                   {
+                      doConcurrent doSequential 
+                      {
+                          create Variable checkStudentSatisfiesCoursePrerequisitesRequest
+                              ofType CheckStudentSatisfiesCoursePrerequisitesRequest
+                          requestService checkStudentSatisfiesCoursePrerequisites
+                              with checkStudentSatisfiesCoursePrerequisitesRequest
+                              yielding Variable checkStudentSatisfiesCoursePrerequisitesResult
+                                  ofType CheckStudentSatisfiesCoursePrerequisitesResult
+                      }   
+                      doConcurrent doSequential
+                      {
+                          create Variable checkWhetherEnrollmentConflictsWithStudentRosterRequest ofType
+                              CheckWhetherEnrollmentConflictsWithStudentRosterRequest
+                          requestService checkWhetherEnrollmentConflictsWithStudentRoster 
+                              with checkWhetherEnrollmentConflictsWithStudentRosterResult
+                              yielding Variable checkWhetherEnrollmentConflictsWithStudentRosterResult
+                                  ofType CheckWhetherEnrollmentConflictsWithStudentRosterResult
+                      }
+                   }
+                        
+                   choice
+                   {
+                      if Constraint OCL:"(checkStudentSatisfiesCoursePrerequisitesResult.prerequisitesSatisfied = true) and 
+                            (checkWhetherEnrollmentConflictsWithStudentRosterResult.prerequisitesSatisfied = true)" 
+                      doSequential
+                      {
+                          create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+                              ofType StudentSatisfiesEnrollmentPrerequisites
+                          returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult     
+                      }
+                      else doSequential
+                      {
+                        create Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+                          ofType StudentDoesNotMeetEnrollmentPrerequisites
+                        if Constraint OCL:"checkStudentSatisfiesCoursePrerequisitesResult.prerequisitesSatisfied = false"
+                            doSequential
+                            {
+                                create Variable reason ofType String
+                                add Constant "Course prerequisites not satisfied." to 
+                                    Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.reasons"  
+                            }             
+                        if Constraint OCL:"checkWhetherEnrollmentConflictsWithStudentRosterResult.prerequisitesSatisfied = false"
+                            doSequential
+                            {
+                                create Variable reason ofType String
+                                add Constant "Enrollment conflicts with student roster." to
+                                    Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.reasons"  
+                            }                                 
+                        returnResult checkStudentSatisfiesEnrollmentPrerequisitesResult    
+                      }  
+                   }
+                }       
+            }
+        }
+      }
+      ResponsibilityDomain StudyGuides
+      {
+        DataStructure StudyGuide {}
+        ServiceContract provideStudyGuide
+        {
+            FunctionalRequirements receiving Variable provideStudyGuideRequest ofType ProvideStudyGuideRequest
+            {
+              PreCondition studentIsRegistered requiredBy (Shareholder) raises PersonNotRegisteredException 
+            }
+          Request DataStructure ProvideStudyGuideRequest 
+          {
+            has association courseIdentifier identifying Course
+            has association studentIdentifier identifying Person
+          }            
+          Result DataStructure ProvideStudyGuideResult 
+          {
+            has component studyGuide ofType StudyGuide
+          }                     
+        }
+      }
+    }
+    ResponsibilityDomain ClientRelationshipManagement
+    {
+      DataStructure Address
+      {
+        has many attribute addressLine ofType String
+      }
+      DataStructure LegalEntity is Entity
+      {
+        has attribute name ofType String
+        has component legalAddress ofType Address
+        (Note en-ZA: "Any party you can bill and take to court, e.g. a person or an organization.")
+      }
+      DataStructure Organization is LegalEntity {}
+      DataStructure Person is LegalEntity {}
+      DataStructure Identification is Entity
+      {
+        abstract = true
+        has association issuingOrganization identifying Organization
+      } 
+      DataStructure CompanyIdentification is Identification
+      {
+        has attribute companyRegistrationNumber ofType String
+      }
+      
+      DataStructure PersonIdentification is Identification
+      {
+        abstract = true
+        has association person identifying Person
+      } 
+      DataStructure Passport is PersonIdentification
+      {
+        has attribute passportNumber ofType String
+      }
+      DataStructure OrganizationMembershipCard is PersonIdentification
+      {
+        has attribute cardNumber ofType String
+        (Note en-ZA: "For example a student or and employee card")
+      }
+      Condition personRegistered receiving Variable personIdentifier ofType Person
+      {
+         
+      }
+      
+      Exception PersonNotRegisteredException {}
+      ServiceContract provideRegistrationDetails
+      {
+        FunctionalRequirements receiving Variable provideRegistrationDetailsResult ofType ProvideRegistrationDetailsResult
+        {
+            PreCondition personRegistered requiredBy (TrainingInstitution) raises PersonNotRegisteredException
+        }
+        Request DataStructure ProvideRegistrationDetailsRequest 
+        {
+            has association personIdentifier identifying Person
+            has association presentation identifying Presentation
+        }
+        Result DataStructure ProvideRegistrationDetailsResult 
+        {
+            has component personDetails ofType Person
+        }
+      }
+      Service provideRegistrationDetails realizes provideRegistrationDetails 
+        receiving Variable provideRegistrationDetailsRequest ofType ProvideRegistrationDetailsRequest
+      {
+        doSequential
+        {
+            create Variable retrieveEntityRequest ofType RetrieveEntityRequest
+            set Query OCL:"retrieveEntityRequest.entityIdentifier" equalTo
+                Query OCL:"provideRegistrationDetailsRequest.personIdentifier" 
+            requestService retrieveEntity with retrieveEntityRequest yielding Variable retrieveEntityResult ofType RetrieveEntityResult
+            {
+                on EntityNotStoredException raiseException PersonNotRegisteredException
+            }
+            create Variable provideRegistrationDetailsResult ofType ProvideRegistrationDetailsResult
+            set Query OCL:"provideRegistrationDetailsResult.personDetails" equalTo
+                Query OCL:"retrieveEntityResult.retrievedEntity"
+            returnResult provideRegistrationDetailsResult
+        }
+      }
+    }
     ResponsibilityDomain Enrollments
     {
       ResponsibilityDomain PresentationManagement
@@ -481,7 +457,7 @@ ResponsibilityDomain Training
         {
             FunctionalRequirements receiving Variable enlistStudentForPresentationRequest ofType EnlistStudentForPresentationRequest
             {
-	          PreCondition studentIsRegistered requiredBy (Shareholder) raises PersonNotRegisteredException
+              PreCondition studentIsRegistered requiredBy (Shareholder) raises PersonNotRegisteredException
             }
           Request DataStructure EnlistStudentForPresentationRequest {}
           Result DataStructure EnlistStudentForPresentationResult {}
@@ -498,7 +474,7 @@ ResponsibilityDomain Training
         {
             FunctionalRequirements receiving Variable provideProofOfEnrollmentRequest ofType ProvideProofOfEnrollmentRequest
             {
-	          PreCondition studentIsRegistered requiredBy (Shareholder TrainingRegulator) raises PersonNotRegisteredException
+              PreCondition studentIsRegistered requiredBy (Shareholder TrainingRegulator) raises PersonNotRegisteredException
             
             }
           Request DataStructure ProvideProofOfEnrollmentRequest {}
@@ -510,22 +486,22 @@ ResponsibilityDomain Training
       {
         FunctionalRequirements receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
         {
-	        PreCondition financialPrerequisitesMet
+            PreCondition financialPrerequisitesMet
                 requiredBy (Shareholder)    
-	            raises FinancialPrerequisitesNotSatisfiedException
-	        PreCondition enrollmentPrerequisitesMet
+                raises FinancialPrerequisitesNotSatisfiedException
+            PreCondition enrollmentPrerequisitesMet
                 requiredBy (TrainingRegulator Student) 
-	            raises EnrollmentPrerequisitesNotSatisfiedException
-	        PostCondition enrollmentProcessPerformed
-	            requiredBy (Student Client TrainingRegulator)    
-	        PostCondition invoiceIssued
-	            requiredBy (Shareholder Client CreditRegulator)    
+                raises EnrollmentPrerequisitesNotSatisfiedException
+            PostCondition enrollmentProcessPerformed
+                requiredBy (Student Client TrainingRegulator)    
+            PostCondition invoiceIssued
+                requiredBy (Shareholder Client CreditRegulator)    
         }
         Request DataStructure EnrollForPresentationRequest 
         {
             has association presentationIdentifier identifying Presentation
             has association studentIdentifier identifying Person
-            has association clientIdentifier identifying LegalEntity         
+            has component clientIdentifier ofType LegalEntity         
         }
         Result DataStructure EnrollForPresentationResult 
         {
@@ -534,7 +510,7 @@ ResponsibilityDomain Training
             has component studyGuide ofType StudyGuide
         }
       }
-      Service enrollForPresentation realizes enrollForPresentation 
+      Service enrollForPresentationImpl realizes enrollForPresentation 
         receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
       {
         use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
@@ -543,52 +519,52 @@ ResponsibilityDomain Training
         doSequential
         {
             create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
-                ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
-			set Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier" equalTo 
-                Query OCL:"enrollForPresentationRequest.studentIdentifier"
-            set Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier" equalTo
-                Query OCL:"enrollForPresentationRequest.presentationIdentifier"
+                ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest               
+            set Query OCL:"enrollForPresentationRequest.studentIdentifier" equalTo 
+                Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier"
+            set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo
+                Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"
+                     
             requestService checkStudentSatisfiesEnrollmentPrerequisites 
                 with checkStudentSatisfiesEnrollmentPrerequisitesRequest 
-                yields Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+                yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
                     ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
             choice
             {
-                if Condition enrollmentMeetsPrerequisitesMet 
-                    OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.oclIsTypeOf(StudentSatisfiesEnrollmentPrerequisites)"
+                if Constraint enrollmentMeetsPrerequisitesMet 
+                    OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true"
                     doSequential
                     {
                         create Variable issueInvoiceRequest ofType IssueInvoiceRequest
-                        set Query OCL:"issueInvoiceRequest.clientIdentifier" equalTo 
-                            Query OCL:"enrollForPresentationRequest.clientIdentifier"                            
+                        set Query OCL:"enrollForPresentationRequest.clientIdentifier" equalTo 
+                            Query OCL:"issueInvoiceRequest.clientIdentifier"                            
                         create Variable invoiceItem ofType InvoiceItem    
-						set Query OCL:"invoiceItem.chargeableIdentifier" equalTo
-			                Query OCL:"enrollForPresentationRequest.presentationIdentifier"
-			            add Query OCL:"invoiceItem" to
-			                Query OCL:"issueInvoiceRequest.invoiceItems"    
+                        set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo
+                            Query OCL:"invoiceItem.chargeableIdentifier"
+                        add Query OCL:"invoiceItem" to
+                            Query OCL:"issueInvoiceRequest.invoiceItems"    
+                                 
                         requestService issueInvoice with issueInvoiceRequest 
-                            yields Variable issueInvoiceResult ofType IssueInvoiceResult
+                            yielding Variable issueInvoiceResult ofType IssueInvoiceResult
                         {
                             on FinancialPrerequisitesNotSatisfiedException 
                                 raiseException FinancialPrerequisitesNotSatisfiedException
                         }
                         
-                        create Variable performEnrollmentRequest ofType PerformEnrollmentRequest 
-               			set Query OCL:"performEnrollmentRequest.personIdentifier" equalTo
-                            Query OCL:"enrollForPresentationRequest.studentIdentifier"
-                        set Query OCL:"performEnrollmentRequest.presentationIdentifier" equalTo
-                            Query OCL:"enrollForPresentationRequest.presentationIdentifier"  
-                        requestService performEnrollment with performEnrollmentRequest 
-                            yields Variable performEnrollmentResult ofType PerformEnrollmentResult
-							
-							
+                        create Variable enrollRequest ofType PerformEnrollmentRequest 
+                        set Query OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.personIdentifier" equalTo
+                            Query OCL:"performEnrollmentRequest.personIdentifier"
+                        set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo
+                            Query OCL:"performEnrollmentRequest.presentationIdentifier"    
+                        requestService performEnrollment with enrollRequest 
+                            yielding Variable performEnrollmentResult ofType PerformEnrollmentResult
                         create Variable enrollForPresentationResult ofType EnrollForPresentationResult
-                        set Query OCL:"enrollForPresentationResult.invoice" equalTo
-                            Query OCL:"issueInvoiceResult.invoice"
-                        set Query OCL:"enrollForPresentationResult.proofOfEnrollment" equalTo
-                            Query OCL:"performEnrollmentResult.proofOfEnrollment"
-                        set Query OCL:"enrollForPresentationResult.studyGuide" equalTo
-                            Query OCL:"performEnrollmentResult.studyGuide"    
+                        set Query OCL:"issueInvoiceResult.invoice" equalTo
+                            Query OCL:"enrollForPresentationResult.invoice"
+                        set Query OCL:"performEnrollmentResult.enrollmentConfirmation" equalTo
+                            Query OCL:"enrollForPresentationResult.enrollmentConfirmation"
+                        set Query OCL:"performEnrollmentResult.studyGuide" equalTo
+                            Query OCL:"enrollForPresentationResult.studyGuide"    
                         returnResult  enrollForPresentationResult
                     }
                 else
@@ -606,7 +582,7 @@ ResponsibilityDomain Training
         }
         Result DataStructure PerformEnrollmentResult 
         {
-            has component proofOfEnrollment ofType ProofOfEnrollment
+            has component enrollmentConfirmation ofType ProofOfEnrollment
             has component studyGuide ofType StudyGuide
         }
       }
