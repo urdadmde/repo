@@ -1,12 +1,16 @@
 SYNTAXDEF urdad
-FOR <http://www.urdad.org/2010/urdad>
-
-// IMPORTS { java : <http://www.emftext.org/java> 
-// <../../org/urdad/language/urdad/metamodel/urdad.genmodel> 
-// WITH SYNTAX java <../../org/urdad/language/someOtherLanguage/metamodel/someOtherLanguage.cs>}
+FOR <http://www.urdad.org/2010/urdad/core>
+START Model,Expression,urdad.constraint.InverseCondition,urdad.constraint.AndCondition,urdad.constraint.OrCondition,urdad.constraint.XorCondition,urdad.constraint.StateCondition,urdad.data.Query,urdad.data.Constant,urdad.data.VariableReference,urdad.data.BasicDataType,urdad.data.DataStructure,urdad.data.Variable,urdad.contract.ResultConstraint,urdad.contract.ServiceContract
 
 
-START Model
+IMPORTS {
+	urdad.constraint:<http://www.urdad.org/2010/urdad/constraint>
+	urdad.data:<http://www.urdad.org/2010/urdad/data>
+	urdad.contract:<http://www.urdad.org/2010/urdad/contract>
+	urdad.process:<http://www.urdad.org/2010/urdad/process>
+}
+
+
 
 TOKENS {
 	DEFINE COMMENT $'//'(~('\n'|'\r'|'\uffff'))*$;
@@ -112,19 +116,19 @@ RULES {
 	 ("(" (annotations)*")")?;
 	 
 	ResponsibilityDomain ::= "ResponsibilityDomain" name[] "{"
-		(responsibilityDomains | conditions | dataTypes | servicesContracts | services | annotations)*"}"; 
+		(responsibilityDomains | constraints | dataTypes | servicesContracts | services | annotations)*"}"; 
 
 	Expression ::= language [] ":" expressionString['"','"'];
 	
-	Query ::= "Query" (name[])? (queryExpression);
+	urdad.data.Query ::= "Query" (name[])? (queryExpression);
 	
-	ExpressionBasedConstraint ::= "Constraint" (name[])? (constraintExpression)? 
+	urdad.constraint.ExpressionBasedConstraint ::= "Constraint" (name[])? (constraintExpression)? 
 	  ("(" (annotations)*")")?;	
 	
-	QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
+	urdad.constraint.QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
 	  ("(" (annotations)*")")?;
 
-	FunctionalRequirements ::= "FunctionalRequirements"
+	urdad.contract.FunctionalRequirements ::= "FunctionalRequirements"
 		("receiving" (requestVariable))?
 		("yielding" (resultVariable))? 
 	"{"
@@ -132,68 +136,68 @@ RULES {
 		 (postConditions)*
 	"}";
 
-	Condition ::= "Condition" name[] ("receiving" (parameter))?
+	urdad.constraint.StateCondition ::= "Condition" name[] ("receiving" (parameter))?
 	"{" 
 	  ("stateAssessmentProcess" (stateAssessmentProcess))?  
 	  (stateConstraints)* 
 	"}";
 	
-	InverseCondition ::= "InverseCondition" name[] "inverseOf" operand[];
-	AndCondition ::= "AndCondition" name[] "=" leftOperand[] "AND" rightOperand[];
-	OrCondition ::= "OrCondition" name[] "=" leftOperand[] "OR" rightOperand[];
-	XorCondition ::= "XorCondition" name[] "=" leftOperand[] "XOR" rightOperand[];
+	urdad.constraint.InverseCondition ::= "InverseCondition" name[] "inverseOf" operand[];
+	urdad.constraint.AndCondition ::= "AndCondition" name[] "=" leftOperand[] "AND" rightOperand[];
+	urdad.constraint.OrCondition ::= "OrCondition" name[] "=" leftOperand[] "OR" rightOperand[];
+	urdad.constraint.XorCondition ::= "XorCondition" name[] "=" leftOperand[] "XOR" rightOperand[];
 	
-	RangeMultiplicity ::= "from" minOccurs[] "to" maxOccurs[];
-	Many ::= "many";
+	urdad.data.RangeMultiplicity ::= "from" minOccurs[] "to" maxOccurs[];
+	urdad.data.Many ::= "many";
 
-	BasicDataType ::= "BasicDataType" name[]	  
+	urdad.data.BasicDataType ::= "BasicDataType" name[]	  
 	  ("(" (constraints)*")")? ("(" (annotations)*")")?;  
 	
-	DataStructure ::= "DataStructure" name[] ("is" superType[])? "{"
+	urdad.data.DataStructure ::= "DataStructure" name[] ("is" superType[])? "{"
 	  ("abstract" "=" abstract[])?
 	  ("has" features)* 
 	  ("(" (annotations)*")")?"}";
 
-	Variable ::= "Variable" name[] "ofType" type[];
+	urdad.data.Variable ::= "Variable" name[] "ofType" type[];
 
-	Constant ::= "Constant" value['"','"'];
+	urdad.data.Constant ::= "Constant" value['"','"'];
 
-	VariableReference ::= "ValueOf" variable[];
+	urdad.data.VariableReference ::= "ValueOf" variable[];
 	  
-	Exception ::= "Exception" name[] ("is" superType[])? "{" 
+	urdad.contract.Exception ::= "Exception" name[] ("is" superType[])? "{" 
 	  ("has" features)* 
 	  ("(" (annotations)*")")?"}";
 	
-	Attribute ::= (multiplicityConstraint)? "attribute" name[] "ofType" type[];
-	Association ::= (multiplicityConstraint)? "association"  name[] "identifying" relatedType[]; 
-	Aggregation ::= (multiplicityConstraint)? "aggregate" (multiplicityConstraint)? name[] "ofType" relatedType[]; 
-	Composition ::= (multiplicityConstraint)? "component" (multiplicityConstraint)? name[] "ofType" relatedType[];
+	urdad.data.Attribute ::= (multiplicityConstraint)? "attribute" name[] "ofType" type[];
+	urdad.data.Association ::= (multiplicityConstraint)? "association"  name[] "identifying" relatedType[]; 
+	urdad.data.Aggregation ::= (multiplicityConstraint)? "aggregate" (multiplicityConstraint)? name[] "ofType" relatedType[]; 
+	urdad.data.Composition ::= (multiplicityConstraint)? "component" (multiplicityConstraint)? name[] "ofType" relatedType[];
 	 
-	QualityRequirement ::= "QualityRequirement" name[] (constraintExpression)? 
+	urdad.contract.QualityRequirement ::= "QualityRequirement" name[] qualityConstraint[]? 
 		"requiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
 
-	ConditionReference ::= "condition" condition[] 
-		("with" (parameter) ("constructedUsing" (constructConditionParameterProcess))?)?; 
+	urdad.contract.ConditionConstraint ::= "condition" condition[] 
+		("with" (parameter) ("constructedUsing" (stateAssessmentProcess))?)?; 
 	
-	ResultConstraint ::= "ResultConstraint" constraintExpression;
+	urdad.contract.ResultConstraint ::= "ResultConstraint" constraintExpression;
 	  
-	PreCondition ::= "PreCondition" name[]
+	urdad.contract.PreCondition ::= "PreCondition" name[]
 	  "requiredBy" "("(requiredBy[])*")" 
       "raises" exception[] 
 	  ("checks" conditionReference)? 
 	  ("(" (annotations)*")")?;
 	  
-	PostCondition ::= "PostCondition" name[] 
+	urdad.contract.PostCondition ::= "PostCondition" name[] 
 		"requiredBy" "("(requiredBy[])*")"
-	  ("ensures" functionalConstraint)? 
+	  ("ensures" conditionReference)? 
 	  ("(" (annotations)*")")?;
  		
-	ServiceRequirement ::= "use" requiredService[]
+	urdad.process.ServiceRequirement ::= "use" requiredService[]
 	 	"toAddress" "("(usedToAddress[])*")"
 		("if" (condition))? ("(" (annotations)*")")?;
 	
-	ServiceContract ::= "ServiceContract" name[] "{"
+	urdad.contract.ServiceContract ::= "ServiceContract" name[] "{"
 	 (functionalRequirements)?
 	 (qualityRequirements)*
 	 ("undoneUsing" inverseService[])?
@@ -201,45 +205,45 @@ RULES {
 	 "Result" result 
 	  ("(" (annotations)*")")?"}";
 	  
-	Service ::= "Service" name[] "realizes" realizedContract[] "receiving" (requestVariable)
+	urdad.process.Service ::= "Service" name[] "realizes" realizedContract[] "receiving" (requestVariable)
 	"{"
 		(serviceRequirements)*
 		(activity)
 	"}";  
 	
-	ActivitySequence ::= "doSequential" (name[])? "{" (activities)* "}"; 
+	urdad.process.ActivitySequence ::= "doSequential" (name[])? "{" (activities)* "}"; 
 
-	If ::= "if" (constraint) (activity);
+	urdad.process.If ::= "if" (constraint) (activity);
 
-	Choice ::= "choice" "{" (conditionalActivities)* ("else" (elseActivity)?) "}";
+	urdad.process.Choice ::= "choice" "{" (conditionalActivities)* ("else" (elseActivity)?) "}";
 	
-	ConcurrentActivity ::= "doConcurrent" (activity) ("blocking" "=" blocking[])?;
+	urdad.process.ConcurrentActivity ::= "doConcurrent" (activity) ("blocking" "=" blocking[])?;
 	
-	Concurrency ::= "Concurrency" "{" (concurrentActivities)* "}"; 
+	urdad.process.Concurrency ::= "Concurrency" "{" (concurrentActivities)* "}"; 
 	
-	Wait ::= "wait" "until" (until);
+	urdad.process.Wait ::= "wait" "until" (until);
 	
-	Create ::= "create" (producedVariable);
+	urdad.process.Create ::= "create" (producedVariable);
 	
-	Assign ::= "set" target "equalTo" source;
-	Add ::= "add" source "to" target;
-	Remove ::= "remove" target;
+	urdad.process.Assign ::= "set" target "equalTo" source;
+	urdad.process.Add ::= "add" source "to" target;
+	urdad.process.Remove ::= "remove" target;
 	
-	RequestService ::= "requestService" requestedService[] "with" requestVariable[] 
+	urdad.process.RequestService ::= "requestService" requestedService[] "with" requestVariable[] 
 			("yielding" (producedVariable))? 
 		("{" 
 			(exceptionHandlers)*
 		"}")?;
 
-	ExceptionHandler ::= "on" exception[] (activity);
+	urdad.process.ExceptionHandler ::= "on" exception[] (activity);
 		
-	RaiseException ::= "raiseException" exception[] ("with" exceptionVariable[])?;	
+	urdad.process.RaiseException ::= "raiseException" exception[] ("with" exceptionVariable[])?;	
 		
-	ReturnResult ::= "returnResult"	resultVariable[];
+	urdad.process.ReturnResult ::= "returnResult"	resultVariable[];
 		
-	While ::= "while" (condition) "do" (activity);	
+	urdad.process.While ::= "while" (condition) "do" (activity);	
 		
-	ForAll ::= "forAll" (query) "do" (activity); 	
+	urdad.process.ForAll ::= "forAll" (query) "do" (activity); 	
 
 	Annotation ::= "Note" language[] ":" content['"','"'];
 }
