@@ -46,6 +46,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Identifiable" abstract="true" eSuperTypes="#//core/Element"/>
     <eClassifiers xsi:type="ecore:EClass" name="Annotation" eSuperTypes="#//core/ElementWithOptionalName">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="language" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -142,7 +143,7 @@
           eType="#//constraint/ExpressionBasedConstraint" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BasicDataType" eSuperTypes="#//data/DataType"/>
-    <eClassifiers xsi:type="ecore:EClass" name="DataStructure" eSuperTypes="#//data/DataType">
+    <eClassifiers xsi:type="ecore:EClass" name="DataStructure" eSuperTypes="#//data/DataType #//core/Identifiable">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
@@ -246,7 +247,7 @@
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="process" nsURI="http://www.urdad.org/2010/urdad/process" nsPrefix="urdad">
-    <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//process/ContainerActivity">
+    <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//core/Identifiable #//process/ContainerActivity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="requestVariable" lowerBound="15"
           upperBound="15" eType="#//data/Variable" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="realizedContract" eType="#//contract/ServiceContract"/>
