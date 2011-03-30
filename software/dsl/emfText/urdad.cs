@@ -116,6 +116,8 @@ TOKENSTYLES {
 	"name" COLOR #7F0055, BOLD;
 	"multiplicityConstraint" COLOR #7F0055, BOLD;
 	"relatedType" COLOR #7F0055, BOLD;
+	"identification" COLOR #7F0055, BOLD;
+	"linking" COLOR #7F0055, BOLD;
 }
 
 RULES {
@@ -133,7 +135,7 @@ RULES {
 	urdad.constraint.ExpressionBasedConstraint ::= "Constraint" (name[])? (constraintExpression)? 
 	  ("(" (annotations)*")")?;	
 	
-	urdad.contract.QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
+	urdad.constraint.QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
 	  ("(" (annotations)*")")?;
 
 	urdad.contract.FunctionalRequirements ::= "FunctionalRequirements"

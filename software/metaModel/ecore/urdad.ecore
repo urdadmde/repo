@@ -183,7 +183,6 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FunctionalConstraint" abstract="true"
         eSuperTypes="#//constraint/Constraint"/>
-    <eClassifiers xsi:type="ecore:EClass" name="QualityConstraint" eSuperTypes="#//constraint/ExpressionBasedConstraint"/>
     <eClassifiers xsi:type="ecore:EClass" name="ConditionConstraint" eSuperTypes="#//contract/FunctionalConstraint">
       <eStructuralFeatures xsi:type="ecore:EReference" name="stateAssessmentProcess"
           eType="#//process/Activity" containment="true"/>

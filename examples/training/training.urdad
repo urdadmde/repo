@@ -81,8 +81,8 @@ ResponsibilityDomain UrdadStandardProfile
             yielding Variable storeEntityResult ofType StoreEntityResult
         {
             PreCondition entityNotStored requiredBy (PersistenceClient)
-                raises EntityNotStoredException checks condition entityIsNotStored 
-                    with Query OCL:"retrieveEntityRequest.entityIdentifier"
+                raises EntityAlreadyStoredException checks condition entityIsNotStored 
+                    with Query OCL:"storeEntityRequest.entityIdentifier"
             PostCondition entityStored requiredBy (PersistenceClient)
                 ensures condition entityIsStored 
                     with Query OCL:"storeEntityRequest.entityIdentifier"
@@ -148,7 +148,7 @@ ResponsibilityDomain Training
         }
         Request DataStructure IssueInvoiceRequest 
         {
-            has association clientIdentifier identifying LegalEntity
+            has identification clientIdentifier identifying LegalEntity
             has many component invoiceItems ofType InvoiceItem
         }
         Result DataStructure IssueInvoiceResult 
@@ -177,7 +177,7 @@ ResponsibilityDomain Training
       {
         has attribute cost ofType FloatingPointNumber
         has attribute quantity ofType Integer
-        has association chargeableIdentifier identifying Chargeable
+        has identification chargeableIdentifier identifying Chargeable
       }
     }
     ResponsibilityDomain Academic
@@ -187,7 +187,7 @@ ResponsibilityDomain Training
         DataStructure Course
         {
             has attribute name ofType String
-            has many association coursePrerequisites identifying Course 
+            has many identification coursePrerequisites identifying Course 
         }
       }
       ResponsibilityDomain PresentationManagement
@@ -201,7 +201,7 @@ ResponsibilityDomain Training
         {
             has attribute name ofType String
             has attribute startDate ofType Date
-            has association location identifying Location
+            has identification location identifying Location
         }
         ServiceContract checkWhetherEnrollmentConflictsWithStudentRoster
         {
@@ -216,8 +216,8 @@ ResponsibilityDomain Training
         {
           Request DataStructure CheckStudentSatisfiesCoursePrerequisitesRequest
           {
-            has association studentIdentifier identifying Person
-            has association presentationIdentifier identifying Presentation
+            has identification studentIdentifier identifying Person
+            has identification presentationIdentifier identifying Presentation
           }
           Result DataStructure CheckStudentSatisfiesCoursePrerequisitesResult
           {
@@ -246,14 +246,14 @@ ResponsibilityDomain Training
                 }
                 Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest 
                 {
-                    has association studentIdentifier identifying Person
-                    has association presentationIdentifier identifying Presentation
+                    has identification studentIdentifier identifying Person
+                    has identification presentationIdentifier identifying Presentation
                 }
                 Result DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesResult
                 {
                     abstract = true
-                    has association personIdentifier identifying Person
-                    has association presentationIdentifier identifying Presentation
+                    has identification personIdentifier identifying Person
+                    has identification presentationIdentifier identifying Presentation
                 }
             }
             DataStructure StudentSatisfiesEnrollmentPrerequisites is CheckStudentSatisfiesEnrollmentPrerequisitesResult{}
@@ -356,8 +356,8 @@ ResponsibilityDomain Training
             }
           Request DataStructure ProvideStudyGuideRequest 
           {
-            has association courseIdentifier identifying Course
-            has association studentIdentifier identifying Person
+            has identification courseIdentifier identifying Course
+            has identification studentIdentifier identifying Person
           }            
           Result DataStructure ProvideStudyGuideResult 
           {
@@ -383,7 +383,7 @@ ResponsibilityDomain Training
       DataStructure Identification is Entity
       {
         abstract = true
-        has association issuingOrganization identifying Organization
+        has identification issuingOrganization identifying Organization
       } 
       DataStructure CompanyIdentification is Identification
       {
@@ -393,7 +393,7 @@ ResponsibilityDomain Training
       DataStructure PersonIdentification is Identification
       {
         abstract = true
-        has association person identifying Person
+        has identification person identifying Person
       } 
       DataStructure Passport is PersonIdentification
       {
@@ -418,8 +418,8 @@ ResponsibilityDomain Training
         }
         Request DataStructure ProvideRegistrationDetailsRequest 
         {
-            has association personIdentifier identifying Person
-            has association presentation identifying Presentation
+            has identification personIdentifier identifying Person
+            has identification presentation identifying Presentation
         }
         Result DataStructure ProvideRegistrationDetailsResult 
         {
@@ -451,7 +451,7 @@ ResponsibilityDomain Training
       {
         DataStructure PresentationDetails
         {
-            has association course identifying Course
+            has identification course identifying Course
         }
         ServiceContract enlistStudentForPresentation
         {
@@ -499,8 +499,8 @@ ResponsibilityDomain Training
         }
         Request DataStructure EnrollForPresentationRequest 
         {
-            has association presentationIdentifier identifying Presentation
-            has association studentIdentifier identifying Person
+            has identification presentationIdentifier identifying Presentation
+            has identification studentIdentifier identifying Person
             has component clientIdentifier ofType LegalEntity         
         }
         Result DataStructure EnrollForPresentationResult 
@@ -577,8 +577,8 @@ ResponsibilityDomain Training
       {
         Request DataStructure PerformEnrollmentRequest 
         {
-            has association presentationIdentifier identifying Presentation
-            has association personIdentifier identifying Person
+            has identification presentationIdentifier identifying Presentation
+            has identification personIdentifier identifying Person
         }
         Result DataStructure PerformEnrollmentResult 
         {
