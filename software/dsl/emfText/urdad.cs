@@ -8,6 +8,10 @@ IMPORTS {
 	urdad.data:<http://www.urdad.org/2010/urdad/data>
 	urdad.contract:<http://www.urdad.org/2010/urdad/contract>
 	urdad.process:<http://www.urdad.org/2010/urdad/process>
+	urdad.constraint:<http://www.urdad.org/2010/urdad/constraint>
+	urdad.data:<http://www.urdad.org/2010/urdad/data>
+	urdad.contract:<http://www.urdad.org/2010/urdad/contract>
+	urdad.process:<http://www.urdad.org/2010/urdad/process>
 }
 
 
@@ -108,6 +112,10 @@ TOKENSTYLES {
 	"XOR" COLOR #7F0055, BOLD;
 	"TypeIdentifier" COLOR #7F0055, BOLD;
 	"type" COLOR #7F0055, BOLD;
+	"Identification" COLOR #7F0055, BOLD;
+	"name" COLOR #7F0055, BOLD;
+	"multiplicityConstraint" COLOR #7F0055, BOLD;
+	"relatedType" COLOR #7F0055, BOLD;
 }
 
 RULES {
@@ -125,7 +133,7 @@ RULES {
 	urdad.constraint.ExpressionBasedConstraint ::= "Constraint" (name[])? (constraintExpression)? 
 	  ("(" (annotations)*")")?;	
 	
-	urdad.constraint.QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
+	urdad.contract.QualityConstraint ::= "QualityConstraint" name[] (constraintExpression)? 
 	  ("(" (annotations)*")")?;
 
 	urdad.contract.FunctionalRequirements ::= "FunctionalRequirements"
@@ -169,7 +177,8 @@ RULES {
 	  ("(" (annotations)*")")?"}";
 	
 	urdad.data.Attribute ::= (multiplicityConstraint)? "attribute" name[] "ofType" type[];
-	urdad.data.Association ::= (multiplicityConstraint)? "association"  name[] "identifying" relatedType[]; 
+	urdad.data.Identification ::= (multiplicityConstraint)? "identification"  name[] "identifying" relatedType[]; 
+	urdad.data.Association ::= (multiplicityConstraint)? "association"  name[] "linking" relatedType[]; 
 	urdad.data.Aggregation ::= (multiplicityConstraint)? "aggregate" (multiplicityConstraint)? name[] "ofType" relatedType[]; 
 	urdad.data.Composition ::= (multiplicityConstraint)? "component" (multiplicityConstraint)? name[] "ofType" relatedType[];
 	 
