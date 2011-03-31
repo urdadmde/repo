@@ -33,9 +33,31 @@ from a business perspective are specified across levels of granularity.)
 	or by default values.
     \end{itemize}
   \item Check that process addresses all functional requirements and nothing but the functional requirements.
-  
 \end{itemize}
 
+%-------------------------------------------------------------------------------------
+
+\subsection{Sufficiency}
+
+An URDAD model is meant to be able to absorb the information required for performing implementation mappings, generating service tests, and
+requirements traceability.
+
+
+Jeremy Dick \cite{dick_design_2005} emphasizes the importance of traceability need for traceability across levels of granularity
+
+- traceability generally important in design (not only software)
+
+- traceability links can be enriched through rationale sematics (URDAD: requiredBy, requiredService, ...)
+
+- include sufficiency and necessity, i.e. are all requirements met and are all design elements necessary/required to realize requirements
+
+- identify immediate impact point, calculate potential impact tree, prune impact tree
+
+Ramesh et al\. \cite{ramesh_toward_2001} identify 4 core traceability link types including (i) {\em satisfaction links} (ensuring that requirements are satisfied by system), (ii) \emph{evolutional links (document inputs resulting in changes to objects and resulting changes)
+
+  3. Rationale links (why is this required, use instead requires by)
+
+  4. Dependency links (from model reflection: dependency between services and so on)
 %-------------------------------------------------------------------------------------
 
 \subsection{Usability assessment (potentially an empirical study)}
