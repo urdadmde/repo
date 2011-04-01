@@ -22,7 +22,6 @@
     \begin{itemize}
      \item UML model requires much more model elements to encode URDAD semantics.
     \end{itemize}
-  \item Assessing traceability (\cite{dick_design_2005} - see notes on Zotero entry)
   \item Completeness checks
 (What does completeness mean - That only technical information needs to be provided and that the full requirements
 from a business perspective are specified across levels of granularity.)
@@ -39,25 +38,15 @@ from a business perspective are specified across levels of granularity.)
 
 \subsection{Sufficiency}
 
-An URDAD model is meant to be able to absorb the information required for performing implementation mappings, generating service tests, and
-requirements traceability.
+An URDAD model is meant to be able to absorb the information required for requirements traceability, implementation mappings and test generation.
+
+Requirements traceability is important for design validation and estimation. Validation includes assessing sufficiency and neccessity, i.e.\ assessing whether all requirements are met and whether all model elements are required. This has to be done across levels of granularity \cite{dick_design_2005}. Ramesh et al\. \cite{ramesh_toward_2001} identify four core traceability link types including (i) \emph{satisfaction links} which represent links between requirements and activities which satisfy them, (ii) \emph{evolutional links} which link change requests and the resulting changes, (iii) \emph{rationale links} which link requirements to the rationale (e.g. goals) which drive them and (iv) \emph{dependency links} which represent links between model elements.
+
+In the URDAD metamodel satisfaction links are represented by \verb+usedToAddress+ links between services and pre- and post-conditions. Evolutionary links are not addressed within the URDAD metamodel and are left to the version control environment. Higher level purpose, goals and rationale links are also not addressed in URDAD. The metamodel does, however, include the \verb+requiredBy+ linkage between requirements and the stakeholders which require them. A requirement around a service may be required by a responsibility domain (i.e.\ a roles) or by another service. Finally, dependency links are included in the model. The dependency is formost between services and service contracts, i.e.\ a particular process design for a service has dependencies on services contracts (not on particular service implementations). Note that the URDAD metamodel does not differentiate between dependency and satisfaction links. Requirements result in dependencies and if the dependencies are available, the requirements are satisfied.
 
 
-Jeremy Dick \cite{dick_design_2005} emphasizes the importance of traceability need for traceability across levels of granularity
 
-- traceability generally important in design (not only software)
 
-- traceability links can be enriched through rationale sematics (URDAD: requiredBy, requiredService, ...)
-
-- include sufficiency and necessity, i.e. are all requirements met and are all design elements necessary/required to realize requirements
-
-- identify immediate impact point, calculate potential impact tree, prune impact tree
-
-Ramesh et al\. \cite{ramesh_toward_2001} identify 4 core traceability link types including (i) {\em satisfaction links} (ensuring that requirements are satisfied by system), (ii) \emph{evolutional links (document inputs resulting in changes to objects and resulting changes)
-
-  3. Rationale links (why is this required, use instead requires by)
-
-  4. Dependency links (from model reflection: dependency between services and so on)
 %-------------------------------------------------------------------------------------
 
 \subsection{Usability assessment (potentially an empirical study)}
