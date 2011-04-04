@@ -1,0 +1,22 @@
+\begin{thebibliography}{1}
+
+\bibitem{solms_technology_2007}
+Fritz Solms.
+\newblock Technology neutral business process design using {URDAD}.
+\newblock In {\em Proceeding of the 2007 conference on New Trends in Software
+  Methodologies, Tools and Techniques}, page 52–70, Amsterdam, The
+  Netherlands, The Netherlands, 2007. {IOS} Press.
+
+\bibitem{solms_generating_2009}
+Fritz Solms and Dawid Loubser.
+\newblock Generating {MDA's} platform independent model using {URDAD}.
+\newblock {\em {Knowledge-Based} Systems}, 22(3):174--185, April 2009.
+
+\bibitem{solms_urdad_2010}
+Fritz Solms and Dawid Loubser.
+\newblock {URDAD} as a semi-formal approach to analysis and design.
+\newblock {\em Innovations in Systems and Software Engineering}, 6:155--162,
+  2010.
+\newblock 10.1007/s11334-009-0113-4.
+
+\end{thebibliography}

@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="ASCII"?>
+<urdad:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:urdad="http://www.urdad.org/2010/urdad" name="Training">
+  <responsibilityDomains name="Training">
+    <responsibilityDomains name="Student"/>
+    <responsibilityDomains name="TrainingRegulator"/>
+    <responsibilityDomains name="CreditRegulator"/>
+    <responsibilityDomains name="Shareholder"/>
+    <responsibilityDomains name="Client"/>
+    <responsibilityDomains name="TrainingInstitution">
+      <responsibilityDomains name="Academic">
+        <responsibilityDomains name="CourseManagement">
+          <dataTypes xsi:type="urdad:DataStructure" name="Course">
+            <features xsi:type="urdad:Attribute" name="name" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.3"/>
+            <features xsi:type="urdad:Association" name="coursePrerequisite" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.0/@responsibilityDomains.0/@dataTypes.0">
+              <multiplicityConstraint xsi:type="urdad:Many"/>
+            </features>
+          </dataTypes>
+        </responsibilityDomains>
+        <responsibilityDomains name="Assessment">
+          <responsibilityDomains name="Validation">
+            <servicesContracts name="checkStudentSatisfiesEnrollmentPrerequisites">
+              <request name="CheckStudentSatisfiesEnrollmentPrerequisitesRequest">
+                <features xsi:type="urdad:Composition" name="studentIdentification" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.6"/>
+                <features xsi:type="urdad:Association" name="presentationIdentifier" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.3/@dataTypes.1"/>
+              </request>
+              <result name="CheckStudentSatisfiesEnrollmentPrerequisitesResult">
+                <features xsi:type="urdad:Attribute" name="enrollmentPrerequisitesMet" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.0"/>
+                <features xsi:type="urdad:Association" name="personIdentifier" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.3"/>
+                <features xsi:type="urdad:Association" name="presentationIdentifier" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.3/@dataTypes.1"/>
+              </result>
+            </servicesContracts>
+          </responsibilityDomains>
+          <dataTypes xsi:type="urdad:Exception" name="StudentDoesNotSatisfyPrerequisitesException"/>
+          <servicesContracts name="checkStudentSatisfiesCoursePrerequisites">
+            <request name="CheckStudentSatisfiesCoursePrerequisitesRequest">
+              <features xsi:type="urdad:Composition" name="studentIdentification" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.6"/>
+              <features xsi:type="urdad:Association" name="presentation" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.3/@dataTypes.1"/>
+            </request>
+            <result name="CheckStudentSatisfiesCoursePrerequisitesResult">
+              <features xsi:type="urdad:Attribute" name="prerequisitesSatisfied" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.0"/>
+            </result>
+            <preCondition name="studentRegistered" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.3" condition="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@conditions.0" exception="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.9"/>
+          </servicesContracts>
+        </responsibilityDomains>
+        <responsibilityDomains name="StudyGuides">
+          <dataTypes xsi:type="urdad:DataStructure" name="StudyGuide"/>
+          <servicesContracts name="provideStudyGuide">
+            <request name="ProvideStudyGuideRequest">
+              <features xsi:type="urdad:Association" name="courseIdentifier" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.0/@responsibilityDomains.0/@dataTypes.0"/>
+              <features xsi:type="urdad:Association" name="studentIdentifier">
+                <relatedType href="training.urdad#EMFTEXT_INTERNAL_URI_FRAGMENT_16_Student"/>
+              </features>
+            </request>
+            <result name="ProvideStudyGuideResult">
+              <features xsi:type="urdad:Composition" name="studyGuide" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.0/@responsibilityDomains.2/@dataTypes.0"/>
+            </result>
+            <preCondition name="studentIsRegistered" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.3" condition="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@conditions.0"/>
+          </servicesContracts>
+        </responsibilityDomains>
+      </responsibilityDomains>
+      <responsibilityDomains name="ClientRelationshipManagement">
+        <dataTypes xsi:type="urdad:DataStructure" name="Address">
+          <features xsi:type="urdad:Attribute" name="addressLine" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.3">
+            <multiplicityConstraint xsi:type="urdad:Many"/>
+          </features>
+        </dataTypes>
+        <dataTypes xsi:type="urdad:DataStructure" name="LegalEntity" superType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0">
+          <annotations language="en-ZA" content="Any party you can bill and take to court, e.g. a person or an organization."/>
+          <features xsi:type="urdad:Attribute" name="name" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.3"/>
+          <features xsi:type="urdad:Composition" name="legalAddress" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.0"/>
+        </dataTypes>
+        <dataTypes xsi:type="urdad:DataStructure" name="Organization" superType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.1"/>
+        <dataTypes xsi:type="urdad:DataStructure" name="Person" superType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.1"/>
+        <dataTypes xsi:type="urdad:DataStructure" name="Identification" abstract="true" superType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0">
+          <features xsi:type="urdad:Association" name="issuingOrganization" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.2"/>
+        </dataTypes>
+        <dataTypes xsi:type="urdad:DataStructure" name="CompanyIdentification" superType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.4">
+          <features xsi:type="urdad:Attribute" name="companyRegistrationNumber" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.3"/>
+        </dataTypes>
+        <dataTypes xsi:type="urdad:DataStructure" name="PersonIdentification" abstract="true" superType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.4">
+          <features xsi:type="urdad:Association" name="person" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.3"/>
+        </dataTypes>
+        <dataTypes xsi:type="urdad:DataStructure" name="Passport" superType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.6">
+          <features xsi:type="urdad:Attribute" name="passportNumber" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.3"/>
+        </dataTypes>
+        <dataTypes xsi:type="urdad:DataStructure" name="OrganizationMembershipCard" superType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.6">
+          <annotations language="en-ZA" content="For example a student or and employee card"/>
+          <features xsi:type="urdad:Attribute" name="cardNumber" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.3"/>
+        </dataTypes>
+        <dataTypes xsi:type="urdad:Exception" name="PersonNotRegisteredException"/>
+        <conditions name="personIsRegistered"/>
+        <servicesContracts name="provideRegistrationDetails">
+          <request name="ProvideRegistrationDetailsRequest">
+            <features xsi:type="urdad:Composition" name="personIdentification" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.6"/>
+            <features xsi:type="urdad:Association" name="presentation" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.3/@dataTypes.1"/>
+          </request>
+          <result name="ProvideRegistrationDetailsResult">
+            <features xsi:type="urdad:Composition" name="personDetails" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.3"/>
+          </result>
+        </servicesContracts>
+      </responsibilityDomains>
+      <responsibilityDomains name="Finance">
+        <dataTypes xsi:type="urdad:Exception" name="NoInvoiceIssuedForEnrollmentException"/>
+        <dataTypes xsi:type="urdad:Exception" name="FinancialPrerequisitesNotSatisfiedException"/>
+        <dataTypes xsi:type="urdad:DataStructure" name="Invoice" superType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0">
+          <features xsi:type="urdad:Attribute" name="invoiceNumber" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.3"/>
+          <features xsi:type="urdad:Attribute" name="invoiceDate" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.4"/>
+          <features xsi:type="urdad:Composition" name="clientDetails" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.1"/>
+          <features xsi:type="urdad:Composition" name="invoiceItem" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@dataTypes.4">
+            <multiplicityConstraint xsi:type="urdad:Many"/>
+          </features>
+        </dataTypes>
+        <dataTypes xsi:type="urdad:DataStructure" name="Chargeable" superType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0"/>
+        <dataTypes xsi:type="urdad:DataStructure" name="InvoiceItem">
+          <features xsi:type="urdad:Attribute" name="cost" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.2"/>
+          <features xsi:type="urdad:Attribute" name="quantity" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.1"/>
+          <features xsi:type="urdad:Association" name="chargeableIdentifier" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@dataTypes.3"/>
+        </dataTypes>
+        <conditions name="invoiceForEnrollmentIssued"/>
+        <conditions name="financialPrerequisitesSatisfied"/>
+        <servicesContracts name="issueInvoice">
+          <request name="IssueInvoiceRequest">
+            <features xsi:type="urdad:Composition" name="clientIdentification" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.4"/>
+            <features xsi:type="urdad:Composition" name="invoiceItems" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@dataTypes.4">
+              <multiplicityConstraint xsi:type="urdad:Many"/>
+            </features>
+          </request>
+          <result name="IssueInvoiceResult">
+            <features xsi:type="urdad:Composition" name="invoice" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@dataTypes.2"/>
+          </result>
+          <preCondition name="financialPrerequisitesMet" condition="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@conditions.1"/>
+        </servicesContracts>
+        <servicesContracts name="provideInvoiceForEnrollment">
+          <request name="ProvideInvoiceForEnrollmentRequest"/>
+          <result name="ProvideInvoiceForEnrollmentResult"/>
+          <preCondition name="invoiceForEnrollmentExists" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2" condition="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@conditions.0" exception="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@dataTypes.0"/>
+        </servicesContracts>
+      </responsibilityDomains>
+      <responsibilityDomains name="PresentationManagement">
+        <dataTypes xsi:type="urdad:DataStructure" name="Location" superType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0">
+          <features xsi:type="urdad:Attribute" name="name" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.3"/>
+          <features xsi:type="urdad:Composition" name="address" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.0"/>
+        </dataTypes>
+        <dataTypes xsi:type="urdad:DataStructure" name="Presentation" superType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@dataTypes.3">
+          <features xsi:type="urdad:Attribute" name="name" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.3"/>
+          <features xsi:type="urdad:Attribute" name="startDate" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.4"/>
+          <features xsi:type="urdad:Association" name="location" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.3/@dataTypes.0"/>
+        </dataTypes>
+      </responsibilityDomains>
+      <responsibilityDomains name="Enrollments">
+        <responsibilityDomains name="PresentationManagement">
+          <dataTypes xsi:type="urdad:DataStructure" name="PresentationDetails">
+            <features xsi:type="urdad:Association" name="course" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.0/@responsibilityDomains.0/@dataTypes.0"/>
+          </dataTypes>
+          <servicesContracts name="enlistStudentForPresentation">
+            <request name="EnlistStudentForPresentationRequest"/>
+            <result name="EnlistStudentForPresentationResult"/>
+            <preCondition name="studentIsRegistered" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.3" condition="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@conditions.0" exception="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.9"/>
+          </servicesContracts>
+        </responsibilityDomains>
+        <responsibilityDomains name="ProofOfEnrollments">
+          <dataTypes xsi:type="urdad:DataStructure" name="ProofOfEnrollment" superType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0">
+            <features xsi:type="urdad:Composition" name="studentDetails" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.3"/>
+            <features xsi:type="urdad:Composition" name="presentationDetails" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.3/@dataTypes.1"/>
+          </dataTypes>
+          <servicesContracts name="provideProofOfEnrollment">
+            <request name="ProvideProofOfEnrollmentRequest"/>
+            <result name="ProvideProofOfEnrollmentResult"/>
+            <preCondition name="studentIsRegistered" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.3 //@responsibilityDomains.0/@responsibilityDomains.1" condition="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@conditions.0" exception="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.9"/>
+          </servicesContracts>
+        </responsibilityDomains>
+        <dataTypes xsi:type="urdad:Exception" name="EnrollmentPrerequisitesNotSatisfiedException"/>
+        <conditions name="enrollmentPrerequisitesSatisfied">
+          <constraintExpression language="OCL" expressionString=""/>
+        </conditions>
+        <conditions name="enrollmentPerformed"/>
+        <servicesContracts name="enrollForPresentation">
+          <request name="EnrollForPresentationRequest">
+            <features xsi:type="urdad:Association" name="presentationIdentifier" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.3/@dataTypes.1"/>
+            <features xsi:type="urdad:Composition" name="studentIdentification" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.6"/>
+            <features xsi:type="urdad:Composition" name="payerIdentification" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.4"/>
+          </request>
+          <result name="EnrollForPresentationResult">
+            <features xsi:type="urdad:Composition" name="proofOfEnrollment" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@responsibilityDomains.1/@dataTypes.0"/>
+            <features xsi:type="urdad:Composition" name="invoice" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@dataTypes.2"/>
+            <features xsi:type="urdad:Composition" name="studyGuide" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.0/@responsibilityDomains.2/@dataTypes.0"/>
+          </result>
+          <preCondition name="enrollmentPrerequisitesMet" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.1 //@responsibilityDomains.0/@responsibilityDomains.0" condition="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@conditions.0" exception="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@dataTypes.0"/>
+          <postCondition name="invoiceIssued" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.3 //@responsibilityDomains.0/@responsibilityDomains.4 //@responsibilityDomains.0/@responsibilityDomains.2" condition="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@conditions.0"/>
+        </servicesContracts>
+        <servicesContracts name="performEnrollment">
+          <request name="PerformEnrollmentRequest">
+            <features xsi:type="urdad:Association" name="presentationIdentifier" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.3/@dataTypes.1"/>
+            <features xsi:type="urdad:Association" name="personIdentifier" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.1/@dataTypes.3"/>
+          </request>
+          <result name="PerformEnrollmentResult">
+            <features xsi:type="urdad:Composition" name="enrollmentConfirmation" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@responsibilityDomains.1/@dataTypes.0"/>
+            <features xsi:type="urdad:Composition" name="studyGuide" relatedType="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.0/@responsibilityDomains.2/@dataTypes.0"/>
+          </result>
+        </servicesContracts>
+        <services name="enrollForPresentationImpl" realizedContract="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@servicesContracts.0">
+          <activity xsi:type="urdad:ActivitySequence">
+            <activities xsi:type="urdad:Create">
+              <producedVariable name="checkStudentSatisfiesEnrollmentPrerequisitesRequest" type="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.0/@servicesContracts.0/@request"/>
+            </activities>
+            <activities xsi:type="urdad:Assign">
+              <source name="studentDetailsSource">
+                <queryExpression language="OCL" expressionString="enrollForPresentationRequest.studentIdentification"/>
+              </source>
+              <to name="studentDetailsTarget">
+                <queryExpression language="OCL" expressionString="checkEnrollmentPrerequisitesRequest.studentIdentification"/>
+              </to>
+            </activities>
+            <activities xsi:type="urdad:Assign">
+              <source name="presentationIdentifierSource">
+                <queryExpression language="OCL" expressionString="enrollForPresentationRequest.presentationIdentifier"/>
+              </source>
+              <to name="presentationIdentifierTarget">
+                <queryExpression language="OCL" expressionString="checkEnrollmentPrerequisitesRequest.presentationIdentifier"/>
+              </to>
+            </activities>
+            <activities xsi:type="urdad:RequestService" requestedService="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.0/@servicesContracts.0" requestVariable="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@services.0/@activity/@activities.0/@producedVariable">
+              <producedVariable name="checkStudentSatisfiesEnrollmentPrerequisitesResult" type="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.0/@servicesContracts.0/@result"/>
+            </activities>
+            <activities xsi:type="urdad:Choice">
+              <conditionalActivities xsi:type="urdad:If">
+                <activity xsi:type="urdad:ActivitySequence">
+                  <activities xsi:type="urdad:Create">
+                    <producedVariable name="issueInvoiceRequest" type="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@servicesContracts.0/@request"/>
+                  </activities>
+                  <activities xsi:type="urdad:Assign">
+                    <source name="clientIdentificationSource">
+                      <queryExpression language="OCL" expressionString="enrollForPresentationRequest.payerIdentification"/>
+                    </source>
+                    <to name="clientIdentificationTarget">
+                      <queryExpression language="OCL" expressionString="issueInvoiceRequest.clientIdentification"/>
+                    </to>
+                  </activities>
+                  <activities xsi:type="urdad:Create">
+                    <producedVariable name="invoiceItem" type="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@dataTypes.4"/>
+                  </activities>
+                  <activities xsi:type="urdad:Assign">
+                    <source name="presentationIdentifierSource">
+                      <queryExpression language="OCL" expressionString="enrollForPresentationRequest.presentationIdentifier"/>
+                    </source>
+                    <to name="presentationIdentifierTarget">
+                      <queryExpression language="OCL" expressionString="invoiceItem.chargeableIdentifier"/>
+                    </to>
+                  </activities>
+                  <activities xsi:type="urdad:Add">
+                    <source name="invoiceItemSource">
+                      <queryExpression language="OCL" expressionString="invoiceItem"/>
+                    </source>
+                    <to name="invoiceItemTarger">
+                      <queryExpression language="OCL" expressionString="issueInvoiceRequest.invoiceItems"/>
+                    </to>
+                  </activities>
+                  <activities xsi:type="urdad:RequestService" requestedService="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@servicesContracts.0" requestVariable="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@services.0/@activity/@activities.4/@conditionalActivities.0/@activity/@activities.0/@producedVariable">
+                    <producedVariable name="issueInvoiceResult" type="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@servicesContracts.0/@result"/>
+                    <exceptionHandlers exception="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@dataTypes.1">
+                      <activity xsi:type="urdad:RaiseException" exception="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@dataTypes.1"/>
+                    </exceptionHandlers>
+                  </activities>
+                  <activities xsi:type="urdad:Create">
+                    <producedVariable name="enrollRequest" type="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@servicesContracts.1/@request"/>
+                  </activities>
+                  <activities xsi:type="urdad:Assign">
+                    <source name="personIdentifierSource">
+                      <queryExpression language="OCL" expressionString="checkStudentSatisfiesEnrollmentPrerequisitesResult.personIdentifier"/>
+                    </source>
+                    <to name="personIdentierTarget">
+                      <queryExpression language="OCL" expressionString="performEnrollmentRequest.personIdentifier"/>
+                    </to>
+                  </activities>
+                  <activities xsi:type="urdad:Assign">
+                    <source name="presentationIdentifierSource">
+                      <queryExpression language="OCL" expressionString="enrollForPresentationRequest.presentationIdentifier"/>
+                    </source>
+                    <to name="presentationIdentifierTarget">
+                      <queryExpression language="OCL" expressionString="performEnrollmentRequest.presentationIdentifier"/>
+                    </to>
+                  </activities>
+                  <activities xsi:type="urdad:RequestService" requestedService="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@servicesContracts.1" requestVariable="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@services.0/@activity/@activities.4/@conditionalActivities.0/@activity/@activities.6/@producedVariable">
+                    <producedVariable name="performEnrollmentResult" type="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@servicesContracts.1/@result"/>
+                  </activities>
+                  <activities xsi:type="urdad:Create">
+                    <producedVariable name="enrollForPresentationResult" type="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@servicesContracts.0/@result"/>
+                  </activities>
+                  <activities xsi:type="urdad:Assign">
+                    <source name="invoiceSource">
+                      <queryExpression language="OCL" expressionString="issueInvoiceResult.invoice"/>
+                    </source>
+                    <to name="invoiceTarget">
+                      <queryExpression language="OCL" expressionString="enrollForPresentationResult.invoice"/>
+                    </to>
+                  </activities>
+                  <activities xsi:type="urdad:Assign">
+                    <source name="enrollmentConfirmationSource">
+                      <queryExpression language="OCL" expressionString="performEnrollmentResult.enrollmentCOnfirmation"/>
+                    </source>
+                    <to name="enrollmentConfirmationTarget">
+                      <queryExpression language="OCL" expressionString="enrollForPresentationResult.enrollmentConfirmation"/>
+                    </to>
+                  </activities>
+                  <activities xsi:type="urdad:Assign">
+                    <source name="studyGuidesSource">
+                      <queryExpression language="OCL" expressionString="performEnrollmentResult.studyGuide"/>
+                    </source>
+                    <to name="studyGuidesTarget">
+                      <queryExpression language="OCL" expressionString="enrollForPresentationResult.studyGuide"/>
+                    </to>
+                  </activities>
+                  <activities xsi:type="urdad:ReturnResult" resultVariable="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@services.0/@activity/@activities.4/@conditionalActivities.0/@activity/@activities.10/@producedVariable"/>
+                </activity>
+                <condition name="enrollmentMeetsPrerequisitesMet">
+                  <constraintExpression language="OCL" expressionString="checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true"/>
+                </condition>
+              </conditionalActivities>
+              <elseActivity xsi:type="urdad:RaiseException" exception="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@dataTypes.0"/>
+            </activities>
+          </activity>
+          <requestVariable name="enrollForPresentationRequest" type="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@servicesContracts.0/@request"/>
+          <resultVariable name="enrollForPresentationResult" type="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@servicesContracts.0/@result"/>
+          <functionalRequirements requiredService="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.0/@servicesContracts.0" usedToAddress="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@servicesContracts.0/@preCondition"/>
+          <functionalRequirements requiredService="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@servicesContracts.0" usedToAddress="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.2/@servicesContracts.0/@preCondition //@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@servicesContracts.0/@postCondition"/>
+          <functionalRequirements requiredService="//@responsibilityDomains.0/@responsibilityDomains.5/@responsibilityDomains.4/@servicesContracts.1">
+            <usedToAddress xsi:type="urdad:PreCondition" href="training.urdad#EMFTEXT_INTERNAL_URI_FRAGMENT_101_enrollmentProcessPerformed"/>
+          </functionalRequirements>
+        </services>
+      </responsibilityDomains>
+    </responsibilityDomains>
+  </responsibilityDomains>
+  <responsibilityDomains name="UrdadStandardProfile">
+    <responsibilityDomains name="Primitives">
+      <dataTypes xsi:type="urdad:BasicDataType" name="Boolean"/>
+      <dataTypes xsi:type="urdad:BasicDataType" name="Integer"/>
+      <dataTypes xsi:type="urdad:BasicDataType" name="FloatingPointNumber"/>
+      <dataTypes xsi:type="urdad:BasicDataType" name="String"/>
+      <dataTypes xsi:type="urdad:BasicDataType" name="Date"/>
+      <dataTypes xsi:type="urdad:BasicDataType" name="URI"/>
+    </responsibilityDomains>
+    <responsibilityDomains name="Storage">
+      <responsibilityDomains name="StorageClient"/>
+      <dataTypes xsi:type="urdad:DataStructure" name="Entity" abstract="true">
+        <features xsi:type="urdad:Attribute" name="identifier" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.5"/>
+      </dataTypes>
+      <dataTypes xsi:type="urdad:Exception" name="EntityAlreadyStoredException"/>
+      <dataTypes xsi:type="urdad:Exception" name="EntityNotStoredException"/>
+      <dataTypes xsi:type="urdad:DataStructure" name="StorageQuery">
+        <features xsi:type="urdad:Attribute" name="queryLanguage" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.5"/>
+        <features xsi:type="urdad:Attribute" name="queryExpression" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.3"/>
+      </dataTypes>
+      <conditions name="EntityNotStored"/>
+      <conditions name="EntityStored"/>
+      <servicesContracts name="storeEntity">
+        <request name="StoreEntityRequest">
+          <features xsi:type="urdad:Composition" name="entityToPersist" relatedType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0"/>
+        </request>
+        <result name="StoreEntityResult">
+          <features xsi:type="urdad:Composition" name="persistedEntity" relatedType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0"/>
+        </result>
+        <preCondition name="entityNotYetStored" requiredBy="//@responsibilityDomains.1/@responsibilityDomains.1/@responsibilityDomains.0" condition="//@responsibilityDomains.1/@responsibilityDomains.1/@conditions.0" exception="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.1"/>
+      </servicesContracts>
+      <servicesContracts name="retrieveEntity">
+        <request name="RetrieveEntityRequest">
+          <features xsi:type="urdad:Attribute" name="entityIdentifier" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.1"/>
+        </request>
+        <result name="RetrieveEntityResult">
+          <features xsi:type="urdad:Composition" name="retrievedEntity" relatedType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0"/>
+        </result>
+        <preCondition name="entityStored" requiredBy="//@responsibilityDomains.1/@responsibilityDomains.1/@responsibilityDomains.0" condition="//@responsibilityDomains.1/@responsibilityDomains.1/@conditions.1" exception="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.2"/>
+      </servicesContracts>
+      <servicesContracts name="removeEntity">
+        <request name="RemoveEntityRequest">
+          <features xsi:type="urdad:Attribute" name="entityIdentifier" type="//@responsibilityDomains.1/@responsibilityDomains.0/@dataTypes.1"/>
+        </request>
+        <result name="RemoveEntityResult"/>
+      </servicesContracts>
+      <servicesContracts name="updateEntity">
+        <request name="UpdateEntityRequest">
+          <features xsi:type="urdad:Composition" name="newEntityState" relatedType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0"/>
+        </request>
+        <result name="UpdateEntityResult">
+          <features xsi:type="urdad:Composition" name="persistedEntity" relatedType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0"/>
+        </result>
+        <preCondition name="entityNotStored" requiredBy="//@responsibilityDomains.1/@responsibilityDomains.1/@responsibilityDomains.0" condition="//@responsibilityDomains.1/@responsibilityDomains.1/@conditions.0" exception="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.2"/>
+      </servicesContracts>
+      <servicesContracts name="findEntities">
+        <request name="FindEntitiesRequest">
+          <features xsi:type="urdad:Composition" name="query" relatedType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.3"/>
+        </request>
+        <result name="FindEntitiesResult">
+          <features xsi:type="urdad:Composition" name="entity" relatedType="//@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0">
+            <multiplicityConstraint xsi:type="urdad:Many"/>
+          </features>
+        </result>
+      </servicesContracts>
+    </responsibilityDomains>
+  </responsibilityDomains>
+</urdad:Model>

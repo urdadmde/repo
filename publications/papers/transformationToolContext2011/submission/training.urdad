@@ -1,0 +1,418 @@
+Model Training
+
+ResponsibilityDomain Training
+{
+  ResponsibilityDomain Student {}
+  ResponsibilityDomain TrainingRegulator {}
+  ResponsibilityDomain CreditRegulator {}
+  ResponsibilityDomain Shareholder {}
+  ResponsibilityDomain Client {}
+  
+  ResponsibilityDomain TrainingInstitution
+  {
+    ResponsibilityDomain Academic
+    {
+      ResponsibilityDomain CourseManagement
+      {
+        DataStructure Course
+        {
+            has attribute name ofType String
+            has many association coursePrerequisite ofType Course 
+        }
+      }
+      ResponsibilityDomain Assessment
+      {
+        Exception StudentDoesNotSatisfyPrerequisitesException {}
+        ServiceContract checkStudentSatisfiesCoursePrerequisites
+        {
+        
+          PreCondition studentRegistered checks personIsRegistered 
+            raises PersonNotRegisteredException isRequiredBy (Shareholder)
+          
+          Request DataStructure CheckStudentSatisfiesCoursePrerequisitesRequest
+          {
+            has component studentIdentification ofType PersonIdentification
+            has association presentation ofType Presentation
+          }
+          Result DataStructure CheckStudentSatisfiesCoursePrerequisitesResult
+          {
+            has attribute prerequisitesSatisfied ofType Boolean
+          } 
+        } 
+        ResponsibilityDomain Validation
+        {
+            ServiceContract checkStudentSatisfiesEnrollmentPrerequisites
+            {
+                Request DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesRequest 
+                {
+                    has component studentIdentification ofType PersonIdentification
+                    has association presentationIdentifier ofType Presentation
+                }
+                Result DataStructure CheckStudentSatisfiesEnrollmentPrerequisitesResult 
+                {
+                    has attribute enrollmentPrerequisitesMet ofType Boolean
+                    has association personIdentifier ofType Person
+                    has association presentationIdentifier ofType Presentation
+                }
+            }
+        }
+      }
+      ResponsibilityDomain StudyGuides
+      {
+        DataStructure StudyGuide {}
+        ServiceContract provideStudyGuide
+        {
+          PreCondition studentIsRegistered checks personIsRegistered isRequiredBy (Shareholder)
+          Request DataStructure ProvideStudyGuideRequest 
+          {
+            has association courseIdentifier ofType Course
+            has association studentIdentifier ofType Student
+          }            
+          Result DataStructure ProvideStudyGuideResult 
+          {
+            has component studyGuide ofType StudyGuide
+          }                     
+        }
+      }
+    }
+    ResponsibilityDomain ClientRelationshipManagement
+    {
+	  DataStructure Address
+      {
+        has many attribute addressLine ofType String
+      }
+      DataStructure LegalEntity is Entity
+      {
+        has attribute name ofType String
+        has component legalAddress ofType Address
+        (Note en-ZA: "Any party you can bill and take to court, e.g. a person or an organization.")
+      }
+      DataStructure Organization is LegalEntity {}
+	  DataStructure Person is LegalEntity {}
+      DataStructure Identification is Entity
+      {
+        abstract = true
+        has association issuingOrganization ofType Organization
+      } 
+      DataStructure CompanyIdentification is Identification
+      {
+        has attribute companyRegistrationNumber ofType String
+      }
+      
+      DataStructure PersonIdentification is Identification
+      {
+        abstract = true
+        has association person ofType Person
+      } 
+      DataStructure Passport is PersonIdentification
+      {
+        has attribute passportNumber ofType String
+      }
+      DataStructure OrganizationMembershipCard is PersonIdentification
+      {
+        has attribute cardNumber ofType String
+        (Note en-ZA: "For example a student or and employee card")
+      }
+      Condition personIsRegistered
+      Exception PersonNotRegisteredException {}
+      ServiceContract provideRegistrationDetails
+      {
+        Request DataStructure ProvideRegistrationDetailsRequest 
+        {
+            has component personIdentification ofType PersonIdentification
+            has association presentation ofType Presentation
+        }
+        Result DataStructure ProvideRegistrationDetailsResult 
+        {
+            has component personDetails ofType Person
+        }
+      }
+    }
+    ResponsibilityDomain Finance
+    {
+      Condition invoiceForEnrollmentIssued
+      Exception NoInvoiceIssuedForEnrollmentException {}
+      Condition financialPrerequisitesSatisfied 
+      Exception FinancialPrerequisitesNotSatisfiedException {}
+      ServiceContract issueInvoice
+      {
+        PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied isRequiredBy ()
+        Request DataStructure IssueInvoiceRequest 
+        {
+            has component clientIdentification ofType Identification
+            has many component invoiceItems ofType InvoiceItem
+        }
+        Result DataStructure IssueInvoiceResult 
+        {
+            has component invoice ofType Invoice
+        }
+      }
+      ServiceContract provideInvoiceForEnrollment
+      {
+        PreCondition invoiceForEnrollmentExists checks invoiceForEnrollmentIssued 
+            raises NoInvoiceIssuedForEnrollmentException isRequiredBy (Finance)
+        Request DataStructure  ProvideInvoiceForEnrollmentRequest {}
+        Result DataStructure ProvideInvoiceForEnrollmentResult {}
+      }
+      DataStructure Invoice is Entity
+      {
+        has attribute invoiceNumber ofType String
+        has attribute invoiceDate ofType Date
+        has component clientDetails ofType LegalEntity
+        has component many invoiceItem ofType InvoiceItem
+      }
+      DataStructure Chargeable is Entity {}
+      DataStructure InvoiceItem
+      {
+        has attribute cost ofType FloatingPointNumber
+        has attribute quantity ofType Integer
+        has association chargeableIdentifier ofType Chargeable
+      }
+    }
+    ResponsibilityDomain PresentationManagement
+    {
+        DataStructure Location is Entity
+        {
+            has attribute name ofType String
+            has component address ofType Address
+        }
+        DataStructure Presentation is Chargeable 
+        {
+            has attribute name ofType String
+            has attribute startDate ofType Date
+            has association location ofType Location
+        }
+    }  
+    ResponsibilityDomain Enrollments
+    {
+      ResponsibilityDomain PresentationManagement
+      {
+        DataStructure PresentationDetails
+        {
+            has association course ofType Course
+        }
+        ServiceContract enlistStudentForPresentation
+        {
+          PreCondition studentIsRegistered checks personIsRegistered 
+            raises PersonNotRegisteredException isRequiredBy (Shareholder)
+          Request DataStructure EnlistStudentForPresentationRequest {}
+          Result DataStructure EnlistStudentForPresentationResult {}
+        }
+      }  
+      ResponsibilityDomain ProofOfEnrollments
+      {
+        DataStructure ProofOfEnrollment is Entity
+        {
+            has component studentDetails ofType Person
+            has component presentationDetails ofType Presentation
+        }
+        ServiceContract provideProofOfEnrollment
+        {
+          PreCondition studentIsRegistered checks personIsRegistered 
+            raises PersonNotRegisteredException isRequiredBy (Shareholder TrainingRegulator)
+          Request DataStructure ProvideProofOfEnrollmentRequest {}
+          Result DataStructure ProvideProofOfEnrollmentResult {}
+        }
+      }
+      Condition enrollmentPrerequisitesSatisfied OCL:""
+      Exception EnrollmentPrerequisitesNotSatisfiedException {}
+      ServiceContract enrollForPresentation
+      {
+        PreCondition financialPrerequisitesMet checks financialPrerequisitesSatisfied
+            raises FinancialPrerequisitesNotSatisfiedException
+            isRequiredBy (Shareholder)    
+        PreCondition enrollmentPrerequisitesMet checks enrollmentPrerequisitesSatisfied
+            raises EnrollmentPrerequisitesNotSatisfiedException
+            isRequiredBy (TrainingRegulator Student) 
+        PostCondition enrollmentProcessPerformed ensures enrollmentPerformed
+            isRequiredBy (Student Client TrainingRegulator)    
+        PostCondition invoiceIssued ensures invoiceForEnrollmentIssued
+            isRequiredBy (Shareholder Client CreditRegulator)    
+        Request DataStructure EnrollForPresentationRequest 
+        {
+            has association presentationIdentifier ofType Presentation
+            has component studentIdentification ofType PersonIdentification
+            has component payerIdentification ofType Identification         
+        }
+        Result DataStructure EnrollForPresentationResult 
+        {
+            has component proofOfEnrollment ofType ProofOfEnrollment
+            has component invoice ofType Invoice
+            has component studyGuide ofType StudyGuide
+        }
+      }
+      Service enrollForPresentationImpl realizes enrollForPresentation
+      {
+        Request Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+        Result Variable enrollForPresentationResult ofType EnrollForPresentationResult
+        use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
+        use issueInvoice toAddress (financialPrerequisitesMet invoiceIssued) 
+        use performEnrollment toAddress (enrollmentProcessPerformed)
+        doSequential
+        {
+            create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
+                ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest
+            assign Query studentDetailsSource OCL:"enrollForPresentationRequest.studentIdentification" to 
+                Query studentDetailsTarget OCL:"checkEnrollmentPrerequisitesRequest.studentIdentification"
+            assign Query presentationIdentifierSource OCL:"enrollForPresentationRequest.presentationIdentifier" to
+                Query presentationIdentifierTarget OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"     
+            requestService checkStudentSatisfiesEnrollmentPrerequisites 
+                with checkStudentSatisfiesEnrollmentPrerequisitesRequest 
+                yields Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+                    ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
+            choice
+            {
+                if Condition enrollmentMeetsPrerequisitesMet 
+                    OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true"
+                    doSequential
+                    {
+                        create Variable issueInvoiceRequest ofType IssueInvoiceRequest
+                        assign Query clientIdentificationSource OCL: "enrollForPresentationRequest.payerIdentification" to 
+                            Query clientIdentificationTarget OCL:"issueInvoiceRequest.clientIdentification"
+                        create Variable invoiceItem ofType InvoiceItem    
+			            assign Query presentationIdentifierSource OCL:"enrollForPresentationRequest.presentationIdentifier" to
+			                Query presentationIdentifierTarget OCL:"invoiceItem.chargeableIdentifier"
+			            add Query invoiceItemSource OCL:"invoiceItem" to
+			                Query invoiceItemTarger OCL:"issueInvoiceRequest.invoiceItems"         
+                        requestService issueInvoice with issueInvoiceRequest 
+                            yields Variable issueInvoiceResult ofType IssueInvoiceResult
+                        {
+                            on FinancialPrerequisitesNotSatisfiedException 
+                                raiseException FinancialPrerequisitesNotSatisfiedException
+                        }
+                        create Variable enrollRequest ofType PerformEnrollmentRequest 
+                        assign Query personIdentifierSource OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.personIdentifier" to
+                            Query personIdentierTarget OCL:"performEnrollmentRequest.personIdentifier"
+                        assign Query presentationIdentifierSource OCL:"enrollForPresentationRequest.presentationIdentifier" to
+                            Query presentationIdentifierTarget OCL:"performEnrollmentRequest.presentationIdentifier"    
+                        requestService performEnrollment with enrollRequest 
+                            yields Variable performEnrollmentResult ofType PerformEnrollmentResult
+                        create Variable enrollForPresentationResult ofType EnrollForPresentationResult
+                        assign Query invoiceSource OCL:"issueInvoiceResult.invoice" to
+                            Query invoiceTarget OCL:"enrollForPresentationResult.invoice"
+                        assign Query enrollmentConfirmationSource OCL:"performEnrollmentResult.enrollmentCOnfirmation" to
+                            Query enrollmentConfirmationTarget OCL:"enrollForPresentationResult.enrollmentConfirmation"
+                        assign Query studyGuidesSource OCL:"performEnrollmentResult.studyGuide" to
+                            Query studyGuidesTarget OCL:"enrollForPresentationResult.studyGuide"    
+                        returnResult  enrollForPresentationResult
+                    }
+                else
+                    raiseException EnrollmentPrerequisitesNotSatisfiedException
+                        
+            }
+        }  
+      }
+      
+      Condition enrollmentPerformed
+      ServiceContract performEnrollment
+      {
+        Request DataStructure PerformEnrollmentRequest 
+        {
+            has association presentationIdentifier ofType Presentation
+            has association personIdentifier ofType Person
+        }
+        Result DataStructure PerformEnrollmentResult 
+        {
+            has component enrollmentConfirmation ofType ProofOfEnrollment
+            has component studyGuide ofType StudyGuide
+        }
+      }
+    }
+    
+  }
+  
+
+}  
+ResponsibilityDomain UrdadStandardProfile
+{
+  ResponsibilityDomain Primitives
+  {
+    BasicDataType Boolean
+    BasicDataType Integer
+    BasicDataType FloatingPointNumber
+    BasicDataType String
+    BasicDataType Date
+    BasicDataType URI
+  }
+  ResponsibilityDomain Storage
+  {
+    ResponsibilityDomain StorageClient
+    {
+    }
+    DataStructure Entity 
+    {
+        abstract = true
+        has attribute identifier ofType URI 
+    }
+    
+    Condition EntityNotStored
+    Condition EntityStored
+    Exception EntityAlreadyStoredException {}
+    Exception EntityNotStoredException {}
+    ServiceContract storeEntity
+    {
+        PreCondition entityNotYetStored checks EntityNotStored 
+            raises EntityAlreadyStoredException isRequiredBy (StorageClient)
+        Request DataStructure StoreEntityRequest
+        {
+            has component entityToPersist ofType Entity
+        }
+        Result DataStructure StoreEntityResult
+        {
+            has component persistedEntity ofType Entity
+        }
+    }
+    ServiceContract retrieveEntity
+    {
+        PreCondition entityStored checks EntityStored 
+            raises EntityNotStoredException isRequiredBy (StorageClient)
+        Request DataStructure RetrieveEntityRequest
+        {
+            has attribute entityIdentifier ofType Integer
+        }
+        Result DataStructure RetrieveEntityResult
+        {
+            has component retrievedEntity ofType Entity
+        }
+    }
+    ServiceContract removeEntity
+    {
+        Request DataStructure RemoveEntityRequest
+        {
+            has attribute entityIdentifier ofType Integer
+        }
+        Result DataStructure RemoveEntityResult
+        {
+        }
+    }
+    ServiceContract updateEntity
+    {
+        PreCondition entityNotStored checks EntityNotStored 
+            raises EntityNotStoredException isRequiredBy (StorageClient)
+        Request DataStructure UpdateEntityRequest
+        {
+            has component newEntityState ofType Entity
+        }
+        Result DataStructure UpdateEntityResult
+        {
+            has component persistedEntity ofType Entity
+        }
+    }
+    DataStructure StorageQuery
+    {
+        has attribute queryLanguage ofType URI
+        has attribute queryExpression ofType String 
+    }
+    ServiceContract findEntities
+    {
+        Request DataStructure FindEntitiesRequest
+        {
+            has component query ofType StorageQuery
+        }
+        Result DataStructure FindEntitiesResult
+        {
+            has many component entity ofType Entity
+        }
+    }
+  }
+}

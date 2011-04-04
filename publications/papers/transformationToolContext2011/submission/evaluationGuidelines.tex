@@ -1,0 +1,53 @@
+\section{Evaluation guidelines}
+
+This section discusses some guidelines which we recommend to evaluate different transformation solutions.
+
+\subsection{Mapping preferences}
+
+When evaluating implementation mappings, we would recommend the following preferences, i.e. that transformations which use the preferred mapping strategies are rated higher than those which do not.
+\begin{itemize}
+  \item Declarative bi-directional mappings should be preferred over operational/algorithmic uni-directional mappings. 
+  \item Standard mapping technologies like QVT relational should be preferred over custom mapping technologies.
+  \item More simple, decoupled mapping rules should be preferred over fewer, complex rules.
+  \item Standard target technologies commonly used for enterprise systems (e.g.\ JavaEE, SOA, Microsoft.Net) should be preferred over technologies seldom used for enterprise systems.
+\end{itemize}
+
+\subsection{Completeness measure}
+The implementation should be tested against the tests developed or generated for the service contracts. 
+
+Completeness checks should include
+\begin{itemize}
+  \item whether the interfaces for the service contracts have been generated and to what extend they comply with the implementation guidelines,
+  \item the completeness of the data structure specifications and the degree to which they confirm to the implementation guidelines,
+  \item the completeness of the service implementations including whether
+    \begin{itemize}
+     \item the processes have been mapped onto method bodies,
+     \item whether the request and result data structures are populated in the generated process specification,
+     \item whether the conditionals for conditional flows and while loops are generated,
+    \end{itemize}
+  \item whether unit tests are generated from the service contracts and the completeness of the unit tests in the form of degree coverage of pre- and post-conditions.
+\end{itemize}
+
+\subsection{Correctness tests}
+
+The correctness can be tested by assessing whether the service is realized in such a way that
+\begin{itemize}
+  \item if a particular precondition is not met, that the service is aborted raising that exception which was assigned in the model to that particular precondition.
+  \item if all preconditions are met that the result object is obtained and all post-conditions evaluate to true after the service has been provided.
+\end{itemize}
+
+%TODO: Add details
+%       Correctness test: which are the reference input/ouput documents (models/graphs) and how should they be used? Ideally, a case description includes a testsuite, as well as a test driver
+%             (The test driver can be an online web service, or a local script that can be deployed in Online demo in SHARE.)
+% 
+%           How to measure the quality of submitted solutions, at the design level?
+%             (e.g., measure the number of rules, the conciseness of rules, ...)
+
+
+%\subsection{Systematic Evaluation Guidelines}
+%TODO: Add details
+
+%     * How can the solutions be evaluated systematically using information technology?
+%       Please provide one of the following:
+%           a simple spreadsheet (an evaluation form that can be aggregated easily into an overview similar to this example table from 2010),
+%           a so-called ?classification scheme? in ResearchR.org (or a similar web 2.0 platform.)
