@@ -1,6 +1,6 @@
-\section{Assessing the URDAD metamodel \label{sec:metamodelAssessment}}
+\section{Assessing the URDAD DSL \label{sec:assessment}}
 
-
+In this section we analyze the URDAD metamodel for unsatisfiable and redundent model elements, compare the complexity of the URDAD and UML metamodels and the URDAD-DSL and UML encoded models, and assess the sufficiency of the URDAD-DSL for code and test generation.
 
 %-------------------------------------------------------------------------------------
 
@@ -9,19 +9,49 @@
 
 \begin{itemize}
   \item Check that no classes unsatisfiable
-  \item Check consistency of OCL constraints
   \item Redundency checks (redundent classes, redundent attributes and properties) redundend constraints
+  \item Check consistency of OCL constraints
 \end{itemize}
+
+%-------------------------------------------------------------------------------------
+
+\subsection{Complexity}
+
+Language complexity and encoded model complexity. The UML metamodel is orders of magnitude larger than the URDAD metamodel.
+
+Additional artifacts required by an UML encoding of an URDAD model
+\begin{itemize}
+  \item Representation of service as both use case and service in services contract
+  \item Realization link linking service and use case
+  \item Package and interface duplication, each package representing a responsibility domain and defining an services contract (interface) for the responsibility domain.
+  \item
+\end{itemize}
+
+
+%-------------------------------------------------------------------------------------
+
+\subsection{Sufficiency}
+
+This section assesses the sufficiency of the URDAD-DSL with respect to requirements traceability, implementation mappings and test generation. 
+
+Requirements traceability is important for design validation and estimation. Validation includes assessing sufficiency and neccessity, i.e.\ assessing whether all requirements are met and whether all model elements are required. This has to be done across levels of granularity \cite{dick_design_2005}. Ramesh et al\. \cite{ramesh_toward_2001} identify four core traceability link types including (i) \emph{satisfaction links} which represent links between requirements and activities which satisfy them, (ii) \emph{evolutional links} which link change requests and the resulting changes, (iii) \emph{rationale links} which link requirements to the rationale (e.g. goals) which drive them and (iv) \emph{dependency links} which represent links between model elements.
+
+In the URDAD metamodel satisfaction links are represented by \verb+usedToAddress+ links between services and pre- and post-conditions. Evolutionary links are not addressed within the URDAD metamodel and are left to the version control environment. Higher level purpose, goals and rationale links are also not addressed in URDAD. The metamodel does, however, include the \verb+requiredBy+ linkage between requirements and the stakeholders which require them. A requirement around a service may be required by a responsibility domain (i.e.\ a roles) or by another service. The metamodel enforces that the traceability of a requirement and the responsibility domains/services for which require them is specified. Finally, dependency links are included in the model. The dependency is formost between services and service contracts, i.e.\ a particular process design for a service has dependencies on services contracts (not on particular service implementations). Note that the URDAD metamodel does not differentiate between dependency and satisfaction links. Requirements result in dependencies and if the dependencies are available, the requirements are satisfied.
+
+Code generation in a services oriented approach requires for each service the specification of the process through which this higher level service is assembled from lower level services. This includes the standard process logic around sequential, concurrent and conditional activities, specification of service requests, the maintenance of process state, the construction of the request object and the concepts of returning a result or raising an exception. In URDAD service requests are enforced to be made against services contracts, i.e. URDAD enforces decoupling between service providers. In this context URDAD assumes that the concrete service providers used to realize the services contracts are either injected by the run-time environment like in Spring or Java-EE based dependency injection, or are determined during the implementation mapping phase.
+
+The services contract specification within the URDAD-DSL contains the specification of service inputs and outputs, pre- and post-conditions and quality requirements. A pre-condition for a service is the requirement that a condition holds. If the pre-condition does not hold true, the service provider is entitled to refuse the service. A post-condition is a condition which must hold true after the service has been provided. The same condition may be a pre-condition for several services as well as a post condition for other services. For example, the condition \emph{studentIsRegistered} can be for the \verb+enrollStudentForCoursePresentation+ service as well as the post-condition for the \verb+registerStudent+ service. 
+
+In order for conditions to be reusable across several pre- and post-conditions, a condition needs to receive information. For example the \emph{studentIsRegistered} condition needs to receive the information about the student we are referring to. In addition conditions need to be specified with respect to the result object and information obtained from the environment. In a services oriented approach, environmental information is obtained through other services. For example, the \emph{studentIsRegistered} condition could be assessed by using services like \verb+isRegistered+ or \verb+provideRegistrationDetails+. The URDAD_DSL supports conditions with inputs specified in the pre and post-concitions of services and which are us, for functional testability one needs to specify a process assembled across services through which information from the environment is retrieved together with a set of state constraints applied across the obtained data objects containing the environmental information\footnote{Note that the test specification is not based on the design of a particular process (e.g. state chart), but independent of service realizations within a process independent services contract.}. Also in testability the decoupling of the test process from actual service implementations is enforced by requiring that the service requests tie into services contracts, not service implementations. 
+ 
 
 %-------------------------------------------------------------------------------------
 
 \subsection{Assessing model qualities}
 
+
+
 \begin{itemize}
-  \item Comparing complexity of URDAD-DSL and UML encodings of URDAD model
-    \begin{itemize}
-     \item UML model requires much more model elements to encode URDAD semantics.
-    \end{itemize}
   \item Completeness checks
 (What does completeness mean - That only technical information needs to be provided and that the full requirements
 from a business perspective are specified across levels of granularity.)
@@ -32,27 +62,5 @@ from a business perspective are specified across levels of granularity.)
 	or by default values.
     \end{itemize}
   \item Check that process addresses all functional requirements and nothing but the functional requirements.
-\end{itemize}
-
-%-------------------------------------------------------------------------------------
-
-\subsection{Sufficiency}
-
-An URDAD model is meant to be able to absorb the information required for requirements traceability, implementation mappings and test generation.
-
-Requirements traceability is important for design validation and estimation. Validation includes assessing sufficiency and neccessity, i.e.\ assessing whether all requirements are met and whether all model elements are required. This has to be done across levels of granularity \cite{dick_design_2005}. Ramesh et al\. \cite{ramesh_toward_2001} identify four core traceability link types including (i) \emph{satisfaction links} which represent links between requirements and activities which satisfy them, (ii) \emph{evolutional links} which link change requests and the resulting changes, (iii) \emph{rationale links} which link requirements to the rationale (e.g. goals) which drive them and (iv) \emph{dependency links} which represent links between model elements.
-
-In the URDAD metamodel satisfaction links are represented by \verb+usedToAddress+ links between services and pre- and post-conditions. Evolutionary links are not addressed within the URDAD metamodel and are left to the version control environment. Higher level purpose, goals and rationale links are also not addressed in URDAD. The metamodel does, however, include the \verb+requiredBy+ linkage between requirements and the stakeholders which require them. A requirement around a service may be required by a responsibility domain (i.e.\ a roles) or by another service. Finally, dependency links are included in the model. The dependency is formost between services and service contracts, i.e.\ a particular process design for a service has dependencies on services contracts (not on particular service implementations). Note that the URDAD metamodel does not differentiate between dependency and satisfaction links. Requirements result in dependencies and if the dependencies are available, the requirements are satisfied.
-
-
-
-
-%-------------------------------------------------------------------------------------
-
-\subsection{Usability assessment (potentially an empirical study)}
-
-\begin{itemize}
- \item Have 2 groups doing URDAD modeling, one using UML encoding and UML tools and one using URDAD encoding.
- \item Assess relative productivity, error densities and completeness of the two resultant models 
 \end{itemize}
 
