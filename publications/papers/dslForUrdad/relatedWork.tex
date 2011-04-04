@@ -1,0 +1,12 @@
+\section{Related work \label{sec:relatedWork}}
+
+\begin{itemize}
+ \item \cite{iacob_model-driven_2008} discuss the mapping of business rules specified using OMG's {\em Semantics for Business Vocabulary and Rules} (SBVR) to service specification and orchestration, mapping onto BPEL process specifications via MDA tools.
+
+  \item \cite{asnina_computation_2010} stress the need for performing the modeling in the problem domain as well as the need to accumulate the requirements within a single model. They effectively also group services into responsibility domains represented by their notion of feature sets, decompose functional requirements across levels of granularity, orchestrate higher level processes across lower level services and define the notion of functional with cause and effect which can be viewed as a way of specifying a services contract. In addition they provide a {\em topological functional model} (TFM) for mapping technology neutral service requirements onto available concrete services pool. The TFM is independent of the modeling technique and can be applied to an URDAD model
+
+  \item \cite{cardei_model_2008} discuss the {\em Requirements Driven Design Automation} methodology (RDDA) for requirements specification which are encoded SYSML diagrams to which semantic descriptions are added. The model is transformed to the {\em One Pass to Production} (OPP) design language, the ODL, which is an OWL based ontology from which the requirements are validated for consistency and completeness. Their approach is structure focused, putting little emphasis on services contracts and recursive orchestration of higher level services from lower level services.
+
+  \item \cite{bashardoust-tajali_extracting_2008} stress need for testable domain models. Instead of defining services contracts explicitly via pre- and post-conditions, they generate the effective services contracts from process specifications and subsequently extract tests from the generated contracts.
+
+\end{itemize}
