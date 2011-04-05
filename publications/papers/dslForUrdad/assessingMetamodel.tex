@@ -19,9 +19,12 @@ In this section we analyze the URDAD metamodel for unsatisfiable and redundent m
 
 \subsection{Complexity}
 
+When looking at complexity we have the complexity of the respective UML and URDAD-DSL languages and the complexity of the models specified using these languages. As pointed out in \cite{mohagheghi_evaluating_2007}, the complexity of the modeling language itself is determined by the complexity of the metamodel. UML being a generic language is substantially larger and more complex than the domain specific language for URDAD. For example, the UML metamodel has about an order of magnitude more classes than the URDAD-DSL metamodel. The use of UML is also a lot more complex
+
+
 Both structural and functional complexity - lang only structural
 
-UML being a generic language is substantially more complex than the domain specific language for URDAD.
+
 Language complexity and encoded model complexity. The UML metamodel is orders of magnitude larger than the URDAD metamodel. 
 
 
@@ -54,6 +57,12 @@ The services contract specification within the URDAD-DSL contains the specificat
 
 In order for conditions to be reusable across several pre- and post-conditions, a condition needs to receive information. For example the \emph{studentIsRegistered} condition needs to receive the information about the student we are referring to. In addition conditions need to be specified with respect to the result object and information obtained from the environment. In a services oriented approach, environmental information is obtained through other services. For example, the \emph{studentIsRegistered} condition could be assessed by using services like \verb+isRegistered+ or \verb+provideRegistrationDetails+. The URDAD-DSL supports conditions with inputs specified in the pre and post-concitions of services and which are us, for functional testability one needs to specify a process assembled across services through which information from the environment is retrieved together with a set of state constraints applied across the obtained data objects containing the environmental information\footnote{Note that the test specification is not based on the design of a particular process (e.g. state chart), but independent of service realizations within a process independent services contract.}. Also in testability the decoupling of the test process from actual service implementations is enforced by requiring that the service requests tie into services contracts, not service implementations. 
  
+
+%-------------------------------------------------------------------------------------
+
+\subsection{Language semantics}
+
+
 
 %-------------------------------------------------------------------------------------
 
