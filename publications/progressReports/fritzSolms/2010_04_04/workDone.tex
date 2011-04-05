@@ -1,0 +1,29 @@
+\section{Work done}
+
+The core work done includes
+\begin{itemize}
+ \item presented a talk ``Model driven engineering with URDAD'' at the FASTAR / ESPRESSO Workshop on 19 November 2010,
+ \item the definition of a metamodel for URDAD,
+ \item the definition of a concrete text syntax for URDAD, and the  encoding of an example model in the URDAD concrete syntax, generating an XMI file compliant to the URDAD metamodel,
+ \item writing of a submission for the transformation tool context,
+ \item writing of the \emph{A domain-specific language for URDAD} paper (to be completed), and
+ \item I have started specifying a concrete graphical syntax for URDAD.
+\end{itemize}
+
+\subsection{FASTAR / ESPRESSO Workshop Presentation}
+On 19 November I presented a vision paper for my project at the FASTAR / ESPRESSO Workshop held in North Pretoria. The presentation was reasonably well received and is being compiled into the introductory chapter for the PhD thesis.
+
+\subsection{URDAD metamodel}
+The URDAD metamodel was specified and defined within 4 core modules focused on some base elements (core), constraint specification (constraint), data structure specification (data), contract specification (contract) and process specification (process). We are confident that the metamodel is such that models complying to the metamodel facilitate full code and test generation in a very practical way. The metamodel is encoded in Ecore which is the reference implementation of EMOF within the ECLIPSE framework. Diagrammatic representation of the metamodel were generated for general communication purposes and will be used in the DSL paper.
+
+\subsection{Concrete text syntax specification}
+Initially we generated a default HUTN text syntax for our metamodel. Subsequently we used EMFText to define a more intuitive text syntax which is readable and ties fully into the metamodel. After adding the required process state management and sufficient semantics for defining testable services contracts the text syntax is, unfortunately, no longer a readable as we would have wished. This highlights the urgency of defining a usable graphical syntax and corresponding tools for the URDAD-DSL.
+
+\subsection{2011 Transformation Tool Contest submission}
+We had, in my opinion, a much stronger submission this year for the tool contest than what we had last year. However, I did not realize that for the transformation tool contest one was not allowed to leave the target metamodel non-specified (as is natural for an URDAD model which is meant to be technology neutral and facilitate transformation onto different target technologies and architectures). This together with the paper not specifying some of the concepts andtechnicalities we assume in sufficient details have resulted in yet another rejection of our submission.
+
+\subsection{A domain-specific language for URDAD paper}
+The paper is coming on. I am busy on the assessment section which is, I think, the most difficult section - hence I chose to pull this section forward. The URDAD metamodel description sections are relatively straight forward. The reading for the related work section has been done, but the section also needs to still be completed.
+
+\subsection{Concrete graphical syntax}
+A draft concrete graphical syntax not including the process specification has been developed. It still needs to be completed and validated.
