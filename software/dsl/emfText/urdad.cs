@@ -1,9 +1,21 @@
 SYNTAXDEF urdad
 FOR <http://www.urdad.org/2010/urdad/core>
-START Model,Expression,urdad.constraint.InverseCondition,urdad.constraint.AndCondition,urdad.constraint.OrCondition,urdad.constraint.XorCondition,urdad.constraint.StateCondition,urdad.data.Query,urdad.data.Constant,urdad.data.VariableReference,urdad.data.BasicDataType,urdad.data.DataStructure,urdad.data.Variable,urdad.contract.ResultConstraint,urdad.contract.ServiceContract
+START Model
 
 
 IMPORTS {
+	urdad.constraint:<http://www.urdad.org/2010/urdad/constraint>
+	urdad.data:<http://www.urdad.org/2010/urdad/data>
+	urdad.contract:<http://www.urdad.org/2010/urdad/contract>
+	urdad.process:<http://www.urdad.org/2010/urdad/process>
+	urdad.constraint:<http://www.urdad.org/2010/urdad/constraint>
+	urdad.data:<http://www.urdad.org/2010/urdad/data>
+	urdad.contract:<http://www.urdad.org/2010/urdad/contract>
+	urdad.process:<http://www.urdad.org/2010/urdad/process>
+	urdad.constraint:<http://www.urdad.org/2010/urdad/constraint>
+	urdad.data:<http://www.urdad.org/2010/urdad/data>
+	urdad.contract:<http://www.urdad.org/2010/urdad/contract>
+	urdad.process:<http://www.urdad.org/2010/urdad/process>
 	urdad.constraint:<http://www.urdad.org/2010/urdad/constraint>
 	urdad.data:<http://www.urdad.org/2010/urdad/data>
 	urdad.contract:<http://www.urdad.org/2010/urdad/contract>
@@ -28,12 +40,20 @@ TOKENSTYLES {
 	"ResponsibilityDomain" COLOR #7F0055, BOLD;
 	"Query" COLOR #7F0055, BOLD;
 	"Constraint" COLOR #7F0055, BOLD;
-	"Condition" COLOR #7F0055, BOLD;
 	"QualityConstraint" COLOR #7F0055, BOLD;
 	"FunctionalRequirements" COLOR #7F0055, BOLD;
 	"receiving" COLOR #7F0055, BOLD;
 	"yielding" COLOR #7F0055, BOLD;
+	"StateConstraint" COLOR #7F0055, BOLD;
 	"stateAssessmentProcess" COLOR #7F0055, BOLD;
+	"InverseConstraint" COLOR #7F0055, BOLD;
+	"inverseOf" COLOR #7F0055, BOLD;
+	"AndConstraint" COLOR #7F0055, BOLD;
+	"AND" COLOR #7F0055, BOLD;
+	"OrConstraint" COLOR #7F0055, BOLD;
+	"OR" COLOR #7F0055, BOLD;
+	"XorConstraint" COLOR #7F0055, BOLD;
+	"XOR" COLOR #7F0055, BOLD;
 	"from" COLOR #7F0055, BOLD;
 	"to" COLOR #7F0055, BOLD;
 	"many" COLOR #7F0055, BOLD;
@@ -48,12 +68,18 @@ TOKENSTYLES {
 	"ValueOf" COLOR #7F0055, BOLD;
 	"Exception" COLOR #7F0055, BOLD;
 	"attribute" COLOR #7F0055, BOLD;
-	"association" COLOR #7F0055, BOLD;
+	"identification" COLOR #7F0055, BOLD;
 	"identifying" COLOR #7F0055, BOLD;
+	"association" COLOR #7F0055, BOLD;
+	"linking" COLOR #7F0055, BOLD;
 	"aggregate" COLOR #7F0055, BOLD;
 	"component" COLOR #7F0055, BOLD;
 	"QualityRequirement" COLOR #7F0055, BOLD;
 	"requiredBy" COLOR #7F0055, BOLD;
+	"constraint" COLOR #7F0055, BOLD;
+	"with" COLOR #7F0055, BOLD;
+	"constructedUsing" COLOR #7F0055, BOLD;
+	"ResultConstraint" COLOR #7F0055, BOLD;
 	"PreCondition" COLOR #7F0055, BOLD;
 	"raises" COLOR #7F0055, BOLD;
 	"checks" COLOR #7F0055, BOLD;
@@ -82,7 +108,6 @@ TOKENSTYLES {
 	"add" COLOR #7F0055, BOLD;
 	"remove" COLOR #7F0055, BOLD;
 	"requestService" COLOR #7F0055, BOLD;
-	"with" COLOR #7F0055, BOLD;
 	"on" COLOR #7F0055, BOLD;
 	"raiseException" COLOR #7F0055, BOLD;
 	"returnResult" COLOR #7F0055, BOLD;
@@ -90,34 +115,6 @@ TOKENSTYLES {
 	"do" COLOR #7F0055, BOLD;
 	"forAll" COLOR #7F0055, BOLD;
 	"Note" COLOR #7F0055, BOLD;
-	"constructedUsing" COLOR #7F0055, BOLD;
-	"ConditionReference" COLOR #7F0055, BOLD;
-	"annotations" COLOR #7F0055, BOLD;
-	"constructConditionParameterProcess" COLOR #7F0055, BOLD;
-	"parameter" COLOR #7F0055, BOLD;
-	"condition" COLOR #7F0055, BOLD;
-	"ResultConstraint" COLOR #7F0055, BOLD;
-	"constraintExpression" COLOR #7F0055, BOLD;
-	"NotCondition" COLOR #7F0055, BOLD;
-	"operand" COLOR #7F0055, BOLD;
-	"AndCondition" COLOR #7F0055, BOLD;
-	"leftOperand" COLOR #7F0055, BOLD;
-	"rightOperand" COLOR #7F0055, BOLD;
-	"OrCondition" COLOR #7F0055, BOLD;
-	"XorCondition" COLOR #7F0055, BOLD;
-	"InverseCondition" COLOR #7F0055, BOLD;
-	"inverseOf" COLOR #7F0055, BOLD;
-	"AND" COLOR #7F0055, BOLD;
-	"OR" COLOR #7F0055, BOLD;
-	"XOR" COLOR #7F0055, BOLD;
-	"TypeIdentifier" COLOR #7F0055, BOLD;
-	"type" COLOR #7F0055, BOLD;
-	"Identification" COLOR #7F0055, BOLD;
-	"name" COLOR #7F0055, BOLD;
-	"multiplicityConstraint" COLOR #7F0055, BOLD;
-	"relatedType" COLOR #7F0055, BOLD;
-	"identification" COLOR #7F0055, BOLD;
-	"linking" COLOR #7F0055, BOLD;
 }
 
 RULES {
@@ -146,16 +143,16 @@ RULES {
 		 (postConditions)*
 	"}";
 
-	urdad.constraint.StateCondition ::= "Condition" name[] ("receiving" (parameter))?
+	urdad.constraint.StateConstraint ::= "StateConstraint" name[] ("receiving" (parameter))?
 	"{" 
 	  ("stateAssessmentProcess" (stateAssessmentProcess))?  
-	  (stateConstraints)* 
+	  (constraints)* 
 	"}";
 	
-	urdad.constraint.InverseCondition ::= "InverseCondition" name[] "inverseOf" operand[];
-	urdad.constraint.AndCondition ::= "AndCondition" name[] "=" leftOperand[] "AND" rightOperand[];
-	urdad.constraint.OrCondition ::= "OrCondition" name[] "=" leftOperand[] "OR" rightOperand[];
-	urdad.constraint.XorCondition ::= "XorCondition" name[] "=" leftOperand[] "XOR" rightOperand[];
+	urdad.constraint.InverseConstraint ::= "InverseConstraint" name[] "inverseOf" operand[];
+	urdad.constraint.AndConstraint ::= "AndConstraint" name[] "=" leftOperand[] "AND" rightOperand[];
+	urdad.constraint.OrConstraint ::= "OrConstraint" name[] "=" leftOperand[] "OR" rightOperand[];
+	urdad.constraint.XorConstraint ::= "XorConstraint" name[] "=" leftOperand[] "XOR" rightOperand[];
 	
 	urdad.data.RangeMultiplicity ::= "from" minOccurs[] "to" maxOccurs[];
 	urdad.data.Many ::= "many";
@@ -188,20 +185,20 @@ RULES {
 		"requiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
 
-	urdad.contract.ConditionConstraint ::= "condition" condition[] 
-		("with" (parameter) ("constructedUsing" (stateAssessmentProcess))?)?; 
+	urdad.constraint.StateConstraintReference ::= "constraint" constraint[] 
+		("with" (parameter) ("constructedUsing" (parameterConstructionProcess))?)?; 
 	
-	urdad.contract.ResultConstraint ::= "ResultConstraint" constraintExpression;
+	urdad.contract.ResultRequirement ::= "ResultConstraint" constraintExpression;
 	  
 	urdad.contract.PreCondition ::= "PreCondition" name[]
 	  "requiredBy" "("(requiredBy[])*")" 
       "raises" exception[] 
-	  ("checks" conditionReference)? 
+	  ("checks" stateConstraintReference)? 
 	  ("(" (annotations)*")")?;
 	  
 	urdad.contract.PostCondition ::= "PostCondition" name[] 
 		"requiredBy" "("(requiredBy[])*")"
-	  ("ensures" conditionReference)? 
+	  ("ensures" stateConstraintReference)? 
 	  ("(" (annotations)*")")?;
  		
 	urdad.process.ServiceRequirement ::= "use" requiredService[]
@@ -224,7 +221,7 @@ RULES {
 	
 	urdad.process.ActivitySequence ::= "doSequential" (name[])? "{" (activities)* "}"; 
 
-	urdad.process.If ::= "if" (constraint) (activity);
+	urdad.process.If ::= "if" (condition) (activity);
 
 	urdad.process.Choice ::= "choice" "{" (conditionalActivities)* ("else" (elseActivity)?) "}";
 	

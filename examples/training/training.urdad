@@ -41,7 +41,7 @@ ResponsibilityDomain UrdadStandardProfile
             yielding Variable retrieveEntityResult ofType RetrieveEntityResult
         {
             PreCondition entityStored requiredBy (PersistenceClient)
-                raises EntityNotStoredException checks condition entityIsStored 
+                raises EntityNotStoredException checks constraint entityIsStored 
                     with Query OCL:"retrieveEntityRequest.entityIdentifier"
                      
         }
@@ -56,7 +56,7 @@ ResponsibilityDomain UrdadStandardProfile
         
     }
 
-    Condition entityIsStored receiving Variable entityIdentifier ofType URI 
+    StateConstraint entityIsStored receiving Variable entityIdentifier ofType URI 
     {
         stateAssessmentProcess doSequential
         {
@@ -71,7 +71,7 @@ ResponsibilityDomain UrdadStandardProfile
         }
         Constraint OCL:"entityStored = true"
     }
-    InverseCondition entityIsNotStored inverseOf entityIsStored
+    InverseConstraint entityIsNotStored inverseOf entityIsStored
     Exception EntityAlreadyStoredException {}
     Exception EntityNotStoredException {}
     
@@ -81,10 +81,10 @@ ResponsibilityDomain UrdadStandardProfile
             yielding Variable storeEntityResult ofType StoreEntityResult
         {
             PreCondition entityNotStored requiredBy (PersistenceClient)
-                raises EntityAlreadyStoredException checks condition entityIsNotStored 
+                raises EntityAlreadyStoredException checks constraint entityIsNotStored 
                     with Query OCL:"storeEntityRequest.entityIdentifier"
             PostCondition entityStored requiredBy (PersistenceClient)
-                ensures condition entityIsStored 
+                ensures constraint entityIsStored 
                     with Query OCL:"storeEntityRequest.entityIdentifier"
         }
         
@@ -104,10 +104,10 @@ ResponsibilityDomain UrdadStandardProfile
             yielding Variable storeEntityResult ofType StoreEntityResult
         {
             PreCondition entityNotStored requiredBy (PersistenceClient)
-                raises EntityNotStoredException checks condition entityIsNotStored 
+                raises EntityNotStoredException checks constraint entityIsNotStored 
                     with Query OCL:"retrieveEntityRequest.entityIdentifier"
            PostCondition entityNotStored requiredBy (PersistenceClient)
-                ensures condition entityIsNotStored 
+                ensures constraint entityIsNotStored 
                     with Query OCL:"storeEntityRequest.entityIdentifier"
         }
         
@@ -404,7 +404,7 @@ ResponsibilityDomain Training
         has attribute cardNumber ofType String
         (Note en-ZA: "For example a student or and employee card")
       }
-      Condition personRegistered receiving Variable personIdentifier ofType Person
+      StateConstraint personRegistered receiving Variable personIdentifier ofType Person
       {
          
       }
