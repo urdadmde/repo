@@ -19,7 +19,53 @@ In this section we analyze the URDAD metamodel for unsatisfiable and redundent m
 
 \subsection{Complexity}
 
-When looking at complexity we have the complexity of the respective UML and URDAD-DSL languages and the complexity of the models specified using these languages. As pointed out in \cite{mohagheghi_evaluating_2007}, the complexity of the modeling language itself is determined by the complexity of the metamodel. UML being a generic language is substantially larger and more complex than the domain specific language for URDAD. For example, the UML metamodel has about an order of magnitude more classes than the URDAD-DSL metamodel. The use of UML is also a lot more complex
+The complexities of instance models will be the same irrespecitve of whether the models are encoded in the UML or the URDAD DSL. This is so because we are specifying the same services contracts, processes and data structures. For example, it does not make sense to evaluate the cyclomatic complexity of an URDAD-DSL encoded process and compare it to the cyclomatic complexity of the same process in a UML encoding.
+
+On the other hand, there are significant differences in the complexity of (a) the actual modeling languages themselves and (b) encoding a model in the respective modeling languages. The complexity of the languages themselves can be assessed by assessing the complexity of their respective metamodels \cite{mohagheghi_evaluating_2007}. A more complex language generally entails a steeper learning curve, but need not necessarily result in more complex model encodings. Often the converse is true. A more complex language may have more expressive power and thus smaller model sizes. 
+
+However, the aim of a domain specific language is usually to be both, provide a simpler language which introduces only the concepts required for a particular domain, and to provide the expressive power to effectively make the statemets required for that domain, i.e. to be both, a simpler language and to result in more simple models. Being a generic language aiming to please UML. This is evident from the metamodel of UML containing roughly an order of magnitude more classes than the URDAD-DSL metamodel.
+
+Also complexity to extract information from model.
+
+"An essential
+requirement of a meta-modeling language is therefore
+its ability to concisely capture all aspects of a modeling
+language, including its syntax and semantics [2]. Rossi
+et al. write that that there exists an intrinsic
+dependency between the metamodel and the
+learnability of a language since a language?s metamodel
+serves as an indication of its functional
+complexity [12]. A metamodel?s conceptual
+complexity should lead to greater expressive power,
+and thus smaller models in size. For example,
+modeling languages developed for a specific domain
+have more expressive power and are closer to the
+experts? knowledge of the domain than generalpurpose
+modeling languages, but may be more
+complex to learn for a novice.
+Rossi et al. therefore propose measuring the
+complexity of a modeling language by looking at its
+meta-model. A modeling language is viewed as a set of
+techniques such as class diagrams and state machine
+diagrams. For each technique, metrics of the count of
+object types, relationships and property types in the
+metamodel are calculated. The conceptual complexity
+of a technique is a sum vector of the above metrics,
+and the complexity of a modeling language is a sum
+vector of complexity of all its techniques. The
+techniques are assumed not to be interrelated. Rossi et
+al. have compared several OO methods using the above
+metrics and concluded that OO methods get more
+complex with time. Another evaluation done by Siau
+and Cao (presented in [5]) based on the above metrics
+concluded that UML is 2 to 11 times more complex
+than other OO methods.
+As an example, we can mention that the OMG
+Systems Modeling Language (OMG SysMLTM) defines
+correctness, precision, conciseness, consistency and
+understandability as its quality goals [9], without
+further discussion on what these terms mean and how
+they are achieved.``
 
 
 Both structural and functional complexity - lang only structural

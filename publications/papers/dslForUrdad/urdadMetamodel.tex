@@ -22,6 +22,11 @@ The URDAD DSL is, however, a fraction of the size of the UML, yet adds some core
   \item Enforcing for each service request and result classes which are specific to that service.
 \end{itemize}
 
+%--------------------------
+
+\subsection{URDAD-DSL core}
+
+The core modules introduces the concept of the model, model elements and responsibility domains, expressions and annotations. Most of these are self-explanatory. Responsibility domains represent two important aspects within an URDAD model. They are primarily used to depict the roles or stakeholders that have  a direct or indirect interest in the service requirements that are being modelled. Secondly, they introduce the concept of packaging, where model elements belonging to these domains are associated with a unique name space. 
 
 \begin{figure}
   \centering
@@ -29,7 +34,15 @@ The URDAD DSL is, however, a fraction of the size of the UML, yet adds some core
   \caption{The core elements of URDAD}
   \label{fig:metamodel}
 \end{figure}
-         
+
+%--------------------------
+
+\subsection{Constraints}
+
+The Object-Constraint Language (OCL) has become the de-facto standard for specifying constraints across object graphs \cite{}. However, in a services oriented approach and in the context of reusable, parametrized constraints, OCL alone is insufficient.
+Reusable constraints require support for binding parameters. For example, one might have a constraint that a person is registered. This constraint can be used in the context of pre-conditions for certain services and is most likely a post-condition for the registration service itself. However, the person identifier would have to be passed as a parameter to the constraint if the constraint is to be widely reusable.
+
+The second reason for having to add additional constraint infrastructure to the URDAD-DSL is that in a services oriented world the actual environmental state is not specified. Instead services are recursively assembled from lower level services which satisfy services contracts with the lowest level services sourced from the environment. In such a world it is not possible to specify testable constraints via OCL constraints alone. The reason for this is that the environmental state needs be queried to be using appropriate reporting/querying services. This might even require a process where the information for one service request required for assessing the constraint needs to be assembled from information which is only available through other services. One cannot specify the construction of these service requests as well as the process to obtain the required information within OCL -- the OCL is purely a constraint language. For this reason the URDAD-DSL allows for the specification of an activity which can be a process to source information from the environment. The constraints placed on that information can then be specified using OCL or another constraint specification language (the metamodel does not prescribe the constraint specification language).
 
 \begin{figure}
   \centering
@@ -38,12 +51,13 @@ The URDAD DSL is, however, a fraction of the size of the UML, yet adds some core
   \label{fig:metamodel}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics{data}
-  \caption{The data definition elements of URDAD}
-  \label{fig:metamodel}
-\end{figure}
+The constraints provides the concept of re-usable constraints,  module enables one to specify stand-alone, reusable constraints. These constraints can be re-used across, for example, pre- and post-conditions, \verb+if+ and \verb+while+ statements. 
+The URDAD-DSL also adds the concept of logical operators in order to assemble higher-level constraints from lower level constraints.
+
+
+%--------------------------
+
+\subsection{Services contracts}
 
 \begin{figure}
   \centering
@@ -52,18 +66,23 @@ The URDAD DSL is, however, a fraction of the size of the UML, yet adds some core
   \label{fig:metamodel}
 \end{figure}
 
+%--------------------------
+
+\subsection{Data structures}
+
 \begin{figure}
   \centering
-  \includegraphics{process}
-  \caption{The process definition elements of URDAD}
+  \includegraphics{data}
+  \caption{The data definition elements of URDAD}
   \label{fig:metamodel}
 \end{figure}
 
 
 
 
+%--------------------------
 
-\subsubsection{Services}
+\subsubsection{Processes}
 
 An URDAD service is a service from a requirements perspective, i.e. it represents a required service, not a provided service. 
 
@@ -78,11 +97,14 @@ Levels of granularity are explicitly defined within URDAD. Each service exists a
 
 forAll is equivalent to UML expansion regions
 
-\subsubsection{Responsibility domains}
 
-Responsibility domains represent two important aspects within an URDAD model. They are primarily used to depict the roles or stakeholders that have  a direct or indirect interest in the service requirements that are being modelled. Secondly, they introduce the concept of packaging, where model elements belonging to these domains are associated with a unique name space. 
+\begin{figure}
+  \centering
+  \includegraphics{process}
+  \caption{The process definition elements of URDAD}
+  \label{fig:metamodel}
+\end{figure}
 
-The model elements that may legally be defined within a responsibility domain include services, functional and quality requirements, data structures specifications such as service request and result objects, as well as and other lower level responsibility domains.
 
 
 

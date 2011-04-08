@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbookxi.rng" type="xml"?>
+<article xml:id="projects.solms.training.courses.architecture.architecture" 
+    xmlns="http://docbook.org/ns/docbook" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0">
+
+    
+    <info>
+        <title>Request for Proposal</title>
+        <subtitle>Generation of abstract WSDL contracts from an URDAD model</subtitle>
+    </info>
+    
+    <section>
+        <title>Problem Statement and Project Objectives</title>
+        <para>
+            Services Oriented Architectures (SOAs) assemble higher level services from lower level services. The services implementation are, 
+            however, not directly coupled, but are decoupled through services contracts specified using the Web Services Description Language, WSDL. 
+        </para>
+        <para>
+            URDAD, on the other hand, is a services-oriented analysis and design methodology which generates for a service
+            <itemizedlist>
+                <listitem><para>
+                    the services contract with specifications of the data structures for the inputs and outputs, pre- and post-conditions and quality requirements, as well
+                    as the exception which will be raised when a particular precondition is not met.                    
+                </para></listitem>
+                <listitem><para>
+                    how the service is orchestrated across lower level services.
+                </para></listitem>
+            </itemizedlist>
+            The pre-conditions are the conditions under which the service may be refused, the post-conditions are the conditions which
+            must hold after the service has been provided and quality requirements are non-functional requirements like scalability, performance etc.
+        </para>
+        <para>
+            An URDAD model has been traditionally encoded in UML. However, the development of a domain-specific language for URDAD 
+            with a metamodel and a concrete text syntax (with a graphical syntax to follow) simplifies the tasks for code and unit test
+            generation.            
+        </para>
+        <para>
+            In this project students will develop a transformation tool which transforms a services contract in a technology neutral design onto
+            a WSDL encoding of the services contracts which references XML schemas which are themselves generated from the data structure
+            specifications in the model.
+        </para>
+    </section>
+    
+    <section>
+        <title>Technical Requirement</title>
+        <para>
+            You should develop a progam which extracts a services contract from an URDAD model together with the data strucure specifications
+            for the inputs and outputs and the exceptions associated with the pre-conditions for the service. specification with the pre and post
+            conditions and generates a unit test in some technology which tests whether a given service provider (e.g. class or web service) fulfills the
+            requirements for the services contract. In particular the test needs to test that, if all preconditions are met,
+            the service is provided in such a way that all post-conditions hold once the service has been provided.
+        </para>
+        
+        <para>
+            The model specified which is currently specified using a concrete text syntax is typically stored in XMI 
+            from which it can be processed using standard MDA tools like
+            OCL for querying the model, QVT for model-to-model transformation and M2T for model-to-text transformations. The task is to specify the
+            appropriate transformations to generate the unit test for the services contract which tests that all post-conditions are fulfilled and that the
+            service is not refused (no exception thrown) if all preconditions are met.
+        </para>
+    </section>
+    
+    <section>
+        <title>Skills requirements</title>
+        <para>
+            For this project you wil need basic object-oriented skills and good programming skills. In addition you will have to
+            be able to specify XML schemas and Web Services Description Language based services contracts. You will need
+            to learn to use model querying tools as well as tools for model-to-model and model-to-text transformations.
+             The difficulty level for this project is medium.
+        </para>
+    </section>
+    
+    <section>
+        <title>Expected Scope</title>
+        <para>
+            To be agreed upon with the client.
+        </para>
+    </section>
+    
+    <section>
+        <title>Required Deliverables</title>
+        <para>
+            <itemizedlist>
+                <listitem><para>
+                    Project plan.
+                </para></listitem>
+                <listitem><para>
+                    Test plan
+                </para></listitem>
+                <listitem><para>
+                    Requirement specification
+                </para></listitem>
+                <listitem><para>
+                    Architectural and design specifications
+                </para></listitem>
+                <listitem><para>
+                    The transformations generating the XML schemas from the data structure specifications.
+                </para></listitem>
+                <listitem><para>
+                    The transformations generating the WSDL from the service contract specification.
+                </para></listitem>
+                <listitem><para>
+                    Source code and build scripts for the wrapping application.
+                </para></listitem>
+            </itemizedlist>
+        </para>
+    </section>
+</article>    

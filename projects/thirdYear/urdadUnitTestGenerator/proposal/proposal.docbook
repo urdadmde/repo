@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbookxi.rng" type="xml"?>
+<article xml:id="projects.solms.training.courses.architecture.architecture" 
+    xmlns="http://docbook.org/ns/docbook" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0">
+
+    
+    <info>
+        <title>Request for Proposal</title>
+        <subtitle>Unit test generator for an URDAD model</subtitle>
+    </info>
+    
+    <section>
+        <title>Problem Statement and Project Objectives</title>
+        <para>
+            URDAD is a services-oriented analysis and design methodology which generates for a service
+            <itemizedlist>
+                <listitem><para>
+                    the services contract with specifications of inputs and outputs, pre- and post-conditions and quality requirements, and                    
+                </para></listitem>
+                <listitem><para>
+                    how the service is orchestrated across lower level services.
+                </para></listitem>
+            </itemizedlist>
+            The pre-conditions are the conditions under which the service may be refused, the post-conditions are the conditions which
+            must hold after the service has been provided and quality requirements are non-functional requirements like scalability, performance etc.
+        </para>
+        <para>
+            An URDAD model has been traditionally encoded in UML. However, the development of a domain-specific language for URDAD 
+            with a metamodel and a concrete text syntax (with a graphical syntax to follow) simplifies the tasks for code and unit test
+            generation.            
+        </para>
+        <para>
+            A unit test for a services contract should be able to test whether a service provider
+            (e.g. an implementation class or web service) realizes the service in such a way that
+            all stakeholder requirements are fulfilled. In order to increase the confidence in a system
+            and also to facilitate integrity checking across maintenance tasks, it is usually required
+            that the full services profile should be covered by unit tests.
+        </para>
+        <para>        
+            The generation of unit tests is, however, often a manual task which may suffer from a number
+            of challanges. Examples of such challanges include
+            <itemizedlist>
+                <listitem><para>
+                    In the context of looming dead-lines the generation of unit tests is often rushed or, at times, even abandoned. 
+                </para></listitem>
+                <listitem><para>
+                    Unit tests are often written after the fact against particular implementation classes. Such tests often test a particular
+                    implementation code and not the stakeholder contract for the service. Often such tests are explicitly written
+                    against a class. A contract test should test a services contract though and any service provider who claims to
+                    realize the services contract should be testable against the contract.
+                </para></listitem>
+                <listitem><para>
+                    If a services contract exists already, then the generation of a unit test is a mundance task within which one
+                    has to test that
+                    <itemizedlist>
+                        <listitem><para>
+                            the service is provided if all preconditions are met (no exception is thrown), 
+                        </para></listitem>
+                        <listitem><para>
+                            all post-conditions hold once the service has been provided, and
+                        </para></listitem>
+                        <listitem><para>
+                            that the result object fulfills stakeholder requirements (this too is actually covered by post-conditions).
+                        </para></listitem>
+                    </itemizedlist>
+                    Having specified the contract one has all information to generate the unit test (except for the test data) and
+                    writing a test by hand duplicates a lot of the work and opens scope for inconsistency between the contract and
+                    the test.                    
+                </para></listitem>
+            </itemizedlist>
+        </para>
+        <para>
+            In this project students will develop a unit test generator which generates unit tests from services contracts specified
+            within an URDAD model.
+        </para>
+    </section>
+    
+    <section>
+        <title>Technical Requirement</title>
+        <para>
+            You should develop a program which extracts from an URDAD model a services contract specification with the pre and post
+            conditions and generates a unit test in some technology which tests whether a given service provider (e.g. class or web service) fulfills the
+            requirements for the services contract. In particular the test needs to test that, if all preconditions are met,
+            the service is provided in such a way that all post-conditions hold once the service has been provided.
+        </para>
+        
+        <para>
+            The model specified which is currently specified using a concrete text syntax is typically stored in XMI from which it can be processed using standard MDA tools like
+            OCL for querying the model, QVT for model-to-model transformation and M2T for model-to-text transformations. The task is to specify the
+            appropriate transformations to generate the unit test for the services contract which tests that all post-conditions are fulfilled and that the
+            service is not refused (no exception thrown) if all preconditions are met.
+        </para>
+    </section>
+    
+    <section>
+        <title>Skills requirements</title>
+        <para>
+            For this project you wil need basic object-oriented skills and good ptogramming skills. In addition you will have to
+            learn to read and specify OCL constraints and queries and how to definie a meta-model for a test and 
+            perform model-to-model and model-to-text transformations 
+            using technologies like QVT and M2T.  The difficulty level for this project is medium.
+        </para>
+    </section>
+    
+    <section>
+        <title>Expected Scope</title>
+        <para>
+            To be agreed upon with the client.
+        </para>
+    </section>
+    
+    <section>
+        <title>Required Deliverables</title>
+        <para>
+            <itemizedlist>
+                <listitem><para>
+                    Project plan.
+                </para></listitem>
+                <listitem><para>
+                    Test plan
+                </para></listitem>
+                <listitem><para>
+                    Requirement specification
+                </para></listitem>
+                <listitem><para>
+                    Architectural and design specifications
+                </para></listitem>
+                <listitem><para>
+                    The meta-model for the test.
+                </para></listitem>
+                <listitem><para>
+                    The transformations generating the tests as well as the wrapping code which executes these
+                    transformations.
+                </para></listitem>
+                <listitem><para>
+                    Source code and build scripts for the wrapping application.
+                </para></listitem>
+            </itemizedlist>
+        </para>
+    </section>
+</article>    
