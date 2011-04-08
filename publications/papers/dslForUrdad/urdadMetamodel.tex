@@ -51,13 +51,15 @@ The second reason for having to add additional constraint infrastructure to the 
   \label{fig:metamodel}
 \end{figure}
 
-The constraints provides the concept of re-usable constraints,  module enables one to specify stand-alone, reusable constraints. These constraints can be re-used across, for example, pre- and post-conditions, \verb+if+ and \verb+while+ statements. 
-The URDAD-DSL also adds the concept of logical operators in order to assemble higher-level constraints from lower level constraints.
+The constraints module provides the concept of re-usable constraints, parametrized state constraints which are assembled from a process querying the environment and a set of constraints on the information obtained from the environment. constraint refernces anda set of standard logical operators enabling one to to assemble higher-level constraints from lower level constraints.
 
 
 %--------------------------
 
 \subsection{Services contracts}
+
+The contracts package introduces the concepts of services contracts with functional and quality requirements.
+
 
 \begin{figure}
   \centering
