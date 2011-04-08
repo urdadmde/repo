@@ -20,6 +20,45 @@ The quality requirements are the non-functional requirements like scalability, p
 \subsection{Functional requirements elicitation}
 The functional requirements step determines, for each pre- and post-condition, the required functions/services. For example, to be able to assess the {\em policy is active} pre-condition, one requires a \verb+providePolicyStatus+ service. 
 
+%========================================
+\subsection{Business process design}
+- for a service we have pre- and post-conditions - some of these may be conditional
+- lower level services either just check a pre-condition or ensure a post-condition
+- these lower level post-condition addressing services may themselves have pre-conditions and some \emph{AP: Why only some?} of those pre-conditions may be part of the pre-conditions for the higher level service.
+
+During business process design one
+  1. picks the required services to address the post-conditions
+  2. Check which of the higher level pre-conditions are not pre-conditions of lower level services and hence not checked by those services which address the post-conditions and sources the appropriate service spec for those remaining pre-conditions.
+  3. One then determines the dependencies between the services, e.g., 
+    - to assemble the request for service A I require the information provided by service A
+    - I should only issue an invoice if I could reserve a seat
+  4. This defines an activity sequence with number of activities equal to number of dependency levels.
+  5. Within a dependency level, there may be multiple services which do not have dependencies on each other - these can be executed concurrently.
+  6. For conditional pre-or post-conditions, the corresponding services need to be requested under the respective conditions.
+
+
+Discuss recursive nature of URDAD, i.e. how URDAD can be used to design itself but refer to quality paper - feed that into quality paper.
+
+On the other hand, there is a recursive aspect to the URDAD method. If
+we view the process of performing the requirements elicitation and
+process design for  a level of granularity as a service with defined
+inputs and outputs, pre and post-conditions. That service will call
+itself for the lower level services, performing the same activities at
+the next lower level of granularity. That is of course only required for
+those lower level services which do not yet exist. In this sense the
+URDAD methodology is recursive, but the URDAD metamodel itself is more
+fractal than recursive.
+
+Another interesting aspect which I would like to cover in the quality
+paper is that one must be able to design URDAD using URDAD for URDAD to
+be a consistent methodology (this is independent of the metamodel and
+hence not in the metamodel paper). URDAD is meant to be a methodology of
+technology neutral analysis and process design of services. If we use
+URDAD to analyze the requirements for the service of doing the
+technology neutral analysis and design, we should end up with a process
+which is URDAD. Otherwise URDAD is not internally consistent.
+
+
 The service requirements refer to service contracts and not specific service implementations, i.e. the requirement is to have any service available which realizes a particular service contract.
 
 Part of the functional requirements step is to see whether multiple service requirements can be abstracted into a single cohesive service (with a single purpose) which is assembled from any of the required services. For example, before one can enroll a candidate for a course one needs Combine services to fix level of granularity in repeatable way.
@@ -41,3 +80,7 @@ In the previous steps the lower level services to be used to adress the pre- and
 
 
 
+
+\todo{Domain experts collaborate to specify domain model}
+
+\todo{Services represent a level of granularity. Each level of granularity can be regarded as a level of abstraction. Requirements exist at a particular level of granularity, and are themselves decomposed further across subsequent lower levels of granularity.}
