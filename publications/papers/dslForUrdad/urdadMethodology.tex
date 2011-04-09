@@ -1,86 +1,35 @@
 \section{Overview of the URDAD methodology \label{sec:urdadMethodology}}
 
-URDAD is an algorithmic, semi-formal method for eliciting and capturing service/use case requirements and technology neutral business process designs\cite{solms_urdad_2010}. Services are recursively decomposed until the lowest level services, which are services sourced from the environment (e.g. operating system, frameworks, off-the shelf solutions and services sourced from external service providers). These low level services provided by the environment are treated as atomic services.
+URDAD is a semi-formal method for eliciting and capturing service/use case requirements and technology neutral business process designs\cite{solms_urdad_2010}. Service requirements represented by services contracts and process designs are recursively decomposed across levels of granularity with the lowest level services sourced from the environment (e.g. operating system, frameworks, off-the shelf solutions and services sourced from external service providers). These low level services provided by the environment are treated as atomic services.
 
-URDAD aims to provide a repeatable engineering process for performing the technology neutral requirements analysis and process design around a use case or service. To this end it must be an algorithmic with defined process steps and defined inputs and outputs for each process step. The URDAD process steps include service contract specification, functional/service requirement identification, responsibility allocation and process specification.
+URDAD aims to provide a repeatable engineering process for performing the technology neutral requirements analysis and process design around a service. To this end it must be an algorithmic with defined process steps and defined inputs and outputs for each process step. The URDAD process steps include (1) service contract specification, (2) responsibility allocation and (3) process specification. These steps are repeated across levels of granularity, i.e.\ for the lower level services required for the higher level service.
 
 The process of performing the requirements elicitation and process design for a level of granularity can be itself be seen as a service which is provided by requirements engineers. It is a recursive service which is repeated for any lower level services for which the requirements elicitation and process specification has not yet been done.
 
-Since higher level services are commonly assembled from lower level services sourced from different domains of responsibility, the requirements elicitation and process design across services of different levels of granularity is not commonly done by a single requirements specialist. Instead URDAD aims to enable requirements specialists across domains of responsibility to contribute to a single requirements model. For example, the business process of processing an insurance claim might be assembled from lower level services like providing the status of the policy, assessing the claim coverage and value, checking funds availability for a policy, settling the claim and that of recuperating losses for a claim. These lower level services touch most of the responsibility domains of an insurer including that of policy contracts, policy accounts, valuation, legal and finance. Thus, whilst the requirements specialist (business analyst) from claims would most probably design the claims process itself, the requirements elicitation and process design for the lower level services would be done by business analysts from departments addressing these different responsibility domains. 
+Since higher level services are commonly assembled from lower level services sourced from different domains of responsibility, the requirements elicitation and process design across services of different levels of granularity is not commonly done by a single requirements specialist. Instead URDAD aims to enable requirements specialists across domains of responsibility to contribute to a single requirements model. For example, the business process of processing an insurance claim might be assembled from lower level services like providing the status of the policy, assessing the claim coverage and value, settling the claim. These lower level services touch most of the responsibility domains of an insurer including that of policy contracts, policy accounts, valuation, legal and finance. Thus, whilst the requirements specialist (business analyst) from claims would most probably do the requirements elicitation and process design design for the claims process service, the requirements elicitation and process design for the lower level services would be done by business analysts from departments addressing these different responsibility domains like policies, valuations, and finance.
 
 \subsection{Service contract specification}
-This step includes the identification of stake holders, the pre- and post-conditions and quality requirements they have for the service. A stake holder is a role player which has an interest in the use case/service and hence may have requirements around it. 
 
-A pre-condition is a condition under which the service may be refused. For each condition one specifies the exception which can be used to communicate that the condition does not hold true. The exception is thus used to notify the service requester that the requested service is not going to be provided because a particular pre-condition for the service is not met. If all preconditions are met, the service must be provided as per contract, otherwise there is an error. 
+Within URDAD one incrementally refines service requirements across levels of granularity with the service requirements at any particular level of granularity encapsulated within a services contract.
 
-A post-condition is a condition which must hold true after the service has been provided. Functional testing will test that the service is not refused (no exception thrown) if all pre-conditions are met and that all post-conditions hold true once the service has been provided.
-
-The quality requirements are the non-functional requirements like scalability, performance, reliability, accessibility/integrability, security, auditability and cost requirements. 
-
-\subsection{Functional requirements elicitation}
-The functional requirements step determines, for each pre- and post-condition, the required functions/services. For example, to be able to assess the {\em policy is active} pre-condition, one requires a \verb+providePolicyStatus+ service. 
-
-%========================================
-\subsection{Business process design}
-- for a service we have pre- and post-conditions - some of these may be conditional
-- lower level services either just check a pre-condition or ensure a post-condition
-- these lower level post-condition addressing services may themselves have pre-conditions and some \emph{AP: Why only some?} of those pre-conditions may be part of the pre-conditions for the higher level service.
-
-During business process design one
-  1. picks the required services to address the post-conditions
-  2. Check which of the higher level pre-conditions are not pre-conditions of lower level services and hence not checked by those services which address the post-conditions and sources the appropriate service spec for those remaining pre-conditions.
-  3. One then determines the dependencies between the services, e.g., 
-    - to assemble the request for service A I require the information provided by service A
-    - I should only issue an invoice if I could reserve a seat
-  4. This defines an activity sequence with number of activities equal to number of dependency levels.
-  5. Within a dependency level, there may be multiple services which do not have dependencies on each other - these can be executed concurrently.
-  6. For conditional pre-or post-conditions, the corresponding services need to be requested under the respective conditions.
-
-
-Discuss recursive nature of URDAD, i.e. how URDAD can be used to design itself but refer to quality paper - feed that into quality paper.
-
-On the other hand, there is a recursive aspect to the URDAD method. If
-we view the process of performing the requirements elicitation and
-process design for  a level of granularity as a service with defined
-inputs and outputs, pre and post-conditions. That service will call
-itself for the lower level services, performing the same activities at
-the next lower level of granularity. That is of course only required for
-those lower level services which do not yet exist. In this sense the
-URDAD methodology is recursive, but the URDAD metamodel itself is more
-fractal than recursive.
-
-Another interesting aspect which I would like to cover in the quality
-paper is that one must be able to design URDAD using URDAD for URDAD to
-be a consistent methodology (this is independent of the metamodel and
-hence not in the metamodel paper). URDAD is meant to be a methodology of
-technology neutral analysis and process design of services. If we use
-URDAD to analyze the requirements for the service of doing the
-technology neutral analysis and design, we should end up with a process
-which is URDAD. Otherwise URDAD is not internally consistent.
-
-
-The service requirements refer to service contracts and not specific service implementations, i.e. the requirement is to have any service available which realizes a particular service contract.
-
-Part of the functional requirements step is to see whether multiple service requirements can be abstracted into a single cohesive service (with a single purpose) which is assembled from any of the required services. For example, before one can enroll a candidate for a course one needs Combine services to fix level of granularity in repeatable way.
+This step includes the identification of stake holders, the pre- and post-conditions and quality requirements they have for the service, and the  data structure requirements for the request and result classes of the service. A stake holder may be a role or another service. A pre-condition is a condition under which the service may be refused. For each condition one specifies the exception which can be used to communicate that the condition does not hold true. The exception is used to notify the service requester that the requested service is not going to be provided because a particular pre-condition for the service is not met. If all preconditions are met, the service must be provided as per contract, otherwise there is an error. A post-condition is a condition which must hold true after the service has been provided. Functional testing will test that the service is not refused (no exception thrown) if all pre-conditions are met and that all post-conditions hold true once the service has been provided. The quality requirements are the non-functional requirements like scalability, performance, reliability, accessibility/integrability, security, auditability and cost requirements. 
 
 \subsection{Responsibility allocation}
 
-URDAD has its roots in concepts from Responsibility Driven Design (RDD) \cite{wirfs-brock_object-oriented_1989,wirfs-brock_object_2002}. Services contracts and service designs are assigned to the responsibility domains into which the services fall. This provides the step which prompts the search for service reuse, and, if a required service does not exist
+During the responsibility allocation step one assigns the responsibilities of addressing the individual post-conditions and those of either checking a precondition or obtaining the required information in order to check a pre-condition to lower level services across. This identifies the services from which the the higher level service is assembled.
 
-\todo{Complete responsibility allocation subsection}
+URDAD has its roots in concepts from Responsibility Driven Design (RDD) \cite{wirfs-brock_object-oriented_1989,wirfs-brock_object_2002}. Each services contract and ultimately also the service which realize the services contract is assigned to a responsibility domains. This prompts the domain expert to search within the appropriate responsibility domain for any existing services which can be used to assess the functional requirements, i.e.\ to search for \emph{reuse}.
+
+Note that the dependency is on services contracts for which the requirements details (pre-conditions, post-conditions, quality requirements and data structures for the inputs and outputs) may not yet been specified. The responsibility allocation step thus purely identifies the functional units required to address the pre- and post-conditions. The detailed functional requirements for these lower level services will be elicited and documented during the analysis phase for the next level of granularity.  
+
+Services contracts represent represent service requirements for a specific level of granularity or abstraction. The complete, fully detailed functional requirements for a service is ultimately provided by the sum total of the functional requirements of the service itself and the recursively lower level services from which the higher level service is assembled. By identifying services contracts, one fixes levels of granularity, Part of the responsibility allocation step is to inspect whether multiple service requirements can be abstracted into a single cohesive service (with a single purpose) which is assembled from any of the required services. Introducing additional levels of granularity improves both, the understandability of requirements and processes and the reusability of services.
+
+%========================================
 
 \subsection{Process design}
-In the previous steps the lower level services to be used to adress the pre- and post-conditions were identified. In this step one orchestrates a process which, if all pre-conditions are met, yields the result and, if not, aborts the service delivery raising the exception which has been associated with the pre-condition which has not been met. The process will incorporate all services
 
-\todo{Complete responsibility process design subsection}
+During the process design step of URDAD, one assembles a process across the lower level services identified in the responsibility allocation step. The process includes (1) the service request activities requesting the lower level services used to address the pre- and post-conditions, (2) activities to assemble the service requests for these services as well as the result object, (3) activities for handling an exception raised by a lower level service, (4) activities for raising an exception and (5) the activity of returning the result. Each path through the process graph must end with either returning the result or with raising an exception associated with one of the pre-conditions of the service.
 
-
-
+URDAD enforces the decoupling of services via services contracts, i.e.\ a service may not have a dependency on another concrete service with defined process, but only on a services contract specifying the service requirements.
 
 
-
-
-
-\todo{Domain experts collaborate to specify domain model}
-
-\todo{Services represent a level of granularity. Each level of granularity can be regarded as a level of abstraction. Requirements exist at a particular level of granularity, and are themselves decomposed further across subsequent lower levels of granularity.}

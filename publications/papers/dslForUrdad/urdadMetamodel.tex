@@ -1,6 +1,6 @@
 \section{The URDAD metamodel \label{sec:metamodel}}
 
-In an effort to formalise URDAD, there exists a need for the formal specification of URDAD's concepts and the rules associated with the use of the URDAD methodology. To this end we define a metamodel. A metamodel is the ``logical information model that specifies the modeling elements used within another (or the same) modeling notation'' \cite{_ieee_2003}. The URDAD metamodel formalizes the modeling constructs required by the URDAD methodology to store the requirements for a service and the technology neutral design of a business process realizing these requirements. 
+In an effort to formalize URDAD, there exists a need for the formal specification of URDAD's concepts and the rules associated with the use of the URDAD methodology. To this end we define a metamodel. A metamodel is the ``logical information model that specifies the modeling elements used within another (or the same) modeling notation'' \cite{_ieee_2003}. The URDAD metamodel formalizes the modeling constructs required by the URDAD methodology to store the requirements for a service and the technology neutral design of a business process realizing these requirements. 
 
 Metamodels are closely related to ontologies. Both provide a way to define concepts and relationships between concepts. For practicality reasons, the semantics has been encoded in EMOF/Ecore instead of {\em Web Ontology Language}, OWL\cite{zuo_zhihong_web_2003}. It is motivated by the technology support for developing a concrete textual and graphical syntax for the DSL \cite{emfText,xText}, the support for model-to-model \cite{QVT relational, QVT operational, ,...} and model-to-text transformations \cite{model2text} and the availability of OCL as a constraint language \cite{OCL} for querying model instances and for specifying constraints at both, the metamodel and model levels. Mappings between these two technologies can be readily performed \cite{staab_model_2010}. A transformation to OWL facilitates reasoning services like consistency and completeness assessment.
 
@@ -18,7 +18,7 @@ The URDAD DSL is, however, a fraction of the size of the UML, yet adds some core
   \item The URDAD DSL adds the concept of a responsibility domain which represents an abstract role which may have requirements and may provide services. A responsibility domain also provides the packaging construct for the language.
   \item The linkage of exceptions for pre-conditions.
   \item Enforcing that a service either yields the result or notifies the user that the service is not provided due to a pre-condition not having been met.
-  \item Separation of the identification of a resource (object or service) from having a path (assocition) to the resource.
+  \item Separation of the identification of a resource (object or service) from having a path (association) to the resource.
   \item Enforcing for each service request and result classes which are specific to that service.
 \end{itemize}
 
@@ -56,7 +56,7 @@ The second reason for having to add additional constraint infrastructure to the 
   \label{fig:metamodel}
 \end{figure}
 
-The constraints module provides the concept of re-usable constraints, parametrized state constraints which are assembled from a process querying the environment and a set of constraints on the information obtained from the environment. constraint refernces anda set of standard logical operators enabling one to to assemble higher-level constraints from lower level constraints. Note that the URDAD-DSL does not lock into using any particular constraint language (e.g.\ OCL) for the specification of constraints across data structures.
+The constraints module provides the concept of re-usable constraints, parametrized state constraints which are assembled from a process querying the environment and a set of constraints on the information obtained from the environment. constraint references and a set of standard logical operators enabling one to to assemble higher-level constraints from lower level constraints. Note that the URDAD-DSL does not lock into using any particular constraint language (e.g.\ OCL) for the specification of constraints across data structures.
 
 %--------------------------
 
@@ -64,7 +64,7 @@ The constraints module provides the concept of re-usable constraints, parametriz
 
 The core of the contracts package is a services contract with both, functional requirements (pre- and post-conditions) and quality requirements. Each requirement is associated with a a stakeholder which is either a responsibility domain (role) or another service which introduces that requirement. 
 
-A pre-condition is a condition under which the service provider may refuse the service without the refusal of service implying a breach of the services contract. The specification of a pre-condition includes the identification of the exception which is used to notify a service user that the requested service was not provided due to a particular pre-condition not having been met. A post-condition, on the other hand, is a condition which holds true after the service has been provided. It is either a condition on the result or on the change in the state of the environment of the service. Due to a service potentially resulting in a lasting change to its environment, the URDAD-DSL allows the designation of an inverse service through which that lasting effect can be reversed. This enables the automatic reversal of a partially completed process by calling the inverse services of those lower levelservices which have thus far been completed within the process.
+A pre-condition is a condition under which the service provider may refuse the service without the refusal of service implying a breach of the services contract. The specification of a pre-condition includes the identification of the exception which is used to notify a service user that the requested service was not provided due to a particular pre-condition not having been met. A post-condition, on the other hand, is a condition which holds true after the service has been provided. It is either a condition on the result or on the change in the state of the environment of the service. Due to a service potentially resulting in a lasting change to its environment, the URDAD-DSL allows the designation of an inverse service through which that lasting effect can be reversed. This enables the automatic reversal of a partially completed process by calling the inverse services of those lower level services which have thus far been completed within the process.
 
 Functional requirements may be conditional and are bound to reusable state constraints.  Quality requirements are bound to quality constraints.
 
@@ -110,4 +110,4 @@ The process package introduces the concept of a service which is a concrete unit
   \label{fig:metamodel}
 \end{figure}
 
-An important non-functional requirement of all activities that constitute a service's process, is that each activity must be traceable back to the fulfilment of one or more of the functional requirements. There should be no redundancy and only the functional requirements that are associated with the service should be addressed by the process.
+An important non-functional requirement of all activities that constitute a service's process, is that each activity must be traceable back to the fulfillment of one or more of the functional requirements. There should be no redundancy and only the functional requirements that are associated with the service should be addressed by the process.
