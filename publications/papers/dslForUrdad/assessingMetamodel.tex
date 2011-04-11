@@ -4,16 +4,13 @@ In this section we analyze the URDAD metamodel for unsatisfiable and redundent m
 
 %-------------------------------------------------------------------------------------
 
-\subsection{Core metamodel integrity assessment}
-
-\emph{Alex's section}
+\subsection{Metamodel consistency}
 
 
-\begin{itemize}
-  \item Check that no classes unsatisfiable
-  \item Redundency checks (redundent classes, redundent attributes and properties) redundend constraints
-  \item Check consistency of OCL constraints
-\end{itemize}
+
+We transformed the Ecore metamodel $M1$ to an OWL ontology, $O$, using the TwoUse \cite{parreiras_using_2010} Eclipse plugin in order to use standard reasoning services provided by Description-logic based reasoners. This enabled us to check for (1) \emph{consistency}, i.e\ that there exists a model $M2$ which corresponds to $O$, (2) \emph{satisfiability} which assesses whether there are any concepts in $O$ which cannot be instantiated and which are hence redundent.
+
+In addition one can transform an instance model to an ontology in order to perform the consistency checks above on the model itself and in order to use reasoning services like \emph{classification} and \emph{subsumption}.
 
 %-------------------------------------------------------------------------------------
 
