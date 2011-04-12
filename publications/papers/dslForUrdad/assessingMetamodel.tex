@@ -6,7 +6,7 @@ In this section we analyze the URDAD metamodel for unsatisfiable and redundent m
 
 \subsection{Metamodel consistency}
 
-We transformed the Ecore metamodel $\mathcal{M}1$ to an OWL ontology, $\mathcal{O}$, using the TwoUse \cite{parreiras_using_2010} Eclipse plugin in order to use standard reasoning services provided by Description-logic based reasoners. This enabled us to check for (1) \emph{consistency}, i.e\ that there exists a model $\mathcal{O}$ which corresponds to $\mathcal{O}$, (2) \emph{satisfiability} which assesses whether there are any concepts in $\mathcal{O}$ which cannot be instantiated and which are hence redundant.
+We transformed the Ecore metamodel $\mathcal{M}1$ to an OWL ontology, $\mathcal{O}$, using the TwoUse \cite{parreiras_using_2010} Eclipse plugin in order to use standard reasoning services provided by Description-logic based reasoners. This enabled us to check for (1) \emph{consistency}, i.e\ that there exists a model $\mathcal{O}$ which corresponds to $\mathcal{O}$, (2) \emph{satisfiability} which assesses whether there are any concepts in $\mathcal{M}0$ which cannot be instantiated and which are hence redundant.
 
 In addition one can transform an instance model to an ontology in order to perform the consistency checks above on the model itself and in order to use reasoning services like \emph{classification} and \emph{subsumption}.
 
@@ -31,20 +31,125 @@ As a rough estimate of the relative complexity differences between the instance 
 
 \subsection{Sufficiency}
 
-This section assesses the sufficiency of the URDAD-DSL with respect to requirements traceability, implementation mappings and test generation. 
+This section assesses the sufficiency of the URDAD-DSL with respect to requirements traceability, test generation and implementation mappings. 
 
 Requirements traceability is important for design validation and estimation. Validation includes assessing sufficiency and neccessity, i.e.\ assessing whether all requirements are met and whether all model elements are required. This has to be done across levels of granularity \cite{dick_design_2005}. Ramesh et al.\ \cite{ramesh_toward_2001} identify four core traceability link types including (i) \emph{satisfaction links} which represent links between requirements and activities which satisfy them, (ii) \emph{evolutional links} which link change requests and the resulting changes, (iii) \emph{rationale links} which link requirements to the rationale (e.g. goals) which drive them and (iv) \emph{dependency links} which represent links between model elements.
 
 In the URDAD metamodel satisfaction links are represented by \verb+usedToAddress+ links between services and functional requirements. They can be used to trace that all functional requirements are addressed and that one does not use services which do not address functional requirements. Evolutionary links are not addressed within the URDAD metamodel and are left to the version control environment. Higher level purpose, goals and rationale links are also not addressed in URDAD. The metamodel does, however, include the \verb+requiredBy+ linkage between requirements and the stakeholders which require them. A requirement around a service may be required by a responsibility domain (i.e.\ a roles) or by another service. Finally, dependency links are intrinsically in the model including  dependency of services on the services contracts of lower level services they require and dependency between data structure elements. 
 
+The metamodel was found to be sufficient to generate or specify a concrete text grammar capturing the concepts required by the URDAD methodology. Using EMFText \cite{heidenreich_derivation_2009}, we generated a language-aware editor supporting syntax checking and high-lighting.
 
-Code generation in a services oriented approach requires for each service the specification of the process through which this higher level service is assembled from lower level services. This includes the standard process logic around sequential, concurrent and conditional activities, specification of service requests, the maintenance of process state, the construction of the request object and the concepts of returning a result or raising an exception. Note that the URDAD methodology enforces decoupling through services contracts and that this is also enforced in the URDAD metamodel. In this context URDAD assumes that the concrete service providers used to realize the services contracts are either injected by the run-time environment like in Spring or Java-EE based dependency injection, or are determined during the implementation mapping phase.
+Sufficient service contract specification needs to support the generation of functional testing which, in turn, requires constraints which can be validated. The following listing uses the concrete text syntax developed for the URDAD-DSL to specify the pre- and post-conditions of the \verb+enrollForPresentation+ service together with the specification of the data structures for the request and result object:
+\tiny{\begin{verbatim}
+ServiceContract enrollForPresentation
+{
+   FunctionalRequirements receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+   {
+      PreCondition enrollmentPrerequisitesMet
+         requiredBy (TrainingRegulator Student) 
+         raises EnrollmentPrerequisitesNotSatisfiedException
+         checks constraint enrollmentPrerequisitesForPresentationMet
+         with ValueOf enrollForPresentationRequest
+      PostCondition enrollmentProcessPerformed
+         requiredBy (Student Client TrainingRegulator)
+         ensures constraint studentEnrolledForPresentation 
+         with ValueOf studentEnrolledRequest constructedUsing doSequential
+         {
+            create Variable studentEnrolledRequest ofType StudentEnrolledRequest
+            set Query OCL:"studentEnrolledRequest.personIdentifier" equalTo
+                Query OCL:"enrollForPresentationRequest.personIdentifier"                            
+            set Query OCL:"studentEnrolledRequest.presentationIdentifier" equalTo
+                Query OCL:"enrollForPresentationRequest.presentationIdentifier"                            
+         }  
+      PostCondition invoiceIssued ...
+    }            
+    Request DataStructure EnrollForPresentationRequest 
+    {
+       has identification presentationIdentifier identifying Presentation
+       has identification studentIdentifier identifying Person
+       has component clientIdentifier ofType LegalEntity         
+    }
+    Result DataStructure EnrollForPresentationResult 
+    {
+       has component proofOfEnrollment ofType ProofOfEnrollment
+       has component invoice ofType Invoice
+       has component studyGuide ofType StudyGuide
+    }
+}
+\end{verbatim}}
+\normalsize
 
+The pre- and post-conditions refer to reusable constraints. Being in a services oriented approach, constraints are specified as a combination of a process which extracts information form the environment and a set of data structure constraints applied against the obtained information.
+\tiny{\begin{verbatim}
+StateConstraint studentEnrolledForPresentation 
+   receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+{
+   stateAssessmentProcess doSequential
+   {
+      create Variable getEnrollmentsRequest ofType GetEnrollmentsRequest
+      set Query OCL:"getEnrollmentsRequest.presentationIdentifier" equalTo
+          Query OCL:"enrollForPresentationRequest.presentationIdentifier"
+      requestService getEnrollments with getEnrollmentsRequest yielding
+          Variable getEnrollmentsResult ofType GetEnrollmentsResult
+   }
+   Constraint OCL:"getEnrollmentsResult.enrollments.includes(enrollForPresentationRequest.personIdentifier)"
+}
+\end{verbatim}}
+\normalsize
+The above specification is sufficient for generating the functional tests for the service contract. These are independent of the process specification of a concrete service realizing the services contract.
 
-The services contract specification within the URDAD-DSL contains the specification of service inputs and outputs, pre- and post-conditions and quality requirements. A pre-condition for a service is the requirement that a condition holds. If the pre-condition does not hold true, the service provider is entitled to refuse the service. A post-condition is a condition which must hold true after the service has been provided. The same condition may be a pre-condition for several services as well as a post condition for other services. For example, the condition \emph{studentIsRegistered} can be for the \verb+enrollStudentForCoursePresentation+ service as well as the post-condition for the \verb+registerStudent+ service. 
+Code generation in a services oriented approach requires for each service the specification of the process through which this higher level service is assembled from lower level services. This includes the standard process logic around sequential, concurrent and conditional activities, specification of service requests, the maintenance of process state, the construction of the request object and the concepts of returning a result or raising an exception. The process is orchestrated across the services used to realize the pre- and post-conditions:
+\tiny{\begin{verbatim}
+Service enrollForPresentationImpl realizes enrollForPresentation 
+   receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+{
+   use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
+   use issueInvoice toAddress (financialPrerequisitesSatisfied invoiceIssued) 
+   use performEnrollment toAddress (invoiceIssued)
+   
+   doSequential
+   {
+      create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
+         ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest               
+      set Query OCL:"enrollForPresentationRequest.studentIdentifier" equalTo 
+          Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier"
+      set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo
+          Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"
+                     
+      requestService checkStudentSatisfiesEnrollmentPrerequisites 
+          with checkStudentSatisfiesEnrollmentPrerequisitesRequest 
+          yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+              ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
+      choice
+      {
+          if Constraint enrollmentMeetsPrerequisitesMet 
+                OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true"
+             doSequential
+             {
+                ...
+                requestService issueInvoice with issueInvoiceRequest 
+                   yielding Variable issueInvoiceResult ofType IssueInvoiceResult
+                {
+                   on FinancialPrerequisitesNotSatisfiedException 
+                        raiseException FinancialPrerequisitesNotSatisfiedException
+                }
+				...
+                requestService performEnrollment with enrollRequest 
+                   yielding Variable performEnrollmentResult ofType PerformEnrollmentResult
+                create Variable enrollForPresentationResult ofType EnrollForPresentationResult
+                   set Query OCL:"issueInvoiceResult.invoice" equalTo
+                       Query OCL:"enrollForPresentationResult.invoice"
+     				...                       
+                   returnResult  enrollForPresentationResult
+               }
+               else raiseException EnrollmentPrerequisitesNotSatisfiedException
+            }
+      }
+   }         
+}           
+\end{verbatim}}
+\normalsize
+Note that the URDAD methodology enforces decoupling through services contracts and that this is also enforced in the URDAD metamodel. In this context URDAD assumes that the concrete service providers used to realize the services contracts are either injected by the run-time environment like in Spring or Java-EE based dependency injection, or are determined during the implementation mapping phase.
 
-In order for conditions to be reusable across several pre- and post-conditions, a condition needs to receive information. For example the \emph{studentIsRegistered} condition needs to receive the information about the student we are referring to. In addition conditions need to be specified with respect to the result object and information obtained from the environment. In a services oriented approach, environmental information is obtained through other services. For example, the \emph{studentIsRegistered} condition could be assessed by using services like \verb+isRegistered+ or \verb+provideRegistrationDetails+. The URDAD-DSL supports conditions with inputs specified in the pre and post-concitions of services and which are us, for functional testability one needs to specify a process assembled across services through which information from the environment is retrieved together with a set of state constraints applied across the obtained data objects containing the environmental information\footnote{Note that the test specification is not based on the design of a particular process (e.g. state chart), but independent of service realizations within a process independent services contract.}. Also in testability the decoupling of the test process from actual service implementations is enforced by requiring that the service requests tie into services contracts, not service implementations. 
-
-The one aspect which is currently not at all addressed in URDAD is the concept of event processing.
- 
+\todo{Discuss various validation steps for instance models including DL based, parser, validation against metamodel and OCL constraints, ...}
 
