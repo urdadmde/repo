@@ -10,18 +10,8 @@ The URDAD metamodel provides a minimalistic set of modeling constructs for servi
 The URDAD metamodel has been strongly influenced by the Unified Modeling Language, UML, in the areas of data structure specification and by service-oriented process specification languages like the Business Process Execution Language, BPEL, in the areas of process specification. 
 It enforces assembly of higher level stateless services from lower level stateless services with the leaf services sourced from the environment (e.g.\ from the programming language, libraries, frameworks and automated and non-automated external service providers). 
 
-The URDAD DSL is, however, a fraction of the size of the UML, yet adds some core concepts required by the URDAD methodology. Core additions include the following:
-\begin{itemize}
-  \item A higher-level constraint infrastructure supporting parametrized, reusable constraints which are assessed through processes extracting information from the environment.
-  \item Explicit modeling constructs for specifying a services contract with pre- and post-conditions and quality requirements.
-  \item The ``requiredBy'' linkage between requirements and stake holders who require these.
-  \item Within a specific process specification for a service realizing a services contract, the URDAD DSL introduces the the linkage between functionality (services) and the requirements they are meant to address. 
-  \item The URDAD DSL adds the concept of a responsibility domain which represents an abstract role which may have requirements and may provide services. A responsibility domain also provides the packaging construct for the language.
-  \item The linkage of exceptions for pre-conditions.
-  \item Enforcing that a service either yields the result or notifies the user that the service is not provided due to a pre-condition not having been met.
-  \item Separation of the identification of a resource (object or service) from having a path (association) to the resource.
-  \item Enforcing for each service request and result classes which are specific to that service.
-\end{itemize}
+The URDAD DSL is, however, a fraction of the size of the UML, yet adds some core concepts required by the URDAD methodology including (1) a higher-level constraint infrastructure supporting parametrized, reusable constraints which are assessed through processes extracting information from the environment, (2) explicit modelling constructs for specifying a services contract (3) relationships facilitating improved traceability, (3) the concept of a responsibility domain, (4) association of exceptions to pre-conditions, (4)
+the separation of the identification of a resource (object or service) from a path to it, (5) enforcing service-specific request and result classes and (6) enforcing that a service either yields the result or notifies the user that the service is not provided due to a pre-condition not having been met.
 
 %--------------------------
 
