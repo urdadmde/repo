@@ -1,10 +1,11 @@
 \section{The URDAD metamodel \label{sec:metamodel}}
 
-In an effort to formalize URDAD, there exists a need for the formal specification of URDAD's concepts and the rules associated with the use of the URDAD methodology. To this end we define a metamodel. A metamodel is the ``logical information model that specifies the modeling elements used within another (or the same) modeling notation'' \cite{_ieee_2003}. The URDAD metamodel formalizes the modeling constructs required by the URDAD methodology to store the requirements for a service and the technology neutral design of a business process realizing these requirements. 
+In an effort to formalize URDAD, there exists a need for the formal specification of URDAD's concepts and the rules associated with the use of the URDAD methodology. To this end we define a metamodel. A metamodel is the ``logical information model that specifies the modeling elements used within another (or the same) modeling notation'' \cite{_ieee_2003}. The URDAD metamodel formalizes the modeling constructs required by the URDAD methodology to store the requirements for a service and the technology neutral design of a business process realizing these requirements\footnote{In adition metamodel, the URDAD-DSL comes with standard library specififying primitive data types, entities and core persistence services.}. 
 
 Metamodels are closely related to ontologies. Both provide a way to define concepts and relationships between concepts. For practicality reasons, the semantics has been encoded in EMOF/Ecore instead of {\em Web Ontology Language}, OWL\cite{zuo_zhihong_web_2003}. It is motivated by the technology support for developing a concrete textual and graphical syntax for the DSL \cite{heidenreich_derivation_2009}, the support for model-to-model \cite{_meta_2011} and model-to-text transformations \cite{model2text} and the availability of OCL as a constraint language \cite{OCL} for querying model instances and for specifying constraints at both, the metamodel and model levels. Mappings between these two technologies can be readily performed \cite{staab_model_2010}. A transformation to OWL facilitates reasoning services like consistency and completeness assessment.
 
-The URDAD metamodel provides a minimalistic set of modeling constructs for services oriented analysis and design. It facilitates the recursive decomposition of service requirements into lower level services requirements with pre- and post-conditions as well as quality requirements for each service and the data structure specifications for the inputs and outputs and the process specification on how a service is orchestrated across lower level services.
+The URDAD metamodel provides a minimalistic set of modeling constructs for services oriented analysis and design. It facilitates the recursive decomposition of service requirements into lower level services requirements with pre- and post-conditions as well as quality requirements for each service and the data structure specifications for the inputs and outputs and the process specification on how a service is orchestrated across lower level services. 
+
 
 The URDAD metamodel has been strongly influenced by the Unified Modeling Language, UML, in the areas of data structure specification and by service-oriented process specification languages like the Business Process Execution Language, BPEL, in the areas of process specification. 
 It enforces assembly of higher level stateless services from lower level stateless services with the leaf services sourced from the environment (e.g.\ from the programming language, libraries, frameworks and automated and non-automated external service providers). 
@@ -28,7 +29,7 @@ The URDAD DSL is, however, a fraction of the size of the UML, yet adds some core
 
 The core modules introduces the concept of the model, model elements and stakeholders, responsibility domains, expressions and annotations. Most of these are self-explanatory. The URDAD-DSL does not lock into any particular expression language (e.g.\ the language to specify constraint expressions). 
 
-\begin{figure}
+\begin{figure}[Htb]
   \centering
   \includegraphics{core}
   \caption{The core elements of URDAD}
@@ -49,7 +50,7 @@ Reusable constraints require support for binding parameters. For example, one mi
 
 The second reason for having to add additional constraint infrastructure to the URDAD-DSL is that in a services oriented world the actual environmental state is not specified. Instead services are recursively assembled from lower level services which satisfy services contracts with the lowest level services sourced from the environment. In such a world it is not possible to specify testable constraints via OCL constraints alone. The reason for this is that the environmental state needs be queried to be using appropriate reporting/querying services. This might even require a process where the information for one service request required for assessing the constraint needs to be assembled from information which is only available through other services. One cannot specify the construction of these service requests as well as the process to obtain the required information within OCL -- the OCL is purely a constraint language. For this reason the URDAD-DSL allows for the specification of an activity which can be a process to source information from the environment. The constraints placed on that information can then be specified using OCL or another constraint specification language (the metamodel does not prescribe the constraint specification language).
 
-\begin{figure}
+\begin{figure}[Htbp]
   \centering
   \includegraphics{constraint}
   \caption{The constraint specification elements of URDAD}
@@ -68,7 +69,7 @@ A pre-condition is a condition under which the service provider may refuse the s
 
 Functional requirements may be conditional and are bound to reusable state constraints.  Quality requirements are bound to quality constraints.
 
-\begin{figure}
+\begin{figure}[Htbp]
   \centering
   \includegraphics{contract}
   \caption{The contract specification elements of URDAD}
@@ -80,32 +81,29 @@ A services contract specifies a single service request object that contains deta
 
 %--------------------------
 
-\subsection{Data structures}
-
-The data module is a standard object-oriented approach to data structure specification similar to UML class models. The core additions are that of separating an identification from an association and the concept of an assignable which can be a variable (object), variable reference, query or constant. An identification purely identifies a resource (object or service), relying on the environment to be able to source the resource from the environment. It is an abstraction of the concept of a \emph{Uniform Resource Identifier} (URI). An association, on the hand, resembles a path to the resource.
-
-\begin{figure}
+\begin{figure}[Htbp]
   \centering
   \includegraphics{data}
   \caption{The data definition elements of URDAD}
   \label{fig:metamodel}
 \end{figure}
 
+\subsection{Data structures}
+
+The data module is a standard object-oriented approach to data structure specification similar to UML class models. The core additions are that of separating an identification from an association and the concept of an assignable which can be a variable (object), variable reference, query or constant. An identification purely identifies a resource (object or service), relying on the environment to be able to source the resource from the environment. It is an abstraction of the concept of a \emph{Uniform Resource Identifier} (URI). An association, on the hand, resembles a path to the resource.
+
 %--------------------------
-
-\subsection{Processes}
-
-The process package introduces the concept of a service which is a concrete unit of functionality realizing a services contract. For a service one species the lower level services used to address the different pre- and post-conditions. This requirement of the URDAD methodology improves traceability providing satisfaction links discussed in \cite{ramesh_toward_2001}). Each activity within the service process is associated with either (1) the maintenance of local process variables, (2) the validation of a pre-condition and/or the fulfillment of a post-condition through the execution of a lower level service, (3) the handling of an exception received from a lower level service, (4) the raising of an exception or the return of the result.
-
-\begin{figure}
+\begin{figure}[Htbp]
   \centering
   \includegraphics{process}
   \caption{The process definition elements of URDAD}
   \label{fig:metamodel}
 \end{figure}
 
+\subsection{Processes}
+
+The process package introduces the concept of a service which is a concrete unit of functionality realizing a services contract. For a service one species the lower level services used to address the different pre- and post-conditions. This requirement of the URDAD methodology improves traceability providing satisfaction links discussed in \cite{ramesh_toward_2001}). Each activity within the service process is associated with either (1) the maintenance of local process variables, (2) the validation of a pre-condition and/or the fulfillment of a post-condition through the execution of a lower level service, (3) the handling of an exception received from a lower level service, (4) the raising of an exception or the return of the result.
+
 An important non-functional requirement of all activities that constitute a service's process, is that each activity must be traceable back to the fulfillment of one or more of the functional requirements. There should be no redundancy and only the functional requirements that are associated with the service should be addressed by the process.
 
-\subsection{Standard Library}
 
-\todo{TODO: Discuss Standard Library}

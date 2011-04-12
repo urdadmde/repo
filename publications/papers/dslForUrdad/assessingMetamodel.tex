@@ -81,18 +81,19 @@ ServiceContract enrollForPresentation
 
 The pre- and post-conditions refer to reusable constraints. Being in a services oriented approach, constraints are specified as a combination of a process which extracts information form the environment and a set of data structure constraints applied against the obtained information.
 \tiny \begin{lstlisting}[numbers=left,escapechar=|]
-StateConstraint studentEnrolledForPresentation 
-   receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+StateConstraint studentEnrolledForPresentation receiving Variable 
+  enrollForPresentationRequest ofType EnrollForPresentationRequest
 {
-   stateAssessmentProcess doSequential
-   {
-      create Variable getEnrollmentsRequest ofType GetEnrollmentsRequest
-      set Query OCL:"getEnrollmentsRequest.presentationIdentifier" equalTo
-          Query OCL:"enrollForPresentationRequest.presentationIdentifier"
-      requestService getEnrollments with getEnrollmentsRequest yielding
-          Variable getEnrollmentsResult ofType GetEnrollmentsResult
-   }
-   Constraint OCL:"getEnrollmentsResult.enrollments.includes(enrollForPresentationRequest.personIdentifier)"
+  stateAssessmentProcess doSequential
+  {
+    create Variable getEnrollmentsRequest ofType GetEnrollmentsRequest
+    set Query OCL:"getEnrollmentsRequest.presentationIdentifier" equalTo
+        Query OCL:"enrollForPresentationRequest.presentationIdentifier"
+    requestService getEnrollments with getEnrollmentsRequest yielding
+        Variable getEnrollmentsResult ofType GetEnrollmentsResult
+  }
+  Constraint OCL:"getEnrollmentsResult.enrollments.includes
+    (enrollForPresentationRequest.personIdentifier)"
 }
 \end{lstlisting}\normalsize
 The above specification is sufficient for generating the functional tests for the service contract. These are independent of the process specification of a concrete service realizing the services contract.
@@ -100,52 +101,55 @@ The above specification is sufficient for generating the functional tests for th
 Code generation in a services oriented approach requires for each service the specification of the process through which this higher level service is assembled from lower level services. This includes the standard process logic around sequential, concurrent and conditional activities, specification of service requests, the maintenance of process state, the construction of the request object and the concepts of returning a result or raising an exception. The process is orchestrated across the services used to realize the pre- and post-conditions:
 \tiny \begin{lstlisting}[numbers=left,escapechar=|]
 Service enrollForPresentationImpl realizes enrollForPresentation 
-   receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+ receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
 {
-   use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
-   use issueInvoice toAddress (financialPrerequisitesSatisfied invoiceIssued) 
-   use performEnrollment toAddress (invoiceIssued)
+  use checkStudentSatisfiesEnrollmentPrerequisites 
+    toAddress (enrollmentPrerequisitesMet)
+  use issueInvoice toAddress (financialPrerequisitesSatisfied invoiceIssued) 
+  use performEnrollment toAddress (invoiceIssued)
    
-   doSequential
-   {
-      create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
-         ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest               
-      set Query OCL:"enrollForPresentationRequest.studentIdentifier" equalTo 
-          Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier"
-      set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo
-          Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"
+  doSequential
+  {
+    create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
+      ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest               
+    set Query OCL:"enrollForPresentationRequest.studentIdentifier" equalTo 
+        Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier"
+    set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo
+        Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"
                      
-      requestService checkStudentSatisfiesEnrollmentPrerequisites 
-          with checkStudentSatisfiesEnrollmentPrerequisitesRequest 
-          yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
-              ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
-      choice
-      {
-          if Constraint enrollmentMeetsPrerequisitesMet 
-                OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true"
-             doSequential
-             {
-                ...
-                requestService issueInvoice with issueInvoiceRequest 
-                   yielding Variable issueInvoiceResult ofType IssueInvoiceResult
-                {
-                   on FinancialPrerequisitesNotSatisfiedException 
-                        raiseException FinancialPrerequisitesNotSatisfiedException
-                }
-				...
-                requestService performEnrollment with enrollRequest 
-                   yielding Variable performEnrollmentResult ofType PerformEnrollmentResult
-                create Variable enrollForPresentationResult ofType EnrollForPresentationResult
-                   set Query OCL:"issueInvoiceResult.invoice" equalTo
-                       Query OCL:"enrollForPresentationResult.invoice"
-     				...                       
-                   returnResult  enrollForPresentationResult
-               }
-               else raiseException EnrollmentPrerequisitesNotSatisfiedException
-            }
-      }
-   }         
-}           
+    requestService checkStudentSatisfiesEnrollmentPrerequisites 
+      with checkStudentSatisfiesEnrollmentPrerequisitesRequest 
+        yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+          ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
+    choice
+    {
+      if Constraint enrollmentMeetsPrerequisitesMet 
+        OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.
+                enrollmentPrerequisitesMet = true"
+        doSequential
+        {
+          ...
+          requestService issueInvoice with issueInvoiceRequest 
+            yielding Variable issueInvoiceResult ofType IssueInvoiceResult
+          {
+            on FinancialPrerequisitesNotSatisfiedException 
+              raiseException FinancialPrerequisitesNotSatisfiedException
+          }
+	      ...
+          requestService performEnrollment with enrollRequest 
+            yielding Variable performEnrollmentResult ofType PerformEnrollmentResult
+          
+          create Variable enrollForPresentationResult 
+            ofType EnrollForPresentationResult
+          set Query OCL:"issueInvoiceResult.invoice" equalTo
+              Query OCL:"enrollForPresentationResult.invoice"
+          ...                       
+          returnResult  enrollForPresentationResult
+        }
+      else raiseException EnrollmentPrerequisitesNotSatisfiedException
+    }
+  }
+}                 
 \end{lstlisting}\normalsize
 Note that the URDAD methodology enforces decoupling through services contracts and that this is also enforced in the URDAD metamodel. In this context URDAD assumes that the concrete service providers used to realize the services contracts are either injected by the run-time environment like in Spring or Java-EE based dependency injection, or are determined during the implementation mapping phase.
 

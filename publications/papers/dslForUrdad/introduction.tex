@@ -1,80 +1,24 @@
 \section{Introduction}
-Insufficiency in requirements engineering is still regarded 
-as a main root cause of poor software quality. This is due 
-to various factors, both human and technological, including 
-vague specification languages with only informally defined 
-semantics. In particular, insufficient language support for 
-\emph{layered} specifications (i.e., decompositional system 
-descriptions at different levels of granularity), leads
-software developers to making wrong presumptions about 
-lower level requirements \cite{espana_evaluating_2009}. 
-Tool support for the validation of requirements specifications, 
-or for the automatic extraction of test cases from them, 
-is also still weak \cite{bashardoust-tajali_extracting_2008}.
+Insufficiency in requirements engineering is still regarded as a root cause of poor software quality. This is due to various factors, both human and technological, including vague specification languages with only informally defined semantics. In particular, insufficient language support for \emph{layered} specifications (i.e., decompositional system descriptions at different levels of granularity), leads software developers to making wrong presumptions about lower level requirements \cite{espana_evaluating_2009}. Tool support for the validation of requirements specifications, or for the automatic extraction of test cases from them, is also still weak \cite{bashardoust-tajali_extracting_2008}.
 
-Model-Driven Engineering (MDE) \cite{schmidt_model_2006} aims
-at solving some of those problems by using modeling languages 
-with well defined semantics as well as by requiring primary 
-models to be domain models, not technical models 
-\cite{asnina_computation_2010}. Tool support for MDE is also 
-encouraged. Consequently, technology-neutral domain models 
-are developed by requirements specialists, not by technical 
-experts \cite{asnina_computation_2010}.
+Model-Driven Engineering (MDE) \cite{schmidt_model_2006} aims at solving some of those problems by using modelling languages with well defined semantics, by requiring primary models to be domain models, not technical models \cite{asnina_computation_2010} and by providing tool support for MDE processes. Consequently, technology-neutral domain models are developed by requirements specialists, not by technical experts \cite{asnina_computation_2010}.
 
-URDAD, the Use-Case, Responsibility-Driven Analysis and 
-Design methodology \cite{fritz_solms_technology_2007} supports 
-the MDE approach in a service-oriented way \cite{solms_urdad_2010}. 
-URDAD is used by requirements specialists to develop and validate 
-technology neutral requirements models. URDAD models of systems
-are thus technology-neutral, Platform-Independent Models (PIM) 
-in the Model-Driven Architecture (MDA) context \cite{solms_urdad_2010}.
-Moreover: URDAD supports a layered, decompositional approach at 
-different levels of granularity. At each level of granularity, 
-testable service contracts are established together with services 
-that fulfill those contracts. Thereby, the functions of higher 
-level services can be realized as compositions of lower level 
-services.
+URDAD, the Use-Case, Responsibility-Driven Analysis and Design methodology \cite{fritz_solms_technology_2007} supports the MDE approach in a service-oriented way \cite{solms_urdad_2010}. URDAD is used by requirements specialists to develop and validate 
+technology neutral requirements models. URDAD models of systems are thus technology-neutral, Platform-Independent Models (PIM) 
+in the Model-Driven Architecture (MDA) context \cite{solms_urdad_2010}. For each level of granularity the method generates a testable services contract and a service which realizes the services contract with a particular orchestration of lower level services used to realize the functional requirements of the services contract. The result is a functional requirements tree with the levels in the requirements tree decoupled through services contracts.
 
-In the past, requirements engineers had used the Unified 
-Model Language (UML) to denote URDAD models. Initially the 
-UML had been a reasonable choice for that purpose because 
-of its widespread acceptance in the software industry. In 
-the UML-based approach to URDAD-modelling, however, the 
-responsibility to only use an URDAD-appropriate subset 
-of the UML (and thus to stick to the intended URDAD modelling 
-rules) was entirely on the side of the requirements engineers. 
-One can indeed develop for URDAD a UML profile with help of a 
-set OCL-based metamodel constraints. However, the number and 
-complexity of those OCL constraints confronted requirements 
-practitioners, who wanted to work with URDAD, with unnecessary 
-difficulties. Consequently the quality of UML-denoted URDAD 
-models was generally so low that MDE-style model transformations 
-were not feasible. Those problems motivated the design of a 
-Domain-Specific Language (DSL), to be used instead of UML, 
-in support of the URDAD methodology.
+In the past, requirements engineers had used the Unified Model Language (UML) to encode URDAD models. UML is a reasonable choice due to its widespread adoption in industry and its comprehensive tool support. In this approach however, the responsibility to only use an URDAD-appropriate subset of the UML (and thus to stick to the intended URDAD modelling rules) was entirely left to requirements engineers. One can indeed develop for URDAD a UML profile with help of a set OCL-based metamodel constraints. The bulk and complexity of these constraints impose significant challenges. In practice, the quality of UML encoded URDAD models have been generally so low that model transformations were not feasible, requiring manual interpretation by developers.
 
-In this paper we present a new domain-specific language 
-(DSL) for the domain of technology-neutral, services-oriented 
-requirements modeling. Our new URDAD DSL is described in terms 
-of a MOF/EMOF meta model. This makes it amenable to MDA tool 
-suites for model transformations, as well as the generation 
-of concrete textual and diagrammatic representations with 
-tool support \cite{gronback_model_2008}. For this purpose
-we analyze theoretically the modeling constructs required 
-by URDAD; we elucidate and critically assess the URDAD meta 
-model, and we propose a concrete textual syntax for an URDAD 
-DSL. A Description Logics (DL)-based representation of the 
-URDAD meta model is derived from the MOF/EMOF meta model 
+In this paper, we will present a domain-specific language (DSL) for the domain of technology-neutral, services-oriented requirements modeling. The URDAD DSL is based on a MOF/EMOF metamodel, which is amenable to the comprehensive MDA tool suite for model-to-model and model-to-text transformations and the specification and generation of concrete textual and diagrammatic syntaxes and tools supporting these \cite{gronback_model_2008}. We will analyze the modeling constructs required by URDAD, elucidate and critically assess the URDAD metamodel and propose a concrete textual syntax for an URDAD DSL. A Description Logics (DL) based representation of the URDAD metamodel will be derived from the MOF/EMOF metamodel in order to show its consistency and satisfiability.
+
+In this paper we present a new domain-specific language (DSL) for the domain of technology-neutral, services-oriented 
+requirements modelling. Our new URDAD DSL is described in terms of a MOF/EMOF meta model. This makes it amenable to MDA tool 
+suites for model transformations, as well as the generation of concrete textual and diagrammatic syntaxes with 
+tool support \cite{gronback_model_2008}. For this purpose we analyze theoretically the modelling constructs required 
+by URDAD; we elucidate and critically assess the URDAD meta model, and we propose a concrete textual syntax for an URDAD 
+DSL. A Description Logics (DL)-based representation of the URDAD meta model is derived from the MOF/EMOF meta model 
 in order to show its consistency and satisfiability.
 
-Consequently we argue that the URDAD DSL has two main 
-advantages compared to the use of an URDAD UML profile. 
-The formalism is considerably simpler than the UML and, 
-with appropriate tool support, is expected to simplify 
-the process through which requirements engineers can 
-build high-level, technology-neutral system models.
-Our new DSL enforces the mandatory structures of 
-valid URDAD models, thereby requiring only a rather 
-small and simple set of meta model constraints at the
-basis of tool-supported model validation. Further details 
-will be described and discussed in the following sections.
+We argue that the URDAD DSL has two main advantages compared to the use of an URDAD UML profile. The language is considerably simpler than the UML and, with appropriate tool support, is expected to simplify the process through which requirements engineers can build high-level, technology-neutral models. Our new DSL enforces the mandatory structures of valid URDAD models, thereby requiring only a rather small and simple set of meta model constraints at the basis of tool-supported model validation. 
+
+The paper is structured as follows. In Section \ref{sec:urdadMethodology}, we give a compact overview of the URDAD methodology. Section \ref{sec:metamodel} introduces the URDAD metamodel, its core concepts and the rationale behind it. In section \ref{sec:metamodelAssessment} we discuss the verification of the internal integrity of the metamodel, the ability to validate URDAD models for completeness and consistency, and assess certain metamodel qualities such as complexity, traceability and validatability. Our approach is put into context with related work in Section \ref{sec:relatedWork}. Section \ref{sec:conclusionsAndOutlook} concludes and presents an outlook on future work.
