@@ -20,15 +20,11 @@ Requirements traceability is important for design validation and estimation. Val
 
 In the URDAD metamodel satisfaction links are represented by \verb+usedToAddress+ links between services and functional requirements. They can be used to trace that all functional requirements are addressed and that one does not use services which do not address functional requirements. Evolutionary links are not addressed within the URDAD metamodel and are provided by the version control environment. Higher level purpose, goals and rationale links are also not addressed in URDAD. The metamodel does, however, include  \verb+requiredBy+ links between requirements and stakeholders which require them. Finally, dependencies between model elements are explicitly represented within the model. 
 
-The metamodel was found to be sufficient to generate or specify a concrete textual grammar capturing the concepts required by the URDAD methodology. Using EMFText \cite{heidenreich_derivation_2009}, we generated a language-aware editor supporting syntax checking, editing support and high-lighting. 
+The metamodel was found to be sufficient to generate or specify a concrete textual grammar capturing the concepts required by the URDAD methodology. Using EMFText \cite{heidenreich_derivation_2009}, we generated a language-aware editor supporting syntax checking, editing support and high-lighting. We populated an example model and encoded it in both, the URDAD-DSL using out textual syntax and in UML. The example was used to assess sufficiency for test and code generation as well as relative model complexities.
 
 
+Sufficient service contract specification needs to support the generation of functional testing which, in turn, requires constraints which can be validated. The following listing shows an extract of the textual encoding of our example. It illustrates the specification of a service contract with pre- and post-conditions and data structures for the request and result classes of the service..
 
-Using the textual syntax, we populated an  
-
-We used the syntax to populate an example model used to 
-
-Sufficient service contract specification needs to support the generation of functional testing which, in turn, requires constraints which can be validated. The following listing uses the concrete text syntax developed for the URDAD-DSL to specify the pre- and post-conditions of the \verb+enrollForPresentation+ service together with the specification of the data structures for the request and result object:
 \tiny \begin{lstlisting}[numbers=left,escapechar=|]
 ServiceContract enrollForPresentation
 {
@@ -68,7 +64,7 @@ ServiceContract enrollForPresentation
 }
 \end{lstlisting}\normalsize
 
-The pre- and post-conditions refer to reusable constraints. Being in a services oriented approach, constraints are specified as a combination of a process which extracts information form the environment and a set of data structure constraints applied against the obtained information.
+The pre- and post-conditions are linked to reusable constraints on the service environment. A constraint can be Being in a services-oriented approach, constraints are specified as a combination of a process which extracts information form the environment and a set of data structure constraints applied against the obtained information.
 \tiny \begin{lstlisting}[numbers=left,escapechar=|]
 StateConstraint studentEnrolledForPresentation receiving Variable 
   enrollForPresentationRequest ofType EnrollForPresentationRequest
@@ -85,7 +81,7 @@ StateConstraint studentEnrolledForPresentation receiving Variable
     (enrollForPresentationRequest.personIdentifier)"
 }
 \end{lstlisting}\normalsize
-The above specification is sufficient for generating the functional tests for the service contract. These are independent of the process specification of a concrete service realizing the services contract.
+The above specification is sufficient for generating the functional tests for the service contract. It is not possible to specify the pre- and post-conditions in OCL alone because the extraction of information from the environment through services. also parametrized constraint
 
 Code generation in a services oriented approach requires for each service the specification of the process through which this higher level service is assembled from lower level services. This includes the standard process logic around sequential, concurrent and conditional activities, specification of service requests, the maintenance of process state, the construction of the request object and the concepts of returning a result or raising an exception. The process is orchestrated across the services used to realize the pre- and post-conditions:
 \tiny \begin{lstlisting}[numbers=left,escapechar=|]
