@@ -94,6 +94,8 @@ The data module is a standard object-oriented approach to data structure specifi
 
 The process package introduces the concept of a service which is a concrete unit of functionality realizing a services contract. For a service one species the lower level services used to address the different pre- and post-conditions. This requirement of the URDAD methodology improves traceability providing satisfaction links discussed in \cite{ramesh_toward_2001}). Each activity within the service process is associated with either (1) the maintenance of local process variables, (2) the validation of a pre-condition and/or the fulfillment of a post-condition through the execution of a lower level service, (3) the handling of an exception received from a lower level service, (4) the raising of an exception or the return of the result.
 
+The URDAD methodology enforces decoupling through services contracts. This is  enforced in the URDAD metamodel by linking both, satisfaction links and service requests to service contracts and not concrete services. Note also that URDAD assumes that the concrete services used to realize the services contracts are specified either during implementation mapping or by the run-time environment and not in the technology neutral model. They could, for example, be injected by the run-time environment like in Spring or Java-EE based dependency injection.
+
 An important non-functional requirement of all activities that constitute a service's process, is that each activity must be traceable back to the fulfillment of one or more of the functional requirements. There should be no redundancy and only the functional requirements that are associated with the service should be addressed by the process.
 
 

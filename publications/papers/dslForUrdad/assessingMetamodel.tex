@@ -20,7 +20,7 @@ Requirements traceability is important for design validation and estimation. Val
 
 In the URDAD metamodel satisfaction links are represented by \verb+usedToAddress+ links between services and functional requirements. They can be used to trace that all functional requirements are addressed and that one does not use services which do not address functional requirements. Evolutionary links are not addressed within the URDAD metamodel and are provided by the version control environment. Higher level purpose, goals and rationale links are also not addressed in URDAD. The metamodel does, however, include  \verb+requiredBy+ links between requirements and stakeholders which require them. Finally, dependencies between model elements are explicitly represented within the model. 
 
-The metamodel was found to be sufficient to generate or specify a concrete textual grammar capturing the concepts required by the URDAD methodology. Using EMFText \cite{heidenreich_derivation_2009}, we generated a language-aware editor supporting syntax checking, editing support and high-lighting. We populated an example model and encoded it in both, the URDAD-DSL using out textual syntax and in UML. The example was used to assess sufficiency for test and code generation as well as relative model complexities.
+The metamodel was found to be sufficient to generate or specify a concrete textual grammar capturing the concepts required by the URDAD methodology. Using EMFText \cite{heidenreich_derivation_2009}, we generated a language-aware editor supporting syntax checking, editing support, high-lighting and parsing. The generated editor and parser as well as the standard model validators provide basic validation against the metamodel including compliance to the metamodel constraints. We populated an example model and encoded it in both, the URDAD-DSL using out textual syntax and in UML. The example was used to assess sufficiency for test and code generation as well as relative model complexities.
 
 Sufficient service contract specification needs to support the generation of functional tests which, in turn, requires constraints which can be validated. The following listing shows an extract of the textual encoding of our example. It illustrates the specification of a service contract with pre- and post-conditions and data structures for the request and result classes of the service.
 
@@ -81,7 +81,7 @@ StateConstraint studentEnrolledForPresentation receiving Variable
 }
 \end{lstlisting}\normalsize
 
-Code generation in a services oriented approach requires for each service the specification of the process through which it is assembled from lower level services. This includes the standard process logic around sequential, concurrent and conditional activities, specification of service requests, the maintenance of process state, the construction of the request object and the concepts of returning a result or raising an exception. The process is orchestrated across the services used to realize the pre- and post-conditions:
+The URDAD_DSL model captures the services used to address the functional requirements of a service and the orchestration of a process across these lower level services.
 \tiny \begin{lstlisting}[numbers=left,escapechar=|]
 Service enrollForPresentationImpl realizes enrollForPresentation 
  receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
@@ -134,10 +134,7 @@ Service enrollForPresentationImpl realizes enrollForPresentation
   }
 }                 
 \end{lstlisting}\normalsize
-Note that the URDAD methodology enforces decoupling through services contracts and that this is also enforced in the URDAD metamodel. In this context URDAD assumes that the concrete service providers used to realize the services contracts are either injected by the run-time environment like in Spring or Java-EE based dependency injection, or are determined during the implementation mapping phase.
-
-\todo{Discuss various validation steps for instance models including DL based, parser, validation against metamodel and OCL constraints, ...}
-
+UML provides a range of diagrams and a very extensive range of model constructs for process specification. An process specified in the URDAD-DSL can be mapped onto a process specified in UML. However, requirements specialists need to ensure that they use only a very limited subset which provides the required semantics. For example, when using activity diagrams they cannot use swim lanes because UML does not have the concept of an activity realizing a service. Instead one needs to define an activity diagram using only call operations which are linked to interfaces representing services contracts together with flow logic.
 
 %-------------------------------------------------------------------------------------
 
