@@ -1,6 +1,6 @@
 \section{Assessing the URDAD DSL \label{sec:assessment}}
 
-In this section we analyse the internal URDAD metamodel consistency, assess the sufficiency of the URDAD-DSL for traceability, code and test generation, and compare the relative complexities of URDAD-DSL and UML based approaches.
+In this section we analyse the internal URDAD metamodel consistency, assess the sufficiency of the URDAD DSL for traceability, code and test generation, and compare the relative complexities of URDAD DSL and URDAD UML based approaches.
 
 %-------------------------------------------------------------------------------------
 
@@ -14,13 +14,13 @@ URDAD $\mathcal{M}0$ instance models are transformed into ontological instance k
 
 \subsection{Sufficiency}
 
-This section assesses the sufficiency of the URDAD-DSL with respect to requirements traceability, test generation and implementation mappings. 
+This section assesses the sufficiency of the URDAD DSL with respect to requirements traceability, test generation and implementation mappings. 
 
 Requirements traceability is important for design validation and estimation. Validation includes assessing sufficiency and necessity, i.e.\ assessing whether all requirements are met and whether all model elements are required. This has to be done across levels of granularity \cite{dick_design_2005}. Ramesh et al.\ \cite{ramesh_toward_2001} identify four core traceability link types including (i) \emph{satisfaction links} which represent links between requirements and activities which satisfy them, (ii) \emph{evolutional links} providing chronological traceability of model artifacts, (iii) \emph{rationale links} which link requirements to the rationale (e.g. goals) and (iv) \emph{dependency links} between model elements.
 
 In the URDAD metamodel satisfaction links are represented by \verb+usedToAddress+ links between services and functional requirements. They can be used to trace that all functional requirements are addressed and that one does not use services which do not address functional requirements. Evolutionary links are not addressed within the URDAD metamodel and are provided by the version control environment. Higher level purpose, goals and rationale links are also not addressed in URDAD. The metamodel does, however, include  \verb+requiredBy+ links between requirements and stakeholders which require them. Finally, dependencies between model elements are explicitly represented within the model. 
 
-The metamodel was found to be sufficient to generate or specify a concrete textual grammar capturing the concepts required by the URDAD methodology. Using EMFText \cite{heidenreich_derivation_2009}, we generated a language-aware editor supporting syntax checking, editing support, high-lighting and parsing. The generated editor and parser as well as the standard model validators provide basic validation against the metamodel including compliance to the metamodel constraints. We populated an example model and encoded it in both, the URDAD-DSL using out textual syntax and in UML. The example was used to assess sufficiency for test and code generation as well as relative model complexities.
+The metamodel was found to be sufficient to generate or specify a concrete textual grammar capturing the concepts required by the URDAD methodology. Using EMFText \cite{heidenreich_derivation_2009}, we generated a language-aware editor supporting syntax checking, editing support, high-lighting and parsing. The generated editor and parser as well as the standard model validators provide basic validation against the metamodel including compliance to the metamodel constraints. We populated an example model and encoded it in both, the URDAD DSL using out textual syntax and in UML. The example was used to assess sufficiency for test and code generation as well as relative model complexities.
 
 Sufficient service contract specification needs to support the generation of functional tests which, in turn, requires constraints which can be validated. The following listing shows an extract of the textual encoding of our example. It illustrates the specification of a service contract with pre- and post-conditions and data structures for the request and result classes of the service.
 
@@ -63,7 +63,7 @@ ServiceContract enrollForPresentation
 }
 \end{lstlisting}\normalsize
 
-The pre- and post-conditions are linked to reusable, parametrized constraints and include the specification of a process which extracts information form the environment together with a set of data structure constraints applied against the obtained information. The specification of such constraints is not possible using OCL alone.
+The functional requirements are linked to reusable, parametrized constraints and include the specification of a process which extracts information form the environment together with a set of data structure constraints applied against the obtained information. The specification of such constraints is not possible using OCL alone.
 \tiny \begin{lstlisting}[numbers=left,escapechar=|]
 StateConstraint studentEnrolledForPresentation receiving Variable 
   enrollForPresentationRequest ofType EnrollForPresentationRequest
@@ -134,7 +134,7 @@ Service enrollForPresentationImpl realizes enrollForPresentation
   }
 }                 
 \end{lstlisting}\normalsize
-UML provides a range of diagrams and a very extensive range of model constructs for process specification. An process specified in the URDAD-DSL can be mapped onto a process specified in UML. However, requirements specialists need to ensure that they use only a very limited subset which provides the required semantics. For example, when using activity diagrams they cannot use swim lanes because UML does not have the concept of an activity realizing a service. Instead one needs to define an activity diagram using only call operations which are linked to interfaces representing services contracts together with flow logic.
+UML provides a range of diagrams and a very extensive range of model constructs for process specification. A process specified in the URDAD DSL can be mapped onto a process specified in UML. However, requirements specialists need to ensure that they use only a very limited subset which provides the required semantics. For example, when using activity diagrams they cannot use swim lanes because UML does not have the concept of an activity realizing a service. Instead one needs to define an activity diagram using only call operations which are linked to interfaces representing services contracts together with flow logic.
 
 %-------------------------------------------------------------------------------------
 
@@ -142,12 +142,10 @@ UML provides a range of diagrams and a very extensive range of model constructs 
 
 When looking at complexity we are confronted with (1) the conceptual model complexity, (2) the complexity of the language used, (3) the complexity of a model encoded in a particular language, and (4) the complexity of the process to specify the model in the language. 
 
-The conceptual model complexity is the same irrespective of whether the models are encoded in the UML or the URDAD DSL. This is so because we are specifying the same model, i.e.\ the same services contracts, processes and data structures. For exxample, it is senseless to evaluate the cyclomatic complexity \cite{mccabe_complexity_1976} of an URDAD-DSL encoded process and compare it to the cyclomatic complexity of the same process in a UML encoding.
+The conceptual model complexity is the same irrespective of whether the models are encoded in the UML or the URDAD DSL. This is so because we are specifying the same model, i.e.\ the same services contracts, processes and data structures. For example, it is senseless to evaluate the cyclomatic complexity \cite{mccabe_complexity_1976} of an URDAD DSL process and compare it to the cyclomatic complexity of the equivalent URDAD UML process.
 
 The complexity of a language can be assessed by assessing the complexity of its metamodel \cite{mohagheghi_evaluating_2007}. The language complexity affects its learnability and the complexity of the tools developed around the language including model editors, transformation components and validation tools. Even though a more complex language generally entails a steeper learning curve, it need not result in more complex model encodings. Often the converse is true. A more complex language may have more expressive power and thus smaller model sizes. The aim of a domain specific language, on the other hand, is to provide a simpler language which introduces only the concepts required for a particular domain, whilst providing the expressive power to effectively make the statements required for that domain, i.e. to be both, a simpler language and to result in more simple models. Being a generic language aiming to please a range of different user communities using different approaches to analysis and design. This is evident from the metamodel of UML containing about 16 times as many classes and 7 times more relationships than the URDAD DSL.
 
-In order to assess relative model complexities we compared an UML-encoded model to its equivalent URDAD-DSL encoding. We found the complexities to be comparative with the URDAD-DSL encoding allowing for more rich and complete contract specification.
+Comparing the URDAD UML model for our example to an equivalent URDAD DSL model we find that the URDAD DSL model has marginally lower complexity. However, the URDAD DSL model can absorb additional model constructs, particularly around the service contract specification which cannot be represented in the URDAD-UML model.
 
-models selected a use case of a typical enterprise system we analysed :As a rough estimate of the relative complexity differences between the instance models we count the number of classes and relationships which have to be introduced when encoding an instance model using the UML compared to that obtained when using the URDAD-DSL. This has been done against two representative examples. The results are ... \todo{Actually still needs to be done. Note the models must contain the same information content}. \emph{Analyze results for causes, e.g. adding semantic links, duplication, ...} Some of the additional artifacts in a UML encoding of an URDAD model include (1) the representation of service as both use case and service in services contract and the required linkage between them, (2) the duplication assignment of a separate service provider contract to a package, (3) \dots
-
-\emph{Discuss the complexity of the language usage. Discuss why UML is complex to use (with references) and why the complexity is even higher when using UML in the context of MDE. Also discuss that it depends on the concrete syntax and tools for URDAD-DSL and that there are still many open questions}
+\emph{Discuss the complexity of the language usage. Discuss why UML is complex to use (with references) and why the complexity is even higher when using UML in the context of MDE. Also discuss that it depends on the concrete syntax and tools for URDAD DSL and that there are still many open questions}
