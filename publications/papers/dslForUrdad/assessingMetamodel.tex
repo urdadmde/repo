@@ -136,6 +136,8 @@ Service enrollForPresentationImpl realizes enrollForPresentation
 \end{lstlisting}\normalsize
 UML provides a range of diagrams and a very extensive range of model constructs for process specification. A process specified in the URDAD DSL can be mapped onto a process specified in UML. However, requirements specialists need to ensure that they use only a very limited subset which provides the required semantics. For example, when using activity diagrams they cannot use swim lanes because UML does not have the concept of an activity realizing a service. Instead one needs to define an activity diagram using only call operations which are linked to interfaces representing services contracts together with flow logic.
 
+The concept of events is not at all present in the URDAD metamodel. However, events do not fit naturally into a services oriented approach where services are stateless with state purely maintained in the environment. Even though events can be approximated by mapping them onto onto either the receipt of a service request or a response, URDAD and its metamodel are not particularly suited to modelling event-centric systems.
+
 %-------------------------------------------------------------------------------------
 
 \subsection{Complexity}
