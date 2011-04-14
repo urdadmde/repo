@@ -1,52 +1,51 @@
-\section{The URDAD metamodel \label{sec:metamodel}}
+\section{URDAD's Meta Model \label{sec:metamodel}}
 
-The URDAD metamodel was developed to provide a formal description of the URDAD domain of discourse that can be efficiently used to support the URDAD methodology for requirements specification. A metamodel is the ``logical information model that specifies the modelling elements used within another (or the same) modelling notation'' \cite{_ieee_2003}. The URDAD metamodel formalizes the modelling constructs needed for the specification of service requirements and the technology neutral design of business processes realizing these requirements\footnote{In the URDAD DSL, the metamodel described in this section, is supplemented with a library of primitive data types, entities, and core persistence services.}. 
+URDAD's meta model provides a formal description of URDAD's domain of discourse. It will be used to support the URDAD methodology of requirements specification. A meta model is a ``logical information model that specifies the modeling elements used within another (or the same) modeling notation'' \cite{_ieee_2003}. 
 
-The URDAD metamodel was encoded using the EMOF/Ecore \cite{} toolsuite, which provides for 1) the automatic generation of concrete textual and diagrammatic syntaxes, 2) QVT-based model-to-model and model-to-text transformations, and 2) the integrated use of the Object Constraint Language (OCL) \cite{_object_2010} with URDAD (meta-)models. An automatic translation of the metamodel into a Web Ontology Language (OWL DL) \cite{} ontology was employed to facilitate automated satisfiability checking (see Section \ref{sec:assessment}).
+URDAD's meta model formalizes the modeling constructs needed for the specification of service requirements 
+and the technology-neutral design of business processes which fulfill such requirements. It is denoted with help of the well-known EMOF/Ecore tool suite, which supports the automatic generation of concrete syntax forms, QVT-based model transformations, as well as the integrated use of the Object Constraint Language (OCL) \cite{_object_2010}. An automatic translation of the meta model into the well-known Web Ontology Language (OWL DL) ontology was done to facilitate automated satisfiability checking (see Section \ref{sec:assessment}).
 
-The URDAD metamodel was designed to contain the smallest sufficient set of concepts that describe URDAD's services oriented analysis and design. In particular, the described modelling constructs facilitate 1) the recursive decomposition of service requirements into lower level service requirements with pre- and post-conditions, 2) the specification of quality requirements for services, 3) the specification of input/output data structures, and 3) the specification of service orchestrations.
+Our meta model was designed to contain the smallest sufficient set of concepts that describe URDAD's service-oriented analysis and design specifications. In particular the meta model's features capture the above-mentioned decomposition of service requirements with pre- and post-conditions, the specification of non-functional quality requirements, the specification of I/O data types, as well as the specification of service `orchestrations'. The conception of our meta model was influenced by the UML and the Business Process Execution Language (BPEL) in the area of data structure and process specification. One of its underlying assumptions is the internal `statelessness' of the services to be composed; `state' is assumed to be stored in the services' environments.
 
-The URDAD metamodel has been influenced by the Unified Modeling Language (UML) and the Business Process Execution Language (BPEL) in the area of data structure specification and process specification, respectively. It enforces the assembly of stateless services from lower level stateless services, where lowest level services are sourced from the environment (see Section \ref{sec:urdadMethodology}). 
-
-The URDAD DSL is only a fraction of the size of UML, yet it includes important core concepts required by the URDAD methodology. In particular, these include 1) a higher-level constraint infrastructure supporting parameterized, reusable constraints, which are assessed through processes that gather information from the environment, 2) modelling constructs for the explicit specification of a service contract, 3) concept relationships facilitating improved traceability, 4) the concept of a responsibility domain, 5) the explicit relation of pre-conditions with exceptions, 6) the separation of the identification of a resource (object or service) from the path to it, and 7) service-specific request and result classes.
-
-Using tools like EMFText \cite{heidenreich_derivation_2009} one can either generate or specify a textual grammar for a metamodel and from the grammar a parser and a language-aware editor supporting syntax checking, editing support, high-lighting. In this section we illustrate core aspects of the URDAD DSL through an example encoded in the grammar which we defined for the language. The textual grammar was meant to be simple and intuitive, enabling requirements specialists to capture URDAD DSL models.
+The URDAD DSL is only a fraction of the size of the UML, yet it includes all core concepts required by the URDAD methodology. In particular it can describe the notion of a responsibility domain, intra-model relationships facilitating traceability, service contracts including pre-conditions and exceptions, service-specific request and result classes, and the separation of the identification of a resource (object or service) from the path to it. Our DSL can even describe a system of parameterized, reusable operational constraints, which are assessed through processes that gather information from their environment. This will be illustrated in the following sub-sections.
 
 %--------------------------
+\subsection{The Core of URDAD's Meta Model}
 
-\subsection{URDAD-DSL core}
-
-The core module introduces the concept of an URDAD model, model elements and stakeholders, responsibility domains, and expressions and annotations as shown in Fig.\ \ref{fig:metamodel}. Note that the URDAD-DSL does not lock into a particular expression language (e.g., for the specification of constraints). 
-
+The core module of our meta model captures the concept of an URDAD model as such, i.e.: its model elements and stakeholders, responsibility domains, as well as further expressions and annotations as shown in Figure \ref{fig:metamodel-1}.
 \begin{figure}[Htb]
   \centering
   \includegraphics{core}
   \caption{The core elements of URDAD}
-  \label{fig:metamodel}
+  \label{fig:metamodel-1}
 \end{figure}
 
-Responsibility domains are assigned to physical resources (e.g., persons, systems, modules). A responsibility domain covers a cohesive unit of functionality at a particular level of granularity. For example, there may be a finance responsibility and within it there are lower level responsibility domains such as creditors and debtors. Responsibility domains group cohesive service contracts. They define the boundaries between levels of granularity with lower level granularity services of a responsibility domain being contained in lower level responsibility domains. Technically, responsibility domains are packaging constructs associating model elements with a unique namespace. In URDAD, every requirement needs to justified by at least one stakeholder, which can either be a service or a responsibility domain.\todo{I tried to make sense of this paragraph an rephrased it. Please check.}
+The picture shows that esponsibility domains are assigned to various resources (e.g., persons, systems, modules). A 
+responsibility domain covers a coherent unit of functionality at a particular level of granularity, as previously mentioned. Responsibility domains are pragmatically meaningful groups of service contracts. They also define the boundaries between different levels of granularity. Thereby our notion of `responsibility domain' is similar to the notion of `unity criteria' in \cite{gonzalez_unity_2009}. Technically, responsibility domains are packaging constructs to subsume model elements under a unique name space.
 
-Responsibility domains are closely related to the concept of unity criteria \cite{gonzalez_unity_2009}.\todo{Move last sentence to Related Work section}
+Using tools like EMFText \cite{heidenreich_derivation_2009} one can either generate or specify a textual grammar for a metamodel and from the grammar a parser and a language-aware editor supporting syntax checking, editing support, high-lighting. In this section we illustrate core aspects of the URDAD DSL through an example encoded in the grammar which we defined for the language. The textual grammar was meant to be simple and intuitive, enabling requirements specialists to capture URDAD DSL models.
 
-%--------------------------
-
+%-----------------------
 \subsection{Constraints}
 
-The Object-Constraint Language (OCL) has become the de-facto standard for specifying constraints across object graphs. However, in a services oriented approach and in the context of reusable, parameterized constraints OCL alone is insufficient. In particular, the definition of reusable constraints requires support for binding parameters. Assume, for example, a constraint that a \emph{Person} is registered. This constraint can be used in a pre- and post-condition of a service. Hence, to be able to do so, the person identifier would have to be passed as a parameter to the constraint.
+The Object-Constraint Language (OCL) has become de-facto standard for specifying constraints across object graphs. However, in a service-oriented approach and in the context of reusable, parameterized constraints the OCL alone is 
+not expressive enough. In particular, the definition of reusable constraints requires support for binding parameters. 
 
-Another reason why the URDAD-DSL provides for the integration of additional constraint infrastructure is that in a services oriented world the actual environmental state is not directly specified, but accessible only via services. In such a world it is not possible to specify testable constraints via a pure\todo{What is the meaning of ``pure'' in this context?} constraint language like OCL. The constraint specification needs to include the specification of services, which are used to obtain the state information and the associated service request objects. The construction of these request objects might itself require a process, which obtains information from the environment. URDAD-DSL constraint specifications include the specification of a process to source information from the environment together with a set of constraints that apply to this information. OCL (or different constraint specification languages) can then be used to specify the constraints that apply to the obtained information.
+\emph{For example}, assume a constraint that some `Person' must be `registered'. Such a constraint can contribute to pre- or post-conditions of services. Hence, to be able to do so, the person identifier would have to be passed as a parameter to the constraint entity.
 
+Another reason why the URDAD-DSL captures the integration of an additional constraint infrastructure is that in a service-oriented context the actual environmental state is not directly specified, but accessible only via services. In such a context it is not feasible to specify testable conditions via OCL, for OCL is made for `speaking' about objects, not about their environments.
+
+The specification of constraints must relate to the specification of services that are used to obtain the state information and the associated service request objects. The construction of the related request objects might itself require a process to obtain information from the environment. The URDAD-DSL is suitable for this purpose. OCL (or similar constraint specification languages) can then be used to specify the object constraints that apply to the obtained environmental information.
+
+As it is depicted in Figure \ref{fig:metamodel-2}, the constraints module provides the concept of re-usable constraints with standard logical operators to formulate complex constraint expressions.
 \begin{figure}[Htbp]
   \centering
   \includegraphics{constraint}
   \caption{The constraint specification elements of URDAD}
-  \label{fig:metamodel}
+  \label{fig:metamodel-2}
 \end{figure}
 
-The constraints module provides the concept of re-usable constraints and standard logical operators to build up complex constraint expressions.
-
-The following listing shows an extract of the textual encoding of our example. It illustrates the specification of a simple parametrized  constraint which includes the specification of a process which extracts information form the environment and a data structure constraint applied against the obtained information.
+The following listing shows an extract of the textual representation of our `registration' example. It illustrates the specification of a simple parametrized constraint which includes the specification of a process that extracts information from the environment as well as a data constraint to be checked against the such-obtained information.
 \tiny \begin{lstlisting}[numbers=left,escapechar=|]
 StateConstraint studentEnrolledForPresentation receiving Variable 
   enrollForPresentationRequest ofType EnrollForPresentationRequest
@@ -64,26 +63,20 @@ StateConstraint studentEnrolledForPresentation receiving Variable
 }
 \end{lstlisting}\normalsize
 
-%--------------------------
+%----------------------------
+\subsection{Service Contracts}
 
-\subsection{Services contracts}
-
-A service contract can comprise both functional requirements (i.e.\ pre- and post-conditions) as well as non-functional (i.e.\ quality) requirements. Each requirement is associated with a a stakeholder which is either a responsibility domain or another service. 
-
-Pre-conditions are conditions that must be true for a service to execute. Service providers may refuse  services without breaching the service contract if a pre-condition does not hold. In URDAD, the specification of a pre-condition includes the specification of an exception that is used to notify a service user if a requested service cannot be provided (because the pre-condition does not hold). 
-
-A post-condition is a condition that holds true after a service has been provided. It is either a condition of the result or constrains the state of the environment. Due to a service potentially resulting in a lasting change to its environment, the URDAD-DSL allows the designation of inverse services through which these lasting effects can be reversed. Thus, the effects of partially completed processes can be reversed.
-
-Functional requirements may be conditional and are bound to reusable state constraints.  Quality requirements are bound to quality constraints.\todo{Meaning?}
-
+A service contract comprises both functional and non-functional quality requirements. Every requirement is associated with a stakeholder which is either a responsibility domain or another service. Functional service requirements are expressed in terms of the above-mentioned pre- and post-conditions, together with exception rules for the case that any pre-condition is not fulfilled. This is depicted in Figure \ref{fig:metamodel-3}.
 \begin{figure}[Htbp]
   \centering
   \includegraphics{contract}
   \caption{The contract specification elements of URDAD}
-  \label{fig:metamodel}
+  \label{fig:metamodel-3}
 \end{figure}
 
-A services contract specifies a single service request object that contains information pertaining to the request and a single result object, which comprises of the information associated with the result of the executed service. The data structures for these request and result objects are service specific and are not meant to be reused (their components, which are domain objects, are most likely to be reused). Below we illustrate the specification of a services contract in the URDAD DSL textual grammar.
+A post-condition can specify either the computational output of a service, or its \emph{side effects} on its environment. Due to a service potentially creating a lasting change to its environment, the URDAD-DSL allows the designation of inverse services through which these lasting effects can be reversed. Explicit post-conditions thus also help to specify such undo-services.
+
+A service contract specifies a single service request object that contains information pertaining to the request and a single result object, which contains the information associated with the result of the executed service. The data structures for these request and result objects are service-specific and are not meant to be reused (though their components, which are domain objects, are most likely to be reused). Below we illustrate the specification of a service contract in our URDAD DSL grammar.
 \tiny \begin{lstlisting}[numbers=left,escapechar=|]
 ServiceContract enrollForPresentation
 {
@@ -124,35 +117,31 @@ ServiceContract enrollForPresentation
 \end{lstlisting}\normalsize
 
 %--------------------------
+\subsection{Data Structures}
 
+The data module of the URDAD meta model is depicted in Figure \ref{fig:metamodel-4}. It allows for an object-oriented approach to data structure specification, similar to UML class descriptions. For the purpose of this paper it it not necessary to go into the finer details of this package which descibes, basically, what kind of data two services can communicate amongst each other.
 \begin{figure}[Htbp]
   \centering
   \includegraphics{data}
   \caption{The data definition elements of URDAD}
-  \label{fig:metamodel}
+  \label{fig:metamodel-4}
 \end{figure}
 
-\subsection{Data structures}
+\todo{Add identification vs association in a more compact form}
 
-The data module of the URDAD metamodel is a straightforward object-oriented approach to data structure specification similar to UML class models. The core additions are that of separating an identification from an association and the concept of an assignable which can be a variable (object), variable reference, query or constant. An identification purely identifies a resource (object or service), relying on the environment to be able to source the resource from the environment. It is an abstraction of the concept of a \emph{Uniform Resource Identifier} (URI). An association, on the other hand, resembles a path to the resource.\todo{Never mind, this paragraph is unintelligible.}
+%--------------------
+\subsection{Processes}
 
-%--------------------------
+The process package of the URDAD meta model describes the concept of a service as a concrete unit of functionality in fulfillment of its service contract. In this context, traceability is suported by `satisfaction' links as in \cite{ramesh_toward_2001}). A service is thus conceptually associated with its own local variables, the validation of a pre-condition and/or the fulfilment of a post-condition, the handling of an exception raised by a sub-service, the raising of an exception at its own level, or the return of a computational result. Figure \ref{fig:metamodel-5} shows this section or the URDAD meta model.
 \begin{figure}[Htbp]
   \centering
   \includegraphics{process}
   \caption{The process definition elements of URDAD}
-  \label{fig:metamodel}
+  \label{fig:metamodel-5}
 \end{figure}
 
-\subsection{Processes}
+The URDAD methodology enforces `decoupling' through service contracts. This is reflected in the URDAD meta model by associating satisfaction links as well as service requests to service contracts (instead of to concrete services). Also note that URDAD methodology assumes that the concrete services will either be implemented through model-transformations (MDE), or will be provided through the underlying infrastructure (e.g., run-time environments). Therefore, the finer details of service implementations are not represented in the our technology-neutral URDAD models. The following listing shows how a service contract is denoted in the grammar of our URDAD DSL.
 
-The process package introduces the concept of a service as a concrete unit of functionality realizing a services contract. A service specification comprises of lower level services used to address stipulated pre- and post-conditions. Thus, the URDAD methodology improves traceability by providing satisfaction links as discussed in \cite{ramesh_toward_2001}). Each activity within the service process is associated with either 1) the maintenance of local process variables\todo{Meaning of item 1)?}, 2) the validation of a pre-condition and/or the fulfilment of a post-condition through the execution of a lower level service, 3) the handling of an exception received from a lower level service, or 4) the raising of an exception or the return of the result.
-
-The URDAD methodology enforces decoupling through services contracts. This is enforced in the URDAD metamodel by linking both satisfaction links as well as service requests to service contracts instead of concrete services. Also note that URDAD assumes that the concrete services used to realize the services contracts are specified either by implementation mapping\todo{Meaning of ``implementation mapping''?} or by the run-time environment and not in the technology neutral model. They could, for example, be injected by the run-time environment similarly to dependency injection on the J2EE platform.
-
-An important non-functional requirement of all activities that constitute a service's process is that each activity must be traceable back to the fulfilment of one or more of the functional requirements. There must be no redundancy and only the functional requirements that are associated with the service must be addressed by a process.
-
-The following listing demonstrates how a services contract is encoded in the URDAD DSL textual grammar
 \tiny \begin{lstlisting}[numbers=left,escapechar=|]
 Service enrollForPresentationImpl realizes enrollForPresentation 
  receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
@@ -205,3 +194,5 @@ Service enrollForPresentationImpl realizes enrollForPresentation
   }
 }                 
 \end{lstlisting}\normalsize
+
+ 
