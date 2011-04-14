@@ -10,6 +10,8 @@ The URDAD metamodel has been influenced by the Unified Modeling Language (UML) a
 
 The URDAD DSL is only a fraction of the size of the Unified Modeling Language, yet it includes important core concepts required by the URDAD methodology. In particular, these include 1) a higher-level constraint infrastructure supporting parameterized, reusable constraints, which are assessed through processes that gather information from the environment, 2) modelling constructs for the explicit specification of a service contract, 3) concept relationships facilitating improved traceability, 4) the concept of a responsibility domain, 5) the explicit relation of pre-conditions with exceptions, 6) the separation of the identification of a resource (object or service) from the path to it, and 7) service-specific request and result classes.
 
+Using tools like EMFText \cite{heidenreich_derivation_2009} one can either generate or specify a textual grammar for a metamodel and from the grammar a parser and a language-aware editor supporting syntax checking, editing support, high-lighting. In this section we illustrate core aspects of the URDAD DSL through an example encoded in the grammar which we defined for the language. The textual grammar was meant to be simple and intuitive, enabling requirements specialists to capture URDAD DSL models.
+
 %--------------------------
 
 \subsection{URDAD-DSL core}
@@ -42,7 +44,25 @@ Another reason why the URDAD-DSL provides for the integration of additional cons
   \label{fig:metamodel}
 \end{figure}
 
-The constraints module provides the concept of re-usable constraints and standard logical operators to build up complex constraint expressions. Parameterized state constraints are assembled from a process querying the environment and a set of constraints on the information obtained from the environment. A state constraint reference has the option to include a constraint parameter as well as the specification of a process to construct that parameter.
+The constraints module provides the concept of re-usable constraints and standard logical operators to build up complex constraint expressions.
+
+The following listing shows an extract of the textual encoding of our example. It illustrates the specification of a simple parametrized  constraint which includes the specification of a process which extracts information form the environment and a data structure constraint applied against the obtained information.
+\tiny \begin{lstlisting}[numbers=left,escapechar=|]
+StateConstraint studentEnrolledForPresentation receiving Variable 
+  enrollForPresentationRequest ofType EnrollForPresentationRequest
+{
+  stateAssessmentProcess doSequential
+  {
+    create Variable getEnrollmentsRequest ofType GetEnrollmentsRequest
+    set Query OCL:"getEnrollmentsRequest.presentationIdentifier" equalTo
+        Query OCL:"enrollForPresentationRequest.presentationIdentifier"
+    requestService getEnrollments with getEnrollmentsRequest yielding
+        Variable getEnrollmentsResult ofType GetEnrollmentsResult
+  }
+  Constraint OCL:"getEnrollmentsResult.enrollments.includes
+    (enrollForPresentationRequest.personIdentifier)"
+}
+\end{lstlisting}\normalsize
 
 %--------------------------
 
@@ -63,7 +83,45 @@ Functional requirements may be conditional and are bound to reusable state const
   \label{fig:metamodel}
 \end{figure}
 
-A services contract specifies a single service request object that contains information pertaining to the request and a single result object, which comprises of the information associated with the result of the executed service. The data structures for these request and result objects are service specific and are not meant to be reused (their components, which are domain objects, are most likely to be reused).
+A services contract specifies a single service request object that contains information pertaining to the request and a single result object, which comprises of the information associated with the result of the executed service. The data structures for these request and result objects are service specific and are not meant to be reused (their components, which are domain objects, are most likely to be reused). Below we illustrate the specification of a services contract in the URDAD DSL textual grammar.
+\tiny \begin{lstlisting}[numbers=left,escapechar=|]
+ServiceContract enrollForPresentation
+{
+   FunctionalRequirements receiving Variable enrollForPresentationRequest 
+      ofType EnrollForPresentationRequest
+   {
+      PreCondition enrollmentPrerequisitesMet
+         requiredBy (TrainingRegulator Student) 
+         raises EnrollmentPrerequisitesNotSatisfiedException
+         checks constraint enrollmentPrerequisitesForPresentationMet
+         with ValueOf enrollForPresentationRequest
+      PostCondition enrollmentProcessPerformed
+         requiredBy (Student Client TrainingRegulator)
+         ensures constraint studentEnrolledForPresentation 
+         with ValueOf studentEnrolledRequest constructedUsing doSequential
+         {
+            create Variable studentEnrolledRequest ofType StudentEnrolledRequest
+            set Query OCL:"studentEnrolledRequest.personIdentifier" equalTo
+                Query OCL:"enrollForPresentationRequest.personIdentifier"                            
+            set Query OCL:"studentEnrolledRequest.presentationIdentifier" equalTo
+                Query OCL:"enrollForPresentationRequest.presentationIdentifier"                            
+         }  
+      PostCondition invoiceIssued ...
+    }            
+    Request DataStructure EnrollForPresentationRequest 
+    {
+       has identification presentationIdentifier identifying Presentation
+       has identification studentIdentifier identifying Person
+       has component clientIdentifier ofType LegalEntity         
+    }
+    Result DataStructure EnrollForPresentationResult 
+    {
+       has component proofOfEnrollment ofType ProofOfEnrollment
+       has component invoice ofType Invoice
+       has component studyGuide ofType StudyGuide
+    }
+}
+\end{lstlisting}\normalsize
 
 %--------------------------
 
@@ -88,8 +146,62 @@ The data module of the URDAD metamodel is a straightforward object-oriented appr
 
 \subsection{Processes}
 
-The process package introduces the concept of a service as a concrete unit of functionality realizing a services contract. A service specification comprises of lower level services used to address stipulated pre- and post-conditions. Thus, the URDAD methodology improves traceability by providing satisfaction links as discussed in \cite{ramesh_toward_2001}). Each activity within the service process is associated with either 1) the maintenance of local process variables\todo{Meaning of item 1)?}, 2) the validation of a pre-condition and/or the fulfillment of a post-condition through the execution of a lower level service, 3) the handling of an exception received from a lower level service, or 4) the raising of an exception or the return of the result.
+The process package introduces the concept of a service as a concrete unit of functionality realizing a services contract. A service specification comprises of lower level services used to address stipulated pre- and post-conditions. Thus, the URDAD methodology improves traceability by providing satisfaction links as discussed in \cite{ramesh_toward_2001}). Each activity within the service process is associated with either 1) the maintenance of local process variables\todo{Meaning of item 1)?}, 2) the validation of a pre-condition and/or the fulfilment of a post-condition through the execution of a lower level service, 3) the handling of an exception received from a lower level service, or 4) the raising of an exception or the return of the result.
 
 The URDAD methodology enforces decoupling through services contracts. This is enforced in the URDAD metamodel by linking both satisfaction links as well as service requests to service contracts instead of concrete services. Also note that URDAD assumes that the concrete services used to realize the services contracts are specified either by implementation mapping\todo{Meaning of ``implementation mapping''?} or by the run-time environment and not in the technology neutral model. They could, for example, be injected by the run-time environment similarly to dependency injection on the J2EE platform.
 
-An important non-functional requirement of all activities that constitute a service's process is that each activity must be traceable back to the fulfillment of one or more of the functional requirements. There must be no redundancy and only the functional requirements that are associated with the service must be addressed by a process.
+An important non-functional requirement of all activities that constitute a service's process is that each activity must be traceable back to the fulfilment of one or more of the functional requirements. There must be no redundancy and only the functional requirements that are associated with the service must be addressed by a process.
+
+The following listing demonstrates how a services contract is encoded in the URDAD DSL textual grammar
+\tiny \begin{lstlisting}[numbers=left,escapechar=|]
+Service enrollForPresentationImpl realizes enrollForPresentation 
+ receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+{
+  use checkStudentSatisfiesEnrollmentPrerequisites 
+    toAddress (enrollmentPrerequisitesMet)
+  use issueInvoice toAddress (financialPrerequisitesSatisfied invoiceIssued) 
+  use performEnrollment toAddress (invoiceIssued)
+   
+  doSequential
+  {
+    create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
+      ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest               
+    set Query OCL:"enrollForPresentationRequest.studentIdentifier" equalTo 
+        Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier"
+    set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo
+        Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"
+                     
+    requestService checkStudentSatisfiesEnrollmentPrerequisites 
+      with checkStudentSatisfiesEnrollmentPrerequisitesRequest 
+        yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
+          ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
+    choice
+    {
+      if Constraint enrollmentMeetsPrerequisitesMet 
+        OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.
+                enrollmentPrerequisitesMet = true"
+        doSequential
+        {
+          ...
+          requestService issueInvoice with issueInvoiceRequest 
+            yielding Variable issueInvoiceResult ofType IssueInvoiceResult
+          {
+            on FinancialPrerequisitesNotSatisfiedException 
+              raiseException FinancialPrerequisitesNotSatisfiedException
+          }
+	      ...
+          requestService performEnrollment with enrollRequest 
+            yielding Variable performEnrollmentResult ofType PerformEnrollmentResult
+          
+          create Variable enrollForPresentationResult 
+            ofType EnrollForPresentationResult
+          set Query OCL:"issueInvoiceResult.invoice" equalTo
+              Query OCL:"enrollForPresentationResult.invoice"
+          ...                       
+          returnResult  enrollForPresentationResult
+        }
+      else raiseException EnrollmentPrerequisitesNotSatisfiedException
+    }
+  }
+}                 
+\end{lstlisting}\normalsize
