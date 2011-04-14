@@ -1,9 +1,34 @@
-\section{Conclusions and outlook \label{sec:conclusionsAndOutlook}}
+\section{Conclusions and Future Work \label{sec:conclusionsAndOutlook}}
 
-We have developed a DSL supporting the model constructs required by the URDAD methodology. The URDAD DSL is substantially simpler than UML and the metamodel has been shown to be consistent. URDAD DSL models support traceability and have marginally reduced complexity. We were able to specify a textual grammar and generate language aware editors and parsers. 
+We presented in this paper a DSL supporting the model 
+constructs required by the URDAD methodology. The URDAD 
+DSL is substantially simpler than UML and the meta model 
+has been shown to be consistent. URDAD DSL models support 
+traceability and have notably reduced design complexity. 
+We were able to specify a textual grammar and generate 
+useful language-aware editors and parsers for the
+practitioner.
 
-One of the core benefits of the URDAD DSL is its ability to specify parametrized, reusable constraints which are suited to a services oriented approach where the environmental information is not accessible by navigating an object graph but needs to be obtained through query services reporting on the state of the environment. A state constraint in URDAD DSL is specified by the combination of a process which sources information from the environment and a set of data structure constraints applied to the obtained information. OCL has no support for either parametrized constraints or for specifying a process which uses services to obtain information from the environment.
+\todo{Highlight improved services contract specification}
+\todo{In next paragraph highlight suitability for services oriented approach and non-suitability for event-centric systems}
+Currently the URDAD methodology and DSL represent a 
+services-oriented approach that is not very suitable 
+for event-centric or embedded systems. Moreover, the 
+current textual syntax still too technical for many
+industrial practitioners. A critical aspect for the 
+success of the URDAD DSL is the definition of a usable 
+graphical syntax and the development of corresponding 
+modelling tools which makes the language more accessible
+for industrial practitioners. Such tool-support is 
+currently in development. Once this has been done, 
+we plan to conduct an empirical usability and productivity 
+assessment of the URDAD DSL (compared to an URDAD UML) 
+approach. The derivation of test cases from URDAD DSL
+specifications is also planned.
 
-The URDAD methodology and DSL represent a services-oriented approach which is not suited to event-centric systems. Also, the current textual syntax still too technical for requirements engineers. A critical aspect for the success of the URDAD DSL is the definition of a usable graphical syntax and the development of corresponding modelling tools which makes the language accessible to requirements engineers. Once this has been done one can perform an empirical usability and productivity assessment of the URDAD DSL compared to an URDAD UML approach as well as the error densities and completeness of the generated URDAD UML and URDAD DSL models.
+\paragraph{Acknowledgments.} We thank the national research 
+foundation (NRF) of South Africa for financial support.
 
-The URDAD DSL models provide a simpler and more complete framework for implementation and test generation, but this needs to be verified.
+%###########################################################
+%### This section 6 was shortened by Stefan: 14-Apr-2011 ###
+%###########################################################
