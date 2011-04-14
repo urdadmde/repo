@@ -3,16 +3,16 @@
 URDAD's meta model provides a formal description of URDAD's domain of discourse. It will be used to support the URDAD methodology of requirements specification. A meta model is a ``logical information model that specifies the modeling elements used within another (or the same) modeling notation'' \cite{_ieee_2003}. 
 
 URDAD's meta model formalizes the modeling constructs needed for the specification of service requirements 
-and the technology-neutral design of business processes which fulfill such requirements. It is denoted with help of the well-known EMOF/Ecore tool suite, which supports the automatic generation of concrete syntax forms, QVT-based model transformations, as well as the integrated use of the Object Constraint Language (OCL) \cite{_object_2010}. An automatic translation of the meta model into the well-known Web Ontology Language (OWL DL) ontology was done to facilitate automated satisfiability checking (see Section \ref{sec:assessment}).
+and the technology-neutral design of business processes which fulfil such requirements. It is denoted with help of the well-known EMOF/Ecore tool suite, which supports the automatic generation of concrete syntax forms, QVT-based model transformations, as well as the integrated use of the Object Constraint Language (OCL) \cite{_object_2010}. An automatic translation of the meta model into the well-known Web Ontology Language (OWL DL) ontology was done to facilitate automated satisfiability checking (see Section \ref{sec:assessment}).
 
 Our meta model was designed to contain the smallest sufficient set of concepts that describe URDAD's service-oriented analysis and design specifications. In particular the meta model's features capture the above-mentioned decomposition of service requirements with pre- and post-conditions, the specification of non-functional quality requirements, the specification of I/O data types, as well as the specification of service `orchestrations'. The conception of our meta model was influenced by the UML and the Business Process Execution Language (BPEL) in the area of data structure and process specification. One of its underlying assumptions is the internal `statelessness' of the services to be composed; `state' is assumed to be stored in the services' environments.
 
-The URDAD DSL is only a fraction of the size of the UML, yet it includes all core concepts required by the URDAD methodology. In particular it can describe the notion of a responsibility domain, intra-model relationships facilitating traceability, service contracts including pre-conditions and exceptions, service-specific request and result classes, and the separation of the identification of a resource (object or service) from the path to it. Our DSL can even describe a system of parameterized, reusable operational constraints, which are assessed through processes that gather information from their environment. This will be illustrated in the following sub-sections.
+The URDAD DSL is only a fraction of the size of the UML, yet it includes all core concepts required by the URDAD methodology. In particular it can describe the notion of a responsibility domain, intra-model relationships facilitating traceability, service contracts including pre-conditions and exceptions, service-specific request and result classes, and the separation of the identification of a resource (object or service) from the path to it. Our DSL can even describe a system of parameterised, reusable operational constraints, which are assessed through processes that gather information from their environment. This will be illustrated in the following sub-sections.
 
 %--------------------------
 \subsection{The Core of URDAD's Meta Model}
 
-The core module of our meta model captures the concept of an URDAD model as such, i.e.: its model elements and stakeholders, responsibility domains, as well as further expressions and annotations as shown in Figure \ref{fig:metamodel-1}.
+The core module of our meta model captures the concept of an URDAD model as such, i.e.: its model elements and stake holders, responsibility domains, as well as further expressions and annotations as shown in Figure \ref{fig:metamodel-1}.
 \begin{figure}[Htb]
   \centering
   \includegraphics{core}
@@ -20,15 +20,15 @@ The core module of our meta model captures the concept of an URDAD model as such
   \label{fig:metamodel-1}
 \end{figure}
 
-The picture shows that esponsibility domains are assigned to various resources (e.g., persons, systems, modules). A 
+The picture shows that responsibility domains are assigned to various resources (e.g., persons, systems, modules). A 
 responsibility domain covers a coherent unit of functionality at a particular level of granularity, as previously mentioned. Responsibility domains are pragmatically meaningful groups of service contracts. They also define the boundaries between different levels of granularity. Thereby our notion of `responsibility domain' is similar to the notion of `unity criteria' in \cite{gonzalez_unity_2009}. Technically, responsibility domains are packaging constructs to subsume model elements under a unique name space.
 
-Using tools like EMFText \cite{heidenreich_derivation_2009} one can either generate or specify a textual grammar for a metamodel and from the grammar a parser and a language-aware editor supporting syntax checking, editing support, high-lighting. In this section we illustrate core aspects of the URDAD DSL through an example encoded in the grammar which we defined for the language. The textual grammar was meant to be simple and intuitive, enabling requirements specialists to capture URDAD DSL models.
+Using tools like EMFText \cite{heidenreich_derivation_2009} one can either generate or specify a textual grammar for a metamodel, and from this grammar both a parser and a language-aware editor (supporting syntax checking and auto-completion) can be generated. In this section we illustrate core aspects of the URDAD DSL through an example encoded in the grammar which we have defined for the language. The textual grammar is meant to be simple and intuitive, enabling requirements specialists to manipulate URDAD DSL - although a graphical editor would ultimately be more suitable.
 
 %-----------------------
 \subsection{Constraints}
 
-The Object-Constraint Language (OCL) has become de-facto standard for specifying constraints across object graphs. However, in a service-oriented approach and in the context of reusable, parameterized constraints the OCL alone is 
+The Object-Constraint Language (OCL) has become de-facto standard for specifying constraints across object graphs. However, in a services-oriented approach and in the context of reusable, parameterised constraints the OCL alone is 
 not expressive enough. In particular, the definition of reusable constraints requires support for binding parameters. 
 
 \emph{For example}, assume a constraint that some `Person' must be `registered'. Such a constraint can contribute to pre- or post-conditions of services. Hence, to be able to do so, the person identifier would have to be passed as a parameter to the constraint entity.
@@ -45,7 +45,7 @@ As it is depicted in Figure \ref{fig:metamodel-2}, the constraints module provid
   \label{fig:metamodel-2}
 \end{figure}
 
-The following listing shows an extract of the textual representation of our `registration' example. It illustrates the specification of a simple parametrized constraint which includes the specification of a process that extracts information from the environment as well as a data constraint to be checked against the such-obtained information.
+The following listing shows an extract of the textual representation of our `registration' example. It illustrates the specification of a simple parameterised constraint which includes the specification of a process that extracts information from the environment as well as a data constraint to be checked against the such-obtained information.
 \tiny \begin{lstlisting}[numbers=left,escapechar=|]
 StateConstraint studentEnrolledForPresentation receiving Variable 
   enrollForPresentationRequest ofType EnrollForPresentationRequest
