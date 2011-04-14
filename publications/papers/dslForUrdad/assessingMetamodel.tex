@@ -26,7 +26,7 @@ of the DSL.
 The concept of `event' is not reflected in URDAD's meta model. However, events do not fit naturally into a service-oriented approach where services are regarded as stateless. Even though events can be `simulated' by mapping them onto onto either the receipt of a service request or a response, URDAD and its meta model are not particularly suited to modelling event-centric systems.
 
 \subsection{Complexity}
-The term `complexity' is here understood intuitively as `difficulty of application' from an practical perspective. When looking at a modeling task, we are confronted with the complexity of the model under construction, the complexity of the language used to this end, and the complexity of the workflow through which the task can be accomplished.
+The term `complexity' is here understood intuitively as `difficulty of application' from an practical perspective. When looking at a modelling task, we are confronted with the complexity of the model under construction, the complexity of the language used to this end, and the complexity of the workflow through which the task can be accomplished.
 
 The conceptual model complexity is the same, irrespective  of whether the models are denoted in the UML or the URDAD DSL. This is so because we are specifying in both cases the same information about a system under construction.
 
@@ -34,12 +34,6 @@ The complexity of a language can be assessed by assessing the complexity of its 
 of the tools developed around the language including model editors, transformation components and validation tools. Even though a more complex language generally entails a steeper learning curve, it need not result in more complex model encodings. Often the converse is true. A more complex language may have more expressive power and can thus yield smaller model sizes. In the case of our meta model, its UML representation contains about 16 times as many classes and 7 times more relationships than its equivalent in URDAD DSL. Comparing the 
 URDAD UML model for our example to an equivalent URDAD DSL model we find that the URDAD DSL model has notably lower complexity. Moreover, the URDAD DSL can elegantly describe additional model constructs, which cannot elegantly be represented in URDAD-UML.
 
-\todo{Re-insert that point of DSL = simple focused high-level language and simple model}
-
 \todo{Re-highlight The aim of a domain specific language, on the other hand, is to provide a simpler language which introduces only the concepts required for a particular domain, whilst providing the expressive power to effectively make the statements required for that domain, i.e. to be both, a simpler language and to result in more simple models.}
 
 \todo{Fritz:Discuss the complexity of the language usage. Discuss why UML is complex to use (with references) and why the complexity is even higher when using UML in the context of MDE. Also discuss that it depends on the concrete syntax and tools for URDAD DSL and that there are still many open questions}
-
-%#############################################################
-%### This section (4) was shortened by Stefan, 14-Apr-2011 ###
-%#############################################################
