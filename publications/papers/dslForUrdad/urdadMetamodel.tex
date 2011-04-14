@@ -121,7 +121,7 @@ ServiceContract enrollForPresentation
 %--------------------------
 \subsection{Data Structures}
 
-The data module of the URDAD meta model is depicted in Figure \ref{fig:metamodel-4}. It allows for an object-oriented approach to data structure specification which is directly aligned with UML class descriptions. In addition to the familiar type relationships - Association, Aggregation and Composition, URDAD DSL introduces a new, weaker type relationship called \emph{Identification}. This is conceptually similar to a strongly-typed \emph{Uniform Resource Identifier}, in that it uniquely identifies objects within the model, but without implying an active message path to the object as \emph{Association} does.
+The data module of the URDAD meta model is depicted in Figure \ref{fig:metamodel-4}. It allows for an object-oriented approach to data structure specification which is directly aligned with UML class descriptions. In addition to the familiar type relationships - Association, Aggregation and Composition, URDAD DSL introduces a new, weaker type relationship called \emph{Identification}. This is conceptually similar to a strongly-typed \emph{Uniform Resource Identifier} (URI), in that it uniquely identifies objects within the model, but without implying an active message path to the object as UML \emph{Association} does.
  
 \begin{figure}[Htbp]
   \centering
@@ -130,7 +130,7 @@ The data module of the URDAD meta model is depicted in Figure \ref{fig:metamodel
   \label{fig:dataStructureModule}
 \end{figure}
 
-\todo{Add identification vs association in a more compact form}
+\todo{Query, Assignable and its subclasses have been moved to Process metamodel (does not make sense in static data model) }
 
 %--------------------
 \subsection{Processes}
@@ -142,6 +142,8 @@ The process package of the URDAD meta model describes the concept of a service a
   \caption{The process definition elements of URDAD}
   \label{fig:processModule}
 \end{figure}
+
+\todo{Clean up process metamodel diagram after incorporating Query, Assignable }
 
 The URDAD methodology enforces `decoupling' through service contracts. This is reflected in the URDAD meta model by associating satisfaction links as well as service requests to service contracts (instead of to concrete services). Also note that URDAD methodology assumes that the concrete services will either be implemented through model-transformations (MDE), or will be provided through the underlying infrastructure (e.g., run-time environments). Therefore, the finer details of service implementations are not represented in the our technology-neutral URDAD models. The following listing shows how a service contract is denoted in the grammar of our URDAD DSL.
 
