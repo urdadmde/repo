@@ -105,7 +105,7 @@ ServiceContract enrollForPresentation
     {
        has identification presentationIdentifier identifying Presentation
        has identification studentIdentifier identifying Person
-       has component clientIdentifier ofType LegalEntity         
+       has identification clientIdentifier identifying LegalEntity         
     }
     Result DataStructure EnrollForPresentationResult 
     {
@@ -119,7 +119,8 @@ ServiceContract enrollForPresentation
 %--------------------------
 \subsection{Data Structures}
 
-The data module of the URDAD meta model is depicted in Figure \ref{fig:metamodel-4}. It allows for an object-oriented approach to data structure specification, similar to UML class descriptions. For the purpose of this paper it it not necessary to go into the finer details of this package which descibes, basically, what kind of data two services can communicate amongst each other.
+The data module of the URDAD meta model is depicted in Figure \ref{fig:metamodel-4}. It allows for an object-oriented approach to data structure specification which is directly aligned with UML class descriptions. In addition to the familiar type relationships - Association, Aggregation and Composition, URDAD DSL introduces a new, weaker type relationship called \emph{Identification}. This is conceptually similar to a strongly-typed \emph{Uniform Resource Identifier}, in that it uniquely identifies objects within the model, but without implying an active message path to the object as \emph{Association} does.
+ 
 \begin{figure}[Htbp]
   \centering
   \includegraphics{data}
