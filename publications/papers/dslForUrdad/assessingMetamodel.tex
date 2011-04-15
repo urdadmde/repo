@@ -16,9 +16,9 @@ In our meta model, satisfaction links are represented by \verb+usedToAddress+ li
 
 The meta model was found to be sufficient to generate or specify a concrete textual grammar capturing the concepts required by the URDAD methodology. The generated editor and parser as well as the standard model validators provide basic validation against the meta model, including compliance to the meta model constraints. We populated an example model and encoded it in both, the URDAD DSL using out textual syntax, and in UML.
 
-Indeed, a requirements model specified in the URDAD DSL can be mapped onto a process specified in URDAD UML (a requires the mapping of functional requirements onto functional test processes). However, requirements specialists need to ensure that they use only a very limited subset which provides the required semantics. For example, when using activity diagrams they cannot use `swim lanes' because UML does not have the concept of an activity realizing a service. Instead one needs to define an activity diagram using only call operations which are linked to interfaces representing service contracts together with flow logic. The map-ability from our DSL into UML should facilitate further tool-support and, later, industrial adoption of the DSL.
+Indeed, a requirements model specified in the URDAD DSL can be mapped onto a process specified in URDAD UML (a requires the mapping of functional requirements onto functional test processes). The map-ability from our DSL into UML should facilitate further tool-support and, later, industrial adoption of the DSL.
 
-\todo{Fritz:the above paragraph is misleading and missing the point of what originally was meant.}
+The model has been analyzed by developers and was found to be sufficient for implementation mapping (code generation) and test generation.
 
 The concept of `event' is not reflected in URDAD's meta model. However, events do not fit naturally into a service-oriented approach where services are regarded as stateless. Even though events can be `simulated' by mapping them onto onto either the receipt of a service request or a response, URDAD and its meta model are not particularly suited to modelling event-centric systems.
 
@@ -33,5 +33,7 @@ The aim of a domain specific language, on the other hand, is to provide a simple
 
 In the case of our meta model, its UML representation contains about 16 times as many classes and 7 times more relationships than its equivalent in URDAD DSL. Comparing the URDAD UML model for our example to an equivalent URDAD DSL model we find that the URDAD DSL model has notably lower complexity. Moreover, the URDAD DSL can elegantly describe additional model constructs, which cannot elegantly be represented in URDAD-UML.
 
+The \emph{model complexity} \todo{re-insert model sufficiency paragraph}
 
+The \emph{usage complexity}  However, requirements specialists need to ensure that they use only a very limited subset which provides the required semantics. For example, when using activity diagrams they cannot use `swim lanes' because UML does not have the concept of an activity realizing a service. Instead one needs to define an activity diagram using only call operations which are linked to interfaces representing service contracts together with flow logic.
 \todo{Fritz:Discuss the complexity of the language usage. Discuss why UML is complex to use (with references) and why the complexity is even higher when using UML in the context of MDE. Also discuss that it depends on the concrete syntax and tools for URDAD DSL and that there are still many open questions}
