@@ -27,8 +27,7 @@ Using tools like EMFText \cite{heidenreich_derivation_2009} one can either gener
 %-----------------------
 \subsection{Constraints}
 
-\todo{Dawid: Consider moving constraints after everything}
-
+Constraints are required for the specification of functional requirements, data structure constraints and decision points in processes. 
 The Object-Constraint Language (OCL) has become de-facto standard for specifying constraints across object graphs. However, in a services-oriented approach and in the context of reusable, parameterised constraints the OCL alone is not expressive enough. In particular, the definition of reusable constraints requires support for binding parameters. 
 
 \emph{For example}, assume a constraint that some `Person' must be `registered'. Such a constraint can contribute to pre- or post-conditions of services. Hence, to be able to do so, the person identifier would have to be passed as a parameter to the constraint entity.
@@ -131,7 +130,7 @@ The data module of the URDAD meta model is depicted in Figure \ref{fig:metamodel
   \label{fig:dataStructureModule}
 \end{figure}
 
-\todo{Query, Assignable and its subclasses have been moved to Process metamodel (does not make sense in static data model) }
+\todo{for Dawid: Query, Assignable and its subclasses have been moved to Process metamodel (does not make sense in static data model) }
 
 %--------------------
 \subsection{Processes}
@@ -144,7 +143,7 @@ The process package of the URDAD meta model describes the concept of a service a
   \label{fig:processModule}
 \end{figure}
 
-\todo{Clean up process metamodel diagram after incorporating Query, Assignable }
+\todo{For Dawid: Clean up process metamodel diagram after incorporating Query, Assignable }
 
 The URDAD methodology enforces `decoupling' through service contracts. This is reflected in the URDAD meta model by associating satisfaction links as well as service requests to service contracts (instead of to concrete services). Also note that URDAD methodology assumes that the concrete services will either be implemented through model-transformations (MDE), or will be provided through the underlying infrastructure (e.g., run-time environments). Therefore, the finer details of service implementations are not represented in the our technology-neutral URDAD models. The following listing shows how a service contract is denoted in the grammar of our URDAD DSL.
 
