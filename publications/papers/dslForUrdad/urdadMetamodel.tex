@@ -41,7 +41,7 @@ As it is depicted in Figure \ref{fig:constraintModule}, the constraints module p
 
 The following listing shows an extract of the textual representation of our `registration' example. It illustrates the specification of a simple parametrised constraint which includes the specification of a process that extracts information from the environment as well as a data constraint to be checked against the such-obtained information.
 \lstset{language=urdad,caption=Specifying a state constraint in the textual URDAD DSL syntax.,label=constraintTextSyntax}
-\small \begin{lstlisting}[numbers=left,escapechar=|]
+\begin{lstlisting}[numbers=left,escapechar=|]
 StateConstraint studentEnrolledForPresentation receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
 {
   stateAssessmentProcess doSequential
@@ -52,7 +52,7 @@ StateConstraint studentEnrolledForPresentation receiving Variable enrollForPrese
   }
   Constraint OCL:"getEnrollmentsResult.enrollments.includes (enrollForPresentationRequest.personIdentifier)"
 }
-\end{lstlisting}\normalsize
+\end{lstlisting}
 
 
 %----------------------------
@@ -70,7 +70,7 @@ A post-condition can specify either the computational output of a service, or it
 
 A service contract specifies a single service request object that contains information pertaining to the request and a single result object, which contains the information associated with the result of the executed service. The data structures for these request and result objects are service-specific and are not meant to be reused (though their components, which are domain objects, are most likely to be reused). Below we illustrate the specification of a service contract in our URDAD DSL grammar.
 \lstset{language=urdad,caption=Specifying a service contract in the textual URDAD DSL syntax.,label=contractTextSyntax}
-\small \begin{lstlisting}[numbers=left,escapechar=|]
+\begin{lstlisting}[numbers=left,escapechar=|]
 ServiceContract enrollForPresentation
 {
    FunctionalRequirements receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
@@ -97,7 +97,7 @@ ServiceContract enrollForPresentation
        has component studyGuide ofType StudyGuide
     }
 }
-\end{lstlisting}\normalsize
+\end{lstlisting}
 
 %--------------------------
 \subsection{Data Structures}
@@ -125,7 +125,7 @@ The process package of the URDAD meta model describes the concept of a service a
 The URDAD methodology enforces `decoupling' through service contracts. This is reflected in the URDAD meta model by associating satisfaction links as well as service requests to service contracts (instead of to concrete services). Also note that URDAD methodology assumes that the concrete services will either be implemented through model-transformations (MDE), or will be provided through the underlying infrastructure (e.g., run-time environments). Therefore, the finer details of service implementations are not represented in the our technology-neutral URDAD models. The following listing shows how a service contract is denoted in the grammar of our URDAD DSL.
 
 \lstset{language=urdad,caption=Specifying a service in the textual URDAD DSL syntax.,label=serviceTextSyntax}
-\small \begin{lstlisting}[numbers=left,escapechar=|]
+\begin{lstlisting}[numbers=left,escapechar=|]
 Service enrollForPresentationImpl realizes enrollForPresentation receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
 {
   use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
@@ -161,6 +161,6 @@ Service enrollForPresentationImpl realizes enrollForPresentation receiving Varia
     }
   }
 }                 
-\end{lstlisting}\normalsize
+\end{lstlisting}
 
  
