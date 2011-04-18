@@ -1,36 +1,108 @@
-\documentclass[11pt]{article}
+\documentclass{IOS-Book-Article}
+
+\usepackage{times}
+\normalfont
+\usepackage[T1]{fontenc}
+%\usepackage[mtplusscr,mtbold]{mathtime}
+
 \usepackage{graphicx}
 \usepackage{epsfig}
+\usepackage{listings}
+\usepackage{color}
 
+\lstdefinelanguage{urdad}
+{
+keywords=
+  {Model,ResponsibilityDomain,Query,Constraint,QualityConstraint,FunctionalRequirements,receiving,yielding,
+  StateConstraint,stateAssessmentProcess,InverseConstraint,inverseOf,AndConstraint,AND,OrConstraint,OR,
+  XorConstraint,XOR,from,to,many,BasicDataType,DataStructure,is,abstract,has,Variable,ofType,Constant,
+  ValueOf,Exception,attribute,identification,identifying,association,linking,aggregate,component,
+  QualityRequirement,requiredBy,constraint,with,constructedUsing,ResultConstraint,PreCondition,
+  raises,checks,PostCondition,ensures,use,toAddress,if,ServiceContract,undoneUsing,Request,Result,
+  Service,realizes,doSequential,choice,else,doConcurrent,blocking,Concurrency,wait,until,create,set,
+  equalTo,add,remove,requestService,on,raiseException,returnResult,while,do,forAll,Note},%
+sensitive=true,%
+alsoletter={\$},%
+comment=[l]{\#},%
+string=[b]",%
+string=[b]'%
+}
+
+%\definecolor{OliveGreen}{cmyk}{0.64,0,0.95,0.40}
+%\definecolor{CadetBlue}{cmyk}{0.62,0.57,0.23,0}
+\definecolor{lightgray}{gray}{0.9}
+\lstset{
+language=urdad,  
+basicstyle=\ttfamily\small,
+keywordstyle=\itshape\color{blue},
+%keywordstyle=\color{blue},        % Keywords font ('*' = uppercase)
+commentstyle=\color{gray},           
+numbers=left,                           % Line nums position
+numberstyle=\tiny,                      % Line-numbers fonts
+stepnumber=1,                           % Step between two line-numbers
+numbersep=5pt,                          % How far are line-numbers from code
+backgroundcolor=\color{lightgray}, % Choose background color
+frame=none,                             % A frame around the code
+tabsize=2,                              % Default tab size
+captionpos=b,                           % Caption-position = bottom
+breaklines=true,                        % Automatic line breaking?
+breakatwhitespace=false,                % Automatic breaks only at whitespace?
+showspaces=false,                       % Dont make spaces visible
+showtabs=false,                         % Dont make tabls visible
+columns=flexible,                       % Column format
+%morekeywords={__global__, __device__},  % CUDA specific keywords
+}
+
+%
 \begin{document}
+\begin{frontmatter} 
 
-\title{URDAD as a Quality-Driven Analysis and Design Process}
-\author{Fritz Solms \and Dawid Loubser \and Stefan Gruner \and Alexander Paar
-\\ Department of Computer Science, University of Pretoria, South Africa}
+\title{URDAD as a Quality-Driven Analysis and Design Methodology}
+\thanks{We thank the national research foundation (NRF) of South Africa for financial support.}
+\runningtitle{URDAD as Quality Driven Methodology}
+%\subtitle{Subtitle}
+
+\author[A]{\fnms{Fritz} \snm{Solms}}
+,
+\author[A]{\fnms{Stefan} \snm{Gruner}}
+and
+\author[A]{\fnms{Alexander} \snm{Paar}}
+
+\runningauthor{F. Solms et al.}
+\address[A]{Department of Computer Science, University of Pretoria, South Africa}
+
+\input{abstract.tex}
+\begin{keyword}
+Services-oriented design methodology\sep Model-driven development\sep Design quality\sep Model quality
+\end{keyword}
+\end{frontmatter}
+
+\thispagestyle{empty}
+\pagestyle{empty}
 
 \maketitle
 
-\input{abstract.tex}
-
-
-\note{Look at unity models as in Espana et al and see progress report for responsibility localization and general short-comings in use case based approach regarding this}
-
-\note{INSERT REF - Quality in Model-Driven Engineering) argues that model quality is determined by five aspects. The modeling language and tools used to define the model, the modeling process itself, techniques used to assure quality and the relative experience of the individuals tasked with building the model.}
-
-
-%\keywords{model-driven development, metamodel, URDAD, requirements process }
+\section{Outstanding issues}
+\begin{itemize}
+ \item Stefan: Meaning of quality how defined for paper 
+ \item Stefan: Product vs process quality 
+ \item Stefan: Causal connection btw product and process quality? 
+ \item Stefan: Discuss Quality Categories. 
+ \item Fritz: Look at unity models as in Espana et al and see progress report for responsibility localization and general short-comings in use case based approach regarding this. 
+ \item Fritz: INSERT REF - Quality in Model-Driven Engineering argues model quality determined by 1,2) modeling language and tools used to define model, 3) modeling process itself, 4) techniques used to assure quality 5)relative experience of individuals building model. 
+\end{itemize}
 
 \input{introduction.tex}
 
-\input{qualityRequirements.tex}
+%\input{qualityRequirements.tex}
 
-\input{urdadMethodology.tex}
+%\input{urdadMethodology.tex}
 
-\input{tools.tex}
+%\input{tools.tex}
 
-\input{relatedWork.tex}
+%\input{relatedWork.tex}
 
-\input{conclusionsAndOutlook.tex}
+%\input{conclusionsAndOutlook.tex}
 
 %\begin{figure}
 %  \centering
