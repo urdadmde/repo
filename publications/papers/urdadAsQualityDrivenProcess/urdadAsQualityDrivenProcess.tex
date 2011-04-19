@@ -59,7 +59,7 @@ columns=flexible,                       % Column format
 \begin{document}
 \begin{frontmatter} 
 
-\title{URDAD as a Quality-Driven Analysis and Design Methodology}
+\title{URDAD as a Quality-Driven Analysis and Design Process}
 \thanks{We thank the national research foundation (NRF) of South Africa for financial support.}
 \runningtitle{URDAD as Quality Driven Methodology}
 %\subtitle{Subtitle}
@@ -67,8 +67,10 @@ columns=flexible,                       % Column format
 \author[A]{\fnms{Fritz} \snm{Solms}}
 ,
 \author[A]{\fnms{Stefan} \snm{Gruner}}
-and
+,
 \author[A]{\fnms{Alexander} \snm{Paar}}
+and
+\author[A]{\fnms{Cuen} \snm{Edwards}}
 
 \runningauthor{F. Solms et al.}
 \address[A]{Department of Computer Science, University of Pretoria, South Africa}
@@ -93,17 +95,15 @@ Services-oriented design methodology\sep Model-driven development\sep Design qua
 
 \input{introduction.tex}
 
-%\input{qualityRequirements.tex}
+\input{urdadOverview.tex}
 
-%\input{urdadReview.tex}
+\input{modelQuality}
 
-%\input{modelQuality}
+\input{processQuality}
 
-%\input{processQuality}
+\input{relatedWork.tex}
 
-%\input{relatedWork.tex}
-
-%\input{conclusionsAndOutlook.tex}
+\input{conclusionsAndOutlook.tex}
 
 \bibliographystyle{plain}  %%abbrv
 \bibliography{../../bibliography}
