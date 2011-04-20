@@ -1,5 +1,12 @@
 \section{Model quality}
 
+Stakeholders and what they use the model for
+\begin{itemize}
+  \item Developers to perform implementation mapping
+  \item Architectects to 
+\end{itemize}
+
+
 Emphasize that model a functional model, bot addressing non-functional (quality requirements) of system
 
 \begin{itemize}
@@ -9,4 +16,23 @@ Emphasize that model a functional model, bot addressing non-functional (quality 
   \item \emph{cohesion} - will be interesting to try and find a measure for cohesion in the service oriented world.
   \item \emph{reuse} - number of
   \item \emph{coupling} - URDAD enforces decoupling across levels of granularity in both, the process and the metamodel.
+  \item \emph{completeness}
+  \item \emph{non-ambiguous}
 \end{itemize}
+
+
+completeness can be checked relative to a responsibility domain, i.e. the processes for all services within my responsibility domain specified as assembled from either specified services from my responsibility domain or as services sourced from another responsibility domain.
+
+methodology churns out intermediate levels of granularity assisting to constrain model complexity by 
+
+MDA requires model to be technology neutral.
+
+model quality supported through validation against metamodel constraints
+
+How much of the model quality measurement can be automated?
+
+Because model in problem domain, domain experts can validate, improving model quality
+
+URDAD trades off pure requirements against manageable requirements
+
+\cite{graham_requirements_2008} do Model validation by requiring that every goal (pe/post-condition) addressed by a message exchange (service request) and that all messages are associated with achiving a goal.
