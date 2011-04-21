@@ -1,26 +1,21 @@
 \section{Introduction}\label{sec:Introduction}
 
-Inferior requirements quality remains a core contributor to software quality\cite{heck_experiences_2008,_strategies_2011}. Furthermore, early defect detection is critical for cost containment\cite{betterRefernceThanBoehm1981WhichReliesOnWaterfall}. Model-Driven Engineering (MDE) and the Model-Driven Architecture (MDA) in particular aim to address this by making the models the primary artifacts which are to be developerd by requirements engineers who have solid domain knowledge and not by technical experts. The platform independent model is enriched with architecture and technology information an the system artifacts (e.g.\ code) are generated either manually by developers or in an automated way using model-transformation and code generation technologies.
+Inferior requirements quality remains a core contributor to software quality\cite{heck_experiences_2008,_strategies_2011}. Furthermore, early defect detection is critical for cost containment\cite{betterRefernceThanBoehm1981WhichReliesOnWaterfall}. Model-Driven Engineering (MDE) and the Model-Driven Architecture (MDA) in particular aim to address this by making the models the primary artifacts which are to be developerd by requirements engineers who have solid domain knowledge and not by technical experts. The platform independent model is enriched with architecture and technology information an the system artifacts (e.g.\ code) are generated either manually by developers or in an automated way using model-transformation and code generation technologies. In an MDA-based approach quality improvement is focused on improving the requirements model and architecture specification as well as the transformation components used to generate the system artifacts.
+
+Quality is often a subjective measure and is dependent on the quality measures. For the purpose of this paper we 
 
 URDAD (Use-Case, Responsibility Dirven Analysis and Design) \cite{solms_technology_2007} is a methodology which generates MDA's PIM \cite{solms_generating_2009}. It is a semi-formal \cite{solms_urdad_2010} approach to technology-neutral analysis and design which we are in the process of making incrementally more formal. Historically URDAD models were encoded in UML, but in order to reduce the complexity, tighten up the semantics and enforce certain model qualities through a rigid model structure, we have developed a domain specific language (DSL) for URDAD with a defined metamodel with a concrete text syntax \cite{solmsfritz_domain-specific_????}..
 
-\emph{This might be a little controversial:} URDAD provides an environment (an architecture) to perform the analysis and design. Like any architecture, it needs to provide a suitable infrastructure to support the quality attributes for the processes which are deployed in the architecture \cite{}, i.e.\ the architecture needs to be designed in order to address the quality requirements.
-
-In this paper we identify the stake holders who have an interest in the process and its outputs, their quality requirements and
-
-This can be viewed as an architecture within which one can realize the quality requirements for the analysis and design process can be realized. The infrastructure includes the process definition for services oriented analysis and design as well as a metamodel enforcing the structure of the resultant analysis and design model.
+\emph{This might be a little controversial:} URDAD provides an environment (an architecture) to perform the analysis and design. Like any architecture, it needs to provide a suitable infrastructure to support the quality attributes for the processes which are deployed in the architecture \cite{}, i.e.\ the architecture needs to be designed in order to address the quality requirements. The infrastructure includes the process definition for services oriented analysis and design as well as a metamodel enforcing the structure of the resultant analysis and design model.
 
 
-In this paper we aim to identify quality requirements for the requirments model itself, identify quality drivers for the requirements model and analyze how these quality drivers are embedded in the URDAD methodology.
+In this paper we look look at URDAD from the perspective of both, process and model quality. We identify the stake holders and their quality requirements. For each quality requirement we identify quality drivers and analyze whether and how these quality drivers are embedded within the URDAD process. Finally we aim to identify a set of model quality measures and assess an URDAD model against these.
 
-Nodel driven development aims to address this by making the requirements model
+
 
 URDAD collapses CIM and PIM
 
-URDAD is a process for architecture neutral analysis and design resulting in a model which does not address any architectural concerns, yet it is itself an architecture for doing the requirements process
-
-The concept of quality implies some form of either absolute or relative measurement, i.e.\ something is of high quality yielding good results against some quality measures or it proofs to be of better quality when compared with an alternative. 
- The concept of quality is intrinsically subjective - hence we have the saying that `quality is in the eye of the beholder'. For the purpose of this paper we define quality is a measure to which a solution fulfills the stakeholder functional and non-functional (quality) requirements\cite{}. However, the degree to which a system fulfills its functional requirements is also an aspect of quality.  \cite{lange_managing_2005,lange_improving_2006}.
+\cite{lange_managing_2005,lange_improving_2006}.
 
 
 In the context of an analysis and design methodology one needs to consider both, the quality of the methodology or process as well as the quality of the resulting analysis and design model. It is questionable whether a process which yields low model quality can itself be viewed of high quality as the purpose of the process is to generate the model. On the other hand, one may have different processes which yield similar model qualities but with very different process qualities. 
