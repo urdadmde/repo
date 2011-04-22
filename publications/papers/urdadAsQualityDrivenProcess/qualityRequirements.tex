@@ -1,9 +1,47 @@
-\subsection{Quality requirements}
+\subsection{Process requirements}
 
-URDAD defines an analysis and design process with defined inputs and outputs for each process step and a metamodel capturing the outputs of the process. The quality of a process may be expected to affect the quality of the outputs of the process. In the case of URDAD this is the case as the methodology defines the semantics and structure of the resultant model through a metamodel.
+\todo[inline,color=green!40]{Fritz:In this section we should refrain from referring to URDAD. Lets look purely at the requirements of a services-oriented analysis and design process for MDA}
+
+URDAD defines an service-oriented analysis and design process with defined inputs and outputs for each process step and a metamodel capturing the outputs of the process. 
 
 In this section we aim to identify the stakeholders of both, the process and the resultant model and their respective quality requirements.
 
+\subsection{Model requirements}
+
+An analysis and design methodology for MDA needs to yield a model which is platform independent. 
+
+\subsubsection{Model users and their model requirements}
+
+In order to identify the other model requirements we need to first understand what the different users of the model are, what they use the model for and from that the functional and non-functional requirements of the model.
+
+\emph{Requirements engineers} (e.g.\ business analysts) use the model to capture the functional and non-functional requirements of a service
+\begin{itemize}
+  \item Developers to perform implementation mapping
+  \item Architectects to 
+\end{itemize}
+
+
+\cite{lange_managing_2005,lange_improving_2006}.
+
+
+Emphasize that model a functional model, bot addressing non-functional (quality requirements) of system
+
+\begin{itemize}
+  \item \emph{testability} measured as fraction of non-testable requirements.
+  \item \emph{traceability} measured as fraction of requirements which are not related to the stake holder who requires them, fraction of activities which are not traceable to the functional requirement they aim to address, 
+  \item \emph{complexity} based on number and complexity of services with complexity of service necessarily related to Mcabe (cyclomatic) complexity - not sure that URDAD addresses this.
+  \item \emph{cohesion} - will be interesting to try and find a measure for cohesion in the service oriented world.
+  \item \emph{reuse} - number of
+  \item \emph{coupling} - URDAD enforces decoupling across levels of granularity in both, the process and the metamodel.
+  \item \emph{completeness}
+  \item \emph{non-ambiguous}
+\end{itemize}
+
+
+MDA requires model to be technology neutral.
+
+
+which is meant to be used to generate the platform independent model for MDA
 
 \subsection{Process stakeholders and their quality requirements}
 
