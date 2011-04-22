@@ -4,17 +4,13 @@
 \normalfont
 \usepackage[T1]{fontenc}
 %\usepackage[mtplusscr,mtbold]{mathtime}
+\usepackage[colorinlistoftodos, textwidth=4cm, shadow]{todonotes}
+
 
 \usepackage{graphicx}
 \usepackage{epsfig}
 \usepackage{listings}
 \usepackage{color}
-
-
-% Additionally a command to generate the list of todos.
-\makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
-\newcommand\l@todo[2]
-  {\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
 
 \lstdefinelanguage{urdad}
 {
@@ -87,8 +83,6 @@ Services-oriented design methodology\sep Model-driven development\sep Design qua
 \pagestyle{empty}
 
 \maketitle
-
-\listoftodos
 
 \section{Outstanding issues}
 \begin{itemize}
