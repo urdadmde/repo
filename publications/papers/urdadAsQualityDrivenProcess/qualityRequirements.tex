@@ -1,29 +1,25 @@
-\subsection{Process requirements}
+\subsection{Quality requirements}
 
 \todo[inline,color=green!40]{Fritz:In this section we should refrain from referring to URDAD. Lets look purely at the requirements of a services-oriented analysis and design process for MDA}
 
-URDAD defines an service-oriented analysis and design process with defined inputs and outputs for each process step and a metamodel capturing the outputs of the process. 
+URDAD defines an service-oriented analysis and design process with defined inputs and outputs for each process step and a metamodel capturing the outputs of the process. In this section we aim to identify the stakeholders of both, the process and the resultant model and their respective quality requirements.
 
-In this section we aim to identify the stakeholders of both, the process and the resultant model and their respective quality requirements.
+\subsection{Model stake holders and their quality requirements}
 
-\subsection{Model requirements}
+A services oriented analysis and design methodology for MDA needs to yield a model which is platform independent and provides 1) the service contract for any required service, 2) the domain of responsibility from which such a service would have to be sourced (facilitating service discovery and responsibility localization), and 3) the service process in the form of an `orchestration' across lower level services\cite{}.
 
-An analysis and design methodology for MDA needs to yield a model which is platform independent. 
+In order to understand the model quality requirements of the different stakeholders, we need to understand the purpose for which they use the model\cite{lange_christiaan_assessing_2007}. {\bf Requirements engineers} (e.g.\ business analysts) use the model to capture the functional and non-functional requirements of a service as well as the (business) process design assembled from lower level services available to the system or organization. They require \emph{modifiability} as they would have to modify the model in the context of changing requirements and process improvement. In order to contain cost and model complexity they would like the model to facilitate reuseIn this context they would like to \emph{reuse} model elements
 
-\subsubsection{Model users and their model requirements}
+Organizational and system {\bf Architects}
 
-In order to identify the other model requirements we need to first understand what the different users of the model are, what they use the model for and from that the functional and non-functional requirements of the model.
+{\bf Developers} use the model as well as the architecture specification to perform the implementation mapping of services.
 
-\emph{Requirements engineers} (e.g.\ business analysts) use the model to capture the functional and non-functional requirements of a service
-\begin{itemize}
-  \item Developers to perform implementation mapping
-  \item Architectects to 
-\end{itemize}
+
 
 
 \cite{lange_managing_2005,lange_improving_2006}.
 
-
+\subsection{Model measures}
 Emphasize that model a functional model, bot addressing non-functional (quality requirements) of system
 
 \begin{itemize}
@@ -34,7 +30,7 @@ Emphasize that model a functional model, bot addressing non-functional (quality 
   \item \emph{reuse} - number of
   \item \emph{coupling} - URDAD enforces decoupling across levels of granularity in both, the process and the metamodel.
   \item \emph{completeness}
-  \item \emph{non-ambiguous}
+  \item \emph{non-ambiguous} = well defined semantics = understandability
 \end{itemize}
 
 
@@ -74,6 +70,8 @@ CMM requires process definition
 
 
 \subsection{Internal process consistency}
+
+\todo[inline,color=blue!40]{Reuse sounds to me like both, a process and a model quality}
 
 Here show that if you use URDAD to design an analysis and design methodlogy, you will get URDAD. Feed additional concepts into URDAD.
 
