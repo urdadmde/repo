@@ -8,7 +8,7 @@ URDAD defines an service-oriented analysis and design process with defined input
 
 A services oriented analysis and design methodology for MDA needs to yield a model which is platform independent and provides 1) the service contract for any required service, 2) the domain of responsibility from which such a service would have to be sourced (facilitating service discovery and responsibility localization), and 3) the service process in the form of an `orchestration' across lower level services\cite{}.
 
-Stakeholder model quality requirements of the different stakeholders are linked to the usage purpose of the model \cite{lange_christiaan_assessing_2007}. {\bf Requirements engineers} (e.g.\ business analysts) use the model to capture the functional and non-functional requirements of a service as well as the (business) process design assembled from lower level services available to the system or organization. They require \emph{modifiability} as they would have to modify the model in the context of changing requirements and process improvement. Cost and model complexity containment is achieved through \emph{reuse}.
+Stakeholder model quality requirements of the different stakeholders are linked to the usage purpose of the model \cite{lange_christiaan_assessing_2007}. {\bf Requirements engineers} (e.g.\ business analysts) use the model to capture the functional and non-functional requirements of a service as well as the (business) process design assembled from lower level services available to the system or organization. They require  require \emph{modifiability} as they would have to modify the model in the context of changing requirements and process improvement. Cost and model complexity containment is achieved through \emph{reuse}. They also require the requirements to be \emph{traceable} and \emph{testable}.
 
 Organizational and system {\bf Architects}
 
@@ -19,21 +19,6 @@ Organizational and system {\bf Architects}
 
 
 \cite{lange_managing_2005,lange_improving_2006}.
-
-\subsection{Model measures}
-Emphasize that model a functional model, bot addressing non-functional (quality requirements) of system
-
-
-\begin{itemize}
-  \item \emph{testability} measured as fraction of non-testable requirements.
-  \item \emph{traceability} measured as fraction of requirements which are not related to the stake holder who requires them, fraction of activities which are not traceable to the functional requirement they aim to address, 
-  \item \emph{complexity} based on number and complexity of services with complexity of service necessarily related to Mcabe (cyclomatic) complexity - not sure that URDAD addresses this.
-  \item \emph{cohesion} - will be interesting to try and find a measure for cohesion in the service oriented world.
-  \item \emph{reuse} - number of
-  \item \emph{coupling} - URDAD enforces decoupling across levels of granularity in both, the process and the metamodel.
-  \item \emph{completeness}
-  \item \emph{non-ambiguous} = well defined semantics = understandability
-\end{itemize}
 
 
 MDA requires model to be technology neutral.
