@@ -1,6 +1,6 @@
 SYNTAXDEF urdad
 FOR <http://www.urdad.org/2010/urdad/core>
-START Model
+START Model,Expression,urdad.constraint.InverseConstraint,urdad.constraint.AndConstraint,urdad.constraint.OrConstraint,urdad.constraint.XorConstraint,urdad.constraint.StateConstraint,urdad.constraint.StateConstraintReference,urdad.data.BasicDataType,urdad.data.DataStructure,urdad.contract.ResultRequirement,urdad.contract.ServiceContract,urdad.process.Service
 
 
 IMPORTS {
@@ -8,32 +8,13 @@ IMPORTS {
 	urdad.data:<http://www.urdad.org/2010/urdad/data>
 	urdad.contract:<http://www.urdad.org/2010/urdad/contract>
 	urdad.process:<http://www.urdad.org/2010/urdad/process>
-	urdad.constraint:<http://www.urdad.org/2010/urdad/constraint>
-	urdad.data:<http://www.urdad.org/2010/urdad/data>
-	urdad.contract:<http://www.urdad.org/2010/urdad/contract>
-	urdad.process:<http://www.urdad.org/2010/urdad/process>
-	urdad.constraint:<http://www.urdad.org/2010/urdad/constraint>
-	urdad.data:<http://www.urdad.org/2010/urdad/data>
-	urdad.contract:<http://www.urdad.org/2010/urdad/contract>
-	urdad.process:<http://www.urdad.org/2010/urdad/process>
-	urdad.constraint:<http://www.urdad.org/2010/urdad/constraint>
-	urdad.data:<http://www.urdad.org/2010/urdad/data>
-	urdad.contract:<http://www.urdad.org/2010/urdad/contract>
-	urdad.process:<http://www.urdad.org/2010/urdad/process>
-	urdad.constraint:<http://www.urdad.org/2010/urdad/constraint>
-	urdad.data:<http://www.urdad.org/2010/urdad/data>
-	urdad.contract:<http://www.urdad.org/2010/urdad/contract>
-	urdad.process:<http://www.urdad.org/2010/urdad/process>
 }
-
-
 
 TOKENS {
 	DEFINE COMMENT $'//'(~('\n'|'\r'|'\uffff'))*$;
 	DEFINE INTEGER $('-')?('1'..'9')('0'..'9')*|'0'$;
 	DEFINE FLOAT $('-')?(('1'..'9') ('0'..'9')* | '0') '.' ('0'..'9')+ $;
 }
-
 
 TOKENSTYLES {
 	"Model" COLOR #7F0055, BOLD;
@@ -45,7 +26,8 @@ TOKENSTYLES {
 	"receiving" COLOR #7F0055, BOLD;
 	"yielding" COLOR #7F0055, BOLD;
 	"StateConstraint" COLOR #7F0055, BOLD;
-	"stateAssessmentProcess" COLOR #7F0055, BOLD;
+	"Parameter" COLOR #7F0055, BOLD;
+	"StateAssessmentProcess" COLOR #7F0055, BOLD;
 	"InverseConstraint" COLOR #7F0055, BOLD;
 	"inverseOf" COLOR #7F0055, BOLD;
 	"AndConstraint" COLOR #7F0055, BOLD;
@@ -65,18 +47,17 @@ TOKENSTYLES {
 	"Variable" COLOR #7F0055, BOLD;
 	"ofType" COLOR #7F0055, BOLD;
 	"Constant" COLOR #7F0055, BOLD;
-	"ValueOf" COLOR #7F0055, BOLD;
+	"valueOf" COLOR #7F0055, BOLD;
 	"Exception" COLOR #7F0055, BOLD;
-	"attribute" COLOR #7F0055, BOLD;
-	"identification" COLOR #7F0055, BOLD;
+	"Attribute" COLOR #7F0055, BOLD;
+	"Identification" COLOR #7F0055, BOLD;
 	"identifying" COLOR #7F0055, BOLD;
-	"association" COLOR #7F0055, BOLD;
+	"Association" COLOR #7F0055, BOLD;
 	"linking" COLOR #7F0055, BOLD;
-	"aggregate" COLOR #7F0055, BOLD;
-	"component" COLOR #7F0055, BOLD;
+	"Aggregate" COLOR #7F0055, BOLD;
+	"Component" COLOR #7F0055, BOLD;
 	"QualityRequirement" COLOR #7F0055, BOLD;
 	"requiredBy" COLOR #7F0055, BOLD;
-	"constraint" COLOR #7F0055, BOLD;
 	"with" COLOR #7F0055, BOLD;
 	"constructedUsing" COLOR #7F0055, BOLD;
 	"ResultConstraint" COLOR #7F0055, BOLD;
@@ -127,7 +108,7 @@ RULES {
 
 	Expression ::= language [] ":" expressionString['"','"'];
 	
-	urdad.data.Query ::= "Query" (name[])? (queryExpression);
+	urdad.process.Query ::= "Query" (name[])? (queryExpression);
 	
 	urdad.constraint.ExpressionBasedConstraint ::= "Constraint" (name[])? (constraintExpression)? 
 	  ("(" (annotations)*")")?;	
@@ -144,8 +125,9 @@ RULES {
 	"}";
 
 	urdad.constraint.StateConstraint ::= "StateConstraint" name[] ("receiving" (parameter))?
-	"{" 
-	  ("stateAssessmentProcess" (stateAssessmentProcess))?  
+	"{"
+	  ("Parameter" parameterDataStructure)? 	 
+	  ("StateAssessmentProcess" (stateAssessmentProcess))?  
 	  (constraints)* 
 	"}";
 	
@@ -165,27 +147,27 @@ RULES {
 	  ("has" features)* 
 	  ("(" (annotations)*")")?"}";
 
-	urdad.data.Variable ::= "Variable" name[] "ofType" type[];
+	urdad.process.Variable ::= "Variable" name[] "ofType" type[];
 
-	urdad.data.Constant ::= "Constant" value['"','"'];
+	urdad.process.Constant ::= "Constant" value['"','"'];
 
-	urdad.data.VariableReference ::= "ValueOf" variable[];
+	urdad.process.VariableReference ::= "valueOf" variable[];
 	  
 	urdad.contract.Exception ::= "Exception" name[] ("is" superType[])? "{" 
 	  ("has" features)* 
 	  ("(" (annotations)*")")?"}";
 	
-	urdad.data.Attribute ::= (multiplicityConstraint)? "attribute" name[] "ofType" type[];
-	urdad.data.Identification ::= (multiplicityConstraint)? "identification"  name[] "identifying" relatedType[]; 
-	urdad.data.Association ::= (multiplicityConstraint)? "association"  name[] "linking" relatedType[]; 
-	urdad.data.Aggregation ::= (multiplicityConstraint)? "aggregate" (multiplicityConstraint)? name[] "ofType" relatedType[]; 
-	urdad.data.Composition ::= (multiplicityConstraint)? "component" (multiplicityConstraint)? name[] "ofType" relatedType[];
+	urdad.data.Attribute ::= (multiplicityConstraint)? "Attribute" name[] "ofType" type[];
+	urdad.data.Identification ::= (multiplicityConstraint)? "Identification"  name[] "identifying" relatedElement[]; 
+	urdad.data.Association ::= (multiplicityConstraint)? "Association"  name[] "linking" relatedElement[]; 
+	urdad.data.Aggregation ::= (multiplicityConstraint)? "Aggregate" (multiplicityConstraint)? name[] "ofType" relatedElement[]; 
+	urdad.data.Composition ::= (multiplicityConstraint)? "Component" (multiplicityConstraint)? name[] "ofType" relatedElement[];
 	 
 	urdad.contract.QualityRequirement ::= "QualityRequirement" name[] qualityConstraint[]? 
 		"requiredBy" "("(requiredBy[])*")"
 	  ("(" (annotations)*")")?;
 
-	urdad.constraint.StateConstraintReference ::= "constraint" constraint[] 
+	urdad.constraint.StateConstraintReference ::= "Constraint" constraint[] 
 		("with" (parameter) ("constructedUsing" (parameterConstructionProcess))?)?; 
 	
 	urdad.contract.ResultRequirement ::= "ResultConstraint" constraintExpression;
@@ -216,7 +198,7 @@ RULES {
 	urdad.process.Service ::= "Service" name[] "realizes" realizedContract[] "receiving" (requestVariable)
 	"{"
 		(serviceRequirements)*
-		(activity)
+		"Process " (process)
 	"}";  
 	
 	urdad.process.ActivitySequence ::= "doSequential" (name[])? "{" (activities)* "}"; 

@@ -1,5 +1,8 @@
 \begin{thebibliography}{10}
 
+\bibitem{_mda_2003}
+{MDA} guide version 1.0.1, June 2003.
+
 \bibitem{_strategies_2011}
 Strategies for project recovery.
 \newblock Technical report, {PM} Solutions Research, 2011.
@@ -50,6 +53,12 @@ Petra Heck and P\"{a}ivi Parviainen.
 \newblock Experiences on analysis of requirements quality.
 \newblock In {\em 2008 The Third International Conference on Software
   Engineering Advances}, pages 367--372, Sliema, Malta, October 2008.
+
+\bibitem{hinchey_software_2008}
+Mike Hinchey, Michael Jackson, Patrick Cousot, Byron Cook, Jonathan~P. Bowen,
+  and Tiziana Margaria.
+\newblock Software engineering and formal methods.
+\newblock {\em Commun. {ACM}}, 51(9):54{\textendash}59, 2008.
 
 \bibitem{lange_managing_2005}
 {C.F.J.} Lange and {M.R.V.} Chaudron.
