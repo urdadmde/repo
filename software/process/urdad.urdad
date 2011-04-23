@@ -193,6 +193,7 @@ ResponsibilityDomain RequirementsEngineering
     {
         StateConstraint ProcessSpecified
         {
+            StateAssessmentProcess  
         }
         ServiceContract designProcess 
         {
