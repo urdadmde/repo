@@ -143,7 +143,8 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="superType" eType="#//data/DataStructure"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="superTypes" upperBound="-1"
+          eType="#//data/DataStructure"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
           eType="#//data/Feature" containment="true"/>
     </eClassifiers>

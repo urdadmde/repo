@@ -142,7 +142,7 @@ RULES {
 	urdad.data.BasicDataType ::= "BasicDataType" name[]	  
 	  ("(" (constraints)*")")? ("(" (annotations)*")")?;  
 	
-	urdad.data.DataStructure ::= "DataStructure" name[] ("is" superType[])? "{"
+	urdad.data.DataStructure ::= "DataStructure" name[] ("is" "("((superTypes[])+)")")? "{"
 	  ("abstract" "=" abstract[])?
 	  ("has" features)* 
 	  ("(" (annotations)*")")?"}";
@@ -153,7 +153,7 @@ RULES {
 
 	urdad.process.VariableReference ::= "valueOf" variable[];
 	  
-	urdad.contract.Exception ::= "Exception" name[] ("is" superType[])? "{" 
+	urdad.contract.Exception ::= "Exception" name[] ("is" ((superTypes[])+))? "{" 
 	  ("has" features)* 
 	  ("(" (annotations)*")")?"}";
 	
