@@ -1,0 +1,320 @@
+Model urdad
+
+ResponsibilityDomain _urdad
+{
+    DataStructure _Model
+    {
+        has many Component _responsibilityDomains ofType _ResponsibilityDomain
+    }
+    DataStructure _ResponsibilityDomain
+    {
+        has many Component _serviceContracts ofType _ServiceContract
+        has many Component _constraint ofType _Constraint
+        has many Component _dataType ofType _DataType
+    }
+    DataStructure _Element 
+    {
+     abstract = true
+    }
+    DataStructure _NamedElement is (_Element)
+    {
+        abstract = true
+        has Attribute name ofType Text
+    }
+    DataStructure _Stakeholder is (_NamedElement) {}
+    DataStructure _ServiceRequirements {abstract = true}
+    DataStructure _Constraint {}
+    DataStructure _ServiceContract {}
+    DataStructure _Service {} 
+    DataStructure _DataType
+    {
+        abstract = true
+    }
+    DataStructure _BasicDataType is (_DataType) {}
+    DataStructure _DataStructure is (_DataType) 
+    {
+        has Attribute _abstract ofType Boolean
+        has many Identification superTypes identifying _DataStructure
+        has many Component features ofType _Feature
+    }
+    DataStructure _Feature is (_NamedElement)
+    {
+        abstract = true
+        has Component multiplicityConstraint ofType _MultiplicityConstraint
+    }
+    DataStructure _Identification is (_Feature) {}
+    DataStructure _Association is (_Identification) {}
+    DataStructure _Aggregation is (_Association) {}
+    DataStructure _Composition is (_Aggregation) {}
+}
+
+ResponsibilityDomain RequirementsEngineering
+{
+     
+    ServiceContract specifyService 
+    {
+        FunctionalRequirements receiving Variable specifyServiceRequest ofType SpecifyServiceRequest
+        {
+            PreCondition serviceHasStakeholders requiredBy (Client) raises NoStakeholdersException checks Constraint ServiceHasStakeholders
+            PostCondition serviceContractSpecified requiredBy (Client Implementation Testing) ensures Constraint ServiceContractSpecified
+            PostCondition processSpecified requiredBy (Client Implementation) ensures Constraint ProcessSpecified 
+        }
+        QualityRequirement traceability requiredBy (ProcessDesign ProjectManagement Development)  
+        Request DataStructure SpecifyServiceRequest 
+        {
+            has Component serviceRequirements ofType _ServiceRequirements
+        }
+        Result DataStructure SpecifyServiceResult 
+        {
+            
+        }
+    }
+    Exception NoStakeholdersException {}
+    
+    Service specifyServiceImpl realizes specifyService receiving Variable specifyServiceRequest ofType SpecifyServiceRequest
+    {
+        use identifyStakeholders toAddress ( serviceHasStakeholders )
+        use specifyServiceContract toAddress (serviceContractSpecified)
+        use designProcess toAddress (processSpecified)
+        
+        Process doSequential
+        {
+            create Variable identifyStakeholdersRequest ofType IdentifyStakeholdersRequest
+            set Query OCL:"identifyStakeHoldersRequest.serviceRequirements" equalTo Query OCL:"specifyServiceRequest.serviceRequirements"
+            requestService identifyStakeholders with identifyStakeholdersRequest yielding Variable identifyStakeholdersResult ofType IdentifyStakeholdersResult on NoStakeholdersException raiseException NoStakeholdersException
+            
+            
+                
+              
+        
+        }
+    }
+    
+    ResponsibilityDomain RequirementsElicitation 
+    {
+        StateConstraint ServiceHasStakeholders receiving Variable serviceRequirements ofType _ServiceRequirements 
+        {
+            StateAssessmentProcess doSequential 
+            {
+                create Variable identifyStakeholdersRequest ofType IdentifyStakeholdersRequest
+                set Query OCL:"identifyStakeholdersRequest.serviceRequirements" equalTo Query OCL:"serviceRequirements"
+                requestService identifyStakeholders with identifyStakeholdersRequest yielding Variable identifyStakeholdersResult ofType IdentifyStakeholdersResult
+            }
+            Constraint OCL:"identifyStakeholdersResult->size() > 0"
+        }
+        StateConstraint ServiceContractSpecified receiving Variable serviceRequirements ofType _ServiceRequirements 
+        {
+            StateAssessmentProcess doSequential
+            {
+                create Variable provideServiceContractRequest ofType ProvideServiceContractRequest
+                set Query OCL:"provideServiceContractRequest.serviceRequirements" equalTo Query OCL:"serviceRequirements"         
+            }
+        }
+        
+        ResponsibilityDomain stakeholderManagement
+        {
+            ServiceContract identifyStakeholders
+            {
+                Request DataStructure IdentifyStakeholdersRequest
+                {
+                    has Component serviceRequirements ofType _ServiceRequirements
+                }
+                Result DataStructure IdentifyStakeholdersResult
+                {
+                    has many Identification stakeholders identifying _Stakeholder
+                }
+            }
+        }
+        
+        ResponsibilityDomain ServiceContractSpecification
+        {
+            ServiceContract provideServiceContract 
+            {
+                FunctionalRequirements
+                {
+                    PreCondition serviceContractAvailable requiredBy (specifyServiceImpl) raises NoServiceContractAvailableException 
+                }
+                Request DataStructure ProvideServiceContractRequest
+                {
+                    has Component serviceRequirements ofType _ServiceRequirements
+                }
+                Result DataStructure ProvideServiceContractResult
+                {
+                    has Component serviceContract ofType _ServiceContract
+                }
+            }
+            Exception NoServiceContractAvailableException {}
+            ServiceContract specifyServiceContract 
+            {
+                Request DataStructure SpecifyServiceContractRequest
+                {
+                    has Component serviceRequirements ofType _ServiceRequirements
+                    has many Identification stakeholders identifying _Stakeholder
+                }
+                Result DataStructure SpecifyServiceContractResult
+                {
+                    has Component serviceContract ofType _ServiceContract
+                }
+            }
+        }
+    }
+    
+    ResponsibilityDomain ProcessDesign 
+    {
+        StateConstraint ProcessSpecified
+        {
+        }
+        ServiceContract designProcess 
+        {
+            Request DataStructure DesignProcessRequest
+            {
+                has Component serviceContract ofType _ServiceContract
+            }
+            Result DataStructure DesignProcessResult
+            {
+                has Component service ofType _Service
+            }
+        }
+    }
+    
+}
+ResponsibilityDomain Implementation 
+{   
+    ResponsibilityDomain Architecture {}
+    ResponsibilityDomain Development {}
+}
+ResponsibilityDomain ProjectManagement 
+{
+    ResponsibilityDomain Estimation {}
+    ResponsibilityDomain ProjectReporting {}
+}
+ResponsibilityDomain Client 
+{
+}
+
+ResponsibilityDomain Testing {}
+
+ResponsibilityDomain UrdadStandardProfile
+{
+  ResponsibilityDomain Primitives
+  {
+    BasicDataType Boolean
+    BasicDataType Integer
+    BasicDataType FloatingPointNumber
+    BasicDataType Text
+    BasicDataType Date
+  }
+  
+  ResponsibilityDomain Storage
+  {
+    ResponsibilityDomain StorageClient
+    {
+    }
+    DataStructure Entity 
+    {
+        abstract = true
+        has Identification entityIdentification identifying Entity
+    }
+    
+    ServiceContract persistEntity 
+    {
+      Request DataStructure PersistEntityRequest 
+      {
+        has Component entity ofType Entity
+      }
+      Result DataStructure PersistEntityResult
+      {
+        has Component entity ofType Entity
+      } 
+    } 
+    
+    ServiceContract retrieveEntity 
+    {
+        FunctionalRequirements receiving Variable retrieveEntityRequest ofType RetrieveEntityRequest
+            yielding Variable retrieveEntityResult ofType RetrieveEntityResult
+        {
+            PreCondition entityStored requiredBy (PersistenceClient)
+                raises EntityNotStoredException checks Constraint entityIsStored 
+                    with Query OCL:"retrieveEntityRequest.entityIdentifier"
+                     
+        }
+        Request DataStructure RetrieveEntityRequest
+        {
+            has Identification entityIdentification identifying Entity
+        }
+        Result DataStructure RetrieveEntityResult
+        {
+            has Component entity ofType Entity
+        }
+        
+    }
+
+    StateConstraint entityIsStored receiving Variable retrieveEntityRequest ofType RetrieveEntityRequest 
+    {
+        StateAssessmentProcess doSequential
+        {
+            create Variable entityStored ofType Boolean
+            set Query OCL:"entityStored" equalTo Constant "true"
+            create Variable retrieveEntityRequest ofType RetrieveEntityRequest
+            set Query OCL:"retrieveEntityRequest.entityIdentifier" 
+                equalTo Query OCL:"entityIdentifier"
+            requestService retrieveEntity with retrieveEntityRequest yielding
+                Variable retrieveEntityResult ofType RetrieveEntityResult
+                   on EntityNotStoredException set Query OCL:"entityStored" equalTo Constant "false"       
+        }        
+        Constraint OCL:"entityStored = true"
+    }
+    InverseConstraint entityIsNotStored inverseOf entityIsStored
+    Exception EntityAlreadyStoredException {}
+    Exception EntityNotStoredException {}
+    
+    ServiceContract storeEntity
+    {
+        FunctionalRequirements receiving Variable storeEntityRequest ofType StoreEntityRequest
+            yielding Variable storeEntityResult ofType StoreEntityResult
+        {
+            PreCondition entityNotStored requiredBy (PersistenceClient)
+                raises EntityAlreadyStoredException checks Constraint entityIsNotStored 
+                    with Query OCL:"storeEntityRequest.entityIdentifier"
+            PostCondition entityStored requiredBy (PersistenceClient)
+                ensures Constraint entityIsStored 
+                    with Query OCL:"storeEntityRequest.entityIdentifier"
+        }
+        
+        Request DataStructure StoreEntityRequest
+        {
+            has Component entity ofType Entity
+        }
+        Result DataStructure StoreEntityResult
+        {
+            has Component entity ofType Entity
+        }
+    }
+    
+    ServiceContract removeEntity
+    {
+        FunctionalRequirements receiving Variable storeEntityRequest ofType StoreEntityRequest
+            yielding Variable storeEntityResult ofType StoreEntityResult
+        {
+            PreCondition entityNotStored requiredBy (PersistenceClient)
+                raises EntityNotStoredException checks Constraint entityIsNotStored 
+                    with Query OCL:"retrieveEntityRequest.entityIdentifier"
+           PostCondition entityNotStored requiredBy (PersistenceClient)
+                ensures Constraint entityIsNotStored 
+                    with Query OCL:"storeEntityRequest.entityIdentifier"
+        }
+        
+        Request DataStructure StoreEntityRequest
+        {
+            has Identification entityIdentification identifying Entity
+        }
+        Result DataStructure StoreEntityResult
+        {
+            has Component entity ofType Entity
+        }
+    }
+    
+    ResponsibilityDomain PersistenceClient {}
+  }
+}
+
