@@ -2,12 +2,14 @@ Model urdad
 
 ResponsibilityDomain _urdad
 {
+    // --- Core
     DataStructure _Model
     {
         has many Component _responsibilityDomains ofType _ResponsibilityDomain
     }
     DataStructure _ResponsibilityDomain
     {
+        has many Component _responsibilityDomains ofType _ResponsibilityDomain
         has many Component _serviceContracts ofType _ServiceContract
         has many Component _constraint ofType _Constraint
         has many Component _dataType ofType _DataType
@@ -22,10 +24,11 @@ ResponsibilityDomain _urdad
         has Attribute name ofType Text
     }
     DataStructure _Stakeholder is (_NamedElement) {}
-    DataStructure _ServiceRequirements {abstract = true}
+
+    // --- Constraint
     DataStructure _Constraint {}
-    DataStructure _ServiceContract {}
-    DataStructure _Service {} 
+
+    //--- Data
     DataStructure _DataType
     {
         abstract = true
@@ -46,6 +49,23 @@ ResponsibilityDomain _urdad
     DataStructure _Association is (_Identification) {}
     DataStructure _Aggregation is (_Association) {}
     DataStructure _Composition is (_Aggregation) {}
+    DataStructure _MultiplicityConstraint
+    {
+        abstract = true
+    }
+    DataStructure _RangeMultiplicityConstraint is (_MultiplicityConstraint)
+    {
+        has Attribute minOccurs ofType Integer
+        has Attribute maxOccurs ofType Integer
+    }
+    DataStructure _Many is (_MultiplicityConstraint){}
+
+    // --- ServiceContract
+    DataStructure _ServiceRequirements {abstract = true}
+    DataStructure _ServiceContract {}
+    
+    // --- Process
+    DataStructure _Service {} 
 }
 
 ResponsibilityDomain RequirementsEngineering
@@ -66,7 +86,8 @@ ResponsibilityDomain RequirementsEngineering
         }
         Result DataStructure SpecifyServiceResult 
         {
-            
+            has Component serviceContract ofType _ServiceContract
+            has Component service ofType _Service
         }
     }
     Exception NoStakeholdersException {}
@@ -83,10 +104,16 @@ ResponsibilityDomain RequirementsEngineering
             set Query OCL:"identifyStakeHoldersRequest.serviceRequirements" equalTo Query OCL:"specifyServiceRequest.serviceRequirements"
             requestService identifyStakeholders with identifyStakeholdersRequest yielding Variable identifyStakeholdersResult ofType IdentifyStakeholdersResult on NoStakeholdersException raiseException NoStakeholdersException
             
+            create Variable specifyServiceContractRequest ofType SpecifyServiceContractRequest
+            set Query OCL:"specifyServiceContractRequest.serviceRequirements" equalTo Query OCL:"specifyServiceRequest.serviceRequirements"
+            set Query OCL:"specifyServiceContractRequest.stakeholders" equalTo Query OCL:"identifyStakeholdersResult.stakeholders"
+            requestService specifyServiceContract with specifyServiceContractRequest yielding Variable specifyServiceContractResult ofType SpecifyServiceContractResult
             
-                
-              
-        
+            create Variable designProcessRequest ofType DesignProcessRequest
+            set Query OCL:"designProcessRequest.serviceContract" equalTo Query OCL:"specifyServiceContractResult.serviceContract"                
+            requestService designProcess with designProcessRequest yielding Variable designProcessResult ofType DesignProcessResult  
+            
+            create Variable specifyServiceResult ofType SpecifyServiceResult
         }
     }
     
