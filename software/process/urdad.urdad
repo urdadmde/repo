@@ -114,6 +114,9 @@ ResponsibilityDomain RequirementsEngineering
             requestService designProcess with designProcessRequest yielding Variable designProcessResult ofType DesignProcessResult  
             
             create Variable specifyServiceResult ofType SpecifyServiceResult
+            set Query OCL:"specifyServiceResult.serviceContract" equalTo Query OCL:"specifyServiceContractResult.serviceContract"
+            set Query OCL:"specifyServiceResult.service" equalTo Query OCL:"designProcessResult.service"
+            returnResult specifyServiceResult
         }
     }
     
