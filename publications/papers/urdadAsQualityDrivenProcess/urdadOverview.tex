@@ -7,6 +7,8 @@ In this section we will introduce URDAD from the perspective of a quality driven
 
 \subsection{Quality drivers of URDAD}
 
+Most of the quality drivers discussed in \ref{sec:modelQualityDriversAndMetrics} are builts into the URDAD process. Table \ref{tab:qualityDrivers} lists the employed quality drivers and the model qualities they are meant to support.
+
 \begin{table}[h]
  \caption{URDAD model quality drivers for quality requirements}
  \label{tab:qualityDrivers}
@@ -29,6 +31,27 @@ Traceability Links                     &            &            & \checkmark & 
 \end{tabular}
   
 \end{table}
+
+%------------------------------------------------------------------------
+
+\subsection{The URDAD process}
+
+
+
+\missingfigure{URDAD process}
+
+%------------------------------------------------------------------------
+
+\subsection{The URDAD metamodel and text grammar}
+
+Many of the model qualities are either enforced or supported through the metamodel This includes
+\begin{itemize}
+ \item the enforced decoupling of services across levels of granularity through services contracts,
+ \item a range of traceability links including enforced usage of both satisfiability links and \emph{`requiredBy'} links between requirements and stakeholders,
+ \item the assignment of services into responsibility domains, and 
+ \item the support of parametrized, reusable constraints for the specification of pre- and post-conditions as well as guard conditions for conditional functional requirements and alternative flows within processes.
+\end{itemize}
+
 
 
 URDAD is a methodology generating a services-oriented requirements and business process design model. 
@@ -58,10 +81,6 @@ URDAD is a service-oriented analysis and design process which generates services
 
 Refer to \cite{gonzalez_unity_2009} to use unity criteria to define responsibility domain boundaries.
 \todo{Fritz:Look at unity models as in Espana et al and see progress report for responsibility localization and general short-comings in use case based approach regarding this.}
-
-\subsection{The URDAD process}
-
-\missingfigure{URDAD process}
 
 \subsection{Example: Designing URDAD with URDAD}
 by using it to design a service oriented analysis and design methodology. If the process is internally consistent it needs to generate itself. 
