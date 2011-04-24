@@ -49,31 +49,31 @@ Client (business)        & \tick &       & \tick & \tick & \tick & \tick & \tick
 
 %---------------------------------------------------------------------------------------------------------%
 
-\subsubsection{Model quality metrics}
+\subsubsection{Model quality drivers and metrics}
 
-A lot of work has been done on model complexity
+In order to analyze to what extend a methodology and its output satisfy their quality requirements we can a) assess which \emph{quality drivers} are built into the methodology and b) specify the quality metrics used to assess the quality of the resultant model. Here we identify quality drivers and some possible simple quality metrics.
 
 \cite{mohagheghi_existing_2009} discusses a number of model quality measures including measures for complexity, reuse.
 
-traceability refs and text from dsl paper
 
-\paragraph{Semantic Quality} depends on the semantic 
+\paragraph{Semantic Quality} is a measure of the accuracy and completeness of the meaning conveyed with the analysis and design model. Semantic quality drivers include the specification of an ontology and/or a metamodel for the analysis and design model. One needs to assess the semantic overlap between the modeling domain and the ontology provided by the modeling language. Though a number of studies have studied the relationship between semantics and metamodels \cite{staab_model_2010,veldhuis_tool_2009,henderson-sellers_bridging_2011,} and the effect of semantic quality on the quality of analysis and design models \cite{buder_effects_2010,staab_model_2010}, little work has thus far been done on the quantitative assessment of semantic quality of modeling languages has Domain specific languages aim to explicitly and directly cover the ontological space Some work has been done by \cite{gall_semantic_2008}. The semantic quality assessment will thus be largely confined to the assessment of the semantic support provided by the modeling language used.
 
-\paragraph{Syntactic Quality}
+\paragraph{Syntactic Quality} is a measure of correct language usage. Syntactic quality drivers include the availability of a formal metamodel for the language as well as the specification of concrete text and graphical grammars for the specification of model instances. In this paper we confine the assessment of syntactic quality to the existence of a formal modeling language and concrete syntax for model specification, assuming that model instances will adhere to the syntax of the chosen modeling language.
 
-\paragraph{Simplicity}
+\paragraph{Simplicity} A lot of work has been done on complexity measures
 
-\paragraph{Completeness}
+\paragraph{Completeness} is a measure of the lack of missing information in the analysis and design model.
 
 \paragraph{Modifiability}
 
 \paragraph{Consistency}
 
-\paragraph{Cohesion} in a service oriented approach has been extensively studied by Mikhael Perepletchikov et al.\ \cite{perepletchikov_cohesion_2007,perepletchikov_impact_2010}. Their approach is narrowly related to that of unity criteria \cite{gonzalez_unity_2009} identifying interfacing cohesion, usage cohesion and implementation cohesion. 
+\paragraph{Cohesion} in a service oriented approach has been extensively studied by Mikhael Perepletchikov et al.\ \cite{perepletchikov_cohesion_2007,perepletchikov_impact_2010}. Their approach is narrowly related to that of unity criteria \cite{gonzalez_unity_2009} identifying interfacing cohesion, usage cohesion and implementation cohesion.
 
-\paragraph{Reusability}
+\paragraph{Reusability} metrics are \cite{khoshkbarforoushha_metric_2010,choi_quality_2008,feuerlicht_determinants_2007,}
+\cite{khoshkbarforoushha_metric_2010} point out thatservice reusability impeded by contract and requirements mismatch. The former can be addressed via adapters.
 
-\paragraph{Traceability}
+\paragraph{Traceability} Four types of traceability should be taken into account \cite{ramesh_toward_2001}: \emph{satisfaction} links, \emph{evolutional} links, \emph{rationale} links, and \emph{dependency}.
 
 %---------------------------------------------------------------------------------------------------------%
 
