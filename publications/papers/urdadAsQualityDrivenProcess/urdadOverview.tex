@@ -1,6 +1,8 @@
 \section{The URDAD analysis and design process}
 
-In this section we will introduce URDAD from the perspective of a quality driven process generating an analysis and design model which enforces certain model quality requirements. 
+In this section we will introduce URDAD from the perspective of a quality driven process generating an analysis and design model which enforces certain model quality requirements.  URDAD\cite{solms_generating_2009} provides a service oriented analysis and design methodology, a metamodel introducing the semantics (modelling constructs) for an URDAD based domain specific language (the \emph{URDAD-DSL}), as well as a concrete text grammar which can be used to populate an URDAD model complying to the metamodel. A graphical grammar and diagram-based tooling around that grammar are under development. 
+
+The resultant URDAD model represents a \emph{Computation Independent Model} (CIM) as the services contracts and processes can be realized as system  or business contracts (SLAs) and system or manual processes respectively. Nevertheless, the model has a level of detail and preciseness which is generally associated with \emph{Platform Independent Models} (PIMs) and not commonly with CIMs as it contains testable service contracts and and implementable process specifications for services across levels of granularity.
 
 %-----------------------------------------------------------
 
@@ -38,7 +40,7 @@ Traceability Links                     &            &            & \checkmark & 
 \subsection{The URDAD process}
 \label{sec:urdadProcess}
 
-URDAD\cite{solms_generating_2009} provides a service oriented analysis and design methodology yielding service contracts and process designs for services across levels of granularity. The resultant model represents a \emph{Computation Independent Model} (CIM) as the services contracts and implementing service processes can be realized as either automated system processes or manual processes. Nevertheless, the model has a level of detail and preciseness which is generally available in OMG's \emph{Platform Independent Model} (PIM) and not commonly in CIMs.
+
 
 
 
@@ -105,5 +107,6 @@ by using it to design a service oriented analysis and design methodology. If the
 
 \todo{Fritz: mention adapters to existing legacy}
 
+\todo{Fritz:The methodology envisages requirements specialists across responsibility domains to contribute to a single requirements model.}
 
 \todo{Fritz: Add that one of the core challanges is to have requirements specialists make the paradigm shift to specify requirements in terms of services contracts for reusable services\cite{haines_impact_2007}. In practice we have found that URDAD assists significantly on that front.}
