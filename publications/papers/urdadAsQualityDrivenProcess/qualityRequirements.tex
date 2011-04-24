@@ -49,20 +49,20 @@ The {\bf client} (business) uses the model to obtain (business) process document
 \begin{table}[h]
 \caption{Stakeholders and their primary model quality requirements.}
 \label{tab:modelQualityRequirements}
-\begin{tabular}{|c|cc|cccccccc|} \hline
-\multirow{4}{*}{Stakeholders} & \multicolumn{10}{c|}{Model qualities} \\ \cline{2-11}
+\begin{tabular}{|l|cc|cccccccc|} \hline
+\multirow{4}{*}{\bf Stakeholders} & \multicolumn{10}{c|}{\bf Model qualities} \\ \cline{2-11}
 & & & \multicolumn{8}{c|}{Pragmatic model qualities}\\ \cline{4-11}
     & \begin{sideways}Semantic\end{sideways} & \begin{sideways}Syntactic\end{sideways}  & \begin{sideways}Simplicity\end{sideways}
     & \begin{sideways}Completeness\end{sideways} & \begin{sideways}Modifiability\end{sideways} & \begin{sideways}Consistency\end{sideways}
     & \begin{sideways}Decoupling\end{sideways} & \begin{sideways}Cohesion\end{sideways} & \begin{sideways}Reusability\end{sideways}
     & \begin{sideways}Traceability\end{sideways} \\ \hline
-%                         Semantic Syntax  Simpl  Compl   Modif   Consist Decoupl Cohesion Reuse  Traceable
-Requirements engineering & \tick & \tick & \tick & \tick & \tick & \tick & \tick & \tick & \tick & \tick \\
-Architecture             & \tick &       & \tick & \tick &       & \tick & \tick & \tick &       &       \\ 
-Implementation           & \tick & \tick & \tick & \tick &       & \tick & \tick & \tick & \tick & \tick \\ 
-Quality assurance        & \tick & \tick & \tick & \tick &       & \tick &       &       &       & \tick \\ 
-Project management       & \tick &       & \tick & \tick &       & \tick &       &       &       & \tick \\ 
-Client (business)        & \tick &       & \tick & \tick & \tick & \tick & \tick &       & \tick & \tick \\ \hline
+%                         Semantic     Syntax        Simplicity  Completeness   Modifiable  Consistent  Decoupled    Cohesion     Reuse        Traceable
+Requirements engineering & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+Architecture             & \checkmark &            & \checkmark & \checkmark &            & \checkmark & \checkmark & \checkmark &            &       \\ 
+Implementation           & \checkmark & \checkmark & \checkmark & \checkmark &            & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\ 
+Quality assurance        & \checkmark & \checkmark & \checkmark & \checkmark &            & \checkmark &            &       &            & \checkmark \\ 
+Project management       & \checkmark &            & \checkmark & \checkmark &            & \checkmark &            &       &            & \checkmark \\ 
+Client (business)        & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark &            & \checkmark & \checkmark \\ \hline
 \end{tabular}
 \end{table}
 
@@ -75,7 +75,7 @@ In order to analyze to what extend a methodology and its output satisfy their qu
 \cite{mohagheghi_existing_2009} discusses a number of model quality measures including measures for complexity, reuse.
 
 
-\paragraph{Semantic Quality} is a measure of the accuracy and completeness of the meaning conveyed with the analysis and design model. Semantic quality drivers include the specification of an ontology and/or a metamodel for the analysis and design model. One needs to assess the semantic overlap between the modeling domain and the ontology provided by the modeling language. Though a number of studies discuss the relationship between semantics and metamodels \cite{staab_model_2010,veldhuis_tool_2009,henderson-sellers_bridging_2011,} and the effect of semantic quality on the quality of analysis and design models \cite{buder_effects_2010,staab_model_2010}, little work has thus far been done on the quantitative assessment of semantic model quality. Domain specific languages aim to explicitly and directly cover the ontological space required by the modeling methodology or/and the modeling domain. The semantic quality assessment will thus be largely confined to the assessment of the semantic support provided by the employed modeling language.
+\paragraph{Semantic Quality} is a measure of the accuracy and completeness of the meaning conveyed with the analysis and design model. Semantic quality drivers include the specification of an ontology and/or a metamodel for the analysis and design model. One needs to assess the semantic overlap between the modeling domain and the ontology provided by the modeling language. Though a number of studies discuss the relationship between semantics and metamodels \cite{staab_model_2010,veldhuis_tool_2009,henderson-sellers_bridging_2011} and the effect of semantic quality on the quality of analysis and design models \cite{buder_effects_2010,staab_model_2010}, little work has thus far been done on the quantitative assessment of semantic model quality. Domain specific languages aim to explicitly and directly cover the ontological space required by the modeling methodology or/and the modeling domain. The semantic quality assessment will thus be largely confined to the assessment of the semantic support provided by the employed modeling language.
 
 \paragraph{Syntactic Quality} is a measure of correct language usage. Syntactic quality drivers include the availability of a formal metamodel for the language as well as the specification of concrete text and graphical grammars for the specification of model instances. In this paper we confine the assessment of syntactic quality to the existence of a formal modeling language and concrete syntax for model specification, assuming that model instances will adhere to the syntax of the chosen modeling language.
 
@@ -83,16 +83,42 @@ In order to analyze to what extend a methodology and its output satisfy their qu
 
 \paragraph{Completeness} is a measure of the lack of missing information in the analysis and design model. Completeness of requirements is difficult to assess, though the discovery of certain stakeholders for which no functional or nonfunctional requirements exist is an indication of missing requirements. In order to assess design completeness one can identify the number of functional requirements which are not addressed through using lower level services.
 
-\paragraph{Modifiability}
+\paragraph{Consistency} is an important model quality measure. Since model consistency is difficult to achieve using UML A lot of emphasis has been placed on model consistency for UML models
 
-\paragraph{Consistency}
+\paragraph{Cohesion} in a service oriented approach has been extensively studied by Mikhael Perepletchikov et al.\ \cite{perepletchikov_cohesion_2007,perepletchikov_impact_2010}. Their approach is narrowly related to that of unity criteria \cite{gonzalez_unity_2009} identifying interfacing cohesion, usage cohesion and implementation cohesion. Quality drivers for cohesion include enforcing the single responsibility principle as well as process locacalization within a controller service.
 
-\paragraph{Cohesion} in a service oriented approach has been extensively studied by Mikhael Perepletchikov et al.\ \cite{perepletchikov_cohesion_2007,perepletchikov_impact_2010}. Their approach is narrowly related to that of unity criteria \cite{gonzalez_unity_2009} identifying interfacing cohesion, usage cohesion and implementation cohesion. Quality drivers for cohesion include the
+\paragraph{Decoupling} is larel services oriented approach
 
-\paragraph{Reusability} metrics are \cite{khoshkbarforoushha_metric_2010,choi_quality_2008,feuerlicht_determinants_2007,}
+\paragraph{Modifiability} refers to the efficiency with which model changes can be applied, i.e.\ it is an inverse measure of the cost required to make model changes. Modifiability is difficult to quantitatively measure, but it is supported by other model qualities like \emph{simplicity},  \emph{decoupling} (modifiability through pluggability) and \emph{cohesion} (localized maintenance) and further driven by enforcing the localization of process logic within a controller service.
+
+\paragraph{Reusability} metrics are \cite{khoshkbarforoushha_metric_2010,choi_quality_2008,feuerlicht_determinants_2007}
 \cite{khoshkbarforoushha_metric_2010} point out thatservice reusability impeded by contract and requirements mismatch. The former can be addressed via adapters.
 
 \paragraph{Traceability} is required for design validation and estimation. Validation includes assessing sufficiency and necessity. \cite{ramesh_toward_2001} identifies four types of traceability links in models including \emph{satisfaction} links used to assess whether requirements are satifies, \emph{evolutional} links to trace along the evolution of an artifact over time, \emph{rationale} links which typically link requirements to higher level business goals, and \emph{dependency} links enabling one to identify dependencies of model elements. Quality drivers include thus the availability of these traceability links in the modeling language and their enforced usage through the modeling process.
+
+\begin{table}[h]
+ \caption{URDAD model quality drivers for quality requirements}
+ \label{tab:qualityDrivers}
+\begin{tabular}{|l|cc|cccccccc|} \hline
+\multirow{4}{*}{\bf Quality driver} & \multicolumn{10}{c|}{\bf Model qualities} \\ \cline{2-11}
+& & & \multicolumn{8}{c|}{Pragmatic model qualities}\\ \cline{4-11}
+    & \begin{sideways}Semantic\end{sideways} & \begin{sideways}Syntactic\end{sideways}  & \begin{sideways}Simplicity\end{sideways}
+    & \begin{sideways}Completeness\end{sideways} & \begin{sideways}Modifiability\end{sideways} & \begin{sideways}Consistency\end{sideways}
+    & \begin{sideways}Decoupling\end{sideways} & \begin{sideways}Cohesion\end{sideways} & \begin{sideways}Reusability\end{sideways}
+    & \begin{sideways}Traceability\end{sideways} \\ \hline
+%                                       Semantic     Syntax        Simplicity  Completeness   Modifiable  Consistent  Decoupled    Cohesion     Reuse        Traceable
+Metamodel and/or ontology              & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark &            &            & \checkmark \\
+Concrete syntax                        &            & \checkmark & \checkmark &            & \checkmark &            &            &            &            &       \\ 
+Manage levels of granularity           &            &            & \checkmark &            & \checkmark &            &            &            & \checkmark & \checkmark \\ 
+Enforce single reponsibility principle &            &            & \checkmark &            & \checkmark &            &            & \checkmark & \checkmark & \checkmark \\ 
+Service dependency via contracts       &            &            & \checkmark &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark \\ 
+Testable pre- \& post-conditions       &            &            &            & \checkmark & \checkmark & \checkmark &            &            &            &  \\ 
+Process locacalization in controller   &            &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark & \checkmark & \checkmark \\ 
+Traceability Links                     &            &            & \checkmark & \checkmark & \checkmark & \checkmark &            &            &            & \checkmark \\ \hline 
+\end{tabular}
+  
+\end{table}
+
 
 %---------------------------------------------------------------------------------------------------------%
 

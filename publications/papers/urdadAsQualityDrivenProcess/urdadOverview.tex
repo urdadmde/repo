@@ -28,6 +28,28 @@ URDAD is a service-oriented analysis and design process which generates services
 Discuss first the methodology, then the metamodel with example encodings in concrete text syntax.
 \todo[color=blue!40,inline]{Fritz:Try and explain URDAD while using URDAD to design URDAD}
 
+\begin{table}[h]
+ \caption{URDAD model quality drivers for quality requirements}
+ \label{tab:qualityDrivers}
+\begin{tabular}{|l|cc|cccccccc|} \hline
+\multirow{4}{*}{\bf Quality driver} & \multicolumn{10}{c|}{\bf Model qualities} \\ \cline{2-11}
+& & & \multicolumn{8}{c|}{Pragmatic model qualities}\\ \cline{4-11}
+    & \begin{sideways}Semantic\end{sideways} & \begin{sideways}Syntactic\end{sideways}  & \begin{sideways}Simplicity\end{sideways}
+    & \begin{sideways}Completeness\end{sideways} & \begin{sideways}Modifiability\end{sideways} & \begin{sideways}Consistency\end{sideways}
+    & \begin{sideways}Decoupling\end{sideways} & \begin{sideways}Cohesion\end{sideways} & \begin{sideways}Reusability\end{sideways}
+    & \begin{sideways}Traceability\end{sideways} \\ \hline
+%                                       Semantic     Syntax        Simplicity  Completeness   Modifiable  Consistent  Decoupled    Cohesion     Reuse        Traceable
+Metamodel and/or ontology              & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark &            &            & \checkmark \\
+Concrete syntax                        &            & \checkmark & \checkmark &            & \checkmark &            &            &            &            &       \\ 
+Manage levels of granularity           &            &            & \checkmark &            & \checkmark &            &            &            & \checkmark & \checkmark \\ 
+Enforce single reponsibility principle &            &            & \checkmark &            & \checkmark &            &            & \checkmark & \checkmark & \checkmark \\ 
+Service dependency via contracts       &            &            & \checkmark &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark \\ 
+Testable pre- \& post-conditions       &            &            &            & \checkmark & \checkmark & \checkmark &            &            &            &  \\ 
+Process locacalization in controller   &            &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark & \checkmark & \checkmark \\ 
+Traceability Links                     &            &            & \checkmark & \checkmark & \checkmark & \checkmark &            &            &            & \checkmark \\ \hline 
+\end{tabular}
+  
+\end{table}
 
 Include step for quantifying each quality requirement and list quantification measures
 

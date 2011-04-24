@@ -7,6 +7,14 @@
 Strategies for project recovery.
 \newblock Technical report, {PM} Solutions Research, 2011.
 
+\bibitem{abrahamsson_extreme_2004}
+P.~Abrahamsson and J.~Koskela.
+\newblock Extreme programming: a survey of empirical data from a controlled
+  case study.
+\newblock In {\em Empirical Software Engineering, 2004. {ISESE} '04.
+  Proceedings. 2004 International Symposium on}, page 73{\textendash}82, August
+  2004.
+
 \bibitem{berard_what_1995}
 Edward~V. Berard.
 \newblock What is a methodology?
@@ -16,6 +24,27 @@ Edward~V. Berard.
 Barry~W. Boehm.
 \newblock {\em Characteristics of Software Quality}, volume~1.
 \newblock {North-Holland} Publishing Company, 1st edition, June 1978.
+
+\bibitem{buder_effects_2010}
+Johannes Buder.
+\newblock Effects of semantic quality in business process modeling.
+\newblock {\em {AMCIS} 2010 Proceedings}, August 2010.
+
+\bibitem{choi_quality_2008}
+Si~Won Choi and Soo~Dong Kim.
+\newblock A quality model for evaluating reusability of services in {SOA}.
+\newblock In {\em {CECANDEEE} '08: Proceedings of the 2008 10th {IEEE}
+  Conference on {E-Commerce} Technology and the Fifth {IEEE} Conference on
+  Enterprise Computing, {E-Commerce} and {E-Services}}, page
+  293{\textendash}298, Washington, {DC,} {USA}, 2008. {IEEE} Computer Society.
+
+\bibitem{feuerlicht_determinants_2007}
+George Feuerlicht and Amalka Wijayaweera.
+\newblock Determinants of service reusability.
+\newblock In {\em Proceeding of the 2007 conference on New Trends in Software
+  Methodologies, Tools and Techniques: Proceedings of the sixth {SoMeT\_07}},
+  page 467{\textendash}474, Amsterdam, The Netherlands, The Netherlands, 2007.
+  {IOS} Press.
 
 \bibitem{frankel_model_2003}
 David~S. Frankel.
@@ -28,17 +57,16 @@ David Garvin.
 \newblock What does product quality really mean?
 \newblock {\em Sloan Management Review}, 26:25{\textendash}45, 1984.
 
+\bibitem{gill_new_2010}
+Nasib~S Gill and Sunil Sikka.
+\newblock New complexity model for classes in object oriented system.
+\newblock {\em {SIGSOFT} Softw. Eng. Notes}, 35:1{\textendash}7, October 2010.
+
 \bibitem{gonzalez_unity_2009}
 Arturo Gonzalez, Sergio Espana, and Oscar Pastor.
 \newblock Unity criteria for business process modelling.
 \newblock In {\em 2009 Third International Conference on Research Challenges in
   Information Science}, pages 155--164, Fez, Morocco, April 2009.
-
-\bibitem{graham_requirements_2008}
-Ian Graham.
-\newblock {\em Requirements Modelling and Specification for Service Oriented
-  Architecture}.
-\newblock John Wiley \& Sons, October 2008.
 
 \bibitem{haines_impact_2007}
 Marc Haines.
@@ -59,11 +87,23 @@ Petra Heck and P\"{a}ivi Parviainen.
 \newblock In {\em 2008 The Third International Conference on Software
   Engineering Advances}, pages 367--372, Sliema, Malta, October 2008.
 
+\bibitem{henderson-sellers_bridging_2011}
+B.~{Henderson-Sellers}.
+\newblock Bridging metamodels and ontologies in software engineering.
+\newblock {\em Journal of Systems and Software}, 84(2):301--313, February 2011.
+
 \bibitem{hinchey_software_2008}
 Mike Hinchey, Michael Jackson, Patrick Cousot, Byron Cook, Jonathan~P. Bowen,
   and Tiziana Margaria.
 \newblock Software engineering and formal methods.
 \newblock {\em Commun. {ACM}}, 51(9):54{\textendash}59, 2008.
+
+\bibitem{khoshkbarforoushha_metric_2010}
+A.~Khoshkbarforoushha, P.~Jamshidi, and F.~Shams.
+\newblock A metric for composite service reusability analysis.
+\newblock In {\em Proceedings of the 2010 {ICSE} Workshop on Emerging Trends in
+  Software Metrics}, {WETSoM} '10, page 67{\textendash}74, New York, {NY,}
+  {USA}, 2010. {ACM}.
 
 \bibitem{lange_managing_2005}
 {C.F.J.} Lange and {M.R.V.} Chaudron.
@@ -88,16 +128,42 @@ Christian F.~J Lange.
 \newblock Understanding quality in conceptual modeling.
 \newblock {\em {IEEE} Software}, 11(2):42--49, 1994.
 
+\bibitem{mohagheghi_evaluating_2007}
+Parastoo Mohagheghi and Jan Aagedal.
+\newblock Evaluating quality in {Model-Driven} engineering.
+\newblock In {\em {MISE} '07: Proceedings of the International Workshop on
+  Modeling in Software Engineering}, pages 6--11, Washington, {DC,} {USA},
+  2007. {IEEE} Computer Society.
+
 \bibitem{mohagheghi_existing_2009}
 Parastoo Mohagheghi and Vegard Dehlen.
 \newblock Existing model metrics and relations to model quality.
 \newblock In {\em 2009 {ICSE} Workshop on Software Quality}, pages 39--45,
   Vancouver, {BC,} Canada, 2009.
 
-\bibitem{selic_pragmatics_2003}
-Bran Selic.
-\newblock The pragmatics of {Model-Driven} development.
-\newblock {\em Software, {IEEE}}, 20,5:19--22, October 2003.
+\bibitem{perepletchikov_cohesion_2007}
+Mikhail Perepletchikov, Caspar Ryan, and Keith Frampton.
+\newblock Cohesion metrics for predicting maintainability of {Service-Oriented}
+  software.
+\newblock In {\em Seventh International Conference on Quality Software {(QSIC}
+  2007)}, pages 328--335, Portland, {OR,} {USA}, 2007.
+
+\bibitem{perepletchikov_impact_2010}
+Mikhail Perepletchikov, Caspar Ryan, and Zahir Tari.
+\newblock The impact of service cohesion on the analyzability of
+  {Service-Oriented} software.
+\newblock {\em {IEEE} Transactions on Services Computing}, 3(2):89--103, 2010.
+
+\bibitem{podgorelec_estimating_2007}
+Vili Podgorelec and Marjan Heri\v{c}ko.
+\newblock Estimating software complexity from {UML} models.
+\newblock {\em {SIGSOFT} Softw. Eng. Notes}, 32:1{\textendash}5, March 2007.
+
+\bibitem{ramesh_toward_2001}
+B.~Ramesh and M.~Jarke.
+\newblock Toward reference models for requirements traceability.
+\newblock {\em {IEEE} Transactions on Software Engineering}, 27(1):58--93,
+  January 2001.
 
 \bibitem{shim_design_2008}
 Bingu Shim, Siho Choue, Suntae Kim, and Sooyong Park.
@@ -131,6 +197,18 @@ Fritz Solms and Dawid Loubser.
   Loubser.
 \newblock A {Domain-Specific} language for {URDAD} based requirements
   elicitation.
+
+\bibitem{staab_model_2010}
+Steffen Staab, Tobias Walter, Gerd Gr?ner, and Fernando~Silva Parreiras.
+\newblock Model driven engineering with ontology technologies.
+\newblock In {\em Reasoning Web. Semantic Technologies for Software
+  Engineering}, volume 6325 of {\em {LNCS}}. Springer, 2010.
+
+\bibitem{veldhuis_tool_2009}
+{J.W.} Veldhuis.
+\newblock {\em Tool support for a metamodeling approach for reasoning about
+  requirements}.
+\newblock April 2009.
 
 \bibitem{wirfs-brock_object-oriented_1989}
 Rebecca~J. {Wirfs-Brock} and Brian Wilkerson.
