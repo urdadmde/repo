@@ -2,7 +2,40 @@
 
 In this section we will introduce URDAD from the perspective of a quality driven process generating an analysis and design model which enforces certain model quality requirements. 
 
-URDAD is a methodology generating a services-oriented requirements and business process design model. URDAD does not prescribe the language which should be used to encode the requirements and process model representing OMG's CIM, but it provides the option of using a domain specific language for URDAD, the \emph{URDDAD-DSL}. URDAD require, however, that the modelling language used supports the semantics for specifying 1) \emph{services contracts} with pre- and post-conditions, quality requirements and data structure specification for the inputs and outputs, 2) parametrized state constraints applying to service environment, 3) object-oriented data structure specification, 4) service specification including 5a) the specification of which service is used to address which functional requirement and 5b) the process specification in the form of a choreography across lower level services and 6) the assigning of model artifacts including services contract and service specifications to responsibility domains. URDAD also requires the linkage between a requirement and the stakeholder who requires it. The stakeholder can be a responsibility domain or a service.
+\todo[inline]{Fritz: Discuss first the methodology, then the metamodel with example encodings in concrete text syntax.}
+
+
+\subsection{Quality drivers of URDAD}
+
+\begin{table}[h]
+ \caption{URDAD model quality drivers for quality requirements}
+ \label{tab:qualityDrivers}
+\begin{tabular}{|l|cc|cccccccc|} \hline
+\multirow{4}{*}{\bf Quality driver} & \multicolumn{10}{c|}{\bf Model qualities} \\ \cline{2-11}
+& & & \multicolumn{8}{c|}{Pragmatic model qualities}\\ \cline{4-11}
+    & \begin{sideways}Semantic\end{sideways} & \begin{sideways}Syntactic\end{sideways}  & \begin{sideways}Simplicity\end{sideways}
+    & \begin{sideways}Completeness\end{sideways} & \begin{sideways}Modifiability\end{sideways} & \begin{sideways}Consistency\end{sideways}
+    & \begin{sideways}Decoupling\end{sideways} & \begin{sideways}Cohesion\end{sideways} & \begin{sideways}Reusability\end{sideways}
+    & \begin{sideways}Traceability\end{sideways} \\ \hline
+%                                       Semantic     Syntax        Simplicity  Completeness   Modifiable  Consistent  Decoupled    Cohesion     Reuse        Traceable
+Metamodel and/or ontology              & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark &            &            & \checkmark \\
+Graphical and/or text grammar          &            & \checkmark & \checkmark &            & \checkmark &            &            &            &            &       \\ 
+Manage levels of granularity           &            &            & \checkmark &            & \checkmark &            &            &            & \checkmark & \checkmark \\ 
+Enforce single reponsibility principle &            &            & \checkmark &            & \checkmark &            &            & \checkmark & \checkmark & \checkmark \\ 
+Service dependency via contracts       &            &            & \checkmark &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark \\ 
+Testable pre- \& post-conditions       &            &            &            & \checkmark & \checkmark & \checkmark &            &            &            &  \\ 
+Process locacalization in controller   &            &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark & \checkmark & \checkmark \\ 
+Traceability Links                     &            &            & \checkmark & \checkmark & \checkmark & \checkmark &            &            &            & \checkmark \\ \hline 
+\end{tabular}
+  
+\end{table}
+
+
+URDAD is a methodology generating a services-oriented requirements and business process design model. 
+
+
+
+URDAD does not prescribe the language which should be used to encode the requirements and process model representing OMG's CIM, but it provides the option of using a domain specific language for URDAD, the \emph{URDDAD-DSL}. URDAD require, however, that the modelling language used supports the semantics for specifying 1) \emph{services contracts} with pre- and post-conditions, quality requirements and data structure specification for the inputs and outputs, 2) parametrized state constraints applying to service environment, 3) object-oriented data structure specification, 4) service specification including 5a) the specification of which service is used to address which functional requirement and 5b) the process specification in the form of a choreography across lower level services and 6) the assigning of model artifacts including services contract and service specifications to responsibility domains. URDAD also requires the linkage between a requirement and the stakeholder who requires it. The stakeholder can be a responsibility domain or a service.
 
 The contract specification should facilitate the generation of tests and the process specification the generation of an implementation, either in the form of an automated system process or in the form of a manual process. The
 
@@ -22,36 +55,6 @@ BPMN
   - no notion of services contracts and data structures  
 
 URDAD is a service-oriented analysis and design process which generates services contracts and associated process specifications across levels of granularity. 
-
-\subsection{Quality drivers of URDAD}
-
-Discuss first the methodology, then the metamodel with example encodings in concrete text syntax.
-\todo[color=blue!40,inline]{Fritz:Try and explain URDAD while using URDAD to design URDAD}
-
-\begin{table}[h]
- \caption{URDAD model quality drivers for quality requirements}
- \label{tab:qualityDrivers}
-\begin{tabular}{|l|cc|cccccccc|} \hline
-\multirow{4}{*}{\bf Quality driver} & \multicolumn{10}{c|}{\bf Model qualities} \\ \cline{2-11}
-& & & \multicolumn{8}{c|}{Pragmatic model qualities}\\ \cline{4-11}
-    & \begin{sideways}Semantic\end{sideways} & \begin{sideways}Syntactic\end{sideways}  & \begin{sideways}Simplicity\end{sideways}
-    & \begin{sideways}Completeness\end{sideways} & \begin{sideways}Modifiability\end{sideways} & \begin{sideways}Consistency\end{sideways}
-    & \begin{sideways}Decoupling\end{sideways} & \begin{sideways}Cohesion\end{sideways} & \begin{sideways}Reusability\end{sideways}
-    & \begin{sideways}Traceability\end{sideways} \\ \hline
-%                                       Semantic     Syntax        Simplicity  Completeness   Modifiable  Consistent  Decoupled    Cohesion     Reuse        Traceable
-Metamodel and/or ontology              & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark &            &            & \checkmark \\
-Concrete syntax                        &            & \checkmark & \checkmark &            & \checkmark &            &            &            &            &       \\ 
-Manage levels of granularity           &            &            & \checkmark &            & \checkmark &            &            &            & \checkmark & \checkmark \\ 
-Enforce single reponsibility principle &            &            & \checkmark &            & \checkmark &            &            & \checkmark & \checkmark & \checkmark \\ 
-Service dependency via contracts       &            &            & \checkmark &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark \\ 
-Testable pre- \& post-conditions       &            &            &            & \checkmark & \checkmark & \checkmark &            &            &            &  \\ 
-Process locacalization in controller   &            &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark & \checkmark & \checkmark \\ 
-Traceability Links                     &            &            & \checkmark & \checkmark & \checkmark & \checkmark &            &            &            & \checkmark \\ \hline 
-\end{tabular}
-  
-\end{table}
-
-Include step for quantifying each quality requirement and list quantification measures
 
 Refer to \cite{gonzalez_unity_2009} to use unity criteria to define responsibility domain boundaries.
 \todo{Fritz:Look at unity models as in Espana et al and see progress report for responsibility localization and general short-comings in use case based approach regarding this.}
