@@ -1,32 +1,12 @@
 \section{Quality requirements}
 
-\todo{Cuen:I think we should consider renaming this section - the title is a bit vague. Perhaps somthing more along the lines of:
-- Quality requirements of models and modelling processes (not sure if that should be "...requirements of.." or "...requirements for...")
+\todo[inline,color=green!40]{Fritz:Thanks for your suggestions. Followed them all bar the title change. I hope the introductory paragraph addresses your concerns and that this makes you happy to go along with the current title. Feel free to red-flag.}
 
-The next section could then be called something like:
-- Quality assessment of URDAD models and the URDAD modelling process.
-- Quality assessment of URDAD models and modelling process.
-- Quality assessment of URDAD (in case the previous suggestions are too long)
-
-If the length of these section titles are too long, we could also consider splitting the sections into multiple parts. e.g.:
-- Quality requirements of models.
-- Quality requirements of modelling processes.
-- Assessment of URDAD model quality / Quality assessment of an URDAD model
-- Assessment of URDAD modelling process quality / Quality assessment of the URDAD modelling process
-}
-
-\todo[inline,color=green!40]{Fritz:In this section we should refrain from referring to URDAD. Lets look purely at the requirements of a services-oriented analysis and design process for MDA}
-
-\todo{Cuen: the section below needs a bit of editing.  The second sentence seems incomplete : "with defined inputs and output..."  Is it meant to be part of the first sentence?  If so, the sentence if probably too long and will be hard to read/understand}
-
-In order to be able to assess quality and quality-drivers one needs to identify the stakeholders in both, the process and the resultant analysis and design model and their quality requirements regarding these.
-with defined inputs and outputs for each process step and a metamodel capturing the outputs of the process. In this section, we aim to identify the stakeholders of both the modelling process and the resultant model and their respective quality requirements.
+In order to be able to assess quality and quality-drivers one needs to identify the stakeholders in both, the process and the resultant analysis and design model and their respective quality requirements. In this section, we first look at at the stakeholders who have an interest in the model itself and their quality requirements for the analysis and design model before looking at the process stake holders and the quality requirements for the analysis and design process itself.
 
 \subsection{Model stake holders and their quality requirements}
 
-\todo{Cuen: In the section below: "taken as basis with most authors" does not sound right.  Is it meant to be "used as a basis by most authors"?}
-
-A lot of work has historically been done on defining and measuring code quality (see, for example, \cite{boehm_barry_w._characteristics_1978}), but recently the focus has shifted onto understanding and measuring model quality \cite{lange_managing_2005,lange_improving_2006,shim_design_2008,qi_yu-dong_analysis_2010}. Though most of the work is applied to UML models, the concepts are generally applicable across analysis and design models, i.e.\ they are generally not UML specific. Generally Lindland's high-level quality categorization \cite{lindland_understanding_1994} into \emph{semantic quality}, \emph{syntactic quality}, \emph{pragmatic quality} is taken as basis with most authors but the detailed pragmatic quality attributes vary considerably across authors with model \emph{complexity} being the one measure which is common across the different approaches. Christiaan Lange  \cite{lange_christiaan_assessing_2007} related model quality back to model purpose and identified a range of model quality characteristics (here called quality attributes) including complexity, traceability, modularity, completeness, consistency, communicativeness, and others which are largely related to these.
+A lot of work has historically been done on defining and measuring code quality (see, for example, \cite{boehm_barry_w._characteristics_1978}), but recently the focus has shifted onto understanding and measuring model quality \cite{lange_managing_2005,lange_improving_2006,shim_design_2008,qi_yu-dong_analysis_2010}. Though most of the work is applied to UML models, the concepts are generally applicable across analysis and design models, i.e.\ they are generally not UML specific. Lindland \cite{lindland_understanding_1994} provides a widely used quality categorization into \emph{semantic quality}, \emph{syntactic quality}, \emph{pragmatic quality}. However, the detailed pragmatic model quality requirements vary considerably across authors with model \emph{complexity} being the one measure which is common across most approaches. Christiaan Lange  \cite{lange_christiaan_assessing_2007} related model quality back to model purpose and identified a range of model quality characteristics including complexity, traceability, modularity, completeness, consistency, communicativeness, and others which are largely related to these.
 
 In this paper we do not consider communicativeness and social quality as we feel these will be strongly influenced by semantics as well as the model user interface generated for specific role players. For example, requirements specialists would typically use a diagrammatic user interface into the model provided by a graphical syntax and appropriate tool support. The user interface to the model provided to the client is typically a read-only interface in the form of documentation generated from the model. Implementation and quality assurance can often use the model directly in the context of model transformation in order to generate code and test cases.
 
@@ -87,7 +67,7 @@ In order to analyze to what extend a methodology and its output satisfy their qu
 
 \paragraph{Cohesion} in a service oriented approach has been extensively studied by Mikhael Perepletchikov et al.\ \cite{perepletchikov_cohesion_2007,perepletchikov_impact_2010}. Their approach is narrowly related to that of unity criteria \cite{gonzalez_unity_2009} identifying interfacing cohesion, usage cohesion and implementation cohesion. Quality drivers for cohesion include enforcing the single responsibility principle as well as process locacalization within a controller service.
 
-\paragraph{Decoupling} is larel services oriented approach
+\paragraph{Decoupling} is enforced in a services oriented approach by requiring that services are only consumed via services contracts. This decouples services across levels of granularity.
 
 \paragraph{Modifiability} refers to the efficiency with which model changes can be applied, i.e.\ it is an inverse measure of the cost required to make model changes. Modifiability is difficult to quantitatively measure, but it is supported by other model qualities like \emph{simplicity},  \emph{decoupling} (modifiability through pluggability) and \emph{cohesion} (localized maintenance) and further driven by enforcing the localization of process logic within a controller service.
 
@@ -95,9 +75,6 @@ In order to analyze to what extend a methodology and its output satisfy their qu
 \cite{khoshkbarforoushha_metric_2010} point out thatservice reusability impeded by contract and requirements mismatch. The former can be addressed via adapters.
 
 \paragraph{Traceability} is required for design validation and estimation. Validation includes assessing sufficiency and necessity. \cite{ramesh_toward_2001} identifies four types of traceability links in models including \emph{satisfaction} links used to assess whether requirements are satifies, \emph{evolutional} links to trace along the evolution of an artifact over time, \emph{rationale} links which typically link requirements to higher level business goals, and \emph{dependency} links enabling one to identify dependencies of model elements. Quality drivers include thus the availability of these traceability links in the modeling language and their enforced usage through the modeling process.
-
-
-
 
 %---------------------------------------------------------------------------------------------------------%
 

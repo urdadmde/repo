@@ -1,8 +1,8 @@
 \section{The URDAD analysis and design process}
 
-In this section we will introduce URDAD by using it to design a service oriented analysis and design methodology. If the process is internally consistent it needs to generate itself. 
+In this section we will introduce URDAD from the perspective of a quality driven process generating an analysis and design model which enforces certain model quality requirements. 
 
-URDAD is a methodology generating a services-oriented requirements and business process design model. URDAD does not prescribe the language which should be used to encode the requirements and process model representing OMG's CIM. URDAD require, however, that the modelling language used the specification of 1) \emph{services contracts} with pre- and post-conditions, quality requirements and data structure specification for the inputs and outputs, 2) the specification of parametrized state constraints applying to service environment, 3) object-oriented data structure specification, 4) service specification including 5a) the specification of which service is used to address which functional requirement and 5b) the process specification in the form of a choreography across lower level services and 6) the assigning of model artifacts including services contract and service specifications to responsibility domains. URDAD also requires the linkage between a requirement and the stakeholder who requires it. The stakeholder can be a responsibility domain or a service.
+URDAD is a methodology generating a services-oriented requirements and business process design model. URDAD does not prescribe the language which should be used to encode the requirements and process model representing OMG's CIM, but it provides the option of using a domain specific language for URDAD, the \emph{URDDAD-DSL}. URDAD require, however, that the modelling language used supports the semantics for specifying 1) \emph{services contracts} with pre- and post-conditions, quality requirements and data structure specification for the inputs and outputs, 2) parametrized state constraints applying to service environment, 3) object-oriented data structure specification, 4) service specification including 5a) the specification of which service is used to address which functional requirement and 5b) the process specification in the form of a choreography across lower level services and 6) the assigning of model artifacts including services contract and service specifications to responsibility domains. URDAD also requires the linkage between a requirement and the stakeholder who requires it. The stakeholder can be a responsibility domain or a service.
 
 The contract specification should facilitate the generation of tests and the process specification the generation of an implementation, either in the form of an automated system process or in the form of a manual process. The
 
@@ -60,8 +60,8 @@ Refer to \cite{gonzalez_unity_2009} to use unity criteria to define responsibili
 
 \missingfigure{URDAD process}
 
-\subsection{Designing URDAD with URDAD}
-
+\subsection{Example: Designing URDAD with URDAD}
+by using it to design a service oriented analysis and design methodology. If the process is internally consistent it needs to generate itself. 
 
 \subsection{URDAD views}
 
