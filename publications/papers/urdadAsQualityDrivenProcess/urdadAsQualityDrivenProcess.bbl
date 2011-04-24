@@ -12,6 +12,11 @@ Edward~V. Berard.
 \newblock What is a methodology?
 \newblock White paper, The Object Agency, 1995.
 
+\bibitem{boehm_barry_w._characteristics_1978}
+Barry~W. Boehm.
+\newblock {\em Characteristics of Software Quality}, volume~1.
+\newblock {North-Holland} Publishing Company, 1st edition, June 1978.
+
 \bibitem{frankel_model_2003}
 David~S. Frankel.
 \newblock {\em Model Driven Architecture: Applying {MDA} to enterprise
@@ -83,10 +88,22 @@ Christian F.~J Lange.
 \newblock Understanding quality in conceptual modeling.
 \newblock {\em {IEEE} Software}, 11(2):42--49, 1994.
 
+\bibitem{mohagheghi_existing_2009}
+Parastoo Mohagheghi and Vegard Dehlen.
+\newblock Existing model metrics and relations to model quality.
+\newblock In {\em 2009 {ICSE} Workshop on Software Quality}, pages 39--45,
+  Vancouver, {BC,} Canada, 2009.
+
 \bibitem{selic_pragmatics_2003}
 Bran Selic.
 \newblock The pragmatics of {Model-Driven} development.
 \newblock {\em Software, {IEEE}}, 20,5:19--22, October 2003.
+
+\bibitem{shim_design_2008}
+Bingu Shim, Siho Choue, Suntae Kim, and Sooyong Park.
+\newblock A design quality model for {Service-Oriented} architecture.
+\newblock In {\em 2008 15th {Asia-Pacific} Software Engineering Conference},
+  pages 403--410, Beijing, China, 2008.
 
 \bibitem{solms_technology_2007}
 Fritz Solms.
@@ -120,5 +137,13 @@ Rebecca~J. {Wirfs-Brock} and Brian Wilkerson.
 \newblock {Object-Oriented} design: A {Responsibility-Driven} approach.
 \newblock In {\em {OOPSLA} '89 Proceedings}, page 71{\textendash}75, October
   1989.
+
+\bibitem{qi_yu-dong_analysis_2010}
+Qi~Yu-dong, Zhu Ai-hong, Xie Xiao-fang, and Yan Xiao-bin.
+\newblock Analysis of contribution of conceptual model quality to software
+  reliability.
+\newblock In {\em 2010 International Conference on Computer Application and
+  System Modeling {(ICCASM} 2010)}, pages V10--386--V10--389, Taiyuan, China,
+  2010.
 
 \end{thebibliography}
