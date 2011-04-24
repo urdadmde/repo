@@ -2,10 +2,9 @@
 
 In this section we will introduce URDAD from the perspective of a quality driven process generating an analysis and design model which enforces certain model quality requirements. 
 
-\todo[inline]{Fritz: Discuss first the methodology, then the metamodel with example encodings in concrete text syntax.}
+%-----------------------------------------------------------
 
-
-\subsection{Quality drivers of URDAD}
+\subsection{Quality drivers employed by URDAD}
 
 Most of the quality drivers discussed in \ref{sec:modelQualityDriversAndMetrics} are builts into the URDAD process. Table \ref{tab:qualityDrivers} lists the employed quality drivers and the model qualities they are meant to support.
 
@@ -21,8 +20,10 @@ Most of the quality drivers discussed in \ref{sec:modelQualityDriversAndMetrics}
     & \begin{sideways}Traceability\end{sideways} \\ \hline
 %                                       Semantic     Syntax        Simplicity  Completeness   Modifiable  Consistent  Decoupled    Cohesion     Reuse        Traceable
 Metamodel and/or ontology              & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark &            &            & \checkmark \\
-Graphical and/or text grammar          &            & \checkmark & \checkmark &            & \checkmark &            &            &            &            &       \\ 
-Manage levels of granularity           &            &            & \checkmark &            & \checkmark &            &            &            & \checkmark & \checkmark \\ 
+Graphical and/or text grammar          &            & \checkmark & \checkmark &            & \checkmark &            &            &            &            
+& \\
+Fix levels of granularity              &            &            & \checkmark &            & \checkmark &            &            &            &
+\checkmark & \checkmark \\ 
 Enforce single reponsibility principle &            &            & \checkmark &            & \checkmark &            &            & \checkmark & \checkmark & \checkmark \\ 
 Service dependency via contracts       &            &            & \checkmark &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark \\ 
 Testable pre- \& post-conditions       &            &            &            & \checkmark & \checkmark & \checkmark &            &            &            &  \\ 
@@ -35,6 +36,9 @@ Traceability Links                     &            &            & \checkmark & 
 %------------------------------------------------------------------------
 
 \subsection{The URDAD process}
+\label{sec:urdadProcess}
+
+URDAD\cite{solms_generating_2009} provides a service oriented analysis and design methodology yielding service contracts and process designs for services across levels of granularity. The resultant model represents a \emph{Computation Independent Model} (CIM) as the services contracts and implementing service processes can be realized as either automated system processes or manual processes. Nevertheless, the model has a level of detail and preciseness which is generally available in OMG's \emph{Platform Independent Model} (PIM) and not commonly in CIMs.
 
 
 
@@ -43,6 +47,7 @@ Traceability Links                     &            &            & \checkmark & 
 %------------------------------------------------------------------------
 
 \subsection{The URDAD metamodel and text grammar}
+\label{sec:urdadDsl}
 
 Many of the model qualities are either enforced or supported through the metamodel This includes
 \begin{itemize}
@@ -82,17 +87,23 @@ URDAD is a service-oriented analysis and design process which generates services
 Refer to \cite{gonzalez_unity_2009} to use unity criteria to define responsibility domain boundaries.
 \todo{Fritz:Look at unity models as in Espana et al and see progress report for responsibility localization and general short-comings in use case based approach regarding this.}
 
-\subsection{Example: Designing URDAD with URDAD}
-by using it to design a service oriented analysis and design methodology. If the process is internally consistent it needs to generate itself. 
+%---------------------------------------------------------------
 
 \subsection{URDAD views}
+\label{sec:urdadViews}
 
 supplied via text encoding and later via graphical syntax.
 
+%---------------------------------------------------------------
 
-adapters to existing legacy
+\subsection{Example: Designing URDAD with URDAD}
+\label{sec:urdadExample}
+by using it to design a service oriented analysis and design methodology. If the process is internally consistent it needs to generate itself. 
 
 
-Refer to \cite{wirfs-brock_object-oriented_1989}
+%---------------------------------------------------------------
 
-One of the core challanges is to have requirements specialists make the paradigm shift to specify requirements in terms of services contracts for reusable services\cite{haines_impact_2007}. In practice we have found that URDAD assists significantly on that front.
+\todo{Fritz: mention adapters to existing legacy}
+
+
+\todo{Fritz: Add that one of the core challanges is to have requirements specialists make the paradigm shift to specify requirements in terms of services contracts for reusable services\cite{haines_impact_2007}. In practice we have found that URDAD assists significantly on that front.}
