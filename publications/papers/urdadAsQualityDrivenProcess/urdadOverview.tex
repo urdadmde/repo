@@ -96,7 +96,7 @@ Firstly, in a service-oriented context the actual environmental state is only ac
 
 Secondly, the definition of reusable constraints requires support for binding parameters. \emph{For example}, assume a constraint that some `Person' must be `registered'. Such a constraint can contribute to pre- or post-conditions of services. Hence, to be able to do so, the person identifier would have to be passed as a parameter to the constraint entity. 
 
-The following listing shows an simple example of a parametrized \verb+studentEnrolledForPresentation+ constraint shows how the constraint sepcification includes the specification of a process that extracts information from the environment together with a set of data constraints applied to the obtained information.
+The following listing shows an simple example of a parametrized constraint, \emph{studentEnrolledForPresentation}, which demonstrated that a state constraint is assembled from a process that extracts information from the environment and a set of data constraints applied to the obtained information.
 \lstset{language=urdad,caption=Specifying a state constraint in the URDAD text grammar.,label=constraintTextSyntax}
 \begin{lstlisting}[numbers=left,escapechar=|]
 StateConstraint studentEnrolledForPresentation receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
@@ -115,11 +115,11 @@ Figure \ref{fig:constraintModule}, shows the elements provided with the constrai
 \begin{figure}[Htbp]
   \centering
   \includegraphics{constraint}
-  \caption{The constraint specification elements of URDAD}
+  \caption{The modeling constructs available in URDAD facilitating the specification of constraints}
   \label{fig:constraintModule}
 \end{figure}
 
-The \emph{contract module} of the URDAD metamodel has the modeling constructs used to specify services contracts. The specification of a services contract within the URDAD DSL text grammar is illustrated with the following listing.
+The \emph{contract module} of the URDAD metamodel has the modeling constructs used to specify services contracts including \emph{requiredBy} links between requirements and stakeholders. The specification of a services contract within the URDAD DSL text grammar is illustrated with the following listing.
 \lstset{language=urdad,caption=Specifying a service contract in the textual URDAD DSL syntax.,label=contractTextSyntax}
 \begin{lstlisting}[numbers=left,escapechar=|]
 ServiceContract enrollForPresentation
@@ -155,27 +155,22 @@ The contract specification includes pre- and post-conditions, quality requiremen
 \begin{figure}[Htbp]
   \centering
   \includegraphics{contract}
-  \caption{The contract specification elements of URDAD}
+  \caption{The modeling constructs available within URDAD to specify services contracts.}
   \label{fig:contractModule}
 \end{figure}
 
-The \emph{process module} depicted \ref{fig:processModule} in figure contains the modeling constructs used to specify the process for a service realizing a services contractModule.
- 
- This is done via \verb+usedToAddress+ links representing satsifaction links as in  \cite{ramesh_toward_2001}). 
+The \emph{process module} depicted \ref{fig:processModule} in figure contains the specification of the services used to address the functional requirements and the process specification for the service. The metamodel enforces realization links between a lower level abstract service (service contract) which is used in a process and the functional requirement for which the lower level service is used. These links are manifested as \verb+usedToAddress+ links representing satsifaction links of \cite{ramesh_toward_2001}). 
 
-The second aspect of a service is the specification of a process which is assembled from service requests associated with the lower level services contracts used to address the functional requirements of the service. Note that decoupling of levels of granularity via services contracts is enforced. The URDAD metamodel assumes that the selection of concrete service providers for the lower level services is either done by the deployment environment through mechanisms like \emph{dependency injection} or specified during the implementation mapping phase.
-
-The URDAD metamodel also contains explicit modelling constructs for creating and manipulating local process variables,  for handling an exception raised by a lower level service, for raising an exception associated with a pre-condition of the service, and for the return of a computational result. 
-
+The service process is specified as a choreography across the lower level services used to address the functional requirements and supports control constructs, process state management, the handling exceptions raised by lower level services, activities for raising an exception associated with a pre-condition of the service, and the return of a result object for the service. 
 
 \begin{figure}[Htbp]
   \centering
   \includegraphics{process}
-  \caption{The process definition elements of URDAD}
+  \caption{The modeling constructs available for specifying services and processes in URDAD}
   \label{fig:processModule}
 \end{figure}
 
-The following listing illustrates how a service contract is denoted in the grammar of our URDAD DSL.
+The following listing illustrates how the specification of a service within the URDAD DSL text grammar.
 \lstset{language=urdad,caption=Specifying a service in the textual URDAD DSL syntax.,label=serviceTextSyntax}
 \begin{lstlisting}[numbers=left,escapechar=|]
 Service enrollForPresentationImpl realizes enrollForPresentation receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
@@ -214,8 +209,6 @@ Service enrollForPresentationImpl realizes enrollForPresentation receiving Varia
   }
 }                 
 \end{lstlisting}
-
-
 
 
 %---------------------------------------------------------------
