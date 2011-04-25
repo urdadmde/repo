@@ -173,6 +173,13 @@ S.~Moosavi, {M.A.} Seyyedi, and N.~Moghadam.
 \newblock In {\em Information Technology: New Generations, 2009. {ITNG} '09.
   Sixth International Conference on}, page 290{\textendash}295, April 2009.
 
+\bibitem{parreiras_using_2010}
+Fernando~Silva Parreiras and Steffen Staab.
+\newblock Using ontologies with {UML} class-based modeling: The {TwoUse}
+  approach.
+\newblock {\em Data \& Knowledge Engineering}, 69(11):1194--1207, November
+  2010.
+
 \bibitem{perepletchikov_cohesion_2007}
 Mikhail Perepletchikov, Caspar Ryan, and Keith Frampton.
 \newblock Cohesion metrics for predicting maintainability of {Service-Oriented}
