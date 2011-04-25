@@ -58,6 +58,12 @@ George Feuerlicht and Amalka Wijayaweera.
   page 467–474, Amsterdam, The Netherlands, The Netherlands, 2007. {IOS}
   Press.
 
+\bibitem{fouad_embedding_2010}
+Ali Fouad, Keith Phalp, John Kanyaru, and Sheridan Jeary.
+\newblock Embedding requirements within {Model-Driven} architecture.
+\newblock {\em Software Quality Journal}, pages 1--20, 2010.
+\newblock 10.1007/s11219-010-9122-7.
+
 \bibitem{frankel_model_2003}
 David~S. Frankel.
 \newblock {\em Model Driven Architecture: Applying {MDA} to enterprise
@@ -74,6 +80,10 @@ Arturo Gonzalez, Sergio Espana, and Oscar Pastor.
 \newblock Unity criteria for business process modelling.
 \newblock In {\em 2009 Third International Conference on Research Challenges in
   Information Science}, pages 155--164, Fez, Morocco, April 2009.
+
+\bibitem{_object_2010}
+Object~Management Group.
+\newblock Object constraint language v2.2, February 2010.
 
 \bibitem{haines_impact_2007}
 Marc Haines.
