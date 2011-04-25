@@ -1,16 +1,21 @@
 \documentclass{IOS-Book-Article}
 
-% NOTE: length limit: 20 pages
-
-\usepackage{times}
 \normalfont
 \usepackage[T1]{fontenc}
-%\usepackage[mtplusscr,mtbold]{mathtime}
 
+\usepackage[colorinlistoftodos, textwidth=4cm, shadow]{todonotes}
+
+\usepackage{times}
 \usepackage{graphicx}
 \usepackage{epsfig}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{rotating}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{pifont} 
+
+\newcommand{\tick}{\ding{52}}
 
 \lstdefinelanguage{urdad}
 {
@@ -61,14 +66,12 @@ columns=flexible,                       % Column format
 
 \title{URDAD as a Quality-Driven Analysis and Design Process}
 \thanks{We thank the national research foundation (NRF) of South Africa for financial support.}
-\runningtitle{URDAD as Quality Driven Methodology}
+\runningtitle{URDAD as Quality-Driven Methodology}
 %\subtitle{Subtitle}
 
 \author[A]{\fnms{Fritz} \snm{Solms}}
 ,
 \author[A]{\fnms{Stefan} \snm{Gruner}}
-,
-\author[A]{\fnms{Alexander} \snm{Paar}}
 and
 \author[A]{\fnms{Cuen} \snm{Edwards}}
 
@@ -86,20 +89,15 @@ Services-oriented design methodology\sep Model-driven development\sep Design qua
 
 \maketitle
 
-\section{Outstanding issues}
-\begin{itemize}
- \item Stefan: Discuss Quality Categories. 
- \item Fritz: Look at unity models as in Espana et al and see progress report for responsibility localization and general short-comings in use case based approach regarding this. 
- \item Fritz: INSERT REF - Quality in Model-Driven Engineering argues model quality determined by 1,2) modeling language and tools used to define model, 3) modeling process itself, 4) techniques used to assure quality 5)relative experience of individuals building model. 
-\end{itemize}
-
 \input{introduction.tex}
 
-\input{urdadOverview.tex}
+\input{qualityRequirements.tex}
 
-\input{modelQuality}
+\input{urdad.tex}
 
-\input{processQuality}
+\input{qualityAssessment}
+%\input{modelQuality.tex}
+%\input{processQuality.tex}
 
 \input{relatedWork.tex}
 

@@ -1,5 +1,12 @@
 \section{Model quality}
 
+\todo[color=red!40]{Fritz: Remove the requirements aspects after ensuring everything is in the requirements section}
+
+
+
+\cite{lange_managing_2005,lange_improving_2006}.
+
+
 Emphasize that model a functional model, bot addressing non-functional (quality requirements) of system
 
 \begin{itemize}
@@ -9,4 +16,37 @@ Emphasize that model a functional model, bot addressing non-functional (quality 
   \item \emph{cohesion} - will be interesting to try and find a measure for cohesion in the service oriented world.
   \item \emph{reuse} - number of
   \item \emph{coupling} - URDAD enforces decoupling across levels of granularity in both, the process and the metamodel.
+  \item \emph{completeness}
+  \item \emph{non-ambiguous}
 \end{itemize}
+
+
+completeness can be checked relative to a responsibility domain, i.e. the processes for all services within my responsibility domain specified as assembled from either specified services from my responsibility domain or as services sourced from another responsibility domain.
+
+methodology churns out intermediate levels of granularity assisting to constrain model complexity by 
+
+
+model quality supported through validation against metamodel constraints
+
+How much of the model quality measurement can be automated?
+
+Because model in problem domain, domain experts can validate, improving model quality
+
+URDAD trades off pure requirements against manageable requirements
+
+\cite{graham_requirements_2008} do Model validation by requiring that every goal (pe/post-condition) addressed by a message exchange (service request) and that all messages are associated with achiving a goal.
+
+A direct implementation mapping will transfer many of the design qualities onto the code (modifiability, pluggability, reuse, ...)
+
+because requirements and design are arch and techn neutral, stakeholders (business) can understand them and validate them, improving quality
+
+
+Sifiso:
+To an extent quality can be seen as mesure of value that can be extracted from the model, these can be mesured by:-
+
+(1) The level of abstraction it provides
+(2) Understandibilty 
+(3) Accuracy 
+(4) Predictiveness
+(5) Cost -Inexpesiveness 
+\cite{selic_pragmatics_2003}
