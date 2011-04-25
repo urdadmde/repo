@@ -76,10 +76,11 @@ The methodology does not envisage that a single requirements engineer does the r
 
 URDAD does not prescribe the language which should be used to encode the requirements and process model representing OMG's CIM, but it provides the option of using a domain specific language for URDAD, the \emph{URDDAD-DSL}. URDAD require, however, that the modelling language used supports the semantics for specifying 1) \emph{services contracts} with pre- and post-conditions, quality requirements and data structure specification for the inputs and outputs, 2) parametrized state constraints applying to service environment, 3) object-oriented data structure specification, 4) service specification including 5a) the specification of which service is used to address which functional requirement and 5b) the process specification in the form of a choreography across lower level services and 6) the assigning of model artifacts including services contract and service specifications to responsibility domains. URDAD also requires the linkage between a requirement and the stakeholder who requires it. The stakeholder can be a responsibility domain or a service.
 
-Historically UML together with OCL and an URDAD profile were used with services contracts represented by interfaces, pre- and post-conditions and quality requirements by constraints, data structure specifications by class diagrams and process choreography specified in activity diagrams assigned to service implementation within classes. The activity diagrams were allowed to only only call operations and control logic. The approach was, however, tedious and error prone and the resultant models were seldom in a state which allowed for model transformation, code and test generation and solid documentation generation. Furthermore, additional semantic relationships, not all of which could be represented in diagrams, needed to be added. Full testable service contract specification and complete process specification facilitating full test and code generation proved particularly challenging.
+Historically UML together with OCL and an URDAD profile were used with services contracts represented by interfaces, pre- and post-conditions and quality requirements by constraints, data structure specifications by class diagrams and process choreography specified in activity diagrams assigned to service implementation within classes. The activity diagrams were allowed to only use call operations and control logic. The approach was, however, tedious and error prone and the resultant models were seldom in a state which allowed for model transformation, code and test generation and solid documentation generation. Furthermore, additional semantic relationships, not all of which could be represented in diagrams, needed to be added. Full testable service contract specification and complete process specification facilitating full test and code generation proved particularly challenging.
 
+Another modeling language commonly used, particularly in the context of service oriented process specification, is the \emph{Business Process Modeling Notation}. However, it suffers from being too technical\cite{fouad_embedding_2010} and needs to be supplemented by UML or other languages to allow for full data structure and service contract specification. Many UML tool vendors make BPMN available as a UML profile, enabling the integration of BPMN process specification with other UML modeling elements and diagrams. This approach, however, effectively increases the already substantial size of the UML even further, resulting in further learning costs and inconsistency risks.
 
-The URDAD metamodel and text grammar will be published in detail separately. Here we discuss aspects of the metamodel and text grammar from a quality perspective. In particular, many of the model qualities are either enforced or supported through the metamodel including
+In order to simplify the URDAD model encoding and to improve the quality of URDAD models an URDAD metamodel and text grammar have been sepcified (a separate paper entitles \emph{`A Domain-Specific Language for URDAD Based Requirements Elicitation'} is currently being reviewed. Here we discuss aspects of the metamodel and text grammar from a quality perspective. In particular, many of the model qualities are either enforced or supported through the metamodel including
 \begin{itemize}
  \item decoupling of services across levels of granularity through services contracts,
  \item a range of traceability links including enforced usage of both satisfiability links and \emph{`requiredBy'} links between requirements and stakeholders,
@@ -87,24 +88,9 @@ The URDAD metamodel and text grammar will be published in detail separately. Her
  \item the support of parametrized, reusable constraints for the specification of pre- and post-conditions as well as guard conditions for conditional functional requirements and alternative flows within processes.
 \end{itemize}
 
-The contract specification should facilitate the generation of tests and the process specification the generation of an implementation, either in the form of an automated system process or in the form of a manual process. The
+The URDAD metamodel is modularized with a \emph{core module} introducing base concepts like that of a model, an element, a responsibility domain and an expression. A {\emph data module} introduces standard modeling constructs for object-oriented data specification. More interesting is the constraints module which introduces modelling constructs through which one can specify reusable parametrized constraints which are applicable to a services oriented approach.
 
 
-The \emph{Business Process Modeling Notation}, which is commonly used for process specification for services oriented architectures is on the one side too technical \cite{} insufficient for full process specification and needs to be supplemented by UML or other languages to allow for full data structure and service contract specification.
-
-
-For these reasons we have developed a domain specific language (DSL) for URDAD. The DSL has significantly lower complexity which supports the required semantics for URDAD directly. 
-URDAD encoding
-UML+OCL can provide limited encoding but the
-  - insufficient expressiveness for specifying services contracts in a services oriented framework
-  - tedious and error prone
-BPMN
-  - too technology focused (citations from Fouad et al "Embedding requirements ..."
-  - no notion of services contracts and data structures  
-
-URDAD is a service-oriented analysis and design process which generates services contracts and associated process specifications across levels of granularity. 
-
-Refer to \cite{gonzalez_unity_2009} to use unity criteria to define responsibility domain boundaries.
 \todo{Fritz:Look at unity models as in Espana et al and see progress report for responsibility localization and general short-comings in use case based approach regarding this.}
 
 %---------------------------------------------------------------
