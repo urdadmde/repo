@@ -40,6 +40,16 @@ Traceability Links                     &            &            & \checkmark & 
 \subsection{The URDAD process}
 \label{sec:urdadProcess}
 
+\begin{itemize}
+ \item Requirements analysis for level of granularity
+
+ \item Process design for level of granularity
+      \begin{itemize}
+       \item For each pre and post condition, identified service used to assess condition
+	\item
+      \end{itemize}
+
+\end{itemize}
 
 
 
@@ -70,7 +80,7 @@ URDAD does not prescribe the language which should be used to encode the require
 The contract specification should facilitate the generation of tests and the process specification the generation of an implementation, either in the form of an automated system process or in the form of a manual process. The
 
 
-Historically UML together with OCL and an URDAD profile were used with services contracts represented by interfaces, pre- and post-conditions and quality requirements by constraints, data structure specifications by class diagrams and process orchestration specified in activity diagrams assigned to service implementation within classes. The activity diagrams were allowed to only only call operations and control logic. The approach was, however, tedious and error prone and the resultant models were seldom in a state which allowed for model transformation, code and test generation and solid documentation generation. Furthermore, additional semantic relationships, not all of which could be represented in diagrams, needed to be added. Full testable service contract specification and complete process specification facilitating full test and code generation proved particularly challenging.
+Historically UML together with OCL and an URDAD profile were used with services contracts represented by interfaces, pre- and post-conditions and quality requirements by constraints, data structure specifications by class diagrams and process choreography specified in activity diagrams assigned to service implementation within classes. The activity diagrams were allowed to only only call operations and control logic. The approach was, however, tedious and error prone and the resultant models were seldom in a state which allowed for model transformation, code and test generation and solid documentation generation. Furthermore, additional semantic relationships, not all of which could be represented in diagrams, needed to be added. Full testable service contract specification and complete process specification facilitating full test and code generation proved particularly challenging.
 
 The \emph{Business Process Modeling Notation}, which is commonly used for process specification for services oriented architectures is on the one side too technical \cite{} insufficient for full process specification and needs to be supplemented by UML or other languages to allow for full data structure and service contract specification.
 

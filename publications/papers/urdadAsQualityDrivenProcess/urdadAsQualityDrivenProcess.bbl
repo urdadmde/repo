@@ -29,6 +29,19 @@ Johannes Buder.
 \newblock Effects of semantic quality in business process modeling.
 \newblock {\em {AMCIS} 2010 Proceedings}, August 2010.
 
+\bibitem{cardei_model_2008}
+I.~Cardei, M.~Fonoage, and R.~Shankar.
+\newblock Model based requirements specification and validation for component
+  architectures.
+\newblock In {\em Systems Conference, 2008 2nd Annual {IEEE}}, page 1–8,
+  April 2008.
+
+\bibitem{chitforoush_methodology_2007}
+Fatemeh Chitforoush, Maryam Yazdandoost, and Raman Ramsin.
+\newblock Methodology support for the model driven architecture.
+\newblock In {\em 14th {Asia-Pacific} Software Engineering Conference
+  {(APSEC'07)}}, pages 454--461, Nagoya, Aichi, Japan, December 2007.
+
 \bibitem{choi_quality_2008}
 Si~Won Choi and Soo~Dong Kim.
 \newblock A quality model for evaluating reusability of services in {SOA}.
@@ -120,6 +133,12 @@ Christian F.~J Lange.
 \newblock Understanding quality in conceptual modeling.
 \newblock {\em {IEEE} Software}, 11(2):42--49, 1994.
 
+\bibitem{mayer_mdd4soa:_2008}
+Philip Mayer, Andreas Schroeder, and Nora Koch.
+\newblock {MDD4SOA:} {Model-Driven} service orchestration.
+\newblock In {\em 2008 12th International {IEEE} Enterprise Distributed Object
+  Computing Conference}, pages 203--212, Munich, Germany, September 2008.
+
 \bibitem{mccabe_complexity_1976}
 Thomas~J {McCabe}.
 \newblock A complexity measure.
@@ -140,6 +159,12 @@ Parastoo Mohagheghi and Vegard Dehlen.
 \newblock Existing model metrics and relations to model quality.
 \newblock In {\em 2009 {ICSE} Workshop on Software Quality}, pages 39--45,
   Vancouver, {BC,} Canada, 2009.
+
+\bibitem{moosavi_method_2009}
+S.~Moosavi, {M.A.} Seyyedi, and N.~Moghadam.
+\newblock A method for service oriented design.
+\newblock In {\em Information Technology: New Generations, 2009. {ITNG} '09.
+  Sixth International Conference on}, page 290–295, April 2009.
 
 \bibitem{perepletchikov_cohesion_2007}
 Mikhail Perepletchikov, Caspar Ryan, and Keith Frampton.
