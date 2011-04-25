@@ -2,6 +2,8 @@
 
 In this section we will introduce URDAD from the perspective of a quality driven process generating an analysis and design model which enforces certain model quality requirements.  URDAD\cite{solms_generating_2009} provides a service oriented analysis and design methodology, a metamodel introducing the semantics (modelling constructs) for an URDAD based domain specific language (the \emph{URDAD-DSL}), as well as a concrete text grammar which can be used to populate an URDAD model complying to the metamodel. A graphical grammar and diagram-based tooling around that grammar are under development. 
 
+Services are recursively assembled from lower level services with leaf services representing services which are sourced from the environment. These may include persistence services, services sourced from the execution frameworks or implmentation languages, services sourced from off the external systems as well as manually executed services provided by business partners, business units, and so on.
+
 The resultant URDAD model represents a \emph{Computation Independent Model} (CIM) as the services contracts and processes can be realized as system  or business contracts (SLAs) and system or manual processes respectively. Nevertheless, the model has a level of detail and preciseness which is generally associated with \emph{Platform Independent Models} (PIMs) and not commonly with CIMs as it contains testable service contracts and and implementable process specifications for services across levels of granularity.
 
 %-----------------------------------------------------------
