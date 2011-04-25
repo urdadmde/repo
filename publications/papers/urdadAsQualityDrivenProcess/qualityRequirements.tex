@@ -80,14 +80,31 @@ Model quality-drivers are activities in the process and/or aspects of the metamo
 
 \subsection{Process stakeholders and their quality requirements}
 
-The {\emph Capability Maturity Model} (CMM) \cite{CMM} defines a range of quality attributes for mature processes including \emph{process definition}, \emph{measurability}, \emph{trainability}, \emph{repeatability} and at the higher level the ability to continuously optimize processes. Berard\cite{berard_what_1995} discusses a related set of general requirements for a methodology including \emph{repeatability}, \emph{trainability}, \emph{wide process applicability}, and quality improvement in the outputs of the methodology. The quality requirements for the outputs of the process have been discussed in \ref{sec:modelStakeholdersAndQualityRequirements}. The applicability of process is limited to the application domain of a services oriented approach. Very event centric projects like game development are not currently targeted service oriented methodologies. Here we look identify the stakeholders in the process itself and their quality requirements for the process. 
+The {\emph Capability Maturity Model} (CMM) \cite{CMM} defines a range of quality attributes for mature processes including \emph{process definition}, \emph{measurability}, \emph{trainability}, \emph{repeatability} and at the higher level the ability to continuously optimize processes for \emph{cost} and other qualities. Berard\cite{berard_what_1995} discusses a related set of general requirements for a methodology including \emph{repeatability}, \emph{trainability}, \emph{wide process applicability}, and quality improvement in the outputs of the methodology. The quality requirements for the outputs of the process have been discussed in \ref{sec:modelStakeholdersAndQualityRequirements}. The applicability of process is limited to the application domain of a services oriented approach. Very event centric projects like game development are not currently targeted service oriented methodologies. Here we look identify the stakeholders in the process itself and their quality requirements for the process. 
 
 {\bf Project management} needs to perform planning, estimation, resrouce management, monitoring, control and reporting the analysis and design process. To this end they require \emph{estimatability}, \emph{repeatability} for accurate estimation and \emph{measurability} and tool support facilitating estimation, monitoring and reporting.
 
-{\bf Requirements engineers} execute the process itself generating the analysis and design model. They requires a process which is simple, precisely defined with specified inputs, outputs and activities for each process step and tool support for the process.
+{\bf Requirements engineers} execute the process itself generating the analysis and design model. They requires a process which is \emph{usable} and \emph{learnable}, and has solid \emph{process definition} with specified inputs, outputs and activities for each process step and tool support for the process.
 
-The {\bf client} (e.g.\ business) requires low process cost, a simple process which is trainable and the ability to grow islands of expertiese around the process, extracting value from those teams which apply the process without requiring that the process needs to be rolled out either across an entire project team or across an entire organization. This enables the client to take a risk-averse, incremental approach which allows for proofing, customization and controlled roll-out.
+The {\bf client} (e.g.\ business) requires \emph{low process cost}, a \emph{trainable} enabling the client to easily train up additional requirements engineers and \emph{isolation}. Process isolation refers heree to the ability to grow islands of expertiese around the process, extracting value from those teams which apply the process without requiring that the process needs to be rolled out either across an entire project team or across an entire organization. This enables the client to take a risk-averse, incremental approach which allows for proofing, customization and controlled roll-out.
 
 A further quality required of a process is internal consistency. This quality will be discussed in section \ref{sec:processConsistence}.
+
+
+\begin{table}[h]
+\caption{Stakeholders and their primary process quality requirements.}
+\label{tab:modelQualityRequirements}
+\begin{tabular}{|l|ccccccc|} \hline
+\multirow{2}{*}{\bf Stakeholders} & \multicolumn{7}{c|}{\bf Process qualities} \\ \hline
+    & \begin{sideways}process definition\end{sideways} & \begin{sideways}Low cost\end{sideways}  & \begin{sideways}Repeatability\end{sideways}
+    & \begin{sideways}Estimatability\end{sideways} & \begin{sideways}Measurability\end{sideways} & \begin{sideways}Consistency\end{sideways}
+    & \begin{sideways}Isolation\end{sideways} \\ \hline
+%                         Proc-Def     Cost         Repatable    Estimatable   Measurable  Consistent   Isolated
+Project management       & \checkmark &            & \checkmark & \checkmark &            & \checkmark & \checkmark \\
+Requirements engineering & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+Client (business)        & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
+\end{tabular}
+\end{table}
+
 
 
