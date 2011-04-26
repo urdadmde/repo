@@ -11,7 +11,7 @@ Services are recursively assembled from lower level services with leaf services 
 The model and process quality drivers discussed in \ref{sec:modelQualityDriversAndMetrics} are builts into the URDAD process. Table \ref{tab:qualityDrivers} lists the employed model quality drivers and the model qualities they are meant to support.
 
 \begin{table}[h]
- \caption{URDAD model quality drivers for quality requirements}
+ \caption{URDAD model quality drivers related to model qualities.}
  \label{tab:qualityDrivers}
 \begin{tabular}{|l|cc|cccccccc|} \hline
 \multirow{4}{*}{\bf Quality driver} & \multicolumn{10}{c|}{\bf Model qualities} \\ \cline{2-11}
@@ -26,14 +26,16 @@ Define concrete DSL grammars                   &            & \checkmark & \chec
 & \\
 Fix levels of granularity                      &            &            & \checkmark &            & \checkmark &            &            &            &
 \checkmark & \checkmark \\ 
-Enforce single reponsibility principle         &            &            & \checkmark &            & \checkmark &            &            & \checkmark & \checkmark & \checkmark \\ 
 Decouple services via contracts                &            &            & \checkmark &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark \\ 
+Apply single reponsibility principle           &            &            & \checkmark &            & \checkmark &            &            & \checkmark & \checkmark & \checkmark \\ 
 Specify testable pre- \& post-conditions       &            &            &            & \checkmark & \checkmark & \checkmark &            &            &            &  \\ 
 Localize process within controller             &            &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark & \checkmark & \checkmark \\ 
 Include traceability Links                     &            &            & \checkmark & \checkmark & \checkmark & \checkmark &            &            &            & \checkmark \\ \hline 
 \end{tabular}
   
 \end{table}
+
+In particular, we have defined a metamodel for URDAD which has been transformed into an ontology with URDAD model validated against the metamodel including the metamodel constraints. Decoupling via services contracts, the specification of required traceability links and the assignment of services and service contracts to responsibility domains are enforced by the metamodel. The URDAD methodology includes process steps through which specifically target the fixing of levels of granularity and the single responsibility principle, though the effectiveness of these steps relies on the expertiese of the requirements engineer. We have also defined a concrete text grammar facilitating the population of an URDAD model and have generated a language aware editor which enforces language and ultimately metamodel compliance.
 
 %------------------------------------------------------------------------
 
@@ -44,12 +46,12 @@ Include traceability Links                     &            &            & \chec
  \item {\bf Requirements analysis} for level of granularity yielding service contract
   \begin{enumerate}
     \item Identify stakeholders for the services.
-    \item For each stakeholder, identify functional requirements (pre- and post-conditions) and quality requirements for the service.
+    \item For each stakeholder, identify functional requirements (pre- and post-conditions) and quality requirements for the service and link the requirements to the stakeholders who require them.
     \item Assess consistency of stakeholder requirements.
-    \item Fix level of granularity by consolidating lower level pre- and post-conditions into higher level pre- and post-conditions. 
-	  \emph{\textbf{\textit{Note:}} This includes the absorption of certain pre and/or post-conditions into encompassing pre- or post-conditions and the identification of a higher level pre- or post-condition which groups the some of the specified pre- and/or post-conditions into a higher level functional requirement addressing a at some level of granularity a single responsibility (enforcing the single responsibility principle). The purpose of this process is to project out levels of granularity in a repeatable way, simplifying the process at a particular level of granularity and improving reuse and cohesion.}
+    \item Fix level of granularity by consolidating lower level functional requirements into higher level ones. 
+	  \emph{\textbf{\textit{Note:}} This includes the absorption of certain functional requirements into encompassing functional requirements thereby projecting out additional levels of granularity which improves reuse and cohesion.}
     \item Specify data structure for request and result classes.
-    \item Formalize the pre and post-conditions by specifying the user test process for each and for each pre-condition the exception which will be raised if the pre-condition is not met.
+    \item Formalize pre and post-conditions by specifying a user test process for each. Specify for each pre-condition the exception which will be raised if the pre-condition is not met.
     \item Identify the responsibility domain for the service and assign the services contract to that responsibility domain making sure that an appropriate service contract has not already been assigned to that responsibility domain. 
   \end{enumerate}
 

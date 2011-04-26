@@ -91,7 +91,7 @@ The {\emph Capability Maturity Model} (CMM) \cite{paulk_capability_1993} defines
 
 {\bf Project management} needs to perform planning, estimation, resource management, monitoring, control and reporting during the analysis and design process. To this end, they require \emph{estimatability}, \emph{repeatability} for accurate estimation and \emph{measurably} and tool support facilitating estimation, monitoring, and reporting.
 
-{\bf Requirements engineers} execute the process itself generating the analysis and design model. They requires a process which is \emph{usable} and \emph{learn able}, and has solid \emph{process definition} with specified inputs, outputs and activities for each process step and tool support for the process.
+{\bf Requirements engineers} execute the process itself generating the analysis and design model. They requires a process which is \emph{usable} and \emph{learnable}, and \emph{repeatable}.
 
 The {\bf client} (e.g.\ business) requires \emph{low process cost}, a \emph{trainable} process, enabling the client to easily train up additional requirements engineers, and \emph{isolation}. Process isolation refers here to the ability to grow islands of expertise around the process, extracting value from those teams which apply the process without requiring that the process needs to be rolled out either across an entire project team or across an entire organization. This enables the client to take a risk-averse, incremental approach which allows for proofing, customization and controlled roll-out.
 
@@ -100,17 +100,31 @@ A further quality required of a process is internal consistency. This quality wi
 \begin{table}[h]
 \caption{Stakeholders and their primary process quality requirements.}
 \label{tab:modelQualityRequirements}
-\begin{tabular}{|l|ccccccc|} \hline
-\multirow{2}{*}{\bf Stakeholders} & \multicolumn{7}{c|}{\bf Process qualities} \\ \cline{2-8}
-    & \begin{sideways}process definition\end{sideways} & \begin{sideways}Low cost\end{sideways}  & \begin{sideways}Repeatability\end{sideways}
-    & \begin{sideways}Estimatability\end{sideways} & \begin{sideways}Measurability\end{sideways} & \begin{sideways}Consistency\end{sideways}
-    & \begin{sideways}Isolation\end{sideways} \\ \hline
-%                         Proc-Def     Cost         Repatable    Estimatable   Measurable  Consistent   Isolated
-Project management       & \checkmark &            & \checkmark & \checkmark &            & \checkmark & \checkmark \\
-Requirements engineering & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
-Client (business)        & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
+\begin{tabular}{|l|cccccc|} \hline
+\multirow{2}{*}{\bf Stakeholders} & \multicolumn{7}{c|}{\bf Process qualities} \\ \cline{2-7}
+    & \begin{sideways}Low cost\end{sideways}  & \begin{sideways}Repeatability\end{sideways} & \begin{sideways}Estimatability\end{sideways} 
+    & \begin{sideways}Measurability\end{sideways} & \begin{sideways}Consistency\end{sideways} & \begin{sideways}Isolation\end{sideways} \\ \hline
+%                          Cost         Repatable    Estimatable   Measurable  Consistent   Isolated
+Project management       &            & \checkmark & \checkmark &            & \checkmark & \checkmark \\
+Requirements engineering & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+Client (business)        & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
 \end{tabular}
 \end{table}
 
+\subsection{Process quality drivers}
+has solid \emph{process definition} with specified inputs, outputs and activities for each process step and tool support for the process.
 
 
+\begin{table}[h]
+\caption{URDAD process quality drivers related to process qualities.}
+\label{tab:modelQualityRequirements}
+\begin{tabular}{|l|cccccc|} \hline
+\multirow{2}{*}{\bf Stakeholders} & \multicolumn{7}{c|}{\bf Process qualities} \\ \cline{2-7}
+    & \begin{sideways}Low cost\end{sideways}  & \begin{sideways}Repeatability\end{sideways} & \begin{sideways}Estimatability\end{sideways} 
+    & \begin{sideways}Measurability\end{sideways} & \begin{sideways}Consistency\end{sideways} & \begin{sideways}Isolation\end{sideways} \\ \hline
+%                          Cost         Repatable    Estimatable   Measurable  Consistent   Isolated
+Project management       &            & \checkmark & \checkmark &            & \checkmark & \checkmark \\
+Requirements engineering & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+Client (business)        & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
+\end{tabular}
+\end{table}
