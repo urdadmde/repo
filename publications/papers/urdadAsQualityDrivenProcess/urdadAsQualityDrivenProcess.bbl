@@ -3,10 +3,6 @@
 \bibitem{_mda_2003}
 {MDA} guide version 1.0.1, June 2003.
 
-\bibitem{_strategies_2011}
-Strategies for project recovery.
-\newblock Technical report, {PM} Solutions Research, 2011.
-
 \bibitem{abrahamsson_extreme_2004}
 P.~Abrahamsson and J.~Koskela.
 \newblock Extreme programming: a survey of empirical data from a controlled
@@ -19,6 +15,15 @@ P.~Abrahamsson and J.~Koskela.
 Edward~V. Berard.
 \newblock What is a methodology?
 \newblock White paper, The Object Agency, 1995.
+
+\bibitem{biffl_software_2000}
+S.~Biffl and M.~Halling.
+\newblock Software product improvement with inspection. a large-scale
+  experiment on the influence of inspection processes on defect detection in
+  software requirements documents.
+\newblock In {\em Proceedings of the 26th Euromicro Conference. {EUROMICRO}
+  2000. Informatics: Inventing the Future}, pages 262--269, Maastricht,
+  Netherlands, 2000.
 
 \bibitem{boehm_barry_w._characteristics_1978}
 Barry~W. Boehm.
@@ -53,12 +58,6 @@ George Feuerlicht and Amalka Wijayaweera.
   page 467{\textendash}474, Amsterdam, The Netherlands, The Netherlands, 2007.
   {IOS} Press.
 
-\bibitem{fouad_embedding_2010}
-Ali Fouad, Keith Phalp, John Kanyaru, and Sheridan Jeary.
-\newblock Embedding requirements within {Model-Driven} architecture.
-\newblock {\em Software Quality Journal}, pages 1--20, 2010.
-\newblock 10.1007/s11219-010-9122-7.
-
 \bibitem{frankel_model_2003}
 David~S. Frankel.
 \newblock {\em Model Driven Architecture: Applying {MDA} to enterprise
@@ -86,12 +85,6 @@ Marc Haines.
   development methodology.
 \newblock In {\em 2007 40th Annual Hawaii International Conference on System
   Sciences {(HICSS'07)}}, pages 172b--172b, Waikoloa, {HI,} {USA}, 2007.
-
-\bibitem{hall_software_1992}
-A.~Hall and D.~Isaac.
-\newblock Software in air traffic control systems.
-\newblock In {\em The Future, {IEE} Colloquium on}, page 7/1{\textendash}7/4,
-  June 1992.
 
 \bibitem{heck_experiences_2008}
 Petra Heck and P\"{a}ivi Parviainen.
@@ -173,6 +166,11 @@ S.~Moosavi, {M.A.} Seyyedi, and N.~Moghadam.
 \newblock In {\em Information Technology: New Generations, 2009. {ITNG} '09.
   Sixth International Conference on}, page 290{\textendash}295, April 2009.
 
+\bibitem{paulk_capability_1993}
+{M.C.} Paulk, B.~Curtis, {M.B.} Chrissis, and {C.V.} Weber.
+\newblock Capability maturity model, version 1.1.
+\newblock {\em {IEEE} Software}, 10(4):18--27, 1993.
+
 \bibitem{perepletchikov_cohesion_2007}
 Mikhail Perepletchikov, Caspar Ryan, and Keith Frampton.
 \newblock Cohesion metrics for predicting maintainability of {Service-Oriented}
@@ -196,6 +194,12 @@ B.~Ramesh and M.~Jarke.
 \newblock Toward reference models for requirements traceability.
 \newblock {\em {IEEE} Transactions on Software Engineering}, 27(1):58--93,
   January 2001.
+
+\bibitem{razali_usability_2008}
+Rozilawati Razali.
+\newblock Usability of semi-formal and formal methods integration - empirical
+  assessments.
+\newblock http://eprints.ecs.soton.ac.uk/15391/, March 2008.
 
 \bibitem{shim_design_2008}
 Bingu Shim, Siho Choue, Suntae Kim, and Sooyong Park.
@@ -223,12 +227,6 @@ Fritz Solms and Dawid Loubser.
 \newblock {\em Innovations in Systems and Software Engineering}, 6:155--162,
   2010.
 \newblock 10.1007/s11334-009-0113-4.
-
-\bibitem{solmsfritz_domain-specific_????}
-{Solms,Fritz}, {Edwards,Craig}, Stefan Gruner, Alexander Paar, and Dawid
-  Loubser.
-\newblock A {Domain-Specific} language for {URDAD} based requirements
-  elicitation.
 
 \bibitem{staab_model_2010}
 Steffen Staab, Tobias Walter, Gerd Gr?ner, and Fernando~Silva Parreiras.
