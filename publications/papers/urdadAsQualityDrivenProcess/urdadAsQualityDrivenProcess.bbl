@@ -58,12 +58,6 @@ George Feuerlicht and Amalka Wijayaweera.
   page 467{\textendash}474, Amsterdam, The Netherlands, The Netherlands, 2007.
   {IOS} Press.
 
-\bibitem{fouad_embedding_2010}
-Ali Fouad, Keith Phalp, John Kanyaru, and Sheridan Jeary.
-\newblock Embedding requirements within {Model-Driven} architecture.
-\newblock {\em Software Quality Journal}, pages 1--20, 2010.
-\newblock 10.1007/s11219-010-9122-7.
-
 \bibitem{frankel_model_2003}
 David~S. Frankel.
 \newblock {\em Model Driven Architecture: Applying {MDA} to enterprise
@@ -171,13 +165,6 @@ S.~Moosavi, {M.A.} Seyyedi, and N.~Moghadam.
 \newblock A method for service oriented design.
 \newblock In {\em Information Technology: New Generations, 2009. {ITNG} '09.
   Sixth International Conference on}, page 290{\textendash}295, April 2009.
-
-\bibitem{parreiras_using_2010}
-Fernando~Silva Parreiras and Steffen Staab.
-\newblock Using ontologies with {UML} class-based modeling: The {TwoUse}
-  approach.
-\newblock {\em Data \& Knowledge Engineering}, 69(11):1194--1207, November
-  2010.
 
 \bibitem{paulk_capability_1993}
 {M.C.} Paulk, B.~Curtis, {M.B.} Chrissis, and {C.V.} Weber.
