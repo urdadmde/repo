@@ -179,6 +179,11 @@ Fernando~Silva Parreiras and Steffen Staab.
 \newblock {\em Data \& Knowledge Engineering}, 69(11):1194--1207, November
   2010.
 
+\bibitem{paulk_capability_1993}
+{M.C.} Paulk, B.~Curtis, {M.B.} Chrissis, and {C.V.} Weber.
+\newblock Capability maturity model, version 1.1.
+\newblock {\em {IEEE} Software}, 10(4):18--27, 1993.
+
 \bibitem{perepletchikov_cohesion_2007}
 Mikhail Perepletchikov, Caspar Ryan, and Keith Frampton.
 \newblock Cohesion metrics for predicting maintainability of {Service-Oriented}
