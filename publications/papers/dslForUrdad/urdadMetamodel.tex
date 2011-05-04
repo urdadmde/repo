@@ -2,17 +2,16 @@
 
 URDAD's meta model provides a formal description of URDAD's domain of discourse. It will be used to support the URDAD methodology of requirements specification. A meta model is a ``logical information model that specifies the modeling elements used within another (or the same) modeling notation'' \cite{_ieee_2003}. 
 
-URDAD's meta model formalizes the modeling constructs needed for the specification of service requirements 
-and the technology-neutral design of business processes which fulfil such requirements. It is denoted with help of the well-known EMOF/Ecore tool suite, which supports the automatic generation of concrete syntax forms, QVT-based model transformations, as well as the integrated use of the Object Constraint Language (OCL) \cite{_object_2010}. An automatic translation of the meta model into the well-known Web Ontology Language (OWL DL) ontology was done to facilitate automated satisfiability checking (see Section \ref{sec:assessment}).
+URDAD's meta model formalizes the modelling constructs needed for the specification of service requirements and the technology-neutral design of business processes which fulfil such requirements. It is specified in \emph{Ecore} which is an implementation of \emph{EMOF}. The \emph{Eclipse} modelling tool suite\cite{gronback_model_2008} supports the automatic generation of concrete textual and diagrammatic grammars, \emph{QVT}-based model transformations, as well as the integrated use of the Object Constraint Language (OCL) \cite{_object_2010}. An automatic translation of the meta model into a representation within the Web Ontology Language (OWL DL) ontology was done to facilitate automated satisfiability checking (see Section \ref{sec:assessment}).
 
-Our meta model was designed to contain the smallest sufficient set of concepts that describe URDAD's service-oriented analysis and design specifications. In particular the meta model's features capture the above-mentioned decomposition of service requirements with pre- and post-conditions, the specification of non-functional quality requirements, the specification of I/O data types, as well as the specification of service `orchestrations'. The conception of our meta model was influenced by the UML and the Business Process Execution Language (BPEL) in the area of data structure and process specification. One of its underlying assumptions is the internal `statelessness' of the services to be composed; `state' is assumed to be stored in the services' environments.
+Our meta model was designed to contain the smallest sufficient set of concepts that describe URDAD's service-oriented analysis and design specifications.  It was influenced by the UML and the Business Process Execution Language (BPEL) in the area of data structure and process specification. One of its underlying assumptions is the internal `statelessness' of services; `state' is assumed to be stored in the services' environments. The metamodel describes the notions of a responsibility domain, intra-model relationships facilitating traceability, service contracts including pre-conditions and their associated exceptions, post-conditions, as well as service-specific request and result classes. Our DSL also describes a system of parametrised, reusable operational constraints, which are applied to information obtained from the environment sourced through services.
 
-The URDAD DSL is only a fraction of the size of the UML, yet it includes all core concepts required by the URDAD methodology. In particular it can describe the notion of a responsibility domain, intra-model relationships facilitating traceability, service contracts including pre-conditions and exceptions, service-specific request and result classes, and the separation of the identification of a resource (object or service) from the path to it. Our DSL can even describe a system of parameterised, reusable operational constraints, which are assessed through processes that gather information from their environment. This will be illustrated in the following sub-sections.
+Using tools like EMFText \cite{heidenreich_derivation_2009} one can either generate or specify a textual grammar for a metamodel, and from this grammar both a parser and a language-aware editor supporting syntax checking and auto-completion. In this section we illustrate core aspects of the URDAD DSL through an example encoded in the grammar which we have defined for the language. The textual grammar is meant to enable requirements specialists to specify URDAD DSL models within a simple and intuitive textual syntax. Ultimate,y we expect a graphical syntax to be still more accessible for requirements specialists than the textual syntax.
 
 %--------------------------
 \subsection{The Core of URDAD's Meta Model}
 
-The core module of our meta model captures the concept of an URDAD model as such, i.e.: its model elements and stake holders, responsibility domains, as well as further expressions and annotations as shown in Figure \ref{fig:coreModule}.
+The core module (see Figure \ref{fig:coreModule}) introduces core concepts like the URDAD model itself, model elements, stake holders, responsibility domains, expressions and annotations.
 \begin{figure}[Htb]
   \centering
   \includegraphics{core}
@@ -20,24 +19,33 @@ The core module of our meta model captures the concept of an URDAD model as such
   \label{fig:coreModule}
 \end{figure}
 
-The picture shows that responsibility domains are assigned to various resources (e.g., persons, systems, modules). A responsibility domain covers a coherent unit of functionality at a particular level of granularity, as previously mentioned. Responsibility domains are pragmatically meaningful groups of service contracts. They also define the boundaries between different levels of granularity. Thereby our notion of `responsibility domain' is similar to the notion of `unity criteria' in \cite{gonzalez_unity_2009}. Technically, responsibility domains are packaging constructs to subsume model elements under a unique name space.
-
-Using tools like EMFText \cite{heidenreich_derivation_2009} one can either generate or specify a textual grammar for a metamodel, and from this grammar both a parser and a language-aware editor (supporting syntax checking and auto-completion) can be generated. In this section we illustrate core aspects of the URDAD DSL through an example encoded in the grammar which we have defined for the language. The textual grammar is meant to be simple and intuitive, enabling requirements specialists to manipulate URDAD DSL - although a graphical editor would ultimately be more suitable.
+A responsibility domain covers a coherent unit of functionality at a particular level of granularity. Responsibility domains are meaningful groupings of service contracts. Thereby our notion of `responsibility domain' is similar to the notion of `unity criteria' in \cite{gonzalez_unity_2009}. Technically, responsibility domains are packaging constructs to subsume model elements under a unique name space. Note that they also define the boundaries between different levels of granularity. 
 
 %-----------------------
 \subsection{Constraints}
 
-\todo{Dawid: Consider moving constraints after everything}
+Constraints are required for the specification of functional requirements (pre- and post-conditions), data structure constraints and decision points in processes. The Object-Constraint Language (OCL) has become the de-facto standard for specifying constraints across object graphs. However, in a services-oriented approach and in the context of reusable, parametrised constraints the OCL alone is not expressive enough. 
 
-The Object-Constraint Language (OCL) has become de-facto standard for specifying constraints across object graphs. However, in a services-oriented approach and in the context of reusable, parameterised constraints the OCL alone is not expressive enough. In particular, the definition of reusable constraints requires support for binding parameters. 
+Firstly, in a service-oriented context the actual environmental state is only accessible by using services which query the environment and not by traversing an object graph. The specification of constraints must thus relate to the specification of services through which information is sourced from the environment together with a set of data structure constraints on the obtained information. OCL can be used for the latter, but is insufficient for the complete specification of a constraint.
 
-\emph{For example}, assume a constraint that some `Person' must be `registered'. Such a constraint can contribute to pre- or post-conditions of services. Hence, to be able to do so, the person identifier would have to be passed as a parameter to the constraint entity.
+Secondly, the definition of reusable constraints requires support for binding parameters. \emph{For example}, assume a constraint that some `Person' must be `registered'. Such a constraint can contribute to pre- or post-conditions of services. Hence, to be able to do so, the person identifier would have to be passed as a parameter to the constraint entity. 
 
-Another reason why the URDAD-DSL captures the integration of an additional constraint infrastructure is that in a service-oriented context the actual environmental state is not directly specified, but accessible only via services. In such a context it is not feasible to specify testable conditions via OCL, for OCL is made for 'speaking' about objects, not about their environments.
+The following listing shows an extract of the textual representation of our `registration' example. It illustrates the specification of a simple parametrised constraint which includes the specification of a process that extracts information from the environment as well as a data constraint to be checked against the such-obtained information.
+\lstset{language=urdad,caption=Specifying a state constraint in the textual URDAD DSL syntax.,label=constraintTextSyntax}
+\begin{lstlisting}[numbers=left,escapechar=|]
+StateConstraint studentEnrolledForPresentation receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+{
+  stateAssessmentProcess doSequential
+  {
+    create Variable getEnrollmentsRequest ofType GetEnrollmentsRequest
+    set Query OCL:"getEnrollmentsRequest.presentationIdentifier" equalTo Query OCL:"enrollForPresentationRequest.presentationIdentifier"
+    requestService getEnrollments with getEnrollmentsRequest yielding Variable getEnrollmentsResult ofType GetEnrollmentsResult
+  }
+  Constraint OCL:"getEnrollmentsResult.enrollments.includes (enrollForPresentationRequest.personIdentifier)"
+}
+\end{lstlisting}
 
-The specification of constraints must relate to the specification of services that are used to obtain the state information and the associated service request objects. The construction of the related request objects might itself require a process to obtain information from the environment. The URDAD-DSL is suitable for this purpose. OCL (or similar constraint specification languages) can then be used to specify the object constraints that apply to the obtained environmental information.
-
-As it is depicted in Figure \ref{fig:constraintModule}, the constraints module provides the concept of re-usable constraints with standard logical operators to formulate complex constraint expressions.
+As depicted in Figure \ref{fig:constraintModule}, the constraints module provides the concept of re-usable constraints with standard logical operators to formulate complex constraint expressions.
 \begin{figure}[Htbp]
   \centering
   \includegraphics{constraint}
@@ -45,61 +53,28 @@ As it is depicted in Figure \ref{fig:constraintModule}, the constraints module p
   \label{fig:constraintModule}
 \end{figure}
 
-The following listing shows an extract of the textual representation of our 'registration' example. It illustrates the specification of a simple parametrised constraint which includes the specification of a process that extracts information from the environment as well as a data constraint to be checked against the such-obtained information.
-\small \begin{lstlisting}[numbers=left,escapechar=|]
-StateConstraint studentEnrolledForPresentation receiving Variable 
-  enrollForPresentationRequest ofType EnrollForPresentationRequest
-{
-  stateAssessmentProcess doSequential
-  {
-    create Variable getEnrollmentsRequest ofType GetEnrollmentsRequest
-    set Query OCL:"getEnrollmentsRequest.presentationIdentifier" equalTo
-        Query OCL:"enrollForPresentationRequest.presentationIdentifier"
-    requestService getEnrollments with getEnrollmentsRequest yielding
-        Variable getEnrollmentsResult ofType GetEnrollmentsResult
-  }
-  Constraint OCL:"getEnrollmentsResult.enrollments.includes
-    (enrollForPresentationRequest.personIdentifier)"
-}
-\end{lstlisting}\normalsize
-\lstset{language=urdad,caption=Specifying a state constraint in the textual URDAD DSL syntax.,label=constraintTextSyntax}
-
-
 %----------------------------
 \subsection{Service Contracts}
 
-A service contract comprises both functional and non-functional quality requirements. Every requirement is associated with a stakeholder which is either a responsibility domain or another service. Functional service requirements are expressed in terms of the above-mentioned pre- and post-conditions, together with exception rules for the case that any pre-condition is not fulfilled. This is depicted in Figure \ref{fig:contractModule}.
-\begin{figure}[Htbp]
-  \centering
-  \includegraphics{contract}
-  \caption{The contract specification elements of URDAD}
-  \label{fig:contractModule}
-\end{figure}
+A service contract comprises both functional and non-functional quality requirements. Every requirement is associated with a stakeholder which is either a responsibility domain or another service. Functional service requirements are expressed in terms of the above-mentioned pre- and post-conditions, together with exception rules for the case that any pre-condition is not fulfilled. 
 
-A post-condition can specify either the computational output of a service, or its \emph{side effects} on its environment. Due to a service potentially creating a lasting change to its environment, the URDAD-DSL allows the designation of inverse services through which these lasting effects can be reversed. Explicit post-conditions thus also help to specify such undo-services.
+A post-condition can specify either the computational output of a service, or its \emph{side effects} on its environment. Due to a service potentially creating a lasting change to its environment, the URDAD DSL allows the designation of inverse services through which these lasting effects can be reversed. Explicit post-conditions thus also help to specify such undo-services.
 
-A service contract specifies a single service request object that contains information pertaining to the request and a single result object, which contains the information associated with the result of the executed service. The data structures for these request and result objects are service-specific and are not meant to be reused (though their components, which are domain objects, are most likely to be reused). Below we illustrate the specification of a service contract in our URDAD DSL grammar.
-\small \begin{lstlisting}[numbers=left,escapechar=|]
+A service contract specifies a single service request object that contains information pertaining to the request and a single result object, which contains the information associated with the result of the executed service. The data structures for these request and result objects are service-specific and are not meant to be reused (though their components, which are domain objects, are most likely to be reused). 
+
+Below we illustrate the specification of a service contract in our URDAD DSL grammar.
+\lstset{language=urdad,caption=Specifying a service contract in the textual URDAD DSL syntax.,label=contractTextSyntax}
+\begin{lstlisting}[numbers=left,escapechar=|]
 ServiceContract enrollForPresentation
 {
-   FunctionalRequirements receiving Variable enrollForPresentationRequest 
-      ofType EnrollForPresentationRequest
+   FunctionalRequirements receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
    {
-      PreCondition enrollmentPrerequisitesMet
-         requiredBy (TrainingRegulator Student) 
-         raises EnrollmentPrerequisitesNotSatisfiedException
-         checks constraint enrollmentPrerequisitesForPresentationMet
-         with ValueOf enrollForPresentationRequest
-      PostCondition enrollmentProcessPerformed
-         requiredBy (Student Client TrainingRegulator)
-         ensures constraint studentEnrolledForPresentation 
-         with ValueOf studentEnrolledRequest constructedUsing doSequential
+      PreCondition enrollmentPrerequisitesMet requiredBy (TrainingRegulator Student) raises EnrollmentPrerequisitesNotSatisfiedException checks constraint enrollmentPrerequisitesForPresentationMet with ValueOf enrollForPresentationRequest
+      PostCondition enrollmentProcessPerformed requiredBy (Student Client TrainingRegulator) ensures constraint studentEnrolledForPresentation          with ValueOf studentEnrolledRequest constructedUsing doSequential
          {
             create Variable studentEnrolledRequest ofType StudentEnrolledRequest
-            set Query OCL:"studentEnrolledRequest.personIdentifier" equalTo
-                Query OCL:"enrollForPresentationRequest.personIdentifier"                            
-            set Query OCL:"studentEnrolledRequest.presentationIdentifier" equalTo
-                Query OCL:"enrollForPresentationRequest.presentationIdentifier"                            
+            set Query OCL:"studentEnrolledRequest.personIdentifier" equalTo Query OCL:"enrollForPresentationRequest.personIdentifier"                            
+            set Query OCL:"studentEnrolledRequest.presentationIdentifier" equalTo Query OCL:"enrollForPresentationRequest.presentationIdentifier"                            
          }  
       PostCondition invoiceIssued ...
     }            
@@ -116,13 +91,23 @@ ServiceContract enrollForPresentation
        has component studyGuide ofType StudyGuide
     }
 }
-\end{lstlisting}\normalsize
-\lstset{language=urdad,caption=Specifying a service contract in the textual URDAD DSL syntax.,label=contractTextSyntax}
+\end{lstlisting}
+
+
+Figure \ref{fig:contractModule} shows the URDAD DSL support for the specification of services contracts as packaged within a contract module.
+
+\begin{figure}[Htbp]
+  \centering
+  \includegraphics{contract}
+  \caption{The contract specification elements of URDAD}
+  \label{fig:contractModule}
+\end{figure}
+
 
 %--------------------------
 \subsection{Data Structures}
 
-The data module of the URDAD meta model is depicted in Figure \ref{fig:metamodel-4}. It allows for an object-oriented approach to data structure specification which is directly aligned with UML class descriptions. In addition to the familiar type relationships - Association, Aggregation and Composition, URDAD DSL introduces a new, weaker type relationship called \emph{Identification}. This is conceptually similar to a strongly-typed \emph{Uniform Resource Identifier} (URI), in that it uniquely identifies objects within the model, but without implying an active message path to the object as UML \emph{Association} does.
+The data module of the URDAD meta model is depicted in Figure \ref{fig:dataStructureModule}. It allows for an object-oriented approach to data structure specification which is directly aligned with UML class descriptions. In addition to the familiar type relationships - Association, Aggregation and Composition, URDAD DSL introduces a new, weaker type relationship called \emph{Identification}. This is conceptually similar to a strongly-typed \emph{Uniform Resource Identifier} (URI), in that it uniquely identifies objects within the model, but without implying an active message path to the object as UML \emph{Association}s do.
  
 \begin{figure}[Htbp]
   \centering
@@ -131,67 +116,45 @@ The data module of the URDAD meta model is depicted in Figure \ref{fig:metamodel
   \label{fig:dataStructureModule}
 \end{figure}
 
-\todo{Query, Assignable and its subclasses have been moved to Process metamodel (does not make sense in static data model) }
-
 %--------------------
 \subsection{Processes}
 
-The process package of the URDAD meta model describes the concept of a service as a concrete unit of functionality in fulfillment of its service contract. In this context, traceability is suported by `satisfaction' links as in \cite{ramesh_toward_2001}). A service is thus conceptually associated with its own local variables, the validation of a pre-condition and/or the fulfilment of a post-condition, the handling of an exception raised by a sub-service, the raising of an exception at its own level, or the return of a computational result. Figure \ref{fig:processModule} shows this section or the URDAD meta model.
-\begin{figure}[Htbp]
-  \centering
-  \includegraphics{process}
-  \caption{The process definition elements of URDAD}
-  \label{fig:processModule}
-\end{figure}
+The process package of the URDAD meta model describes the concept of a service as a concrete unit of functionality in fulfillment of its service contract. The responsibility allocation step of the URDAD methodology is supported by capturing the lower level service requirements for a service, relating each service used to either the assessment of a pre-condition or the realization of a post-condition. This is done via \verb+usedToAddress+ links representing satsifaction links as in  \cite{ramesh_toward_2001}). 
 
-\todo{Clean up process metamodel diagram after incorporating Query, Assignable }
+The second aspect of a service is the specification of a process which is assembled from service requests associated with the lower level services contracts used to address the functional requirements of the service. Note that decoupling of levels of granularity via services contracts is enforced. The URDAD metamodel assumes that the selection of concrete service providers for the lower level services is either done by the deployment environment through mechanisms like \emph{dependency injection} or specified during the implementation mapping phase.
 
-The URDAD methodology enforces `decoupling' through service contracts. This is reflected in the URDAD meta model by associating satisfaction links as well as service requests to service contracts (instead of to concrete services). Also note that URDAD methodology assumes that the concrete services will either be implemented through model-transformations (MDE), or will be provided through the underlying infrastructure (e.g., run-time environments). Therefore, the finer details of service implementations are not represented in the our technology-neutral URDAD models. The following listing shows how a service contract is denoted in the grammar of our URDAD DSL.
+The URDAD metamodel also contains explicit modelling constructs for creating and manipulating local process variables,  for handling an exception raised by a lower level service, for raising an exception associated with a pre-condition of the service, and for the return of a computational result. The following listing illustrates how a service contract is denoted in the grammar of our URDAD DSL.
 
-\small \begin{lstlisting}[numbers=left,escapechar=|]
-Service enrollForPresentationImpl realizes enrollForPresentation 
- receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+\lstset{language=urdad,caption=Specifying a service in the textual URDAD DSL syntax.,label=serviceTextSyntax}
+\begin{lstlisting}[numbers=left,escapechar=|]
+Service enrollForPresentationImpl realizes enrollForPresentation receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
 {
-  use checkStudentSatisfiesEnrollmentPrerequisites 
-    toAddress (enrollmentPrerequisitesMet)
+  use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
   use issueInvoice toAddress (financialPrerequisitesSatisfied invoiceIssued) 
   use performEnrollment toAddress (invoiceIssued)
    
-  doSequential
+  Process doSequential
   {
-    create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
-      ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest               
-    set Query OCL:"enrollForPresentationRequest.studentIdentifier" equalTo 
-        Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier"
-    set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo
-        Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"
+    create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest               
+    set Query OCL:"enrollForPresentationRequest.studentIdentifier" equalTo Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier"
+    set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"
                      
-    requestService checkStudentSatisfiesEnrollmentPrerequisites 
-      with checkStudentSatisfiesEnrollmentPrerequisitesRequest 
-        yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult
-          ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
+    requestService checkStudentSatisfiesEnrollmentPrerequisites with checkStudentSatisfiesEnrollmentPrerequisitesRequest yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
     choice
     {
-      if Constraint enrollmentMeetsPrerequisitesMet 
-        OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.
-                enrollmentPrerequisitesMet = true"
+      if Constraint enrollmentMeetsPrerequisitesMet OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true"
         doSequential
         {
           ...
-          requestService issueInvoice with issueInvoiceRequest 
-            yielding Variable issueInvoiceResult ofType IssueInvoiceResult
+          requestService issueInvoice with issueInvoiceRequest yielding Variable issueInvoiceResult ofType IssueInvoiceResult
           {
-            on FinancialPrerequisitesNotSatisfiedException 
-              raiseException FinancialPrerequisitesNotSatisfiedException
+            on FinancialPrerequisitesNotSatisfiedException raiseException FinancialPrerequisitesNotSatisfiedException
           }
 	      ...
-          requestService performEnrollment with enrollRequest 
-            yielding Variable performEnrollmentResult ofType PerformEnrollmentResult
+          requestService performEnrollment with enrollRequest yielding Variable performEnrollmentResult ofType PerformEnrollmentResult
           
-          create Variable enrollForPresentationResult 
-            ofType EnrollForPresentationResult
-          set Query OCL:"issueInvoiceResult.invoice" equalTo
-              Query OCL:"enrollForPresentationResult.invoice"
+          create Variable enrollForPresentationResult ofType EnrollForPresentationResult
+          set Query OCL:"issueInvoiceResult.invoice" equalTo Query OCL:"enrollForPresentationResult.invoice"
           ...                       
           returnResult  enrollForPresentationResult
         }
@@ -199,7 +162,13 @@ Service enrollForPresentationImpl realizes enrollForPresentation
     }
   }
 }                 
-\end{lstlisting}\normalsize
-\lstset{language=urdad,caption=Specifying a service in the textual URDAD DSL syntax.,label=serviceTextSyntax}
+\end{lstlisting}
 
+Figure \ref{fig:processModule} shows the pocess modules of the URDAD meta model.
+\begin{figure}[Htbp]
+  \centering
+  \includegraphics{process}
+  \caption{The process definition elements of URDAD}
+  \label{fig:processModule}
+\end{figure}
  

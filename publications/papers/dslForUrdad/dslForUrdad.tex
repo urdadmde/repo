@@ -27,10 +27,11 @@ string=[b]'%
 %\definecolor{CadetBlue}{cmyk}{0.62,0.57,0.23,0}
 \definecolor{lightgray}{gray}{0.9}
 \lstset{
-language=urdad,                             % Code langugage
-basicstyle=\ttfamily,                   % Code font, Examples: \footnotesize, \ttfamily
-keywordstyle=\color{blue},        % Keywords font ('*' = uppercase)
-commentstyle=\color{gray},              % Comments font
+language=urdad,  
+basicstyle=\ttfamily\small,
+keywordstyle=\itshape\color{blue},
+%keywordstyle=\color{blue},        % Keywords font ('*' = uppercase)
+commentstyle=\color{gray},           
 numbers=left,                           % Line nums position
 numberstyle=\tiny,                      % Line-numbers fonts
 stepnumber=1,                           % Step between two line-numbers
@@ -60,9 +61,6 @@ columns=flexible,                       % Column format
 \newcommand\l@todo[2]
   {\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
 
-%Now the list of todo's could be inserted by using the command
-%  \listoftodos
-
 \begin{document}
 
 \frontmatter          % for the preliminaries
@@ -70,7 +68,6 @@ columns=flexible,                       % Column format
 \pagestyle{headings}  % switches on printing of running heads
 
 \title{A Domain-Specific Language for URDAD Based Requirements Elicitation }
-%\title{A Domain-Specific Language for URDAD}
 \titlerunning{DSL for URDAD}  % abbreviated title (for running head)
 \author{F. Solms\inst{1}, C. Edwards\inst{1}, S. Gruner\inst{1}, A. Paar\inst{1}, 
         D. Loubser\inst{2}}
@@ -84,6 +81,9 @@ Solms Training and Consulting CC, 2109 Johannesburg, South Africa}
 
 \keywords{model-driven development, domain-specific language, meta model,
  service-orientation, requirements engineering, platform-independent model}
+
+%Now the list of todo's could be inserted by using the command
+%\listoftodos
  
 \input{introduction.tex}
 
