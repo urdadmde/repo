@@ -35,13 +35,13 @@ The following listing shows an extract of the textual representation of our `reg
 \begin{lstlisting}[numbers=left,escapechar=|]
 StateConstraint studentEnrolledForPresentation receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
 {
-  stateAssessmentProcess doSequential
-  {
-    create Variable getEnrollmentsRequest ofType GetEnrollmentsRequest
-    set Query OCL:"getEnrollmentsRequest.presentationIdentifier" equalTo Query OCL:"enrollForPresentationRequest.presentationIdentifier"
-    requestService getEnrollments with getEnrollmentsRequest yielding Variable getEnrollmentsResult ofType GetEnrollmentsResult
-  }
-  Constraint OCL:"getEnrollmentsResult.enrollments.includes (enrollForPresentationRequest.personIdentifier)"
+ stateAssessmentProcess doSequential
+ {
+  create Variable getEnrollmentsRequest ofType GetEnrollmentsRequest
+  set Query OCL:"getEnrollmentsRequest.presentationIdentifier" equalTo Query OCL:"enrollForPresentationRequest.presentationIdentifier"
+  requestService getEnrollments with getEnrollmentsRequest yielding Variable getEnrollmentsResult ofType GetEnrollmentsResult
+ }
+ Constraint OCL:"getEnrollmentsResult.enrollments.includes (enrollForPresentationRequest.personIdentifier)"
 }
 \end{lstlisting}
 
@@ -67,29 +67,29 @@ Below we illustrate the specification of a service contract in our URDAD DSL gra
 \begin{lstlisting}[numbers=left,escapechar=|]
 ServiceContract enrollForPresentation
 {
-   FunctionalRequirements receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
-   {
-      PreCondition enrollmentPrerequisitesMet requiredBy (TrainingRegulator Student) raises EnrollmentPrerequisitesNotSatisfiedException checks constraint enrollmentPrerequisitesForPresentationMet with ValueOf enrollForPresentationRequest
-      PostCondition enrollmentProcessPerformed requiredBy (Student Client TrainingRegulator) ensures constraint studentEnrolledForPresentation          with ValueOf studentEnrolledRequest constructedUsing doSequential
-         {
-            create Variable studentEnrolledRequest ofType StudentEnrolledRequest
-            set Query OCL:"studentEnrolledRequest.personIdentifier" equalTo Query OCL:"enrollForPresentationRequest.personIdentifier"                            
-            set Query OCL:"studentEnrolledRequest.presentationIdentifier" equalTo Query OCL:"enrollForPresentationRequest.presentationIdentifier"                            
-         }  
-      PostCondition invoiceIssued ...
-    }            
-    Request DataStructure EnrollForPresentationRequest 
-    {
-       has identification presentationIdentifier identifying Presentation
-       has identification studentIdentifier identifying Person
-       has identification clientIdentifier identifying LegalEntity         
-    }
-    Result DataStructure EnrollForPresentationResult 
-    {
-       has component proofOfEnrollment ofType ProofOfEnrollment
-       has component invoice ofType Invoice
-       has component studyGuide ofType StudyGuide
-    }
+ FunctionalRequirements receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+ {
+  PreCondition enrollmentPrerequisitesMet requiredBy (TrainingRegulator Student) raises EnrollmentPrerequisitesNotSatisfiedException checks constraint enrollmentPrerequisitesForPresentationMet with ValueOf enrollForPresentationRequest
+  PostCondition enrollmentProcessPerformed requiredBy (Student Client TrainingRegulator) ensures constraint studentEnrolledForPresentation          with ValueOf studentEnrolledRequest constructedUsing doSequential
+  {
+   create Variable studentEnrolledRequest ofType StudentEnrolledRequest
+   set Query OCL:"studentEnrolledRequest.personIdentifier" equalTo Query OCL:"enrollForPresentationRequest.personIdentifier"                            
+   set Query OCL:"studentEnrolledRequest.presentationIdentifier" equalTo Query OCL:"enrollForPresentationRequest.presentationIdentifier"                            
+  }  
+  PostCondition invoiceIssued ...
+ }            
+ Request DataStructure EnrollForPresentationRequest 
+ {
+  has identification presentationIdentifier identifying Presentation
+  has identification studentIdentifier identifying Person
+  has identification clientIdentifier identifying LegalEntity         
+ }
+ Result DataStructure EnrollForPresentationResult 
+ {
+  has component proofOfEnrollment ofType ProofOfEnrollment
+  has component invoice ofType Invoice
+  has component studyGuide ofType StudyGuide
+ }
 }
 \end{lstlisting}
 
@@ -129,38 +129,37 @@ The URDAD metamodel also contains explicit modelling constructs for creating and
 \begin{lstlisting}[numbers=left,escapechar=|]
 Service enrollForPresentationImpl realizes enrollForPresentation receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
 {
-  use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
-  use issueInvoice toAddress (financialPrerequisitesSatisfied invoiceIssued) 
-  use performEnrollment toAddress (invoiceIssued)
+ use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
+ use issueInvoice toAddress (financialPrerequisitesSatisfied invoiceIssued) 
+ use performEnrollment toAddress (invoiceIssued)
    
-  Process doSequential
-  {
-    create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest               
-    set Query OCL:"enrollForPresentationRequest.studentIdentifier" equalTo Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier"
-    set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"
+ Process doSequential
+ {
+  create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest               
+  set Query OCL:"enrollForPresentationRequest.studentIdentifier" equalTo Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier"
+  set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"
                      
-    requestService checkStudentSatisfiesEnrollmentPrerequisites with checkStudentSatisfiesEnrollmentPrerequisitesRequest yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
-    choice
+  requestService checkStudentSatisfiesEnrollmentPrerequisites with checkStudentSatisfiesEnrollmentPrerequisitesRequest yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
+  choice
+  {
+   if Constraint enrollmentMeetsPrerequisitesMet OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true" doSequential
+   {
+    ...
+    requestService issueInvoice with issueInvoiceRequest yielding Variable issueInvoiceResult ofType IssueInvoiceResult
     {
-      if Constraint enrollmentMeetsPrerequisitesMet OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true"
-        doSequential
-        {
-          ...
-          requestService issueInvoice with issueInvoiceRequest yielding Variable issueInvoiceResult ofType IssueInvoiceResult
-          {
-            on FinancialPrerequisitesNotSatisfiedException raiseException FinancialPrerequisitesNotSatisfiedException
-          }
-	      ...
-          requestService performEnrollment with enrollRequest yielding Variable performEnrollmentResult ofType PerformEnrollmentResult
-          
-          create Variable enrollForPresentationResult ofType EnrollForPresentationResult
-          set Query OCL:"issueInvoiceResult.invoice" equalTo Query OCL:"enrollForPresentationResult.invoice"
-          ...                       
-          returnResult  enrollForPresentationResult
-        }
-      else raiseException EnrollmentPrerequisitesNotSatisfiedException
+     on FinancialPrerequisitesNotSatisfiedException raiseException FinancialPrerequisitesNotSatisfiedException
     }
+    ...
+    requestService performEnrollment with enrollRequest yielding Variable performEnrollmentResult ofType PerformEnrollmentResult
+          
+    create Variable enrollForPresentationResult ofType EnrollForPresentationResult
+    set Query OCL:"issueInvoiceResult.invoice" equalTo Query OCL:"enrollForPresentationResult.invoice"
+    ...                       
+    returnResult  enrollForPresentationResult
+   }
+   else raiseException EnrollmentPrerequisitesNotSatisfiedException
   }
+ }
 }                 
 \end{lstlisting}
 
