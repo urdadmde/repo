@@ -1,5 +1,5 @@
 %\documentclass[11pt]{article}
-\documentclass{llncs}
+\documentclass{sacj}
 \usepackage{graphicx}
 \usepackage{epsfig}
 \usepackage{listings}
@@ -63,24 +63,30 @@ columns=flexible,                       % Column format
 
 \begin{document}
 
-\frontmatter          % for the preliminaries
+%\frontmatter          % for the preliminaries
+%\pagestyle{headings}  % switches on printing of running heads
 
-\pagestyle{headings}  % switches on printing of running heads
+\SACJtitle{A Domain-Specific Language for URDAD Based Requirements Elicitation}
+%\titlerunning{DSL for URDAD}  % abbreviated title (for running head)
+%\author{F. Solms\inst{1}, C. Edwards\inst{1}, S. Gruner\inst{1}, A. Paar\inst{1}, 
+%        D. Loubser\inst{2}}\institute{Dept. of Comp. Sc., Univ. of Pretoria, South Africa,
+%\email{fritz@solms.co.za} \and 
+%Solms Training and Consulting CC, 2109 Johannesburg, South Africa}
 
-\title{A Domain-Specific Language for URDAD Based Requirements Elicitation }
-\titlerunning{DSL for URDAD}  % abbreviated title (for running head)
-\author{F. Solms\inst{1}, C. Edwards\inst{1}, S. Gruner\inst{1}, A. Paar\inst{1}, 
-        D. Loubser\inst{2}}
-\institute{Dept. of Comp. Sc., Univ. of Pretoria, South Africa,
-\email{fritz@solms.co.za} \and 
-Solms Training and Consulting CC, 2109 Johannesburg, South Africa}
-
-\maketitle
+\SACJauthor[tuks]{Fritz Solms}{fritz@solms.co.za}
+\SACJauthor[tuks]{Craig Edwards}{}
+\SACJauthor[tuks]{Stefan Gruner}{}
+\SACJauthor[tuks]{Alexander Paar}{}
+\SACJauthor[solms]{Dawid Loubser}{}
+\SACJaddress[tuks]{Department of Computer Science, University of Pretoria, South Africa}
+\SACJaddress[solms]{Solms Training and Consulting CC, 2109 Johannesburg, South Africa}
 
 \input{abstract.tex}
 
-\keywords{model-driven development, domain-specific language, meta model,
+\SACJkeywords{model-driven development, domain-specific language, meta model,
  service-orientation, requirements engineering, platform-independent model}
+
+\SACJmaketitle
 
 %Now the list of todo's could be inserted by using the command
 %\listoftodos
@@ -97,7 +103,10 @@ Solms Training and Consulting CC, 2109 Johannesburg, South Africa}
 
 \input{conclusionsAndOutlook.tex}
 
-\bibliographystyle{plain} 
+\input{acknowledgments.tex}
+
+
+\bibliographystyle{sacj} 
 \bibliography{../../bibliography}
 
 \end{document}
