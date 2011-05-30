@@ -12,12 +12,12 @@ Using tools like EMFText \cite{heidenreich_derivation_2009} one can either gener
 \subsection{The Core of URDAD's Meta Model}
 
 The core module (see Figure \ref{fig:coreModule}) introduces core concepts like the URDAD model itself, model elements, stake holders, responsibility domains, expressions and annotations.
-\begin{figure}[Htb]
+\begin{figure*}[Htb]
   \centering
   \includegraphics{core}
   \caption{The core elements of URDAD}
   \label{fig:coreModule}
-\end{figure}
+\end{figure*}
 
 A responsibility domain covers a coherent unit of functionality at a particular level of granularity. Responsibility domains are meaningful groupings of service contracts. Thereby our notion of `responsibility domain' is similar to the notion of `unity criteria' in \cite{gonzalez_unity_2009}. Technically, responsibility domains are packaging constructs to subsume model elements under a unique name space. Note that they also define the boundaries between different levels of granularity. 
 
@@ -46,12 +46,12 @@ StateConstraint studentEnrolledForPresentation receiving Variable enrollForPrese
 \end{lstlisting}
 
 As depicted in Figure \ref{fig:constraintModule}, the constraints module provides the concept of re-usable constraints with standard logical operators to formulate complex constraint expressions.
-\begin{figure}[Htbp]
+\begin{figure*}[Htbp]
   \centering
   \includegraphics{constraint}
   \caption{The constraint specification elements of URDAD}
   \label{fig:constraintModule}
-\end{figure}
+\end{figure*}
 
 %----------------------------
 \subsection{Service Contracts}
@@ -96,12 +96,12 @@ ServiceContract enrollForPresentation
 
 Figure \ref{fig:contractModule} shows the URDAD DSL support for the specification of services contracts as packaged within a contract module.
 
-\begin{figure}[Htbp]
+\begin{figure*}[Htbp]
   \centering
   \includegraphics{contract}
   \caption{The contract specification elements of URDAD}
   \label{fig:contractModule}
-\end{figure}
+\end{figure*}
 
 
 %--------------------------
@@ -109,12 +109,12 @@ Figure \ref{fig:contractModule} shows the URDAD DSL support for the specificatio
 
 The data module of the URDAD meta model is depicted in Figure \ref{fig:dataStructureModule}. It allows for an object-oriented approach to data structure specification which is directly aligned with UML class descriptions. In addition to the familiar type relationships - Association, Aggregation and Composition, URDAD DSL introduces a new, weaker type relationship called \emph{Identification}. This is conceptually similar to a strongly-typed \emph{Uniform Resource Identifier} (URI), in that it uniquely identifies objects within the model, but without implying an active message path to the object as UML \emph{Association}s do.
  
-\begin{figure}[Htbp]
+\begin{figure*}[Htbp]
   \centering
   \includegraphics{data}
   \caption{The data definition elements of URDAD}
   \label{fig:dataStructureModule}
-\end{figure}
+\end{figure*}
 
 %--------------------
 \subsection{Processes}
@@ -164,10 +164,10 @@ Service enrollForPresentationImpl realizes enrollForPresentation receiving Varia
 \end{lstlisting}
 
 Figure \ref{fig:processModule} shows the pocess modules of the URDAD meta model.
-\begin{figure}[Htbp]
+\begin{figure*}[Htbp]
   \centering
   \includegraphics{process}
   \caption{The process definition elements of URDAD}
   \label{fig:processModule}
-\end{figure}
+\end{figure*}
  
