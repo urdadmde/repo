@@ -1,5 +1,6 @@
 %\documentclass[11pt]{article}
-\documentclass{llncs}
+\documentclass{sig-alternate}
+
 \usepackage{graphicx}
 \usepackage{epsfig}
 \usepackage{listings}
@@ -28,7 +29,7 @@ string=[b]'%
 \definecolor{lightgray}{gray}{0.9}
 \lstset{
 language=urdad,  
-basicstyle=\ttfamily\small,
+basicstyle=\ttfamily\tiny,
 keywordstyle=\itshape\color{blue},
 %keywordstyle=\color{blue},        % Keywords font ('*' = uppercase)
 commentstyle=\color{gray},           
@@ -63,27 +64,59 @@ columns=flexible,                       % Column format
 
 \begin{document}
 
-\frontmatter          % for the preliminaries
+\conferenceinfo{SAICSIT}{'11, October 3-5, Cape Town, South Africa}
+\CopyrightYear{2011} 
+\crdata{}
 
-\pagestyle{headings}  % switches on printing of running heads
+\title{A Domain-Specific Language for URDAD Based Requirements Elicitation}
 
-\title{A Domain-Specific Language for URDAD Based Requirements Elicitation }
-\titlerunning{DSL for URDAD}  % abbreviated title (for running head)
-\author{F. Solms\inst{1}, C. Edwards\inst{1}, S. Gruner\inst{1}, A. Paar\inst{1}, 
-        D. Loubser\inst{2}}
-\institute{Dept. of Comp. Sc., Univ. of Pretoria, South Africa,
-\email{fritz@solms.co.za} \and 
-Solms Training and Consulting CC, 2109 Johannesburg, South Africa}
+%\frontmatter          % for the preliminaries
+%\pagestyle{headings}  % switches on printing of running heads
+%\title{A Domain-Specific Language for URDAD Based Requirements Elicitation}
+%\titlerunning{DSL for URDAD}  % abbreviated title (for running head)
+
+\numberofauthors{5} 
+\author{
+\alignauthor Fritz Solms\\       
+			 \affaddr{Department of Computer Science}\\
+       \affaddr{University of Pretoria}\\
+       \affaddr{South Africa}\\
+       \email{fritz@solms.co.za}
+\alignauthor Craig Edwards\\
+       \affaddr{Department of Computer Science}\\
+       \affaddr{University of Pretoria}\\
+       \affaddr{South Africa}\\
+       \email{}
+\alignauthor Stefan Gruner\\
+       \affaddr{Department of Computer Science}\\
+       \affaddr{University of Pretoria}\\
+       \affaddr{South Africa}\\
+       \email{}
+\and 
+\alignauthor Alexander Paar\\
+      \affaddr{Department of Computer Science}\\
+      \affaddr{University of Pretoria}\\
+      \affaddr{South Africa}\\
+      \email{}
+\alignauthor Dawid Loubser\\
+       \affaddr{Solms Training and Consulting CC}\\
+       \affaddr{Johannesburg, 2109}\\
+       \affaddr{South Africa}\\
+       \email{}
+}
+
+%\author{F. Solms\inst{1}, C. Edwards\inst{1}, S. Gruner\inst{1}, A. Paar\inst{1}, 
+%        D. Loubser\inst{2}}\institute{Dept. of Comp. Sc., Univ. of Pretoria, South Africa,
+%\email{fritz@solms.co.za} \and Solms Training and Consulting CC, 2109 Johannesburg, South Africa}
 
 \maketitle
 
-\input{abstract.tex}
-
-\keywords{model-driven development, domain-specific language, meta model,
- service-orientation, requirements engineering, platform-independent model}
-
 %Now the list of todo's could be inserted by using the command
 %\listoftodos
+
+\input{abstract.tex}
+
+\keywords{Model Driven Development, Domain Specific Language, Meta Model, Service Orientation, Requirements Engineering, Platform Independent Model}
  
 \input{introduction.tex}
 
@@ -97,7 +130,9 @@ Solms Training and Consulting CC, 2109 Johannesburg, South Africa}
 
 \input{conclusionsAndOutlook.tex}
 
-\bibliographystyle{plain} 
+\input{acknowledgments.tex}
+
+\bibliographystyle{abbrv}
 \bibliography{../../bibliography}
 
 \end{document}

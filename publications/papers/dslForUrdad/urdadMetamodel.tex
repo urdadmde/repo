@@ -12,12 +12,12 @@ Using tools like EMFText \cite{heidenreich_derivation_2009} one can either gener
 \subsection{The Core of URDAD's Meta Model}
 
 The core module (see Figure \ref{fig:coreModule}) introduces core concepts like the URDAD model itself, model elements, stake holders, responsibility domains, expressions and annotations.
-\begin{figure}[Htb]
+\begin{figure*}[Htb]
   \centering
   \includegraphics{core}
   \caption{The core elements of URDAD}
   \label{fig:coreModule}
-\end{figure}
+\end{figure*}
 
 A responsibility domain covers a coherent unit of functionality at a particular level of granularity. Responsibility domains are meaningful groupings of service contracts. Thereby our notion of `responsibility domain' is similar to the notion of `unity criteria' in \cite{gonzalez_unity_2009}. Technically, responsibility domains are packaging constructs to subsume model elements under a unique name space. Note that they also define the boundaries between different levels of granularity. 
 
@@ -35,23 +35,23 @@ The following listing shows an extract of the textual representation of our `reg
 \begin{lstlisting}[numbers=left,escapechar=|]
 StateConstraint studentEnrolledForPresentation receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
 {
-  stateAssessmentProcess doSequential
-  {
-    create Variable getEnrollmentsRequest ofType GetEnrollmentsRequest
-    set Query OCL:"getEnrollmentsRequest.presentationIdentifier" equalTo Query OCL:"enrollForPresentationRequest.presentationIdentifier"
-    requestService getEnrollments with getEnrollmentsRequest yielding Variable getEnrollmentsResult ofType GetEnrollmentsResult
-  }
-  Constraint OCL:"getEnrollmentsResult.enrollments.includes (enrollForPresentationRequest.personIdentifier)"
+ stateAssessmentProcess doSequential
+ {
+  create Variable getEnrollmentsRequest ofType GetEnrollmentsRequest
+  set Query OCL:"getEnrollmentsRequest.presentationIdentifier" equalTo Query OCL:"enrollForPresentationRequest.presentationIdentifier"
+  requestService getEnrollments with getEnrollmentsRequest yielding Variable getEnrollmentsResult ofType GetEnrollmentsResult
+ }
+ Constraint OCL:"getEnrollmentsResult.enrollments.includes (enrollForPresentationRequest.personIdentifier)"
 }
 \end{lstlisting}
 
 As depicted in Figure \ref{fig:constraintModule}, the constraints module provides the concept of re-usable constraints with standard logical operators to formulate complex constraint expressions.
-\begin{figure}[Htbp]
+\begin{figure*}[Htbp]
   \centering
   \includegraphics{constraint}
   \caption{The constraint specification elements of URDAD}
   \label{fig:constraintModule}
-\end{figure}
+\end{figure*}
 
 %----------------------------
 \subsection{Service Contracts}
@@ -67,41 +67,41 @@ Below we illustrate the specification of a service contract in our URDAD DSL gra
 \begin{lstlisting}[numbers=left,escapechar=|]
 ServiceContract enrollForPresentation
 {
-   FunctionalRequirements receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
-   {
-      PreCondition enrollmentPrerequisitesMet requiredBy (TrainingRegulator Student) raises EnrollmentPrerequisitesNotSatisfiedException checks constraint enrollmentPrerequisitesForPresentationMet with ValueOf enrollForPresentationRequest
-      PostCondition enrollmentProcessPerformed requiredBy (Student Client TrainingRegulator) ensures constraint studentEnrolledForPresentation          with ValueOf studentEnrolledRequest constructedUsing doSequential
-         {
-            create Variable studentEnrolledRequest ofType StudentEnrolledRequest
-            set Query OCL:"studentEnrolledRequest.personIdentifier" equalTo Query OCL:"enrollForPresentationRequest.personIdentifier"                            
-            set Query OCL:"studentEnrolledRequest.presentationIdentifier" equalTo Query OCL:"enrollForPresentationRequest.presentationIdentifier"                            
-         }  
-      PostCondition invoiceIssued ...
-    }            
-    Request DataStructure EnrollForPresentationRequest 
-    {
-       has identification presentationIdentifier identifying Presentation
-       has identification studentIdentifier identifying Person
-       has identification clientIdentifier identifying LegalEntity         
-    }
-    Result DataStructure EnrollForPresentationResult 
-    {
-       has component proofOfEnrollment ofType ProofOfEnrollment
-       has component invoice ofType Invoice
-       has component studyGuide ofType StudyGuide
-    }
+ FunctionalRequirements receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
+ {
+  PreCondition enrollmentPrerequisitesMet requiredBy (TrainingRegulator Student) raises EnrollmentPrerequisitesNotSatisfiedException checks constraint enrollmentPrerequisitesForPresentationMet with ValueOf enrollForPresentationRequest
+  PostCondition enrollmentProcessPerformed requiredBy (Student Client TrainingRegulator) ensures constraint studentEnrolledForPresentation          with ValueOf studentEnrolledRequest constructedUsing doSequential
+  {
+   create Variable studentEnrolledRequest ofType StudentEnrolledRequest
+   set Query OCL:"studentEnrolledRequest.personIdentifier" equalTo Query OCL:"enrollForPresentationRequest.personIdentifier"                            
+   set Query OCL:"studentEnrolledRequest.presentationIdentifier" equalTo Query OCL:"enrollForPresentationRequest.presentationIdentifier"                            
+  }  
+  PostCondition invoiceIssued ...
+ }            
+ Request DataStructure EnrollForPresentationRequest 
+ {
+  has identification presentationIdentifier identifying Presentation
+  has identification studentIdentifier identifying Person
+  has identification clientIdentifier identifying LegalEntity         
+ }
+ Result DataStructure EnrollForPresentationResult 
+ {
+  has component proofOfEnrollment ofType ProofOfEnrollment
+  has component invoice ofType Invoice
+  has component studyGuide ofType StudyGuide
+ }
 }
 \end{lstlisting}
 
 
 Figure \ref{fig:contractModule} shows the URDAD DSL support for the specification of services contracts as packaged within a contract module.
 
-\begin{figure}[Htbp]
+\begin{figure*}[Htbp]
   \centering
   \includegraphics{contract}
   \caption{The contract specification elements of URDAD}
   \label{fig:contractModule}
-\end{figure}
+\end{figure*}
 
 
 %--------------------------
@@ -109,12 +109,12 @@ Figure \ref{fig:contractModule} shows the URDAD DSL support for the specificatio
 
 The data module of the URDAD meta model is depicted in Figure \ref{fig:dataStructureModule}. It allows for an object-oriented approach to data structure specification which is directly aligned with UML class descriptions. In addition to the familiar type relationships - Association, Aggregation and Composition, URDAD DSL introduces a new, weaker type relationship called \emph{Identification}. This is conceptually similar to a strongly-typed \emph{Uniform Resource Identifier} (URI), in that it uniquely identifies objects within the model, but without implying an active message path to the object as UML \emph{Association}s do.
  
-\begin{figure}[Htbp]
+\begin{figure*}[Htbp]
   \centering
   \includegraphics{data}
   \caption{The data definition elements of URDAD}
   \label{fig:dataStructureModule}
-\end{figure}
+\end{figure*}
 
 %--------------------
 \subsection{Processes}
@@ -129,46 +129,45 @@ The URDAD metamodel also contains explicit modelling constructs for creating and
 \begin{lstlisting}[numbers=left,escapechar=|]
 Service enrollForPresentationImpl realizes enrollForPresentation receiving Variable enrollForPresentationRequest ofType EnrollForPresentationRequest
 {
-  use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
-  use issueInvoice toAddress (financialPrerequisitesSatisfied invoiceIssued) 
-  use performEnrollment toAddress (invoiceIssued)
+ use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
+ use issueInvoice toAddress (financialPrerequisitesSatisfied invoiceIssued) 
+ use performEnrollment toAddress (invoiceIssued)
    
-  Process doSequential
-  {
-    create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest               
-    set Query OCL:"enrollForPresentationRequest.studentIdentifier" equalTo Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier"
-    set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"
+ Process doSequential
+ {
+  create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest ofType CheckStudentSatisfiesEnrollmentPrerequisitesRequest               
+  set Query OCL:"enrollForPresentationRequest.studentIdentifier" equalTo Query OCL:"checkEnrollmentPrerequisitesRequest.studentIdentifier"
+  set Query OCL:"enrollForPresentationRequest.presentationIdentifier" equalTo Query OCL:"checkEnrollmentPrerequisitesRequest.presentationIdentifier"
                      
-    requestService checkStudentSatisfiesEnrollmentPrerequisites with checkStudentSatisfiesEnrollmentPrerequisitesRequest yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
-    choice
+  requestService checkStudentSatisfiesEnrollmentPrerequisites with checkStudentSatisfiesEnrollmentPrerequisitesRequest yielding Variable checkStudentSatisfiesEnrollmentPrerequisitesResult ofType CheckStudentSatisfiesEnrollmentPrerequisitesResult
+  choice
+  {
+   if Constraint enrollmentMeetsPrerequisitesMet OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true" doSequential
+   {
+    ...
+    requestService issueInvoice with issueInvoiceRequest yielding Variable issueInvoiceResult ofType IssueInvoiceResult
     {
-      if Constraint enrollmentMeetsPrerequisitesMet OCL:"checkStudentSatisfiesEnrollmentPrerequisitesResult.enrollmentPrerequisitesMet = true"
-        doSequential
-        {
-          ...
-          requestService issueInvoice with issueInvoiceRequest yielding Variable issueInvoiceResult ofType IssueInvoiceResult
-          {
-            on FinancialPrerequisitesNotSatisfiedException raiseException FinancialPrerequisitesNotSatisfiedException
-          }
-	      ...
-          requestService performEnrollment with enrollRequest yielding Variable performEnrollmentResult ofType PerformEnrollmentResult
-          
-          create Variable enrollForPresentationResult ofType EnrollForPresentationResult
-          set Query OCL:"issueInvoiceResult.invoice" equalTo Query OCL:"enrollForPresentationResult.invoice"
-          ...                       
-          returnResult  enrollForPresentationResult
-        }
-      else raiseException EnrollmentPrerequisitesNotSatisfiedException
+     on FinancialPrerequisitesNotSatisfiedException raiseException FinancialPrerequisitesNotSatisfiedException
     }
+    ...
+    requestService performEnrollment with enrollRequest yielding Variable performEnrollmentResult ofType PerformEnrollmentResult
+          
+    create Variable enrollForPresentationResult ofType EnrollForPresentationResult
+    set Query OCL:"issueInvoiceResult.invoice" equalTo Query OCL:"enrollForPresentationResult.invoice"
+    ...                       
+    returnResult  enrollForPresentationResult
+   }
+   else raiseException EnrollmentPrerequisitesNotSatisfiedException
   }
+ }
 }                 
 \end{lstlisting}
 
 Figure \ref{fig:processModule} shows the pocess modules of the URDAD meta model.
-\begin{figure}[Htbp]
+\begin{figure*}[Htbp]
   \centering
   \includegraphics{process}
   \caption{The process definition elements of URDAD}
   \label{fig:processModule}
-\end{figure}
+\end{figure*}
  
