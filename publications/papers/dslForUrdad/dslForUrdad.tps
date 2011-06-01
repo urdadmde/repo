@@ -4,8 +4,8 @@ Version=2
 
 [SessionInfo]
 ActiveTab=2
-FrameCount=10
-ActiveFrame=1
+FrameCount=11
+ActiveFrame=8
 
 [Frame0]
 Columns=1
@@ -39,8 +39,8 @@ TopSubLine=76
 [Frame1]
 Columns=1
 Rows=1
-Flags=2
-ShowCmd=3
+Flags=0
+ShowCmd=1
 MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-8
@@ -53,17 +53,17 @@ Class=CLatexEdit
 Document=dslForUrdad.tex
 
 [Frame1_Row0]
-cyCur=509
+cyCur=375
 cyMin=10
 
 [Frame1_Col0]
-cxCur=1436
+cxCur=795
 cxMin=10
 
 [Frame1_View0,0]
 Cursor.row=68
 Cursor.column=9
-TopSubLine=0
+TopSubLine=115
 
 [Frame2]
 Columns=1
@@ -92,7 +92,7 @@ cxMin=10
 [Frame2_View0,0]
 Cursor.row=6
 Cursor.column=0
-TopSubLine=41
+TopSubLine=26
 
 [Frame3]
 Columns=1
@@ -121,7 +121,7 @@ cxMin=10
 [Frame3_View0,0]
 Cursor.row=5
 Cursor.column=221
-TopSubLine=14
+TopSubLine=13
 
 [Frame4]
 Columns=1
@@ -207,7 +207,7 @@ cxMin=10
 
 [Frame6_View0,0]
 Cursor.row=0
-Cursor.column=25
+Cursor.column=0
 TopSubLine=0
 
 [Frame7]
@@ -242,8 +242,8 @@ TopSubLine=0
 [Frame8]
 Columns=1
 Rows=1
-Flags=0
-ShowCmd=1
+Flags=2
+ShowCmd=3
 MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-8
@@ -256,17 +256,17 @@ Class=CLatexEdit
 Document=urdadMetamodel.tex
 
 [Frame8_Row0]
-cyCur=296
+cyCur=509
 cyMin=10
 
 [Frame8_Col0]
-cxCur=1245
+cxCur=1436
 cxMin=10
 
 [Frame8_View0,0]
-Cursor.row=54
-Cursor.column=0
-TopSubLine=101
+Cursor.row=171
+Cursor.column=12
+TopSubLine=251
 
 [Frame9]
 Columns=1
@@ -294,6 +294,35 @@ cxMin=10
 
 [Frame9_View0,0]
 Cursor.row=2
+Cursor.column=14
+TopSubLine=0
+
+[Frame10]
+Columns=1
+Rows=1
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-8
+MaxPos.y=-30
+NormalPos.left=50
+NormalPos.top=50
+NormalPos.right=1332
+NormalPos.bottom=405
+Class=CLatexEdit
+Document=relatedWork.tex
+
+[Frame10_Row0]
+cyCur=296
+cyMin=10
+
+[Frame10_Col0]
+cxCur=1245
+cxMin=10
+
+[Frame10_View0,0]
+Cursor.row=0
 Cursor.column=14
 TopSubLine=0
 
