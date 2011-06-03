@@ -119,8 +119,12 @@
 \typeout{Excerpts were taken from (Journal Style) 'esub2acm.cls'.}
 \typeout{****** Bugs/comments/suggestions/technicalities to Gerry Murray -- murray@hq.acm.org ******}
 \typeout{Questions on the style, SIGS policies, etc. to Adrienne Griscti griscti@acm.org}
-\oddsidemargin 4.5pc
-\evensidemargin 4.5pc
+%\oddsidemargin 0.75in
+\oddsidemargin 1.9cm
+%\oddsidemargin 4.5pc
+%\evensidemargin 0.75in
+\evensidemargin 1.9cm
+%\evensidemargin 4.5pc
 \advance\oddsidemargin by -1in  % Correct for LaTeX gratuitousness
 \advance\evensidemargin by -1in % Correct for LaTeX gratuitousness
 \marginparwidth 0pt             % Margin pars are not allowed.
@@ -128,7 +132,9 @@
                                 % marginal note
 
                                 % Top of page:
-\topmargin 4.5pc                % Nominal distance from top of page to top of
+\topmargin 1.9cm               % Nominal distance from top of page to top of
+%\topmargin 1in               % Nominal distance from top of page to top of
+%\topmargin 4.5pc                % Nominal distance from top of page to top of
                                 % box containing running head.
 \advance\topmargin by -1in      % Correct for LaTeX gratuitousness
 \headheight 0pt                 % Height of box containing running head.
@@ -146,8 +152,11 @@
 \headheight 12pt                % Height of box containing running head.
 \headsep 25pt                   % Space between running head and text.
 
-\textheight 666pt       % 9 1/4 column height
-\textwidth 42pc         % Width of text line.
+
+\textheight 24.7cm       % 9 1/4 column height
+%\textheight 666pt       % 9 1/4 column height
+\textwidth 17.1cm         % Width of text line.
+%\textwidth 42pc         % Width of text line.
                         % For two-column mode:
 \columnsep 2pc          %    Space between columns
 \columnseprule 0pt      %    Width of rule between columns.
@@ -1412,7 +1421,7 @@
 \baselineskip=11pt
 \let\thepage\relax % For NO page numbers - GM Nov. 30th. 1999 and July 2000
 \def\setpagenumber#1{\global\setcounter{page}{#1}}
-%\pagenumbering{arabic}  % Arabic page numbers GM July 2000
+\pagenumbering{arabic}  % Arabic page numbers GM July 2000
 \twocolumn             % Double column.
 \flushbottom           % Even bottom -- alas, does not balance columns at end of document
 \pagestyle{plain}
@@ -1422,8 +1431,8 @@
 \newtoks\copyrtyr
 \newtoks\acmcopyr
 \newtoks\boilerplate
-\global\acmcopyr={X-XXXXX-XX-X/XX/XX}  % Default - 5/11/2001 *** Gerry
-\global\copyrtyr={20XX}                % Default - 3/3/2003 *** Gerry
+\global\acmcopyr={978-1-60558-950-3}  % Default - 5/11/2001 *** Gerry
+\global\copyrtyr={2010}                % Default - 3/3/2003 *** Gerry
 \def\CopyrightYear#1{\global\copyrtyr{#1}}
 \def\crdata#1{\global\acmcopyr{#1}}
 \def\permission#1{\global\boilerplate{#1}}
