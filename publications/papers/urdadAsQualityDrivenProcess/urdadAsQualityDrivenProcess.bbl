@@ -92,11 +92,6 @@ Petra Heck and P\"{a}ivi Parviainen.
 \newblock In {\em 2008 The Third International Conference on Software
   Engineering Advances}, pages 367--372, Sliema, Malta, October 2008.
 
-\bibitem{henderson-sellers_bridging_2011}
-B.~{Henderson-Sellers}.
-\newblock Bridging metamodels and ontologies in software engineering.
-\newblock {\em Journal of Systems and Software}, 84(2):301--313, February 2011.
-
 \bibitem{hinchey_software_2008}
 Mike Hinchey, Michael Jackson, Patrick Cousot, Byron Cook, Jonathan~P. Bowen,
   and Tiziana Margaria.
@@ -166,6 +161,13 @@ S.~Moosavi, {M.A.} Seyyedi, and N.~Moghadam.
 \newblock In {\em Information Technology: New Generations, 2009. {ITNG} '09.
   Sixth International Conference on}, page 290{\textendash}295, April 2009.
 
+\bibitem{parreiras_using_2010}
+Fernando~Silva Parreiras and Steffen Staab.
+\newblock Using ontologies with {UML} class-based modeling: The {TwoUse}
+  approach.
+\newblock {\em Data \& Knowledge Engineering}, 69(11):1194--1207, November
+  2010.
+
 \bibitem{paulk_capability_1993}
 {M.C.} Paulk, B.~Curtis, {M.B.} Chrissis, and {C.V.} Weber.
 \newblock Capability maturity model, version 1.1.
@@ -183,6 +185,13 @@ Mikhail Perepletchikov, Caspar Ryan, and Zahir Tari.
 \newblock The impact of service cohesion on the analyzability of
   {Service-Oriented} software.
 \newblock {\em {IEEE} Transactions on Services Computing}, 3(2):89--103, 2010.
+
+\bibitem{petersen_software_1989}
+P.~G Petersen, O.~Andersen, J.~H Heilesen, S.~Klim, and J.~Schmidt.
+\newblock Software quality drivers and indicators.
+\newblock In {\em System Sciences, 1989. {Vol.II:} Software Track, Proceedings
+  of the {Twenty-Second} Annual Hawaii International Conference on}, volume~2,
+  pages 210 --218 vol.2, January 1989.
 
 \bibitem{podgorelec_estimating_2007}
 Vili Podgorelec and Marjan Hericko.
@@ -227,18 +236,6 @@ Fritz Solms and Dawid Loubser.
 \newblock {\em Innovations in Systems and Software Engineering}, 6:155--162,
   2010.
 \newblock 10.1007/s11334-009-0113-4.
-
-\bibitem{staab_model_2010}
-Steffen Staab, Tobias Walter, Gerd Gr?ner, and Fernando~Silva Parreiras.
-\newblock Model driven engineering with ontology technologies.
-\newblock In {\em Reasoning Web. Semantic Technologies for Software
-  Engineering}, volume 6325 of {\em {LNCS}}. Springer, 2010.
-
-\bibitem{veldhuis_tool_2009}
-{J.W.} Veldhuis.
-\newblock {\em Tool support for a metamodeling approach for reasoning about
-  requirements}.
-\newblock April 2009.
 
 \bibitem{qi_yu-dong_analysis_2010}
 Qi~Yu-dong, Zhu Ai-hong, Xie Xiao-fang, and Yan Xiao-bin.

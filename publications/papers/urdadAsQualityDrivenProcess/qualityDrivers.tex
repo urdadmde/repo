@@ -1,13 +1,12 @@
 \section{Quality drivers and quality measures}
-\label{sec:qualityDrivers}
-
+\label{sec:qualityDriversAndMetrics}
 
 Quality-drivers are process activities which increase model and process qualities. The relience on quality-drivers \cite{petersen_software_1989} forms the basis for the concept of a \emph{`quality-driven'} process. In this section we look at each model and process quality requirement and discuss activities (quality drivers) which can be used
 The list of quality-drivers presented here is not intended to be exhaustive. It is purely a collection of quality-drivers which are widely known and used. In addition to identifying quality-drivers, we also note that quality metrics can be applied to the resultant model in order to assess model quality. This section discusses some commonly used quality metrics for the identified quality requirements suitable for a services-oriented approach. For a more general list of model quality metrics the reader should consult \cite{mohagheghi_existing_2009}.
 
 \subsection{Model quality drivers}
 
-\paragraph{Semantic Quality} is a measure of the accuracy and completeness of the meaning conveyed with the analysis and design model. Semantic quality-drivers include the specification of a metamodel or an ontology for the analysis and design model.  The semantic quality is determined by the semantic completeness and consistency of the metamodel or ontology\cite{buder_effects_2010}. 
+\paragraph{Semantic Model Quality} is a measure of the accuracy and completeness of the meaning conveyed with the analysis and design model. It is influenced by the quality of the modeling language. Semantic quality-drivers include the specification of a metamodel for the analysis and design model. The semantic quality is determined by the semantic completeness, consistency and complexity of the metamodel \cite{buder_effects_2010}. Semantic completeness refers to the power of the formal language to express all propositions, i.e.\ its ability to convey all meaning which needs to be conveyed. 
 
 \paragraph{Syntactic Quality} is a measure of correct language usage\cite{lange_christiaan_assessing_2007}, i.e.\ that the grammatical statements made comply to the abstract syntax as specified via the metamodel and its constraints or an ontology and its associated rules. A commonly used syntactic quality driver is the definition of concrete text and/or graphical grammars and a transformation between the concrete and abstract syntax\cite{}. Models which are defined through and verified against the concrete syntax can be shown to comply to the abstract syntax of the associated metamodel. Editors generated from the concrete syntax definition generally validate syntactic correctness\cite{}.
 which enforce the syntactic language rules 

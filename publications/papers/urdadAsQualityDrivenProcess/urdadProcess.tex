@@ -1,0 +1,36 @@
+\subsection{The URDAD process}
+\label{sec:urdadProcess}
+
+The URDAD process is a process which is repeated across levels of granularity. At each level of granularity, the central subject is a service for which the requirements analysis and subsequently the process design is done. Services are recursively assembled from lower level services with leaf services representing services which are sourced from the environment. These may include persistence services, services sourced from the execution frameworks or implementation languages, services sourced from off the external systems as well as manually executed services provided by business partners, business units.
+
+\begin{enumerate}
+ \item {\bf Requirements analysis} for level of granularity yielding service contract
+  \begin{enumerate}
+    \item Identify stakeholders for the services.
+    \item Specify services contract 
+      \begin{itemize}
+       \item For each stakeholder identify requirements including pre- and post-conditions and quality requirements.
+       \item Assess consistency of stakeholder requirements.
+       \item Fix level of granularity by consolidating lower level functional requirements into higher level ones. 
+	  \emph{\textbf{\textit{Note:}} This includes the absorption of certain functional requirements into encompassing functional requirements thereby projecting out additional levels of granularity which improves reuse and cohesion.}
+       \item Specify data structure for request and result classes.
+       \item Formalize pre and post-conditions by specifying a user test process for each. Specify for each pre-condition the exception which will be raised if the pre-condition is not met.
+     \end{itemize}
+    \item Assign service contract to appropriate responsibility domain.
+  \end{enumerate}
+
+ \item {\bf Process design} for level of granularity defining a service implementation.
+      \begin{enumerate}
+	\item Assess whether the requested service falls within scope for the context (e.g.\ system, system component, organization, business unit, \dots).
+	\item Check within the responsibility domain of the service whether realizing the services contract. If so return that service.
+        \item Identify for each functional requirement an abstract service (in the form of a service contract) to be used to address that functional requirement.
+	\item If a new service is defined, assign it to the appropriate responsibility domain, ensuring cohesion of the responsibility domain. \emph{\textbf{\textit{Note:}} Responsibility domains contain lower level responsibility domains and the service needs to be assigned to a responsibility domain at the appropriate level of granularity.}
+	\item Choreograph the process across the abstract services used to address the functional requirements with each pre-condition assessment leading potentially leading to a terminal activity of raising an exception and all other paths leading to the terminal activity of returning the result object. \emph{\textbf{\textit{Note:}} The services across levels of granularity are decoupled through services contracts.}
+      \end{enumerate}
+
+  \item Recursively repeat the process for each lower level service which is not available.
+\end{enumerate}
+
+%\missingfigure{URDAD process}
+
+The methodology does not envisage that a single requirements engineer does the requirements and process design across levels of granularity. Instead requirements engineers specializing in different responsibility domains (e.g.\ business analysts across business units of the organization) collaborate to define the complete requirements model.
