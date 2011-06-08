@@ -3,13 +3,16 @@
 \bibitem{_mda_2003}
 {MDA} guide version 1.0.1, June 2003.
 
+\bibitem{_object_2010}
+Object Management~Group ~.
+\newblock Object constraint language v2.2, February 2010.
+
 \bibitem{abrahamsson_extreme_2004}
 P.~Abrahamsson and J.~Koskela.
 \newblock Extreme programming: a survey of empirical data from a controlled
   case study.
 \newblock In {\em Empirical Software Engineering, 2004. {ISESE} '04.
-  Proceedings. 2004 International Symposium on}, page 73{\textendash}82, August
-  2004.
+  Proceedings. 2004 International Symposium on}, page 73–82, August 2004.
 
 \bibitem{berard_what_1995}
 Edward~V. Berard.
@@ -39,24 +42,29 @@ Johannes Buder.
 I.~Cardei, M.~Fonoage, and R.~Shankar.
 \newblock Model based requirements specification and validation for component
   architectures.
-\newblock In {\em Systems Conference, 2008 2nd Annual {IEEE}}, page
-  1{\textendash}8, April 2008.
+\newblock In {\em Systems Conference, 2008 2nd Annual {IEEE}}, page 1–8,
+  April 2008.
 
 \bibitem{choi_quality_2008}
 Si~Won Choi and Soo~Dong Kim.
 \newblock A quality model for evaluating reusability of services in {SOA}.
 \newblock In {\em {CECANDEEE} '08: Proceedings of the 2008 10th {IEEE}
   Conference on {E-Commerce} Technology and the Fifth {IEEE} Conference on
-  Enterprise Computing, {E-Commerce} and {E-Services}}, page
-  293{\textendash}298, Washington, {DC,} {USA}, 2008. {IEEE} Computer Society.
+  Enterprise Computing, {E-Commerce} and {E-Services}}, page 293–298,
+  Washington, {DC}, {USA}, 2008. {IEEE} Computer Society.
 
 \bibitem{feuerlicht_determinants_2007}
 George Feuerlicht and Amalka Wijayaweera.
 \newblock Determinants of service reusability.
 \newblock In {\em Proceeding of the 2007 conference on New Trends in Software
   Methodologies, Tools and Techniques: Proceedings of the sixth {SoMeT\_07}},
-  page 467{\textendash}474, Amsterdam, The Netherlands, The Netherlands, 2007.
-  {IOS} Press.
+  page 467–474, Amsterdam, The Netherlands, The Netherlands, 2007. {IOS}
+  Press.
+
+\bibitem{firesmith_quality_2005}
+Donald Firesmith.
+\newblock Quality requirements check list.
+\newblock {\em Journal of Object Technology}, 4(9):31--38, 2005.
 
 \bibitem{frankel_model_2003}
 David~S. Frankel.
@@ -64,30 +72,21 @@ David~S. Frankel.
   computing}.
 \newblock John Wiley \& Sons, New York, 2003.
 
-\bibitem{garvin_what_1984}
-David Garvin.
-\newblock What does product quality really mean?
-\newblock {\em Sloan Management Review}, 26:25{\textendash}45, 1984.
-
 \bibitem{gonzalez_unity_2009}
 Arturo Gonzalez, Sergio Espana, and Oscar Pastor.
 \newblock Unity criteria for business process modelling.
 \newblock In {\em 2009 Third International Conference on Research Challenges in
   Information Science}, pages 155--164, Fez, Morocco, April 2009.
 
-\bibitem{_object_2010}
-Object~Management Group.
-\newblock Object constraint language v2.2, February 2010.
-
 \bibitem{haines_impact_2007}
 Marc Haines.
 \newblock The impact of {Service-Oriented} application development on software
   development methodology.
 \newblock In {\em 2007 40th Annual Hawaii International Conference on System
-  Sciences {(HICSS'07)}}, pages 172b--172b, Waikoloa, {HI,} {USA}, 2007.
+  Sciences {(HICSS'07)}}, pages 172b--172b, Waikoloa, {HI}, {USA}, 2007.
 
 \bibitem{heck_experiences_2008}
-Petra Heck and P\"{a}ivi Parviainen.
+Petra Heck and Päivi Parviainen.
 \newblock Experiences on analysis of requirements quality.
 \newblock In {\em 2008 The Third International Conference on Software
   Engineering Advances}, pages 367--372, Sliema, Malta, October 2008.
@@ -96,20 +95,26 @@ Petra Heck and P\"{a}ivi Parviainen.
 Mike Hinchey, Michael Jackson, Patrick Cousot, Byron Cook, Jonathan~P. Bowen,
   and Tiziana Margaria.
 \newblock Software engineering and formal methods.
-\newblock {\em Commun. {ACM}}, 51(9):54{\textendash}59, 2008.
+\newblock {\em Commun. {ACM}}, 51(9):54–59, 2008.
+
+\bibitem{hoyle_iso_2000}
+David Hoyle.
+\newblock {\em {ISO} 9000: 2000 Quality Systems Handbook}.
+\newblock {Butterworth-Heinemann} Ltd, 4th revised edition edition, December
+  2000.
 
 \bibitem{khoshkbarforoushha_metric_2010}
 A.~Khoshkbarforoushha, P.~Jamshidi, and F.~Shams.
 \newblock A metric for composite service reusability analysis.
 \newblock In {\em Proceedings of the 2010 {ICSE} Workshop on Emerging Trends in
-  Software Metrics}, {WETSoM} '10, page 67{\textendash}74, New York, {NY,}
-  {USA}, 2010. {ACM}.
+  Software Metrics}, {WETSoM} '10, page 67–74, New York, {NY}, {USA}, 2010.
+  {ACM}.
 
 \bibitem{lange_managing_2005}
 {C.F.J.} Lange and {M.R.V.} Chaudron.
 \newblock Managing model quality in {UML-Based} software development.
 \newblock In {\em Software Technology and Engineering Practice, 2005. 13th
-  {IEEE} International Workshop on}, page 7{\textendash}16, 2005.
+  {IEEE} International Workshop on}, page 7–16, 2005.
 
 \bibitem{lange_christiaan_assessing_2007}
 Christiaan Lange.
@@ -120,8 +125,14 @@ Christiaan Lange.
 Christian F.~J Lange.
 \newblock Improving the quality of {UML} models in practice.
 \newblock In {\em Proceedings of the 28th international conference on Software
-  engineering}, {ICSE} '06, page 993{\textendash}996, New York, {NY,} {USA},
-  2006. {ACM}.
+  engineering}, {ICSE} '06, page 993–996, New York, {NY}, {USA}, 2006. {ACM}.
+
+\bibitem{lange_empirical_2004}
+Christian~{F.J.} Lange and Michel~{R.V.} Chaudron.
+\newblock An empirical assessment of completeness in {UML} design.
+\newblock In {\em Proceedings of {EASE} – International Conference on
+  Empirical Assessment in Software Engineering}, page 111–121. Institution of
+  Electrical Engineers {(IEE)} Press, 2004.
 
 \bibitem{lindland_understanding_1994}
 {O.I.} Lindland, G.~Sindre, and A.~Solvberg.
@@ -138,28 +149,28 @@ Philip Mayer, Andreas Schroeder, and Nora Koch.
 Thomas~J {McCabe}.
 \newblock A complexity measure.
 \newblock In {\em Proceedings of the 2nd international conference on Software
-  engineering}, {ICSE} '76, page 407{\textendash}, Los Alamitos, {CA,} {USA},
-  1976. {IEEE} Computer Society Press.
+  engineering}, {ICSE} '76, page 407–, Los Alamitos, {CA}, {USA}, 1976.
+  {IEEE} Computer Society Press.
 \newblock {ACM} {ID:} 807712.
 
 \bibitem{mohagheghi_evaluating_2007}
 Parastoo Mohagheghi and Jan Aagedal.
 \newblock Evaluating quality in {Model-Driven} engineering.
 \newblock In {\em {MISE} '07: Proceedings of the International Workshop on
-  Modeling in Software Engineering}, pages 6--11, Washington, {DC,} {USA},
+  Modeling in Software Engineering}, pages 6--11, Washington, {DC}, {USA},
   2007. {IEEE} Computer Society.
 
 \bibitem{mohagheghi_existing_2009}
 Parastoo Mohagheghi and Vegard Dehlen.
 \newblock Existing model metrics and relations to model quality.
 \newblock In {\em 2009 {ICSE} Workshop on Software Quality}, pages 39--45,
-  Vancouver, {BC,} Canada, 2009.
+  Vancouver, {BC}, Canada, 2009.
 
 \bibitem{moosavi_method_2009}
 S.~Moosavi, {M.A.} Seyyedi, and N.~Moghadam.
 \newblock A method for service oriented design.
 \newblock In {\em Information Technology: New Generations, 2009. {ITNG} '09.
-  Sixth International Conference on}, page 290{\textendash}295, April 2009.
+  Sixth International Conference on}, page 290–295, April 2009.
 
 \bibitem{parreiras_using_2010}
 Fernando~Silva Parreiras and Steffen Staab.
@@ -178,7 +189,7 @@ Mikhail Perepletchikov, Caspar Ryan, and Keith Frampton.
 \newblock Cohesion metrics for predicting maintainability of {Service-Oriented}
   software.
 \newblock In {\em Seventh International Conference on Quality Software {(QSIC}
-  2007)}, pages 328--335, Portland, {OR,} {USA}, 2007.
+  2007)}, pages 328--335, Portland, {OR}, {USA}, 2007.
 
 \bibitem{perepletchikov_impact_2010}
 Mikhail Perepletchikov, Caspar Ryan, and Zahir Tari.
@@ -196,7 +207,7 @@ P.~G Petersen, O.~Andersen, J.~H Heilesen, S.~Klim, and J.~Schmidt.
 \bibitem{podgorelec_estimating_2007}
 Vili Podgorelec and Marjan Hericko.
 \newblock Estimating software complexity from {UML} models.
-\newblock {\em {SIGSOFT} Softw. Eng. Notes}, 32:1{\textendash}5, March 2007.
+\newblock {\em {SIGSOFT} Softw. Eng. Notes}, 32:1–5, March 2007.
 
 \bibitem{ramesh_toward_2001}
 B.~Ramesh and M.~Jarke.
@@ -221,8 +232,7 @@ Fritz Solms.
 \newblock Technology neutral business process design using {URDAD}.
 \newblock In {\em Proceeding of the 2007 conference on New Trends in Software
   Methodologies, Tools and Techniques: Proceedings of the sixth {SoMeT\_07}},
-  page 52{\textendash}70, Amsterdam, The Netherlands, The Netherlands, 2007.
-  {IOS} Press.
+  page 52–70, Amsterdam, The Netherlands, The Netherlands, 2007. {IOS} Press.
 \newblock {ACM} {ID:} 1566976.
 
 \bibitem{solms_generating_2009}
@@ -236,6 +246,11 @@ Fritz Solms and Dawid Loubser.
 \newblock {\em Innovations in Systems and Software Engineering}, 6:155--162,
   2010.
 \newblock 10.1007/s11334-009-0113-4.
+
+\bibitem{solmsfritz_domain-specific_????}
+{Solms,Fritz}, {Edwards,Craig}, Stefan Gruner, and Alexander Paar.
+\newblock A {Domain-Specific} language for {URDAD} based requirements
+  elicitation.
 
 \bibitem{qi_yu-dong_analysis_2010}
 Qi~Yu-dong, Zhu Ai-hong, Xie Xiao-fang, and Yan Xiao-bin.

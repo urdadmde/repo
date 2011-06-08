@@ -1,14 +1,5 @@
 \section{Quality drivers embedded in URDAD}
 
-\begin{frame}{What is a quality driver?}
-  \begin{definition}
-    A {\em quality driver} is an activity in the analysis and design process which increases the value of one or more quality attributes of the model.
-  \end{definition}
-\end{frame}
-
-
-%--------------------------------------------------%
-
 
 \begin{frame}{Semantic quality drivers}
 
@@ -19,7 +10,7 @@
     \pause
     \begin{block}{Qualities of modeling language:}
       \begin{itemize}
-	\item<+-| alert@+> {\em Completeness} 
+	\item<+-| alert@+> {\em Completeness}
 	\begin{itemize}
 	  \item Formal language has power to express all statements required by URDAD.
 	    \begin{itemize}
@@ -58,8 +49,8 @@
 \begin{frame}{Syntactic quality drivers}
   Ensure statements made in model comply to syntax rules in metamodel.
   \pause
-  \begin{itemize} 
-    \item<+-| alert@+> define concrete syntax for encoding of models 
+  \begin{itemize}
+    \item<+-| alert@+> define concrete syntax for encoding of models
       \begin{itemize}
 	\item text-based or diagrammatic
       \end{itemize}
@@ -88,12 +79,12 @@ ResponsibilityDomain RequirementsEngineering
   {
     FunctionalRequirements receiving Variable specifyServiceRequest ofType SpecifyServiceRequest
     {
-      PreCondition serviceHasStakeholders requiredBy (Client) raises NoStakeholdersException 
+      PreCondition serviceHasStakeholders requiredBy (Client) raises NoStakeholdersException
        checks Constraint ServiceHasStakeholders
 	{
-            PreCondition stakeholderRequirementsConsistent requiredBy (Client Implementation Testing) 
+            PreCondition stakeholderRequirementsConsistent requiredBy (Client Implementation Testing)
 		raises InconsistentStakeholderRequirementsException checks Constraint RequirementsConsistent
-            PostCondition serviceContractSpecified requiredBy (Client Implementation Testing) 
+            PostCondition serviceContractSpecified requiredBy (Client Implementation Testing)
 		ensures Constraint ServiceContractSpecified
             PostCondition processSpecified requiredBy (Client Implementation) ensures Constraint ProcessSpecified
         }
@@ -118,7 +109,7 @@ ResponsibilityDomain RequirementsEngineering
 
 \begin{frame}{Simplicity quality driver}
   Inverse measure of complexity.
-  \begin{itemize} 
+  \begin{itemize}
     \item<+-| alert@+> Use DSL to provide compact, precise language
       \begin{itemize}
 	\item Reduces model size \& understandability.
@@ -142,7 +133,7 @@ ResponsibilityDomain RequirementsEngineering
 %---------------------------------------------------------------%
 
 \begin{frame}{Model completeness drivers}
-  \begin{itemize} 
+  \begin{itemize}
     \item<+-| alert@+> Structural completeness criteria
       \begin{itemize}
 	\item Enforced through metamodel.
@@ -200,7 +191,7 @@ ResponsibilityDomain RequirementsEngineering
 	\item Statelessness enforced by metamodel.
 	\item Each service must address complete functional requirement at some level of granularity.
       \end{itemize}
-  \end{itemize} 
+  \end{itemize}
 \end{frame}
 
 %---------------------------------------------------------------%
@@ -218,7 +209,7 @@ ResponsibilityDomain RequirementsEngineering
 	\item Requirements engineer verifies whether any services at any level of granularity can be combined into single, cohesive, higher-level service.
       \end{itemize}
     \item<+-| alert@+> Simplicity and hence its quality drivers also improve modifiability.
-  \end{itemize} 
+  \end{itemize}
 \end{frame}
 
 %---------------------------------------------------------------%
@@ -239,7 +230,7 @@ ResponsibilityDomain RequirementsEngineering
     \item<+-| alert@+> Cohesion and hence its quality drivers also improve discoverability and reusability.
       \note{Discuss example}
     \item<+-| alert@+> Linkage between service and contract it realizes aids service provider discoverability.
-  \end{itemize} 
+  \end{itemize}
 \end{frame}
 
 %---------------------------------------------------------------%
@@ -260,7 +251,7 @@ ResponsibilityDomain RequirementsEngineering
 	  \item Traceability from service to functional requirement realized.
 	  \item Traceability from functional requirement to stakeholder who requires it.
 	\end{itemize}
-    \end{itemize} 
+    \end{itemize}
   \end{block}
 \end{frame}
 
@@ -272,7 +263,7 @@ ResponsibilityDomain RequirementsEngineering
 
 \lstset{language=urdad,label=serviceTextSyntax}
 \begin{lstlisting}[numbers=left,escapechar=|]
-Service specifyServiceImpl realizes specifyService 
+Service specifyServiceImpl realizes specifyService
 	receiving Variable specifyServiceRequest ofType SpecifyServiceRequest
 {
     use identifyStakeholders toAddress ( serviceHasStakeholders )
@@ -282,22 +273,22 @@ Service specifyServiceImpl realizes specifyService
     Process doSequential
     {
 	create Variable identifyStakeholdersRequest ofType IdentifyStakeholdersRequest
-	set Query OCL:"identifyStakeHoldersRequest.serviceRequirements" 
+	set Query OCL:"identifyStakeHoldersRequest.serviceRequirements"
 		equalTo Query OCL:"specifyServiceRequest.serviceRequirements"
-	requestService identifyStakeholders with identifyStakeholdersRequest 
-		yielding Variable identifyStakeholdersResult ofType IdentifyStakeholdersResult 
+	requestService identifyStakeholders with identifyStakeholdersRequest
+		yielding Variable identifyStakeholdersResult ofType IdentifyStakeholdersResult
 		on NoStakeholdersException raiseException NoStakeholdersException
 
 	create Variable specifyServiceContractRequest ofType SpecifyServiceContractRequest
 	...
-	requestService specifyServiceContract with specifyServiceContractRequest 
-		yielding Variable specifyServiceContractResult ofType SpecifyServiceContractResult 
-		on InconsistentStakeholderRequirementsException 
+	requestService specifyServiceContract with specifyServiceContractRequest
+		yielding Variable specifyServiceContractResult ofType SpecifyServiceContractResult
+		on InconsistentStakeholderRequirementsException
 			raiseException InconsistentStakeholderRequirementsException
 	...
-	requestService designProcess with designProcessRequest 
+	requestService designProcess with designProcessRequest
 		yielding Variable designProcessResult ofType DesignProcessResult
-	
+
 	create Variable specifyServiceResult ofType SpecifyServiceResult
 	...
 	returnResult specifyServiceResult
@@ -341,14 +332,41 @@ StateConstraint ServiceContractSpecified receiving Variable serviceRequirements 
 	set Query OCL:"serviceContractAvailable" equalTo Constant "true"
 
 	create Variable provideServiceContractRequest ofType ProvideServiceContractRequest
-	set Query OCL:"provideServiceContractRequest.serviceRequirements" equalTo 
+	set Query OCL:"provideServiceContractRequest.serviceRequirements" equalTo
 		Query OCL:"serviceRequirements"
-	requestService provideServiceContract with provideServiceContractRequest 
-		yielding Variable provideServiceContractResult ofType ProvideServiceContractResult 
-		on NoServiceContractAvailableException 
+	requestService provideServiceContract with provideServiceContractRequest
+		yielding Variable provideServiceContractResult ofType ProvideServiceContractResult
+		on NoServiceContractAvailableException
 			set Query OCL:"serviceContractAvailable" equalTo Constant "false"
     }
     Constraint OCL:"serviceContractAvailable = true"
 }
 \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Summary of quality drivers in URDAD}
+
+\begin{scriptsize}
+\begin{tabular}{|l|cc|cccccccc|} \hline
+\multirow{4}{*}{\bf Quality-driver} & \multicolumn{10}{c|}{\bf Model qualities} \\ \cline{2-11}
+& & & \multicolumn{8}{c|}{Pragmatic model qualities}\\ \cline{4-11}
+    & \begin{sideways}Semantic\end{sideways} & \begin{sideways}Syntactic\end{sideways}  & \begin{sideways}Simplicity\end{sideways}
+    & \begin{sideways}Completeness\end{sideways} & \begin{sideways}Modifiability\end{sideways} & \begin{sideways}Consistency\end{sideways}
+    & \begin{sideways}Decoupling\end{sideways} & \begin{sideways}Cohesion\end{sideways} & \begin{sideways}Reusability\end{sideways}
+    & \begin{sideways}Traceability\end{sideways} \\ \hline
+%                                       Semantic     Syntax        Simplicity  Completeness   Modifiable  Consistent  Decoupled    Cohesion     Reuse        Traceable
+Define metamodel or ontology                   & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark &            &            & \checkmark \\
+Define concrete DSL grammars                   &            & \checkmark & \checkmark &            & \checkmark &            &            &            &
+& \\
+Define levels of granularity                        &            &            & \checkmark &            & \checkmark &            &            &            &
+\checkmark & \checkmark \\
+Decouple services via contracts                &            &            & \checkmark &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark \\
+Single reponsibility principle           &            &            & \checkmark &            & \checkmark &            &            & \checkmark & \checkmark & \checkmark \\
+Testable pre- \& post-conditions       &            &            &            & \checkmark & \checkmark & \checkmark &            &            &            &  \\
+Localize controll logic             &            &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark & \checkmark & \checkmark \\
+Include traceability links                     &            &            & \checkmark & \checkmark & \checkmark & \checkmark &            &            &            & \checkmark \\ \hline
+\end{tabular}
+\end{scriptsize}
+
 \end{frame}

@@ -1,6 +1,6 @@
 % 1: Regular slides
 %------------------
-\documentclass[xcolor=svgnames]{beamer}
+\documentclass[xcolor=svgnames,10pt]{beamer}
 
 % 2:  Handouts
 %------------------
@@ -14,6 +14,8 @@
 %\usepackage{beamerarticle}
 
 \input{configuration.tex}
+
+\input{pseudoCodeSpec.tex}
 
 %---------------------------------------------------%
 
@@ -36,15 +38,23 @@
 
   \maketitle
 
-  \input{abstract.tex}
-
   \input{background.tex}
 
-  \input{qualityRequirements.tex}
+  \input{abstract.tex}
+
+  \input{definitions.tex}
+
+  \input{urdad.tex}
+
+%  \input{qualityRequirements.tex}
 
   \input{qualityDrivers.tex}
 
   \input{summary.tex}
+
+
+\footbibliographystyle{plain}  %%abbrv
+\footbibliography{../../../bibliography}
 
 \end{document}
 
