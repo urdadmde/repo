@@ -12,11 +12,11 @@
       \begin{itemize}
 	\item<+-| alert@+> {\em Completeness}
 	\begin{itemize}
-	  \item Formal language has power to express all statements required by URDAD.
+	  \item Formal lang: power to express statements needed for URDAD.
 	    \begin{itemize}
 	      \item All meaning to be conveyed can be conveyed.
 	    \end{itemize}
-	  \item Verified through
+	  \item Informally verified through
 	    \begin{itemize}
 	      \item Analyze URDAD process \& models for required semantics.
 	      \item Empirically tested via example models.
@@ -25,12 +25,15 @@
 	\item<+-| alert@+> {\em Consistency}
 	  \begin{itemize}
 	    \item Metamodel/ontology is instantiable
-	    \item Verified: transform to ontology \& assessed consistency.
+	    \item Verified: transform to ontology \& assessed consistency using logical reasoner.
 	  \end{itemize}
 	\item<+-| alert@+> {\em Complexity}
 	  \begin{itemize}
 	    \item Assessed by counting classes, relationships \& constraints.
 	    \item Much lower than for UML (generic language).
+			 \begin{itemize}
+				\item UML: 16x more classes, 7x more relationships.
+			 \end{itemize}
 	  \end{itemize}
       \end{itemize}
     \end{block}
@@ -40,28 +43,37 @@
 
 \begin{frame}{Example: Language elements for contract specification}
 
-  \includegraphics[width=100mm]{process}
+  \includegraphics[width=100mm]{contract}
 
 \end{frame}
+
 
 %----------------------------------------------------------------%
 
 \begin{frame}{Syntactic quality drivers}
-  Ensure statements made in model comply to syntax rules in metamodel.
+  Ensure statements made in model comply to syntax rules of metamodel.
   \pause
   \begin{itemize}
-    \item<+-| alert@+> define concrete syntax for encoding of models
+    \item<+-| alert@+> Define concrete syntax for encoding of models.
       \begin{itemize}
-	\item text-based or diagrammatic
+		  \item Text-based or diagrammatic.
+		  \item Bi-directional mapping between syntax \& metamodel.
+		  \item Enforces URDAD semantics \& model structure.
       \end{itemize}
     \item<+-| alert@+> Generate validating editor for concrete syntax.
       \begin{itemize}
-	\item Done using MDA tool suite.
+		  \item Done using MDA tool suite.
       \end{itemize}
     \item<+-| alert@+> Use model validators
       \begin{itemize}
-	\item Compliance to metamodel structure.
-	\item Adherance to metamodel constraints.
+		  \item Compliance to metamodel structure.
+			 \begin{itemize}
+				\item Valid if constructed via concrete syntax.
+			 \end{itemize}
+		  \item Adherance to metamodel constraints.
+			 \begin{itemize}
+				\item Not all metamodel constraints enforced by concrete syntax.
+			 \end{itemize}
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -69,7 +81,7 @@
 %----------------------------------------------------------------%
 
 \begin{frame}[fragile]
-\frametitle{Example: Service contract specification}
+\frametitle{Example: Service contract specification (1/2)}
 
 \lstset{language=urdad,label=serviceTextSyntax}
 \begin{lstlisting}[numbers=left,escapechar=|]
@@ -79,28 +91,34 @@ ResponsibilityDomain RequirementsEngineering
   {
     FunctionalRequirements receiving Variable specifyServiceRequest ofType SpecifyServiceRequest
     {
-      PreCondition serviceHasStakeholders requiredBy (Client) raises NoStakeholdersException
-       checks Constraint ServiceHasStakeholders
-	{
-            PreCondition stakeholderRequirementsConsistent requiredBy (Client Implementation Testing)
-		raises InconsistentStakeholderRequirementsException checks Constraint RequirementsConsistent
-            PostCondition serviceContractSpecified requiredBy (Client Implementation Testing)
-		ensures Constraint ServiceContractSpecified
-            PostCondition processSpecified requiredBy (Client Implementation) ensures Constraint ProcessSpecified
-        }
-        QualityRequirement traceability requiredBy (ProcessDesign ProjectManagement Development)
-        Request DataStructure SpecifyServiceRequest
-        {
-            has Component serviceRequirements ofType _ServiceRequirements
-        }
-        Result DataStructure SpecifyServiceResult
-        {
-            has Component serviceContract ofType _ServiceContract
-            has Component service ofType _Service
-        }
+      PreCondition serviceHasStakeholders requiredBy (Client) raises NoStakeholdersException checks Constraint ServiceHasStakeholders
+      PreCondition stakeholderRequirementsConsistent requiredBy (Client Implementation Testing) raises InconsistentStakeholderRequirementsException checks Constraint RequirementsConsistent
+      PostCondition serviceContractSpecified requiredBy (Client Implementation Testing) ensures Constraint ServiceContractSpecified
+      PostCondition processSpecified requiredBy (Client Implementation) ensures Constraint ProcessSpecified
     }
-    Exception NoStakeholdersException {}
-    Exception InconsistentStakeholderRequirementsException {}
+    ...
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Example: Service contract specification (2/2)}
+          
+\lstset{language=urdad,label=serviceTextSyntax}
+\begin{lstlisting}[numbers=left,escapechar=|]
+    ...
+    QualityRequirement traceability requiredBy (ProcessDesign ProjectManagement Development)
+    Request DataStructure SpecifyServiceRequest
+    {
+      has Component serviceRequirements ofType _ServiceRequirements
+    }
+    Result DataStructure SpecifyServiceResult
+    {
+      has Component serviceContract ofType _ServiceContract
+      has Component service ofType _Service
+    }
+  }
+  Exception NoStakeholdersException {}
+  Exception InconsistentStakeholderRequirementsException {}
 }
 \end{lstlisting}
 \end{frame}
@@ -110,22 +128,21 @@ ResponsibilityDomain RequirementsEngineering
 \begin{frame}{Simplicity quality driver}
   Inverse measure of complexity.
   \begin{itemize}
-    \item<+-| alert@+> Use DSL to provide compact, precise language
+    \item<+-| alert@+> Use DSL to provide compact, precise language.
+		\begin{itemize}
+		  \item Reduce model size \& improves understandability.
+		\end{itemize}
+	 \item<+-| alert@+> Ensure all process activities address functional requirements.
       \begin{itemize}
-	\item Reduces model size \& understandability.
+		  \item Enforced through metamodel.
       \end{itemize}
-    \item<+-| alert@+> Ensure all process activities address functional requirements.
-      \begin{itemize}
-	\item enforced through metamodel.
-      \end{itemize}
-    \item<+-| alert@+> Enforce single responsibility principle
-      \begin{itemize}
-	\item Assignment of services to responsibility domains.
-      \end{itemize}
-    \item<+-| alert@+> No duplication of statements
-      \begin{itemize}
-	\item Only one way to specify things.
-	\item Reuse through enforced adapter layer.
+	 \item<+-| alert@+> Enforce single responsibility principle
+		  \begin{itemize}
+			 \item Assignment of services to responsibility domains.
+		  \end{itemize}
+	\item<+-| alert@+> No duplication of statements
+		\begin{itemize}
+		  \item Only one way to specify things.
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -218,18 +235,18 @@ ResponsibilityDomain RequirementsEngineering
   \begin{itemize}
    \item<+-| alert@+> All services realize services contracts
       \begin{itemize}
-	\item Modifiability through decoupling.
-	\item ``Enforced'' by process \& metamodel.
+		  \item Modifiability through decoupling.
+		  \item ``Enforced'' by process \& metamodel.
       \end{itemize}
-   \item<+-| alert@+> Optimized levels of granularity
+	 \item<+-| alert@+> Optimized levels of granularity
       \begin{itemize}
-	\item Process includes step to check whether additional levels of granularity should be defined.
-	\item Requirements engineer verifies whether any services at any level of granularity can be combined into single, cohesive, higher-level service.
+		  \item Process includes step to check whether additional levels of granularity should be defined.
+		  \item Requirements engineer verifies whether any services at any level of granularity can be combined into single, cohesive, higher-level service.
       \end{itemize}
     \item<+-| alert@+> Stateless, self-contained services.
     \item<+-| alert@+> Cohesion and hence its quality drivers also improve discoverability and reusability.
-      \note{Discuss example}
     \item<+-| alert@+> Linkage between service and contract it realizes aids service provider discoverability.
+	 \item<+-| alert@+> Enforced adapter layer.
   \end{itemize}
 \end{frame}
 
@@ -263,36 +280,28 @@ ResponsibilityDomain RequirementsEngineering
 
 \lstset{language=urdad,label=serviceTextSyntax}
 \begin{lstlisting}[numbers=left,escapechar=|]
-Service specifyServiceImpl realizes specifyService
-	receiving Variable specifyServiceRequest ofType SpecifyServiceRequest
+Service specifyServiceImpl realizes specifyService receiving Variable specifyServiceRequest ofType SpecifyServiceRequest
 {
-    use identifyStakeholders toAddress ( serviceHasStakeholders )
-    use performAnalysis toAddress (serviceContractSpecified)
-    use designProcess toAddress (processSpecified)
+  use identifyStakeholders toAddress (serviceHasStakeholders)
+  use performAnalysis toAddress (serviceContractSpecified)
+  use designProcess toAddress (processSpecified)
 
-    Process doSequential
-    {
-	create Variable identifyStakeholdersRequest ofType IdentifyStakeholdersRequest
-	set Query OCL:"identifyStakeHoldersRequest.serviceRequirements"
-		equalTo Query OCL:"specifyServiceRequest.serviceRequirements"
-	requestService identifyStakeholders with identifyStakeholdersRequest
-		yielding Variable identifyStakeholdersResult ofType IdentifyStakeholdersResult
-		on NoStakeholdersException raiseException NoStakeholdersException
+  Process doSequential
+  {
+    create Variable identifyStakeholdersRequest ofType IdentifyStakeholdersRequest
+    set Query OCL:"identifyStakeHoldersRequest.serviceRequirements" equalTo Query OCL:"specifyServiceRequest.serviceRequirements"
+    requestService identifyStakeholders with identifyStakeholdersRequest yielding Variable identifyStakeholdersResult ofType IdentifyStakeholdersResult	on NoStakeholdersException raiseException NoStakeholdersException
 
-	create Variable specifyServiceContractRequest ofType SpecifyServiceContractRequest
-	...
-	requestService specifyServiceContract with specifyServiceContractRequest
-		yielding Variable specifyServiceContractResult ofType SpecifyServiceContractResult
-		on InconsistentStakeholderRequirementsException
-			raiseException InconsistentStakeholderRequirementsException
-	...
-	requestService designProcess with designProcessRequest
-		yielding Variable designProcessResult ofType DesignProcessResult
+    create Variable specifyServiceContractRequest ofType SpecifyServiceContractRequest
+    ...
+    requestService specifyServiceContract with specifyServiceContractRequest yielding Variable specifyServiceContractResult ofType SpecifyServiceContractResult on InconsistentStakeholderRequirementsException raiseException InconsistentStakeholderRequirementsException
+    ...
+    requestService designProcess with designProcessRequest yielding Variable designProcessResult ofType DesignProcessResult
 
-	create Variable specifyServiceResult ofType SpecifyServiceResult
-	...
-	returnResult specifyServiceResult
-    }
+    create Variable specifyServiceResult ofType SpecifyServiceResult
+    ...
+    returnResult specifyServiceResult
+  }
 }
 \end{lstlisting}
 \end{frame}
