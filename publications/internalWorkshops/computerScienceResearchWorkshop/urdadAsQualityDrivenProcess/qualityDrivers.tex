@@ -3,14 +3,14 @@
 
 \begin{frame}{Semantic quality}
 
-  \alert<1>{Model quality impacted by quality of modeling language.
+  Model quality impacted by quality of modeling language.
       \begin{itemize}
 	\item Define semantics via metamodel or ontology.
-      \end{itemize}}
+      \end{itemize}
     \pause
     \begin{block}{Qualities of modeling language:}
       \begin{itemize}
-	\item<alert@+> {\em Completeness}
+	\item<+-| alert@+> {\em Completeness}
 	\begin{itemize}
 	  \item Formal lang: power to express statements needed for URDAD.
 	    \begin{itemize}
@@ -22,12 +22,12 @@
 	      \item Empirically tested via example models.
 	    \end{itemize}
 	\end{itemize}
-	\item<alert@+> {\em Consistency}
+	\item<+-| alert@+> {\em Consistency}
 	  \begin{itemize}
 	    \item Metamodel/ontology is instantiable
 	    \item Verified: transform to ontology \& assessed consistency using logical reasoner.
 	  \end{itemize}
-	\item<alert@+> {\em Complexity}
+	\item<+-| alert@+> {\em Complexity}
 	  \begin{itemize}
 	    \item Assessed by counting classes, relationships \& constraints.
 	    \item Much lower than for UML (generic language).
@@ -51,32 +51,30 @@
 %----------------------------------------------------------------%
 
 \begin{frame}{Syntactic quality}
-  \alert<1>{
    Ensure statements made in model comply to syntax rules of metamodel.
 		\begin{itemize} 
 			 \item Important for model validation, code, test \& documentation generation
-		  \end{itemize}}
+		  \end{itemize}
   \pause
-  \alert<2>{
   \begin{block}{Syntactic quality drivers}
     \begin{itemize}
-		  \item Define concrete syntax for encoding of models.
+		  \item<+-| alert@+> Define concrete syntax for encoding of models.
 			 \begin{itemize}
 				\item Text-based or diagrammatic.
 				\item Bi-directional mapping between syntax \& metamodel.
 				\item Enforces URDAD semantics \& model structure.
 			 \end{itemize}
-		  \item Generate validating editor for concrete syntax.
+		  \item<+-| alert@+> Generate validating editor for concrete syntax.
 			 \begin{itemize}
 				\item Done using MDA tool suite.
 			 \end{itemize}
-		  \item Use model validators
+		  \item<+-| alert@+> Use model validators
 			 \begin{itemize}
 				\item Compliance to metamodel structure.
 				\item Adherance to metamodel constraints.
 			 \end{itemize}
     \end{itemize}
-  \end{block}}
+  \end{block}
 
 \end{frame}
 
@@ -124,145 +122,138 @@ ServiceContract enrollForPresentation
 %---------------------------------------------------------------%
 
 \begin{frame}{Simplicity}
-  \alert<1>{
   Inverse measure of complexity.
 		\begin{itemize} 
 			 \item Important because reduces cost, risk \& improves maintainability.
-		  \end{itemize}}
+		  \end{itemize}
   \pause
-  \alert<2>{
   \begin{block}{Simplicity drivers}
 	 \begin{itemize}
-		\item Use DSL to provide compact, precise language.
+		\item<+-| alert@+> Use DSL to provide compact, precise language.
 		  \begin{itemize}
 			 \item Reduce model size \& improves understandability.
 		  \end{itemize}
-		\item Ensure all process activities address functional requirements.
+		\item<+-| alert@+> Ensure all process activities address functional requirements.
 		  \begin{itemize}
 			 \item Enforced through metamodel.
 		  \end{itemize}
-		\item Enforce single responsibility principle
+		\item<+-| alert@+> Enforce single responsibility principle
 			 \begin{itemize}
 				\item Assignment of services to responsibility domains.
 			 \end{itemize}
-	 \item No duplication of statements
+	 \item<+-| alert@+> No duplication of statements
 		  \begin{itemize}
 			 \item Only one way to specify things.
 		  \end{itemize}
 	 \end{itemize}
-  \end{block}}
+  \end{block}
 \end{frame}
 
 %---------------------------------------------------------------%
 
 \begin{frame}{Model completeness}
-  \alert<1>{
 	 The extend to which the model has all elements required for the model use cases
 		\begin{itemize} 
 			 \item e.g.\ code, test \& documentation generation.
-		  \end{itemize}}
+		  \end{itemize}
   \pause
-  \alert<2>{
   \begin{block}{Model completeness drivers}
 	 \begin{itemize}
-		\item Structural completeness criteria
+		\item<+-| alert@+> Structural completeness criteria
 		  \begin{itemize}
 			 \item Certain minimal structure enforced through metamodel.
 		  \end{itemize}
-		\item Process completeness
+		\item<+-| alert@+> Process completeness
 		  \begin{itemize}
 			 \item All functional requirements addressed.
 		    \item Enforced through metaodel constraint.
 		  \end{itemize}
-		\item No enforced completeness on levels of granularity.
+		\item<+-| alert@+> No enforced completeness on levels of granularity.
 		  \begin{itemize}
 			 \item Decoupled via services contracts.
 			 \item Service provider need not be designed - could be plugged in.
 		  \end{itemize}
-		\item Process assistance for completeness via process steps with
+		\item<+-| alert@+> Process assistance for completeness via process steps with
 		  \begin{itemize}
 			 \item defined inputs \& outputs, and
 			 \item defined process tasks.
 		  \end{itemize}
 	 \end{itemize}
-  \end{block}}
+  \end{block}
 \end{frame}
 
 %---------------------------------------------------------------%
 
 \begin{frame}{Model Consistency}
-  \alert<1>{Consistency often problematic in UML models
+  Consistency often problematic in UML models
     \begin{itemize}
      \item Different UML models structurally and even semantically very different.
      \item Consistency issues across diagrams (e.g. sequence, activity diagrams \& state charts).
-    \end{itemize}}
+    \end{itemize}
   \pause
-  \alert<2>{
   \begin{block}{Model consistency drivers}
     \begin{itemize}
-      \item Repeatable process with defined inputs, outputs \& tasks for each process step.
-      \item Enforced model structure \& semantics through metamodel.
+      \item<+-| alert@+> Repeatable process with defined inputs, outputs \& tasks for each process step.
+      \item<+-| alert@+> Enforced model structure \& semantics through metamodel.
 		  \begin{itemize}
 			\item Does not allow duplicate specifications
 		  \end{itemize}
     \end{itemize}
-  \end{block}}
+  \end{block}
 \end{frame}
 
 %---------------------------------------------------------------%
 
 \begin{frame}{Model Cohesion}
-  \alert<1>{Cohesion refers the extend to which structural realtionships map onto conceptual and functional relationships.
+  Cohesion refers the extend to which structural realtionships map onto conceptual and functional relationships.
     \begin{itemize}
      \item Important for localized maintenance, easy finding of model elements, testability reusability and understandability.
      \item High model cohesion results in code with high cohesion.
-    \end{itemize}}
+    \end{itemize}
   \pause
-  \alert<2>{
   \begin{block}{Model cohesion drivers}
 	 \begin{itemize}
-	 \item Responsibility localization
+	 \item<+-| alert@+> Responsibility localization
 		  \begin{itemize}
 			 \item Contracts contain only services from same responsibility domain.
 			 \item ``Encouraged'' by process.
 		  \end{itemize}
-	 \item Services as cohesive, self-contained units
+	 \item<+-| alert@+> Services as cohesive, self-contained units
 		  \begin{itemize}
 			 \item Statelessness enforced by metamodel.
 			 \item Each service must address complete functional requirement at some level of granularity.
 		  \end{itemize}
 	 \end{itemize}
-  \end{block}}
+  \end{block}
 \end{frame}
 
 %---------------------------------------------------------------%
 
 \begin{frame}{Traceability}
-  \alert<1>{Traceability refers to the ability to trace rationale, satisfaction, dependency and evolution.
+  Traceability refers to the ability to trace rationale, satisfaction, dependency and evolution.
     \begin{itemize}
      \item Important for estimation, design validation and maintenance.
      \item Validation for both, sufficiency and necessity.
-    \end{itemize}}
+    \end{itemize}
   \pause
-  \alert<2>{
   \begin{block}{Traceability drivers}
     \begin{itemize}
-		\item Include satisfaction, dependency and rationale links in model.
-		\item Rationale links
+		\item<+-| alert@+> Include satisfaction, dependency and rationale links in model.
+		\item<+-| alert@+> Rationale links
 		  \begin{itemize}
 		   \item  only indirectly through link of process activity to functional requirement \& functional requirement to stakeholder.
 		  \end{itemize}
-      \item Satisfaction links
+      \item<+-| alert@+> Satisfaction links
 		  \begin{itemize}
 			 \item between services and service contracts.
 		  \end{itemize}
-      \item Dependency links throughout.
+      \item<+-| alert@+> Dependency links throughout.
 		  \begin{itemize}
 			 \item e.g. dependencies between services across levels of granularity.
 		  \end{itemize}
-		\item Evolutionary links through version control.
+		\item<+-| alert@+> Evolutionary links through version control.
     \end{itemize}
-  \end{block}}
+  \end{block}
 \end{frame}
 
 %----------------------------------------------------------------%
@@ -314,69 +305,62 @@ Service enrollForPresentationImpl realizes enrollForPresentation receiving Varia
 %---------------------------------------------------------------%
 
 \begin{frame}{Model modifiability}
-  \alert<1>{Modifiability refers to the ease with which the model can be modified.
+  Modifiability refers to the ease with which the model can be modified.
     \begin{itemize}
      \item Important for maintenance in context of change requests and refactorization.
-    \end{itemize}}
+    \end{itemize}
   \pause
-  \alert<2>{
   \begin{block}{Modifiability drivers}
 	 \begin{itemize}
-	 \item Decoupling via services contracts
+	   \item<+-| alert@+> Decoupling via services contracts
 		  \begin{itemize}
 			 \item Modifiability through decoupling.
 			 \item ``Enforced'' by process \& metamodel.
 		  \end{itemize}
-	 \item Defined levels of granularity
+	   \item<+-| alert@+> Defined levels of granularity
 		  \begin{itemize}
 			 \item Process includes step to check whether additional levels of granularity should be defined.
 			 \item Requirements engineer verifies whether any services at any level of granularity can be combined into single, cohesive, higher-level service.
 		  \end{itemize}
-		\item Simplicity and hence its quality drivers also improve modifiability.
+		\item<+-| alert@+> Simplicity and hence its quality drivers also improve modifiability.
 	 \end{itemize}
-  \end{block}}
+  \end{block}
 \end{frame}
 
 %---------------------------------------------------------------%
 
 \begin{frame}{Reusability}
-  \alert<1>{Reusability refers to the ease with which model elements can be reused.
+  Reusability refers to the ease with which model elements can be reused.
     \begin{itemize}
      \item Important for reducing development \& maintenance cost \& risk, as well as consistency.
-    \end{itemize}}
+    \end{itemize}
   \pause
-  \alert<2>{
   \begin{block}{Reusability drivers}
 	 \begin{itemize}
-	 \item All services realize services contracts
+	 \item<+-| alert@+> All services realize services contracts
 		  \begin{itemize}
 			 \item Modifiability through decoupling.
 			 \item ``Enforced'' by process \& metamodel.
 		  \end{itemize}
-		\item Optimized levels of granularity
-		  \begin{itemize}
-			 \item Process includes step to check whether additional levels of granularity should be defined.
-			 \item Requirements engineer verifies whether any services at any level of granularity can be combined into single, cohesive, higher-level service.
-		  \end{itemize}
-		\item Stateless, self-contained services.
-		\item Cohesion and hence its quality drivers also improve discoverability and reusability.
-		\item Linkage between service and contract it realizes aids service provider discoverability.
-		\item Enforced adapter layer.
+		\item<+-| alert@+> Optimize levels of granularity
+		\item<+-| alert@+> Stateless, self-contained services.
+		\item<+-| alert@+> Cohesion and hence its quality drivers.
+		\item<+-| alert@+> Linkage btw service \$ contract aids service provider discoverability.
+		\item<+-| alert@+> Enforced adapter layer.
 	 \end{itemize}
-  \end{block}}
+  \end{block}
 \end{frame}
 %---------------------------------------------------------------%
 
 \begin{frame}{Testability}
-  \alert<1>{Testability refers to the ease with which the model or its implementation mapping can be tested.
+  Testability refers to the ease with which the model or its implementation mapping can be tested.
     \begin{itemize}
      \item Important for model \& code validation.
-    \end{itemize}}
+    \end{itemize}
   \pause
-  \alert<2>{
   \begin{block}{Teatability drivers}
 	 \begin{itemize}
-		\item<alert@+> Fully specified services contracts
+		\item<+-| alert@+> Fully specified services contracts
 		  \begin{itemize}
 			 \item In service-oriented paradigm, services can only be tested by
 				\begin{itemize}
@@ -384,13 +368,13 @@ Service enrollForPresentationImpl realizes enrollForPresentation receiving Varia
 				  \item Assessing constraints on obtained information.
 				\end{itemize}
 		  \end{itemize}
-		\item<alert@+> Metamodel
+		\item<+-| alert@+> Metamodel
 		  \begin{itemize}
 			 \item Contract has constraint as either pre- or post-condition.
 			 \item Same state constraint can be pre- and post- condition for different services.
 		  \end{itemize}
 	 \end{itemize}
-  \end{block}}
+  \end{block}
 \end{frame}
 
 %----------------------------------------------------------------%
