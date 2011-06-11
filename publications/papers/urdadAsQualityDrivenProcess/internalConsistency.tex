@@ -1,7 +1,14 @@
 \section{Internal consistency of the URDAD methodology}
 \label{sec:urdadConsistency}
 
-In oder to validate the internal consistency of the URDAD methodology, we used URDAD to design the service of performing a services-oriented analysis and design. If the methodology is consistent it needs to either regenerate itself or at least something which is largely equivalent to itself. 
+URDAD is an analysis and design methodology used to design services. If one uses the methodology to design a service for analyzing the services contract and designing a technology neutral process for a service, the constructed model should be a model for URDAD, containing the URDAD process as the service process and the URDAD metamodel for the domain concepts. If this is not the case then URDAD would be inconsistent because it would state ``use this methodology to design services, but use something else/better to design the service for designing a service''.
+      \begin{itemize}
+		  \item Apply process to design service of performing analysis \& design for service.
+			 \begin{itemize}
+				\item Should result in service with process, semantics \& model structure which represents URDAD itself.
+				\item If it doesn't, then not internally consistent.
+            \item If it does, it does not show that URDAD is a good methodology, but only that it is consistent.
+In order to validate the internal consistency of the URDAD methodology, we used URDAD to design the service of performing a services-oriented analysis and design. If the methodology is consistent it needs to either regenerate itself or at least something which is largely equivalent to itself. It would, of course, not follow that URDAD is a ``good'' methodology, only that it is a consistent methodology.
 
 Due to space constraints we cannot go through the full process across levels of granularity. Instead we demonstrate the consistency by looking at a particular level of granularity and point out how URDAD starts regenerating itself as process and how its own metamodel is regenerated. We also use this opportunity to show aspects of the URDAD metamodel and the text grammar of the URDAD-DSL\footnote{A separate paper discussing the URDAD metamodel and domain specific language for URDAD is currently being reviewed.}. To make this more interesting we omit the first level of granularity which is a process which contains the analysis and process design steps for a particular level of granularity. We zoom directly into the \emph{performAnalysis} service which has more interesting pre- and post-conditions and consequently a more interesting process specification.
 
@@ -16,29 +23,32 @@ We start by eliciting the stakeholders (yielding the stakeholders identified in 
 
 \lstset{language=urdad,caption=Specifying a state constraint in the URDAD text grammar.,label=contractTextSyntax}
 \begin{lstlisting}[numbers=left,escapechar=|]
-ResponsibilityDomain Analysis
+
+ResponsibilityDomain RequirementsEngineering
 {
-  ...
-  ServiceContract performAnalysis 
+  ServiceContract provideService
   {
-    FunctionalRequirements receiving Variable performAnalysisRequest ofType PerformAnalysisRequest yielding Variable performAnalsysiResult ofType PerformAnalysisResult
+    FunctionalRequirements receiving Variable provideServiceRequest ofType ProvideServiceRequest yielding Variable provideServiceResult ofType ProvideServiceResult
     {
-      PreCondition serviceHasStakeholders requiredBy (Client) raises NoStakeholdersException checks Constraint ServiceHasStakeholders with Query OCL:"performAnalaysisRequest.serviceRequirements"
-      PreCondition stakeholderRequirementsConsistent requiredBy (Client Development Architecture Testing) raises InconsistentStakeholderRequirementsException checks Constraint StakeholderRequirementsConsistent with Query OCL:"performAnalysisResult.serviceContract"
-      PostCondition serviceContractSpecified requiredBy (Client Development Architecture Testing) ensures Constraint ServiceContractSpecified with Query OCL:"performAnalysisResult"
-      PostCondition serviceContractAssignedToResponsibilityDomain requiredBy (Client) ensures Constraint ServiceContractAssignedToResponsibilityDomain with Query OCL:"performAnalysisResult.serviceContract"
+      PreCondition serviceHasStakeholders requiredBy (Client) raises NoStakeholdersException checks Constraint ServiceHasStakeholders
+      PreCondition stakeholderRequirementsConsistent requiredBy (Client Implementation Testing) raises InconsistentStakeholderRequirementsException checks Constraint RequirementsConsistent
+      PostCondition serviceContractSpecified requiredBy (Implementation Testing) ensures Constraint ServiceContractSpecified
+      PostCondition serviceSourcedFromEnvironment if Constraint ServiceAvailable requiredBy (Client) ensures Constraint ServiceSourced with Query OCL:"serviceContract"
+      PostCondition serviceSpecified if Constraint Not ServiceAvailable requiredBy(Client Implementation) ensures ServiceSpecified
+      QualityRequirement traceability requiredBy (ProcessDesign ProjectManagement Development)  
     }
-    Request DataStructure PerformAnalysisRequest
+    Request DataStructure ProvideServiceRequest
     {
-      has Component serviceRequirements ofType _ServiceRequirements
-      has many Identification stakeholders identifying _Stakeholder
+       has Component serviceRequirements ofType _ServiceRequirements
     }
-    Result DataStructure PerformAnalysisResult
+    Result DataStructure ProvideServiceResult
     {
       has Component serviceContract ofType _ServiceContract
-    }
+      has Component service ofType _Service
+    }        
   }
-}
+  ...
+} 
 \end{lstlisting}
 
 Note how we are already regenerating the URDAD metamodel in that the \verb+ServiceContract+ for perform analysis generates a domain which includes the concept of a \verb+_ServiceContract+. As we follow the URDAD methodology to design itself, we traverse levels of granularity, incrementally generating lower level aspects of the URDAD process and the URDAD metamodel, populating the finer details in the metamodel classes and the lower level process elements of the URDAD process. Throughout the classes without underscore prefix are the metamodel classes whilst the classes with underscore prefix are the classes generated by the methodology itself. 
@@ -89,27 +99,34 @@ Finally we use URDAD to design its analysis process. For this we use the URDAD m
 The following listing is an excerpt of the URDAD analysis process generated by applying URDAD to design the \verb+performAnalysis+ service:
 \lstset{language=urdad,caption=Specifying the performAnalysis service in the textual URDAD DSL syntax.,label=serviceTextSyntax}
 \begin{lstlisting}[numbers=left,escapechar=|]
-Service performAnalysisImpl realizes performAnalysis receiving Variable performAnalysisRequest ofType PerformAnalysisRequest 
+Service provideServiceImpl realizes provideService receiving Variable provideServiceRequest ofType ProvideServiceRequest
 {
-  use identifyStakeholders toAddress (serviceHasStakeholders) 
-  use specifyServiceContract toAddress (stakeholderRequirementsConsistent serviceContractSpecified)
-  use assignServiceContractToResponsibilityDomain toAddress (serviceContractAssignedToResponsibilityDomain)
- 
+  use provideServicesContract toAddress ( serviceContractSpecified serviceHasStakeHolders stakeholderRequirementsConsistent)
+  use sourceService toAddress (serviceSourcedFromEnvironment)
+  use designService toAddress (serviceSpecified)
+        
   Process doSequential
   {
-    create Variable identifyStakeholdersRequest ofType IdentifyStakeholdersRequest
-    set Query OCL:"identifyStakeholdersRequest.serviceRequirements" equalTo Query OCL:"performAnalysisRequest.serviceRequirements"
-    
-    requestService identifyStakeholders with identifyStakeholdersRequest yielding Variable identifyStakeholdersResult ofType IdentifyStakeholdersResult on NoStakeholdersException raiseException NoStakeholdersException
+    create Variable provideServiceContractRequest ofType ProvideServiceContractRequest
+    set Query OCL:"provideServiceContractRequest.serviceRequirements" equalTo Query OCL:"provideServiceRequest.serviceRequirements"
+    requestService provideServiceContract with provideServiceContractRequest yielding Variable provideServiceContractResult ofType ProvideServiceContractResult raises (NoStakeholdersException InconsistentRequirementsException) 
 
-    ...
-    requestService specifyServiceContract ...
-    ...
-    requestService assignServiceContractToResponsibilityDomain ...
-    ...
-    create Variable performAnalysisResult ofType PerformAnalysisResult
-    set Query OCL:"performAnalysisResult.serviceContract" equalTo Query OCL:"specifyServiceContractResult.serviceContract"  
-  }                              
+    create Variable sourceServiceRequest ofType SourceServiceRequest
+    set Query OCL:"sourceServiceRequest.serviceContract" equalTo Query OCL:"provideServiceContractResult.serviceContract"
+    requestService sourceService with sourceServiceRequest yielding Variable sourceServiceResult ofType SourceServiceResult on NoRealizingServiceException
+    doSequential
+    {
+      create Variable designServiceRequest ofType DesignServiceRequest
+      set Query OCL:"designServiceRequest.serviceContract" equalTo Query OCL:"provideServiceContractResult.serviceContract"                
+      requestService designService with designServiceRequest yielding Variable designServiceResult ofType DesignServiceResult
+      forAll requiredService in Query OCL:"designServiceResult.service.requiredServices."
+      {
+        create Variable provideLowerLevelServiceRequest ofType ProvideServiceRequest
+        add Query OCL:"requiredService" to Query OCL:"provideLowerLevelServiceRequest.serviceRequirements"
+        requestService provideService with provideLowerLevelServiceRequest yielding variable provideLowerLevelServiceResult ofType ProvideServiceResult 
+      } 
+    } 
+  }             
 }
 \end{lstlisting}
 

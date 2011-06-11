@@ -9,15 +9,15 @@ The high-level URDAD process is illustrated through the following pseudo-code li
 
 \lstset{language=pseudoCode,caption=The high-level algorithm of the URDAD process.,label=urdadHighLevel}
 \begin{lstlisting}[numbers=left,escapechar=|]
-class Urdad
+class RequirementsEngineering
 {
   provideService(serviceRequirement):Service
   {
-    serviceContract = analysis.negotiateContract(serviceRequirement)
+    serviceContract = analysis.negotiateContractWithStakeholders(serviceRequirement)
  
-    try
+    try   // source service from environment
     {
-      return serviceRegistry.getService(serviceContract)
+      return serviceRegistry.sourceService(serviceContract)
     }
     catch (noRealizingServiceException)
     {
@@ -25,6 +25,7 @@ class Urdad
 
       for (lowerLevelServiceRequirement : service.requiredServices)
         provideService(lowerLevelServiceRequirement)
+		// recursion terminates when lower level service available from environment
     }
   }
 }
@@ -43,23 +44,24 @@ class Analysis
       functionalRequirements = sourceFunctionalRequirements(stakeholder, serviceRequirement)
       qualityRequirements = sourceFunctionalRequirements(stakeholder, serviceRequirement)
     }
-    negotiateConsistentRequirements()
+    negotiateConsistentRequirements(functionalRequirements,qualityRequirements)
     groupFunctionalRequirements(functionalRequirements)
     for (functionalRequirement:functionalRequirements)
       factoreOutCondition(functionalRequirement)
         // includes test & associated exception
     specifyDatastructuresForRequestAndResultClasses(functionalRequirements)
     serviceContract = assembleServiceContract(serviceRequirement.serviceName, serviceRequirement.responsibilityDomain, functionalRequirements, qualityRequirements, requestClass, resultClass);
+	 asseignResponsibilityDomain(serviceContract)
     return serviceContract
   }
 }
 \end{lstlisting}
 
-The process of negotiating a service contract requires first the identification of the stakeholders who have an interest in and hence potentially requirements for the service. For each stakeholder the functional and non-functional (quality) requirements are sourced. These may potentially be conflicting and analysis needs to negotiate a consistent set of requirements with the stakeholders. Functional requirements which can be grouped into a single, higher-level functional requirement with a single responsibility are merged. This step fixes the level of granularity and results in simplification and improved reuse opportunities for services across levels of granularity. The conditions for the pre- and post-conditions are factored out into reusable condition. The same condition might be a pre-condition for certain services as well as a post-condition for other services. For example the condition that a person is registered might be a pre-condition for a range of services and a post-condition for the registration service. Finally the request and result data structures are specified and a service contract is assembled from the analysis artifacts and returned.
+The process of negotiating a service contract requires first the identification of the stakeholders who have an interest in and hence potentially requirements for the service. For each stakeholder the functional and non-functional (quality) requirements are sourced. Functional requirements are specified as either pre- or post-conditions. For a pre-condition one specifies the exception which is to be raised when the pre-condition does not hold. The requirements received from different stakeholders may potentially be conflicting. Analysis needs to negotiate a consistent set of requirements with the stakeholders. Functional requirements which can be grouped into a single, higher-level functional requirement with a single responsibility are merged. This step fixes the level of granularity and results in simplification and improved reuse opportunities for services across levels of granularity. The conditions for the pre- and post-conditions are factored out into reusable condition. The same condition might be a pre-condition for certain services as well as a post-condition for other services. For example the condition that a person is registered might be a pre-condition for a range of services and a post-condition for the registration service. Finally the request and result data structures are specified and a service contract is assembled from the analysis artifacts and returned.
 
-\lstset{language=pseudoCode,caption=The analysis phase of the URDAD process.,label=urdadDesign}
+\lstset{language=pseudoCode,caption=The design phase of the URDAD process.,label=urdadDesign}
 \begin{lstlisting}[numbers=left,escapechar=|]
-class Design
+class ServiceDesign
 {
   public designService(serviceContract):Service
   {
@@ -67,22 +69,21 @@ class Design
 	 {
 		try
 		{
-		  seviceRequirement = selectAbstractService(functionalRequirement)
+		  requiredServices.add(provideServiceRequirement(functionalRequirement))
 		}
 		catch (NoAbstractServiceAvailableException)
 		{
-		  serviceRequirement = introduceAbstractService()
-		  assignServiceContractToResponsibilityDomain()
+		  requiredServices.add(defineServiceRequirement(functionalRequirement))
 		}
-		determineServiceDependencies();
-		defineFunction()
 	 }
+  	 Process process = designServiceProcess(serviceContract, requiredServices)
+    return constructService(serviceContract, requiredServices, process)
   }
 }
 \end{lstlisting}
 
-
+During the technology neutral service design phase, one identifies or introduces service requirements for the functional requirements and assembles a process realizing the service contract from lower level services. There are further levels of granularity like that of designing a process for which each path either leads to raising an exception (if and only if the associated precondition does not hold) or to an activity of returning the result. 
  
 The methodology does not envisage that a single requirements engineer does the requirements and function design across levels of granularity. Instead requirements engineers specializing in different responsibility domains (e.g.\ business analysts across business units of the organization) collaborate to define the complete requirements model.
 
-URDAD includes the specification of a domain specific language, the URDAD-DSL \cite{solmsfritz_domain-specific_????} which defines the semantics and structure for an URDAD model in the form of a metamodel and provides a concrete text syntax used to construct an URDAD model.
+URDAD includes the specification of a domain specific language, the URDAD-DSL \cite{solms_domain-specific_????} which defines the semantics and structure for an URDAD model in the form of a metamodel and provides a concrete text syntax used to construct an URDAD model.

@@ -2,7 +2,7 @@
 
 The model and process quality drivers discussed in \ref{sec:qualityDrivers} are built into the URDAD process. Table \ref{tab:qualityDrivers} lists the model quality drivers used within URDAD and the model qualities they are meant to support.
 
-\begin{table}[h]
+\begin{table}[ht]
  \caption{URDAD model quality drivers related to model qualities.}
  \label{tab:qualityDrivers}
 \begin{tabular}{|l|cc|cccccccc|} \hline
@@ -26,7 +26,7 @@ Include traceability links                     &            &            & \chec
 \end{tabular}
 \end{table}
 
-The \emph{semantic quality} has been improved through analyzing the URDAD process and models for the set of statements required by the URDAD methodology. The URDAD metamodel has also been empirically tested by encoding example models. The consistency of the URDAD metamodel has been checked by transforming the metamodel to an ontology using the \emph{TwoUse} \cite{parreiras_using_2010} Eclipse plugin and analysing the ontology with respect to consistency using a description logic reasoner\cite{solmsfritz_domain-specific_????}. The complexity of the modeling language was constrained by including only concepts needed by the URDAD methodology. The URDAD metamodel has about an order of magnitude less classes and relationships than the UML.
+The \emph{semantic quality} has been improved through analyzing the URDAD process and models for the set of statements required by the URDAD methodology. The URDAD metamodel has also been empirically tested by encoding example models. The consistency of the URDAD metamodel has been checked by transforming the metamodel to an ontology using the \emph{TwoUse} \cite{parreiras_using_2010} Eclipse plugin and analysing the ontology with respect to consistency using a description logic reasoner\cite{solms_domain-specific_????}. The complexity of the modeling language was constrained by including only concepts needed by the URDAD methodology. The URDAD metamodel has about an order of magnitude less classes and relationships than the UML.
 
 \emph{Syntactic quality} is improved by having a concrete text syntax specified for the URDAD DSL. A concrete diagrammatic syntax is currently being developed. We have also generated a syntax-validating compiler for the concrete text syntax which enforces adherence of the model specification to the URDAD DSL text grammar. In addition we use validators to assess adherence to the URDAD metamodel structure and compliance with the URDAD metamodel constraints.
 
@@ -46,7 +46,7 @@ Structural model \emph{completeness} is improved through the metamodel enforcing
 
 The process quality drivers employed by URDAD are shown in table \ref{tab:processQualityDrivers}
 
-\begin{table}[h]
+\begin{table}[ht]
 \caption{URDAD model quality drivers related to model qualities.}
 \label{tab:processQualityDrivers}
 \begin{tabular}{|l|ccccccc|} \hline
@@ -63,3 +63,11 @@ Recursive process  &            & \checkmark &            & \checkmark &        
 \end{tabular}
 \end{table}
 
+%----------------------------------
+
+\subsection{Internal consistency}
+\label{sec:urdadConsistency}
+
+URDAD is an analysis and design methodology used to design services. If one uses the methodology to design a service for analyzing the services contract and designing a technology neutral process for a service, the constructed model should be a model for URDAD, containing the URDAD process as the service process and the URDAD metamodel for the domain concepts. If this is not the case then URDAD would be inconsistent because it would state ``use this methodology to design services, but use something else/better to design the service for designing a service''. 
+
+The internal consistency of the methodology has been tested by using it to perform the analysis and design of a service for the analysis and design process itself. Following the URDAD methodology, one is able to construct a model containing the URDAD metamodel and a service whose process corresponds to the URDAD process.
