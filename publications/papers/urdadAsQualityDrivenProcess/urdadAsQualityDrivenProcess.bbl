@@ -3,6 +3,10 @@
 \bibitem{_mda_2003}
 {MDA} guide version 1.0.1, June 2003.
 
+\bibitem{_object_2010}
+Object Management~Group ~.
+\newblock Object constraint language v2.2, February 2010.
+
 \bibitem{abrahamsson_extreme_2004}
 P.~Abrahamsson and J.~Koskela.
 \newblock Extreme programming: a survey of empirical data from a controlled
@@ -235,7 +239,7 @@ Fritz Solms.
 Fritz Solms, Craig Edwards, Stefan Gruner, and Alexander Paar.
 \newblock A {Domain-Specific} language for {URDAD} based requirements
   elicitation.
-\newblock{\em under review}
+\newblock{\em under review}.
 
 \bibitem{solms_generating_2009}
 Fritz Solms and Dawid Loubser.
