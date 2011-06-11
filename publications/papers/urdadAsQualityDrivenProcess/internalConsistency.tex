@@ -1,14 +1,11 @@
 \section{Internal consistency of the URDAD methodology}
 \label{sec:urdadConsistency}
 
-URDAD is an analysis and design methodology used to design services. If one uses the methodology to design a service for analyzing the services contract and designing a technology neutral process for a service, the constructed model should be a model for URDAD, containing the URDAD process as the service process and the URDAD metamodel for the domain concepts. If this is not the case then URDAD would be inconsistent because it would state ``use this methodology to design services, but use something else/better to design the service for designing a service''.
-      \begin{itemize}
-		  \item Apply process to design service of performing analysis \& design for service.
-			 \begin{itemize}
-				\item Should result in service with process, semantics \& model structure which represents URDAD itself.
-				\item If it doesn't, then not internally consistent.
-            \item If it does, it does not show that URDAD is a good methodology, but only that it is consistent.
-In order to validate the internal consistency of the URDAD methodology, we used URDAD to design the service of performing a services-oriented analysis and design. If the methodology is consistent it needs to either regenerate itself or at least something which is largely equivalent to itself. It would, of course, not follow that URDAD is a ``good'' methodology, only that it is a consistent methodology.
+URDAD is an analysis and design methodology used to design services. If one uses the methodology to design a service for analyzing the services contract and designing a technology neutral process for a service, the constructed model should be a model for URDAD, containing the URDAD process as the service process and the URDAD metamodel for the domain concepts. If this is not the case then URDAD would be inconsistent because it would state ``use this methodology to design services, but use something else/better to design the service for designing a service''. 
+
+The internal consistency of the methodology has been tested by using it to perform the analysis and design of a service for the analysis and design process itself.
+
+ Following the URDAD methodology, one is able to construct a model containing the URDAD metamodel and a service whose process corresponds to the URDAD process.
 
 Due to space constraints we cannot go through the full process across levels of granularity. Instead we demonstrate the consistency by looking at a particular level of granularity and point out how URDAD starts regenerating itself as process and how its own metamodel is regenerated. We also use this opportunity to show aspects of the URDAD metamodel and the text grammar of the URDAD-DSL\footnote{A separate paper discussing the URDAD metamodel and domain specific language for URDAD is currently being reviewed.}. To make this more interesting we omit the first level of granularity which is a process which contains the analysis and process design steps for a particular level of granularity. We zoom directly into the \emph{performAnalysis} service which has more interesting pre- and post-conditions and consequently a more interesting process specification.
 
