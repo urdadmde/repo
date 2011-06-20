@@ -3,64 +3,10 @@
 
 \usepackage{graphicx}
 \usepackage{epsfig}
-\usepackage{listings}
-\usepackage{color}
 
-\lstdefinelanguage{urdad}
-{
-keywords=
-  {Model,ResponsibilityDomain,Query,Constraint,QualityConstraint,FunctionalRequirements,receiving,yielding,
-  StateConstraint,stateAssessmentProcess,InverseConstraint,inverseOf,AndConstraint,AND,OrConstraint,OR,
-  XorConstraint,XOR,from,to,many,BasicDataType,DataStructure,is,abstract,has,Variable,ofType,Constant,
-  ValueOf,Exception,attribute,identification,identifying,association,linking,aggregate,component,
-  QualityRequirement,requiredBy,constraint,with,constructedUsing,ResultConstraint,PreCondition,
-  raises,checks,PostCondition,ensures,use,toAddress,if,ServiceContract,undoneUsing,Request,Result,
-  Service,realizes,doSequential,choice,else,doConcurrent,blocking,Concurrency,wait,until,create,set,
-  equalTo,add,remove,requestService,on,raiseException,returnResult,while,do,forAll,Note},%
-sensitive=true,%
-alsoletter={\$},%
-comment=[l]{\#},%
-string=[b]",%
-string=[b]'%
-}
+\input{urdadDslSpec.tex}
 
-%\definecolor{OliveGreen}{cmyk}{0.64,0,0.95,0.40}
-%\definecolor{CadetBlue}{cmyk}{0.62,0.57,0.23,0}
-\definecolor{lightgray}{gray}{0.9}
-\lstset{
-language=urdad,  
-basicstyle=\ttfamily\tiny,
-keywordstyle=\itshape\color{blue},
-%keywordstyle=\color{blue},        % Keywords font ('*' = uppercase)
-commentstyle=\color{gray},           
-numbers=left,                           % Line nums position
-numberstyle=\tiny,                      % Line-numbers fonts
-stepnumber=1,                           % Step between two line-numbers
-numbersep=5pt,                          % How far are line-numbers from code
-backgroundcolor=\color{lightgray}, % Choose background color
-frame=none,                             % A frame around the code
-tabsize=2,                              % Default tab size
-captionpos=b,                           % Caption-position = bottom
-breaklines=true,                        % Automatic line breaking?
-breakatwhitespace=false,                % Automatic breaks only at whitespace?
-showspaces=false,                       % Dont make spaces visible
-showtabs=false,                         % Dont make tabls visible
-columns=flexible,                       % Column format
-%morekeywords={__global__, __device__},  % CUDA specific keywords
-}
-
-%\usepackage{a4wide} %Smaller margins = more text per page.
-%TODO commands by Henrik Skov Midtiby 
-%\newcommand{\todo}[1]{\marginpar{#1}}
-\newcommand{\todo}[1]{
-    \addcontentsline{tdo}{todo}{\protect{#1}}
-    \marginpar{#1}
-}
-
-% Additionally a command to generate the list of todos.
-\makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
-\newcommand\l@todo[2]
-  {\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
+\input{../../utils/toDoNotes.tex}
 
 \begin{document}
 
@@ -75,39 +21,14 @@ columns=flexible,                       % Column format
 %\title{A Domain-Specific Language for URDAD Based Requirements Elicitation}
 %\titlerunning{DSL for URDAD}  % abbreviated title (for running head)
 
-\numberofauthors{5} 
+\numberofauthors{1} 
 \author{
-\alignauthor Fritz Solms\\       
+\alignauthor Fritz Solms, Craig Edwards, Alexander Paar, Stefan Gruner\\
 			 \affaddr{Department of Computer Science}\\
        \affaddr{University of Pretoria}\\
        \affaddr{South Africa}\\
        \email{fritz@solms.co.za}
-\alignauthor Craig Edwards\\
-       \affaddr{Department of Computer Science}\\
-       \affaddr{University of Pretoria}\\
-       \affaddr{South Africa}\\
-       \email{}
-\alignauthor Stefan Gruner\\
-       \affaddr{Department of Computer Science}\\
-       \affaddr{University of Pretoria}\\
-       \affaddr{South Africa}\\
-       \email{}
-\and 
-\alignauthor Alexander Paar\\
-      \affaddr{Department of Computer Science}\\
-      \affaddr{University of Pretoria}\\
-      \affaddr{South Africa}\\
-      \email{}
-\alignauthor Dawid Loubser\\
-       \affaddr{Solms Training and Consulting CC}\\
-       \affaddr{Johannesburg, 2109}\\
-       \affaddr{South Africa}\\
-       \email{}
 }
-
-%\author{F. Solms\inst{1}, C. Edwards\inst{1}, S. Gruner\inst{1}, A. Paar\inst{1}, 
-%        D. Loubser\inst{2}}\institute{Dept. of Comp. Sc., Univ. of Pretoria, South Africa,
-%\email{fritz@solms.co.za} \and Solms Training and Consulting CC, 2109 Johannesburg, South Africa}
 
 \maketitle
 
@@ -130,7 +51,7 @@ columns=flexible,                       % Column format
 
 \input{conclusionsAndOutlook.tex}
 
-\input{acknowledgments.tex}
+\input{acknowledgements.tex}
 
 \bibliographystyle{abbrv}
 \bibliography{../../bibliography}

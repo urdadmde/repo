@@ -1,0 +1,65 @@
+\section{Discussion of quality drivers used by URDAD}
+
+The model and process quality drivers discussed in \ref{sec:qualityDrivers} are built into the URDAD process. Table \ref{tab:qualityDrivers} lists the model quality drivers used within URDAD and the model qualities they are meant to support.
+
+\begin{table}[ht]
+ \caption{URDAD model quality drivers related to model qualities.}
+ \label{tab:qualityDrivers}
+\begin{tabular}{|l|cc|cccccccc|} \hline
+\multirow{4}{*}{\bf Quality-driver} & \multicolumn{10}{c|}{\bf Model qualities} \\ \cline{2-11}
+& & & \multicolumn{8}{c|}{Pragmatic model qualities}\\ \cline{4-11}
+    & \begin{sideways}Semantic\end{sideways} & \begin{sideways}Syntactic\end{sideways}  & \begin{sideways}Simplicity\end{sideways}
+    & \begin{sideways}Completeness\end{sideways} & \begin{sideways}Modifiability\end{sideways} & \begin{sideways}Consistency\end{sideways}
+    & \begin{sideways}Decoupling\end{sideways} & \begin{sideways}Cohesion\end{sideways} & \begin{sideways}Reusability\end{sideways}
+    & \begin{sideways}Traceability\end{sideways} \\ \hline
+%                                       Semantic     Syntax        Simplicity  Completeness   Modifiable  Consistent  Decoupled    Cohesion     Reuse        Traceable
+Define metamodel or ontology                   & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark &            &            & \checkmark \\
+Define concrete DSL grammars                   &            & \checkmark & \checkmark &            & \checkmark &            &            &            &            
+& \\
+Define levels of granularity                   &            &            & \checkmark &            & \checkmark &            &            &            &
+\checkmark & \checkmark \\ 
+Decouple services via contracts                &            &            & \checkmark &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark \\ 
+Apply single reponsibility principle           &            &            & \checkmark &            & \checkmark &            &            & \checkmark & \checkmark & \checkmark \\ 
+Specify testable pre- \& post-conditions       &            &            &            & \checkmark & \checkmark & \checkmark &            &            &            &  \\ 
+Localize controll logic of function within controller             &            &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark & \checkmark & \checkmark \\ 
+Include traceability links                     &            &            & \checkmark & \checkmark & \checkmark & \checkmark &            &            &            & \checkmark \\ \hline 
+\end{tabular}
+\end{table}
+
+The \emph{semantic quality} has been improved through analyzing the URDAD process and models for the set of statements required by the URDAD methodology. The URDAD metamodel has also been empirically tested by encoding example models. The consistency of the URDAD metamodel has been checked by transforming the metamodel to an ontology using the \emph{TwoUse} \cite{parreiras_using_2010} Eclipse plugin and analysing the ontology with respect to consistency using a description logic reasoner\cite{solms_domain-specific_????}. The complexity of the modeling language was constrained by including only concepts needed by the URDAD methodology. The URDAD metamodel has about an order of magnitude less classes and relationships than the UML.
+
+\emph{Syntactic quality} is improved by having a concrete text syntax specified for the URDAD DSL. A concrete diagrammatic syntax is currently being developed. We have also generated a syntax-validating compiler for the concrete text syntax which enforces adherence of the model specification to the URDAD DSL text grammar. In addition we use validators to assess adherence to the URDAD metamodel structure and compliance with the URDAD metamodel constraints.
+
+\emph{Reusability Drivers} used within URDAD include the requirement that all services must fulfill a service contract and hence be pluggable. Furthermore, the process includes a step checking whether any of the required services can be combined into a single, cohesive, higher level service, resulting in improved reusability across levels of granularity. Cohesion and hence its quality drivers also improve discoverability and reusability. The model contains the linkage between services and contracts they fulfill. This linkage aids service provider discoverability. The URDAD process is a technology neutral process assembling functions from services specified through service contracts. During the implementation mapping phase an adapter layer is inserted which adapts concrete service providers to the service contract further improving reuse.
+
+The quality drivers used for \emph{simplicity} include the specification of  the URDAD DSL which provides a compact, precise language for URDAD which reduces model size and improves model understandability when compared to using the UML. The process also enforces that all activities specified within a function address functional requirements. Enforcing the \emph{single responsibility principle} improves simplicity through separation of concerns. Furthermore, the process includes a step checking whether any of the required services can be combined into a single, cohesive, higher level service, resulting in improved reusability across levels of granularity. When using the UML a process can be specified through a variety of diagrams including activity and sequence diagrams, state charts, collaboration diagams and even interaction overview diagrams. The extensive notation, potential information duplication and inconsistency risks all add to model complexity.
+
+The quality drivers used for \emph{cohesion} include that the URDAD process assigns services contracts to responsibility domains. Using URDAD results in stateless services which makes services self-contained, cohesive units of functionality.
+
+Model \emph{consistency} across UML models is generally very weak - different UML models have commonly very different model structures and are often even semantically different. Furthermore, using different diagrams, particularly for process specification, commonly results in inconsistency issues across these diagrams. The model consistency drivers used within the URDAD include that the specification of a metamodel which fixes the model structure of an URDAD model. Furthermore the process has a set of process steps with defined inputs, outputs and activities for each process step.
+
+Structural model \emph{completeness} is improved through the metamodel enforcing a set of model elements and structure. Furthermore, the URDAD process also requires that functions use services which address all functional requirements. The process does not, however, enforce completeness over levels of granularity. A model is regarded as complete if a level of granularity is complete. This makes the assumption that service providers fulfilling the services contracts for the required services can be found. URDAD does not verify the latter.
+
+\emph{Modifiability} is improved by enforcing decoupling via services contracts and localization of process definition. The defined levels of granularity also improve modifiability because modifications often have to only be applied to a particular level of granularity. The enforced usage of stateless services improves modifiability because simplifies the process of modifying and defining functions which use these services. Simplicity and hence its quality drivers also improve modifiability.
+
+\emph{Traceability} is important for validation and estimation. URDAD facilitates traceability through requiring to identify the service to be used to address each functional requirement. The metamodel provides traceability of services across levels of granularity,  from services to the functional requirement addressed and from a functional requirement to the stakeholder who requires it.
+
+The process quality drivers employed by URDAD are shown in table \ref{tab:processQualityDrivers}
+
+\begin{table}[ht]
+\caption{URDAD model quality drivers related to model qualities.}
+\label{tab:processQualityDrivers}
+\begin{tabular}{|l|ccccccc|} \hline
+\multirow{2}{*}{\bf Quality-driver} & \multicolumn{7}{c|}{\bf Process qualities} \\ \cline{2-8}
+    & \begin{sideways}Low cost\end{sideways}  & \begin{sideways}Repeatability\end{sideways} & \begin{sideways}Estimatability\end{sideways}
+    & \begin{sideways}Trainable\end{sideways}
+    & \begin{sideways}Measurability\end{sideways} & \begin{sideways}Consistency\end{sideways} & \begin{sideways}Isolation\end{sideways} \\ \hline
+%                    Cost         Repeatable    Estimatable  Trainable    Measurable  Consistent   Isolated
+Simple             & \checkmark & \checkmark &            & \checkmark &            &            &            \\
+Process definition & \checkmark & \checkmark &            & \checkmark & \checkmark & \checkmark &            \\
+Decoupling         &            &            &            &            &            &            & \checkmark \\ 
+Metrics            &            &            & \checkmark &            & \checkmark &            &            \\ 
+Recursive process  &            & \checkmark &            & \checkmark &            & \checkmark & \checkmark \\ \hline
+\end{tabular}
+\end{table}
+

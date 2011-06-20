@@ -1,0 +1,72 @@
+%---- Support for more complex tables ---%
+\usepackage{rotating}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{pifont}
+
+%---- Begin PDF metadata ---------%
+\usepackage{hyperref}
+\hypersetup{%
+	pdftitle={URDAD as Quality-Driven Process},%
+	pdfauthor={Fritz Solms, Stefan Gruner and Cuen Edwards},%
+	pdfsubject={},%
+	pdfkeywords={URDAD, Quality driver}%
+}
+%---- End PDF metadata ---------%
+
+%------ Set language, for example for bibtex -----
+\usepackage[english]{babel}
+
+%----- Correct quotes for language ----%
+\usepackage{csquotes}
+%
+%---- references as footnotes ----%
+%\usepackage{footbib}
+%\usepackage[style=authoryear]{biblatex}
+%\usepackage[style=footnote-dw]{biblatex}
+
+% --- Graphics support ----%
+\usepackage{graphicx}
+
+% ---- Ticking clock for presentation ---%
+% Duration of presentation = 20 minutes, change color at 50% and 80% of time, update clock every 29 seconds
+% This is used in conjunction with \tdtime, \crono or \cronominutes
+\usepackage[font=Times,timeinterval=29, timeduration=20.0, timedeath=0, fillcolorwarningsecond=white!60!yellow,timewarningfirst=50,timewarningsecond=80]{tdclock}
+
+
+%--------------- Begin Beamer styling  -------------%
+
+\usetheme{Berkeley}
+% default
+%	AnnArbor | Antibes | Bergen |
+%	Berkeley | Berlin | Boadilla |
+%	boxes | CambridgeUS | Copenhagen |
+%	Darmstadt | default | Dresden |
+%	Frankfurt | Goettingen |Hannover |
+%	Ilmenau | JuanLesPins | Luebeck |
+%	Madrid | Malmoe | Marburg |
+%	Montpellier | PaloAlto | Pittsburgh |
+%	Rochester | Singapore | Szeged |
+%	Warsaw
+
+\setbeamertemplate{background canvas}{\includegraphics
+	[width=\paperwidth,height=\paperheight]{background.png}}
+\setbeamercolor{structure}{fg=DarkSlateGray}
+\setbeamercolor{normal text}{fg=Black}
+%\setbeamercolor{alerted text}{fg=Crimson}
+%\setbeamercolor{alerted text}{fg=DarkRed}
+\setbeamerfont{structure}{series=\bfseries}
+%\setbeamersize{text margin left=10mm}
+
+% To insert outline slides before every section
+%\AtBeginSection[]
+%{
+%   \begin{frame}
+%       \frametitle{Outline}
+%       \tableofcontents[currentsection]
+%   \end{frame}
+%}
+
+%--------------- End Beamer styling  -------------%
+
+\input{../../../papers/dslForUrdad/urdadDslSpec.tex}

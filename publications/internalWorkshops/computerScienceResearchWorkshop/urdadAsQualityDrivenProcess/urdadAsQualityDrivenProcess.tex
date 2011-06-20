@@ -1,0 +1,62 @@
+% 1: Regular slides
+%------------------
+\documentclass[xcolor=svgnames,10pt]{beamer}
+
+% 2:  Handouts
+%------------------
+%\documentclass[handout,xcolor=svgnames]{beamer}
+%\usepackage{handoutWithNotes}
+%\pgfpagesuselayout{4 on 1 with notes}[a4paper,border shrink=5mm]
+
+% 3: Article style
+%------------------
+%\documentclass[a4]{article}
+%\usepackage{beamerarticle}
+
+\input{configuration.tex}
+
+\input{pseudoCodeSpec.tex}
+
+%---------------------------------------------------%
+
+\title[URDAD as Quality-Driven Process]{URDAD as Quality-Driven Process
+\footnote{Accepted as a regular paper at SOMET 2011, the 10 International Conference on Intelligent Software Methodologies, Tools, and Techniques, St Petersburg, 28 - 30 Sept 2011}}
+
+\author[Solms,Gruner,\\Edwards \\ \ \\ \cronominutes \\ \ \\]{Fritz Solms, Stefan Gruner and Cuen Edwards}
+
+\institute[Univ Pta]{
+  URDAD-MDE subgroup of SSFM \\
+  Department of Computer Science\\
+  University Of Pretoria\\[1ex]
+  \texttt{fritz@solms.co.za}
+}
+
+\date[June 2011]{June 9, 2011}
+%\date{\tddate \ \ \tdtime}
+
+\begin{document}
+
+  \maketitle
+
+  \input{background.tex}
+
+  \input{definitions.tex}
+
+  \input{abstract.tex}
+
+  \input{urdad.tex}
+
+%  \input{qualityRequirements.tex}
+
+  \input{qualityDrivers.tex}
+
+  \input{internalConsistency.tex}
+
+  \input{summary.tex}
+
+
+%\footbibliographystyle{plain}  %%abbrv
+%\footbibliography{../../../bibliography}
+
+\end{document}
+

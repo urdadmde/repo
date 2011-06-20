@@ -1,0 +1,95 @@
+\section{Internal consistency of the URDAD methodology}
+\label{sec:urdadConsistency}
+
+URDAD is an analysis and design methodology used to design services. If one uses the methodology to design a service-oriented analysis and design service, the constructed model should contain the URDAD process as the service process and the URDAD metamodel for the domain concepts. If this is not the case then URDAD would be inconsistent because it would state ``use this methodology to design services, but use something else/better to design the service for designing a service''. 
+
+The stakeholders for the \verb+provideService+ service are discussed in \ref{sec:qualityCriteria}. During the analysis phase the service contract is negotiated with the stakeholders. The service contract contains the functional requirements (pre- and post-conditions), quality requirements and data structure specifications for the request and result objects. Listing \ref{provideServiceContract} shows the service contract for the \verb+provideService+ service specified using the URDAD-DSL text grammar discussed in \cite{solms_domain-specific_????}. 
+
+\lstset{language=urdad,caption=Specifying a state constraint in the URDAD text grammar.,label=provideServiceContract}
+\begin{lstlisting}[numbers=left,escapechar=|]
+
+ResponsibilityDomain RequirementsEngineering
+{
+  ServiceContract provideService
+  {
+    FunctionalRequirements receiving Variable provideServiceRequest ofType ProvideServiceRequest yielding Variable provideServiceResult ofType ProvideServiceResult
+    {
+      PreCondition serviceHasStakeholders requiredBy (Client) raises NoStakeholdersException checks Constraint ServiceHasStakeholders
+      PreCondition stakeholderRequirementsConsistent requiredBy (Client Implementation Testing) raises InconsistentStakeholderRequirementsException checks Constraint RequirementsConsistent
+      PostCondition serviceContractSpecified requiredBy (Implementation Testing) ensures Constraint ServiceContractSpecified
+      PostCondition serviceSourcedFromEnvironment if Constraint ServiceAvailable requiredBy (Client) ensures Constraint ServiceSourced with Query OCL:"serviceContract"
+      PostCondition serviceSpecified if Constraint Not ServiceAvailable requiredBy(Client Implementation) ensures ServiceSpecified
+      QualityRequirement traceability requiredBy (ProcessDesign ProjectManagement Development)  
+    }
+    Request DataStructure ProvideServiceRequest
+    {
+       has Component serviceRequirements ofType _ServiceRequirements
+    }
+    Result DataStructure ProvideServiceResult
+    {
+      has Component serviceContract ofType _ServiceContract
+      has Component service ofType _Service
+    }        
+  }
+  ...
+} 
+\end{lstlisting}
+
+Note that as we are following the URDAD methodology to construct the model for an analysis and design service, we are building a model which ultimately contains the full URDAD metamodel. For example, in the above steps we introduce concepts like \verb+_ServiceContract+ and \verb+Service+. 
+
+The functional requirements refer to functional constraints which are specified separately as reusable constraints which are factored out of the pre- and post-conditions. In a separate paper currently under review we have pointed out that the Object-Constraint Language (OCL)\cite{_object_2010}  alone is not expressive enough to specify reusable, parametrized constraints for a services oriented approach where one needs to extract information from the environment via services and then apply data structure constraints on the obtained environmental information.
+
+The following listing shows an simple example of a parametrized constraint, \emph{ServiceContractSpecified}, which demonstrated that a state constraint is assembled from a process that extracts information from the environment and a set of data constraints applied to the obtained information.
+\lstset{language=urdad,caption=Specifying a state constraint in the URDAD text grammar.,label=serviceContractSpecifiedConstraint}
+\begin{lstlisting}[numbers=left,escapechar=|]
+ResponsibilityDomain ServiceRegistry
+{
+  FunctionalConstraint ServiceContractSpecified receiving Variable serviceRequirements ofType _ServiceRequirements 
+  {
+    StateAssessmentProcess doSequential 
+    {
+      create Variable provideServiceContractRequest ofType ProvideServiceContractRequest
+      set Query OCL:"provideServiceContractRequest.serviceRequirements" equalTo Query OCL:"serviceRequirements"
+      requestService identifyStakeholders with identifyStakeholdersRequest yielding Variable identifyStakeholdersResult ofType IdentifyStakeholdersResult
+    }
+    Constraint OCL:"identifyStakeholdersResult->size() > 0"
+  }
+}
+\end{lstlisting}
+
+During the service design phase of URDAD we design the process through which a service realizes its services contract. In the case of designing an analysis and design service the analysis and design process is constructed. We first specify the services we want to use to address each of the functional requirements (the \verb+usedToAddress+ links between a service requirement and a functional requirement represents the satisfaction links of \cite{ramesh_toward_2001}) before we assemble the process from these lower level services.
+
+The following listing shows the service specification for the \verb+provideService+ service as constructed during the \verb+designService+ phase. Note that the process is equivalent to the high level URDAD process discussed in section \ref{sec:urdad}.
+\lstset{language=urdad,caption=Specifying the performAnalysis service in the textual URDAD DSL syntax.,label=serviceTextSyntax}
+\begin{lstlisting}[numbers=left,escapechar=|]
+Service provideServiceImpl realizes provideService receiving Variable provideServiceRequest ofType ProvideServiceRequest
+{
+  use provideServicesContract toAddress ( serviceContractSpecified serviceHasStakeHolders stakeholderRequirementsConsistent)
+  use sourceService toAddress (serviceSourcedFromEnvironment)
+  use designService toAddress (serviceSpecified)
+        
+  Process doSequential
+  {
+    create Variable provideServiceContractRequest ofType ProvideServiceContractRequest
+    set Query OCL:"provideServiceContractRequest.serviceRequirements" equalTo Query OCL:"provideServiceRequest.serviceRequirements"
+    requestService provideServiceContract with provideServiceContractRequest yielding Variable provideServiceContractResult ofType ProvideServiceContractResult raises (NoStakeholdersException InconsistentRequirementsException) 
+
+    create Variable sourceServiceRequest ofType SourceServiceRequest
+    set Query OCL:"sourceServiceRequest.serviceContract" equalTo Query OCL:"provideServiceContractResult.serviceContract"
+    requestService sourceService with sourceServiceRequest yielding Variable sourceServiceResult ofType SourceServiceResult on NoRealizingServiceException
+    doSequential
+    {
+      create Variable designServiceRequest ofType DesignServiceRequest
+      set Query OCL:"designServiceRequest.serviceContract" equalTo Query OCL:"provideServiceContractResult.serviceContract"                
+      requestService designService with designServiceRequest yielding Variable designServiceResult ofType DesignServiceResult
+      forAll requiredService in Query OCL:"designServiceResult.service.requiredServices."
+      {
+        create Variable provideLowerLevelServiceRequest ofType ProvideServiceRequest
+        add Query OCL:"requiredService" to Query OCL:"provideLowerLevelServiceRequest.serviceRequirements"
+        requestService provideService with provideLowerLevelServiceRequest yielding variable provideLowerLevelServiceResult ofType ProvideServiceResult 
+      } 
+    } 
+  }             
+}
+\end{lstlisting}
+

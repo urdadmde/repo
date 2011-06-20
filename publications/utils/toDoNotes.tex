@@ -1,0 +1,14 @@
+
+%\usepackage{a4wide} %Smaller margins = more text per page.
+%TODO commands by Henrik Skov Midtiby 
+%\newcommand{\todo}[1]{\marginpar{#1}}
+\newcommand{\todo}[1]{
+    \addcontentsline{tdo}{todo}{\protect{#1}}
+    \marginpar{#1}
+}
+
+% Additionally a command to generate the list of todos.
+\makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
+\newcommand\l@todo[2]
+  {\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
+
