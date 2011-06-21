@@ -10,7 +10,6 @@
     </responsibilityDomains>
     <responsibilityDomains name="Storage">
       <responsibilityDomains name="StorageClient"/>
-      <responsibilityDomains name="PersistenceClient"/>
       <dataTypes xsi:type="urdad_1:DataStructure" name="Entity" abstract="true">
         <features xsi:type="urdad_1:Identification" name="entityIdentifier" relatedElement="//@responsibilityDomains.0/@responsibilityDomains.1/@dataTypes.0"/>
       </dataTypes>
@@ -66,7 +65,7 @@
         <functionalRequirements>
           <requestVariable name="retrieveEntityRequest" type="//@responsibilityDomains.0/@responsibilityDomains.1/@servicesContracts.0/@request"/>
           <resultVariable name="retrieveEntityResult" type="//@responsibilityDomains.0/@responsibilityDomains.1/@servicesContracts.0/@result"/>
-          <preConditions name="entityStored" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.1" exception="//@responsibilityDomains.0/@responsibilityDomains.1/@dataTypes.2">
+          <preConditions name="entityStored" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.0" exception="//@responsibilityDomains.0/@responsibilityDomains.1/@dataTypes.2">
             <stateConstraintReference constraint="//@responsibilityDomains.0/@responsibilityDomains.1/@constraints.0">
               <parameter xsi:type="urdad_4:Query">
                 <queryExpression language="OCL" expressionString="retrieveEntityRequest.entityIdentifier"/>
@@ -85,14 +84,14 @@
         <functionalRequirements>
           <requestVariable name="storeEntityRequest" type="//@responsibilityDomains.0/@responsibilityDomains.1/@servicesContracts.1/@request"/>
           <resultVariable name="storeEntityResult" type="//@responsibilityDomains.0/@responsibilityDomains.1/@servicesContracts.1/@result"/>
-          <preConditions name="entityNotStored" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.1" exception="//@responsibilityDomains.0/@responsibilityDomains.1/@dataTypes.1">
+          <preConditions name="entityNotStored" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.0" exception="//@responsibilityDomains.0/@responsibilityDomains.1/@dataTypes.1">
             <stateConstraintReference constraint="//@responsibilityDomains.0/@responsibilityDomains.1/@constraints.1">
               <parameter xsi:type="urdad_4:Query">
                 <queryExpression language="OCL" expressionString="storeEntityRequest.entity.entityIdentifier"/>
               </parameter>
             </stateConstraintReference>
           </preConditions>
-          <postConditions name="entityStored" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.1">
+          <postConditions name="entityStored" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.0">
             <stateConstraintReference constraint="//@responsibilityDomains.0/@responsibilityDomains.1/@constraints.0">
               <parameter xsi:type="urdad_4:Query">
                 <queryExpression language="OCL" expressionString="storeEntityRequest.entity.entityIdentifier"/>
@@ -111,14 +110,14 @@
         <functionalRequirements>
           <requestVariable name="removeEntityRequest" type="//@responsibilityDomains.0/@responsibilityDomains.1/@servicesContracts.2/@request"/>
           <resultVariable name="removeEntityResult" type="//@responsibilityDomains.0/@responsibilityDomains.1/@servicesContracts.2/@result"/>
-          <preConditions name="entityStored" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.1" exception="//@responsibilityDomains.0/@responsibilityDomains.1/@dataTypes.2">
+          <preConditions name="entityStored" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.0" exception="//@responsibilityDomains.0/@responsibilityDomains.1/@dataTypes.2">
             <stateConstraintReference constraint="//@responsibilityDomains.0/@responsibilityDomains.1/@constraints.0">
               <parameter xsi:type="urdad_4:Query">
                 <queryExpression language="OCL" expressionString="removeEntityRequest.entityIdentifier"/>
               </parameter>
             </stateConstraintReference>
           </preConditions>
-          <postConditions name="entityNotStored" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.1">
+          <postConditions name="entityNotStored" requiredBy="//@responsibilityDomains.0/@responsibilityDomains.1/@responsibilityDomains.0">
             <stateConstraintReference constraint="//@responsibilityDomains.0/@responsibilityDomains.1/@constraints.1">
               <parameter xsi:type="urdad_4:Query">
                 <queryExpression language="OCL" expressionString="removeEntityRequest.entityIdentifier"/>
@@ -148,7 +147,7 @@
           </features>
         </dataTypes>
         <dataTypes xsi:type="urdad_1:DataStructure" name="Chargeable" superTypes="//@responsibilityDomains.0/@responsibilityDomains.1/@dataTypes.0"/>
-        <dataTypes xsi:type="urdad_1:DataStructure" name="InvoiceItem">
+        <dataTypes xsi:type="urdad_1:DataStructure" name="InvoiceItem" superTypes="//@responsibilityDomains.0/@responsibilityDomains.1/@dataTypes.0">
           <features xsi:type="urdad_1:Attribute" name="cost" type="//@responsibilityDomains.0/@responsibilityDomains.0/@dataTypes.2"/>
           <features xsi:type="urdad_1:Attribute" name="quantity" type="//@responsibilityDomains.0/@responsibilityDomains.0/@dataTypes.1"/>
           <features xsi:type="urdad_1:Identification" name="chargeableIdentifier" relatedElement="//@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.0/@dataTypes.3"/>
@@ -376,7 +375,7 @@
           </servicesContracts>
         </responsibilityDomains>
         <responsibilityDomains name="StudyGuides">
-          <dataTypes xsi:type="urdad_1:DataStructure" name="StudyGuide"/>
+          <dataTypes xsi:type="urdad_1:DataStructure" name="StudyGuide" superTypes="//@responsibilityDomains.0/@responsibilityDomains.1/@dataTypes.0"/>
           <servicesContracts name="provideStudyGuide">
             <request name="ProvideStudyGuideRequest">
               <features xsi:type="urdad_1:Identification" name="courseIdentifier" relatedElement="//@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.1/@responsibilityDomains.1/@dataTypes.0"/>
@@ -393,7 +392,7 @@
         </responsibilityDomains>
       </responsibilityDomains>
       <responsibilityDomains name="ClientRelationshipManagement">
-        <dataTypes xsi:type="urdad_1:DataStructure" name="Address">
+        <dataTypes xsi:type="urdad_1:DataStructure" name="Address" superTypes="//@responsibilityDomains.0/@responsibilityDomains.1/@dataTypes.0">
           <features xsi:type="urdad_1:Attribute" name="addressLines" type="//@responsibilityDomains.0/@responsibilityDomains.0/@dataTypes.3">
             <multiplicityConstraint xsi:type="urdad_1:Many"/>
           </features>
@@ -595,7 +594,7 @@
           <requestVariable name="enrollForPresentationRequest" type="//@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.3/@servicesContracts.1/@request"/>
           <serviceRequirements requiredService="//@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.1/@responsibilityDomains.0/@responsibilityDomains.0/@servicesContracts.0" usedToAddress="//@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.3/@servicesContracts.1/@functionalRequirements/@preConditions.1"/>
           <serviceRequirements requiredService="//@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.0/@servicesContracts.0" usedToAddress="//@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.0/@servicesContracts.0/@functionalRequirements/@preConditions.0 //@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.3/@servicesContracts.1/@functionalRequirements/@postConditions.1"/>
-          <serviceRequirements requiredService="//@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.3/@servicesContracts.2" usedToAddress="//@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.3/@servicesContracts.1/@functionalRequirements/@postConditions.1"/>
+          <serviceRequirements requiredService="//@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.3/@servicesContracts.2" usedToAddress="//@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.3/@servicesContracts.1/@functionalRequirements/@postConditions.0"/>
           <process xsi:type="urdad_4:ActivitySequence">
             <activities xsi:type="urdad_4:Create">
               <producedVariable name="checkStudentSatisfiesEnrollmentPrerequisitesRequest" type="//@responsibilityDomains.1/@responsibilityDomains.5/@responsibilityDomains.1/@responsibilityDomains.0/@responsibilityDomains.0/@servicesContracts.0/@request"/>

@@ -27,7 +27,7 @@ ResponsibilityDomain UrdadStandardProfile
         FunctionalRequirements receiving Variable retrieveEntityRequest ofType RetrieveEntityRequest
             yielding Variable retrieveEntityResult ofType RetrieveEntityResult
         {
-            PreCondition entityStored requiredBy (PersistenceClient)
+            PreCondition entityStored requiredBy (StorageClient)
                 raises EntityNotStoredException checks Constraint entityIsStored 
                     with Query OCL:"retrieveEntityRequest.entityIdentifier"
                      
@@ -67,10 +67,10 @@ ResponsibilityDomain UrdadStandardProfile
         FunctionalRequirements receiving Variable storeEntityRequest ofType StoreEntityRequest
             yielding Variable storeEntityResult ofType StoreEntityResult
         {
-            PreCondition entityNotStored requiredBy (PersistenceClient)
+            PreCondition entityNotStored requiredBy (StorageClient)
                 raises EntityAlreadyStoredException checks Constraint entityIsNotStored 
                     with Query OCL:"storeEntityRequest.entity.entityIdentifier"
-            PostCondition entityStored requiredBy (PersistenceClient)
+            PostCondition entityStored requiredBy (StorageClient)
                 ensures Constraint entityIsStored 
                     with Query OCL:"storeEntityRequest.entity.entityIdentifier"
         }
@@ -90,10 +90,10 @@ ResponsibilityDomain UrdadStandardProfile
         FunctionalRequirements receiving Variable removeEntityRequest ofType RemoveEntityRequest
             yielding Variable removeEntityResult ofType RemoveEntityResult
         {
-           PreCondition entityStored requiredBy (PersistenceClient)
+           PreCondition entityStored requiredBy (StorageClient)
                 raises EntityNotStoredException checks Constraint entityIsStored 
                     with Query OCL:"removeEntityRequest.entityIdentifier"
-           PostCondition entityNotStored requiredBy (PersistenceClient)
+           PostCondition entityNotStored requiredBy (StorageClient)
                 ensures Constraint entityIsNotStored 
                     with Query OCL:"removeEntityRequest.entityIdentifier"
         }
@@ -106,9 +106,8 @@ ResponsibilityDomain UrdadStandardProfile
         {
             has Component entity ofType Entity
         }
-    }
-        
-    ResponsibilityDomain PersistenceClient{}
+    }   
+    
   }
 }
 
@@ -159,7 +158,7 @@ ResponsibilityDomain Training
         has Component many invoiceItems ofType InvoiceItem
       }
       DataStructure Chargeable is (Entity) {}
-      DataStructure InvoiceItem
+      DataStructure InvoiceItem is (Entity)
       {
         has Attribute cost ofType FloatingPointNumber
         has Attribute quantity ofType Integer
@@ -339,7 +338,7 @@ ResponsibilityDomain Training
       }  
       ResponsibilityDomain StudyGuides
       {
-        DataStructure StudyGuide {}
+        DataStructure StudyGuide is (Entity) {}
         ServiceContract provideStudyGuide
         {
             FunctionalRequirements receiving Variable provideStudyGuideRequest ofType ProvideStudyGuideRequest
@@ -360,7 +359,7 @@ ResponsibilityDomain Training
     }
     ResponsibilityDomain ClientRelationshipManagement
     {
-      DataStructure Address
+      DataStructure Address is (Entity)
       {
         has many Attribute addressLines ofType Text
       }
@@ -548,7 +547,7 @@ ResponsibilityDomain Training
       {
         use checkStudentSatisfiesEnrollmentPrerequisites toAddress (enrollmentPrerequisitesMet)
         use issueInvoice toAddress (financialPrerequisitesSatisfied invoiceIssued) 
-        use performEnrollment toAddress (invoiceIssued)
+        use performEnrollment toAddress (enrollmentProcessPerformed)
         Process doSequential
         {
             create Variable checkStudentSatisfiesEnrollmentPrerequisitesRequest 
