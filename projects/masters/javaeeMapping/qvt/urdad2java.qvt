@@ -28,7 +28,7 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
 	  		ResponsibilityDomainWithServiceContractsToCompilationUnitImportingFuture
 	  			(responsibilityDomain, compilationUnit);
 	  		ResponsibilityDomainServiceContractExceptionToCompilationUnitImportingException
-	  			(responsibilityDomain, compilationUnit);
+	  			(responsibilityDomain, compilationUnit);	  			
 	  		ResponsibilityDomainServiceContractToSynchronousAndAsynchronousInterfaceMethods
 	  			(responsibilityDomain, interface);	  		
 	  	}
@@ -51,7 +51,7 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
 	  		namespaces = getNamespaceAsStringSequence(responsibilityDomain),
 	  		imports = classifierImport : java::imports::ClassifierImport 
 	  		{
-	  			classifier = getConcreteClassifier(getCompilationUnit('javax.ejb.Local.java'),'Local'),	  		
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.ejb.Local.java'), 'Local'),	  		
 	  			namespaces = Sequence{'javax', 'ejb'}
 	  		},
 	  		classifiers = interface : java::classifiers::Interface 
@@ -470,14 +470,6 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
 	  	};
 	  
 	  	enforce domain target class : java::classifiers::Class{};
-	  	
-	  	when
-	  	{
-	  		DataStructureToClassCompilationUnit(serviceContract.request, getCompilationUnit
-	  			(getClassCompilationUnitName(serviceContract.request)));
-	  		DataStructureToClassCompilationUnit(serviceContract.result, getCompilationUnit
-	  			(getClassCompilationUnitName(serviceContract.result)));
-	  	}
 	
 		where
 		{
@@ -525,7 +517,7 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
 				annotationsAndModifiers = public : java::modifiers::Public{},
 				statements = return : java::statements::Return
 				{
-					--comments = Sequence{'//TODO This method must be implemented manually.'}, 					
+					comments = Sequence{'//TODO This method must be manually implemented.'}, 					
 					returnValue = nullLiteral : java::literals::NullLiteral{}
 				} 
 	  		}
@@ -706,25 +698,24 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
 	  	};
 	  	
 	  	where
-	  	{
+	  	{	  		
+	  		DataStructureInstanceOfEntityToClassDefiningEntityAnnotation(dataStructure, class);
+	  		AbstractDataStructureInstanceOfEntityToCompilationUnitImportingMappedSuperclassAnnotation
+	  			(dataStructure, compilationUnit);
+	  		AbstractDataStructureInstanceOfEntityToClassDefiningMappedSuperclassAnnotation(dataStructure, 
+	  			class);
 	  		DataStructureToPublicClass(dataStructure, class);
 	  		AbstractDataStructureToAbstractClass(dataStructure, class);
 	  		DataStructureNoSuperTypeNotExceptionToCompilationUnitImportingSerializable(dataStructure, 
 	  			compilationUnit);
 	  		DataStructureNoSuperTypeNotExceptionToClassImplementingSerializable(dataStructure, class);
 	  		ExceptionDataStructureToClassExtendingException(dataStructure, class);
-	  		DataStructureToClassExtendingSuperType(dataStructure, class);
-	  		DataStructureInstanceOfEntityToCompilationUnitImportingEntityAnnotation(dataStructure, 
-	  			compilationUnit);
-	  		DataStructureInstanceOfEntityToClassDefiningEntityAnnotation(dataStructure, class);
-	  		AbstractDataStructureInstanceOfEntityToCompilationUnitImportingMappedSuperclassAnnotation
-	  			(dataStructure, compilationUnit);
-	  		AbstractDataStructureInstanceOfEntityToClassDefiningMappedSuperclassAnnotation(dataStructure, 
-	  			class);
+	  		DataStructureToCompilationUnitImportingClassForSuperType(dataStructure, compilationUnit);
+	  		DataStructureToClassExtendingSuperType(dataStructure, class);	  		
 	  		DataStructureToCompilationUnitImportingClassesForFields(dataStructure, compilationUnit);
 	  		DataStructureInstanceOfEntityToCompilationUnitImportingClassesForFields(dataStructure, 
 	  			compilationUnit);
-	  		DataStructureFeatureToGetterAndSetterClassMethodsAndField(dataStructure, class);
+	  		DataStructureFeatureToGetterAndSetterClassMethodsAndField(dataStructure, class);	  		
 	 	}
 	
 	}
@@ -821,6 +812,31 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
 	
 	}
 	
+	relation DataStructureToCompilationUnitImportingClassForSuperType
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getSuperType(dataStructure)),
+	  			namespaces = getNamespaceAsStringSequence(getSuperType(dataStructure))		
+	  		}
+		};
+	  
+	  	when
+		{
+			hasSuperType(dataStructure);
+			not getNamespaceAsString(dataStructure).equalsIgnoreCase(getNamespaceAsString
+				(getSuperType(dataStructure)));
+			DataStructureToClassCompilationUnit(getSuperType(dataStructure), getCompilationUnit
+				(getSuperType(dataStructure)));
+		}
+	
+	}
+	
 	relation DataStructureToClassExtendingSuperType
 	{
 	
@@ -842,31 +858,6 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
 		}
 	
 	}
-	
-	relation DataStructureInstanceOfEntityToCompilationUnitImportingEntityAnnotation
-	{
-
-	  	checkonly domain source dataStructure : urdad::data::DataStructure
-	  	{
-			abstract = false
-		};
-	  
-	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
-	  	{
-			imports = classifierImport : java::imports::ClassifierImport 
-	  		{
-	  			classifier = getConcreteClassifier(getCompilationUnit('javax.persistence.Entity.java'),
-	  				'Entity'),	  		
-	  			namespaces = Sequence{'javax', 'persistence'}
-	  		}
-	  	};
-	  
-	  	when
-	  	{
-  			isEntityOrExtendsEntity(dataStructure);
-	  	}
-	
-	}
 		
 	relation DataStructureInstanceOfEntityToClassDefiningEntityAnnotation
 	{
@@ -881,7 +872,8 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
   			annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
   			{
   				annotation =  getConcreteClassifier(getCompilationUnit('javax.persistence.Entity.java'),
-	  				'Entity')
+	  				'Entity'),
+	  			namespaces = Sequence{'javax','persistence'} 
   			}
 	  	};
 	  	
