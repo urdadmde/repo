@@ -1,0 +1,3050 @@
+transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) {
+	
+	/* RELATIONS */
+
+	top relation ResponsibilityDomainToCommonSessionBeanInterfaceCompilationUnit 
+	{
+
+		name : String;
+
+	  	checkonly domain source responsibilityDomain : urdad::core::ResponsibilityDomain
+	  	{
+	  		name = name 
+	  	};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		name = getCommonSessionBeanInterfaceCompilationUnitName(responsibilityDomain),
+	  		namespaces = getNamespaceAsStringSequence(responsibilityDomain),
+	  		classifiers = interface : java::classifiers::Interface 
+	  		{
+	  			name = name,
+	    		annotationsAndModifiers = public : java::modifiers::Public{}
+	  		}
+	  	};
+	  	
+	  	where
+	  	{
+	  		ResponsibilityDomainWithServiceContractsToCompilationUnitImportingFuture
+	  			(responsibilityDomain, compilationUnit);
+	  		ResponsibilityDomainServiceContractExceptionToCompilationUnitImportingException
+	  			(responsibilityDomain, compilationUnit);	  			
+	  		ResponsibilityDomainServiceContractToSynchronousAndAsynchronousInterfaceMethods
+	  			(responsibilityDomain, interface);	  		
+	  	}
+	 
+	}
+	
+	top relation ResponsibilityDomainToLocalSessionBeanInterfaceCompilationUnit 
+	{
+
+		name : String;
+
+	  	checkonly domain source responsibilityDomain : urdad::core::ResponsibilityDomain
+	  	{
+	  		name = name 
+	  	};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		name = getLocalSessionBeanInterfaceCompilationUnitName(responsibilityDomain),
+	  		namespaces = getNamespaceAsStringSequence(responsibilityDomain),
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.ejb.Local.java'), 'Local'),	  		
+	  			namespaces = Sequence{'javax', 'ejb'}
+	  		},
+	  		classifiers = interface : java::classifiers::Interface 
+	  		{
+	  			name = name.concat('Local'), 
+	  			annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
+	  			{
+	  				annotation = getConcreteClassifier(getCompilationUnit('javax.ejb.Local.java'),
+		  				'Local')
+	  			},
+	  			annotationsAndModifiers = public : java::modifiers::Public{},
+	    		_extends = namespaceClassifierReference : java::types::NamespaceClassifierReference
+	    		{
+	    			classifierReferences = classifierReference : java::types::ClassifierReference 
+	    			{	
+	    				target = getConcreteClassifier(getCompilationUnit
+	    					(getCommonSessionBeanInterfaceCompilationUnitName(responsibilityDomain)), name)
+	    			}
+	    		}
+	  		}
+	  	};
+	  	
+	  	when
+	  	{
+	  		ResponsibilityDomainToCommonSessionBeanInterfaceCompilationUnit(responsibilityDomain, 
+	  			getCompilationUnit(getCommonSessionBeanInterfaceCompilationUnitName(responsibilityDomain)));	
+	  	}
+	 
+	}
+	
+	top relation ResponsibilityDomainToRemoteSessionBeanInterfaceCompilationUnit 
+	{
+
+		name : String;
+
+	  	checkonly domain source responsibilityDomain : urdad::core::ResponsibilityDomain
+	  	{
+	  		name = name 
+	  	};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		name = getRemoteSessionBeanInterfaceCompilationUnitName(responsibilityDomain),
+	  		namespaces = getNamespaceAsStringSequence(responsibilityDomain),
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.ejb.Remote.java'),'Remote'),	  		
+	  			namespaces = Sequence{'javax', 'ejb'}
+	  		},
+	  		classifiers = interface : java::classifiers::Interface 
+	  		{
+	  			name = name.concat('Remote'), 
+	  			annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
+	  			{
+	  				annotation = getConcreteClassifier(getCompilationUnit('javax.ejb.Remote.java'),
+		  				'Remote')
+	  			},
+	  			annotationsAndModifiers = public : java::modifiers::Public{},
+	    		_extends = namespaceClassifierReference : java::types::NamespaceClassifierReference
+	    		{
+	    			classifierReferences = classifierReference : java::types::ClassifierReference 
+	    			{	
+	    				target = getConcreteClassifier(getCompilationUnit
+	    					(getCommonSessionBeanInterfaceCompilationUnitName(responsibilityDomain)), name)
+	    			}
+	    		}
+	  		}
+	  	};
+	  	
+	  	when
+	  	{
+	  		ResponsibilityDomainToCommonSessionBeanInterfaceCompilationUnit(responsibilityDomain, 
+	  			getCompilationUnit(getCommonSessionBeanInterfaceCompilationUnitName(responsibilityDomain)));
+	  	}
+	 
+	}
+	
+	top relation ResponsibilityDomainToSessionBeanClassCompilationUnit 
+	{
+
+		name : String;
+
+	  	checkonly domain source responsibilityDomain : urdad::core::ResponsibilityDomain
+	  	{
+	  		name = name 
+	  	};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		name = getSessionBeanClassCompilationUnitName(responsibilityDomain),
+	  		namespaces = getNamespaceAsStringSequence(responsibilityDomain),
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.ejb.Stateless.java'), 
+	  				'Stateless'),	  		
+	  			namespaces = Sequence{'javax', 'ejb'}
+	  		},
+	  		classifiers = class : java::classifiers::Class 
+	  		{
+	  			name = name.concat('Bean'), 
+	  			annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
+	  			{
+	  				annotation = getConcreteClassifier(getCompilationUnit('javax.ejb.Stateless.java'),
+		  				'Stateless')
+	  			},
+	  			annotationsAndModifiers = public : java::modifiers::Public{},
+	  			implements = classifierReference : java::types::ClassifierReference 
+		  		{
+		  			target = getConcreteClassifier(getCompilationUnit
+		  				(getLocalSessionBeanInterfaceCompilationUnitName(responsibilityDomain)), name.concat
+		  				('Local'))
+		  		},
+	  			implements = classifierReference2 : java::types::ClassifierReference 
+		  		{
+		  			target = getConcreteClassifier(getCompilationUnit
+		  				(getRemoteSessionBeanInterfaceCompilationUnitName(responsibilityDomain)), name.concat
+		  				('Remote'))
+		  		}
+	  		}
+	  	};
+	  	
+	  	when
+	  	{
+	  		ResponsibilityDomainToLocalSessionBeanInterfaceCompilationUnit(responsibilityDomain, 
+	  			getCompilationUnit(getLocalSessionBeanInterfaceCompilationUnitName(responsibilityDomain)));
+	  		ResponsibilityDomainToRemoteSessionBeanInterfaceCompilationUnit(responsibilityDomain, 
+	  			getCompilationUnit(getRemoteSessionBeanInterfaceCompilationUnitName(responsibilityDomain)));
+	  	}
+	  	
+	  	where
+	  	{
+	  		ResponsibilityDomainWithServiceContractsToCompilationUnitImportingFuture
+	  			(responsibilityDomain, compilationUnit);
+	  		ResponsibilityDomainWithServiceContractsToCompilationUnitImportingAsyncResult
+	  			(responsibilityDomain, compilationUnit);
+	  		ResponsibilityDomainWithServiceContractsToCompilationUnitImportingAsynchronous
+	  			(responsibilityDomain, compilationUnit);	
+  			ResponsibilityDomainServiceContractExceptionToCompilationUnitImportingException
+	  			(responsibilityDomain, compilationUnit);
+	  		ResponsibilityDomainServiceContractToSynchronousAndAsynchronousClassMethods
+	  			(responsibilityDomain, class);	  		
+	  	}
+	 
+	}
+	
+	relation ResponsibilityDomainWithServiceContractsToCompilationUnitImportingFuture
+	{
+	
+		checkonly domain source responsibilityDomain : urdad::core::ResponsibilityDomain{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit
+	  	{
+			imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('java.util.concurrent.Future.java'), 
+	  				'Future'),
+	  			namespaces =  Sequence{'java', 'util', 'concurrent'}
+	  		}
+	  	};
+		
+		when
+		{
+	  		containsServiceContracts(responsibilityDomain);
+		}
+	
+	}
+	
+	relation ResponsibilityDomainWithServiceContractsToCompilationUnitImportingAsyncResult
+	{
+	
+		checkonly domain source responsibilityDomain : urdad::core::ResponsibilityDomain{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit
+	  	{
+			imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.ejb.AsyncResult.java'), 
+	  				'AsyncResult'),
+	  			namespaces =  Sequence{'javax', 'ejb'}
+	  		}
+	  	};
+		
+		when
+		{
+	  		containsServiceContracts(responsibilityDomain);
+		}
+	
+	}
+	
+	relation ResponsibilityDomainWithServiceContractsToCompilationUnitImportingAsynchronous
+	{
+	
+		checkonly domain source responsibilityDomain : urdad::core::ResponsibilityDomain{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit
+	  	{
+			imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.ejb.Asynchronous.java'), 
+	  				'Asynchronous'),
+	  			namespaces =  Sequence{'javax', 'ejb'}
+	  		}
+	  	};
+		
+		when
+		{
+	  		containsServiceContracts(responsibilityDomain);
+		}
+	
+	}
+	
+	relation ResponsibilityDomainServiceContractExceptionToCompilationUnitImportingException
+	{
+	
+		checkonly domain source responsibilityDomain : urdad::core::ResponsibilityDomain
+	  	{
+	  		servicesContracts = serviceContract : urdad::contract::ServiceContract 
+	  		{
+		  		functionalRequirements = functionalRequirements : urdad::contract::FunctionalRequirements 
+		  		{
+		  			preConditions = preCondition : urdad::contract::PreCondition 
+		  			{
+		  				exception = exception : urdad::contract::Exception{}
+		  			}
+		  		}
+	  		}
+	  	
+	  	};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit
+	  	{
+			imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit(getClassCompilationUnitName
+		    		(exception)), exception.name),
+	  			namespaces = getNamespaceAsStringSequence(exception)
+	  		}
+	  	};
+		
+		when
+		{
+			DataStructureToClassCompilationUnit(exception, getCompilationUnit
+	  			(getClassCompilationUnitName(exception)));
+	  		not getNamespaceAsString(responsibilityDomain).equalsIgnoreCase(getNamespaceAsString(exception));
+		}
+	
+	}
+	
+	relation ResponsibilityDomainServiceContractToSynchronousAndAsynchronousInterfaceMethods
+	{
+
+	  	checkonly domain source responsibilityDomain : urdad::core::ResponsibilityDomain
+	  	{
+	  		servicesContracts = serviceContract : urdad::contract::ServiceContract{}
+	  	};
+	  
+	  	enforce domain target interface : java::classifiers::Interface{};
+	  	
+	  	when
+	  	{
+	  		DataStructureToClassCompilationUnit(serviceContract.request, getCompilationUnit
+	  			(getClassCompilationUnitName(serviceContract.request)));
+	  		DataStructureToClassCompilationUnit(serviceContract.result, getCompilationUnit
+	  			(getClassCompilationUnitName(serviceContract.result)));
+	  	}
+	
+		where
+		{
+			ServiceContractToSynchronousInterfaceMethod(serviceContract, interface);
+			ServiceContractToAsynchronousInterfaceMethod(serviceContract, interface);
+		}  	
+	
+	}
+	
+	relation ServiceContractToSynchronousInterfaceMethod
+	{
+
+	  	checkonly domain source serviceContract : urdad::contract::ServiceContract{};
+	  
+	  	enforce domain target interface : java::classifiers::Interface 
+	  	{
+	  		members = interfaceMethod : java::members::InterfaceMethod
+	  		{
+				name = serviceContract.name,
+				typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+				{
+					classifierReferences = classifierReference : java::types::ClassifierReference 
+	    			{	
+	    				target = getConcreteClassifier(getCompilationUnit(getClassCompilationUnitName
+	    					(serviceContract.result)),	serviceContract.result.name)
+	    			}
+				},
+				parameters = ordinaryParameter : java::parameters::OrdinaryParameter
+				{
+					name = getRequestParameterName(serviceContract),
+					typeReference = namespaceClassifierReference2 : java::types::NamespaceClassifierReference
+					{
+						classifierReferences = classifierReference2 : java::types::ClassifierReference 
+		    			{	
+		    				target = getConcreteClassifier(getCompilationUnit(getClassCompilationUnitName
+		    					(serviceContract.request)),	serviceContract.request.name)
+		    			}
+					}
+				},
+				annotationsAndModifiers = public : java::modifiers::Public{} 
+	  		}
+	  		
+	  	};
+	
+		where
+		{
+			ServiceContractExceptionToInterfaceMethodThrowingException(serviceContract, interfaceMethod);
+		}  	
+	
+	}
+	
+	relation ServiceContractToAsynchronousInterfaceMethod
+	{
+  		
+	  	checkonly domain source serviceContract : urdad::contract::ServiceContract{};
+	  
+	  	enforce domain target interface : java::classifiers::Interface 
+	  	{
+	  		members = interfaceMethod : java::members::InterfaceMethod
+	  		{
+				name = serviceContract.name.concat('Asynchronously'),
+				typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+				{
+					classifierReferences = classifierReference : java::types::ClassifierReference 
+	    			{	
+	    				target = getConcreteClassifier(getCompilationUnit('java.util.concurrent.Future.java'), 
+	    					'Future'),
+	    					typeArguments = qualifiedTypeArgument : java::generics::QualifiedTypeArgument
+	    					{
+	    						typeReference = namespaceClassifierReference2 : 
+	    							java::types::NamespaceClassifierReference 
+	    						{
+	    							classifierReferences = classifierReference2 : 
+	    								java::types::ClassifierReference
+	    							{
+	    								target = getConcreteClassifier(getCompilationUnit
+	    									(getClassCompilationUnitName(serviceContract.result)), 
+	    									serviceContract.result.name)
+	    							}
+	    						}
+	    					}
+	    			}
+				},
+				parameters = ordinaryParameter : java::parameters::OrdinaryParameter
+				{
+					name = getRequestParameterName(serviceContract),
+					typeReference = namespaceClassifierReference3 : java::types::NamespaceClassifierReference
+					{
+						classifierReferences = classifierReference3 : java::types::ClassifierReference 
+		    			{	
+		    				target = getConcreteClassifier(getCompilationUnit(getClassCompilationUnitName
+		    					(serviceContract.request)),	serviceContract.request.name)
+		    			}
+					}
+				},
+				annotationsAndModifiers = public : java::modifiers::Public{} 
+	  		}
+	  		
+	  	};
+	
+		where
+		{
+			ServiceContractExceptionToInterfaceMethodThrowingException(serviceContract, interfaceMethod);
+		}  	
+	
+	}
+
+	relation ServiceContractExceptionToInterfaceMethodThrowingException
+	{
+	
+		checkonly domain source serviceContract : urdad::contract::ServiceContract 
+	  	{
+	  		functionalRequirements = functionalRequirements : urdad::contract::FunctionalRequirements 
+	  		{
+	  			preConditions = preCondition : urdad::contract::PreCondition 
+	  			{
+	  				exception = exception : urdad::contract::Exception{}
+	  			}
+	  		}
+	  	
+	  	};
+	  
+	  	enforce domain target interfaceMethod : java::members::InterfaceMethod
+	  	{
+	  		exceptions = namespaceClassifierReference : java::types::NamespaceClassifierReference 
+	  		{
+	  			classifierReferences = classifierReference : java::types::ClassifierReference 
+	  			{
+	  				target = getConcreteClassifier(getCompilationUnit(getClassCompilationUnitName
+		    			(exception)), exception.name)
+	  			}
+	  		}
+	  	
+	  	};
+		
+		when
+		{
+			DataStructureToClassCompilationUnit(exception, getCompilationUnit
+	  			(getClassCompilationUnitName(exception)));
+		}
+	
+	}
+	
+	relation ResponsibilityDomainServiceContractToSynchronousAndAsynchronousClassMethods
+	{
+
+	  	checkonly domain source responsibilityDomain : urdad::core::ResponsibilityDomain
+	  	{
+	  		servicesContracts = serviceContract : urdad::contract::ServiceContract{}
+	  	
+	  	};
+	  
+	  	enforce domain target class : java::classifiers::Class{};
+	
+		where
+		{
+			ServiceContractToSynchronousClassMethod(serviceContract, class);
+			ServiceContractToAsynchronousClassMethod(serviceContract, class);
+		}  	
+	
+	}
+	
+	relation ServiceContractToSynchronousClassMethod
+	{
+
+	  	checkonly domain source serviceContract : urdad::contract::ServiceContract{};
+	  
+	  	enforce domain target class : java::classifiers::Class 
+	  	{
+	  		members = classMethod : java::members::ClassMethod
+	  		{
+				name = serviceContract.name,
+				typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+				{
+					classifierReferences = classifierReference : java::types::ClassifierReference 
+	    			{	
+	    				target = getConcreteClassifier(getCompilationUnit(getClassCompilationUnitName
+	    					(serviceContract.result)),	serviceContract.result.name)
+	    			}
+				},
+				parameters = ordinaryParameter : java::parameters::OrdinaryParameter
+				{
+					name = getRequestParameterName(serviceContract),
+					typeReference = namespaceClassifierReference2 : java::types::NamespaceClassifierReference
+					{
+						classifierReferences = classifierReference2 : java::types::ClassifierReference 
+		    			{	
+		    				target = getConcreteClassifier(getCompilationUnit(getClassCompilationUnitName
+		    					(serviceContract.request)),	serviceContract.request.name)
+		    			}
+					}
+				},
+				annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
+	  			{
+	  				annotation = getConcreteClassifier(getCompilationUnit('java.lang.Override.java'),
+		  				'Override')
+	  			},
+				annotationsAndModifiers = public : java::modifiers::Public{},
+				statements = return : java::statements::Return
+				{
+					comments = Sequence{'//TODO This method must be manually implemented.'}, 					
+					returnValue = nullLiteral : java::literals::NullLiteral{}
+				} 
+	  		}
+	  		
+	  	};
+	
+		where
+		{
+			ServiceContractExceptionToClassMethodThrowingException(serviceContract, classMethod);
+		}  	
+	
+	}
+	
+	relation ServiceContractToAsynchronousClassMethod
+	{
+  		
+	  	checkonly domain source serviceContract : urdad::contract::ServiceContract{};
+	  
+	  	enforce domain target class : java::classifiers::Class 
+	  	{
+	  		members = classMethod : java::members::ClassMethod
+	  		{
+				name = serviceContract.name.concat('Asynchronously'),
+				typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+				{
+					classifierReferences = classifierReference : java::types::ClassifierReference 
+	    			{	
+	    				target = getConcreteClassifier(getCompilationUnit('java.util.concurrent.Future.java'), 
+	    					'Future'),
+	    					typeArguments = qualifiedTypeArgument : java::generics::QualifiedTypeArgument
+	    					{
+	    						typeReference = namespaceClassifierReference2 : 
+	    							java::types::NamespaceClassifierReference 
+	    						{
+	    							classifierReferences = classifierReference2 : 
+	    								java::types::ClassifierReference
+	    							{
+	    								target = getConcreteClassifier(getCompilationUnit
+	    									(getClassCompilationUnitName(serviceContract.result)), 
+	    									serviceContract.result.name)
+	    							}
+	    						}
+	    					}
+	    			}
+				},
+				parameters = ordinaryParameter : java::parameters::OrdinaryParameter
+				{
+					name = getRequestParameterName(serviceContract),
+					typeReference = namespaceClassifierReference3 : 
+						java::types::NamespaceClassifierReference
+					{
+						classifierReferences = classifierReference3 : java::types::ClassifierReference 
+		    			{	
+		    				target = getConcreteClassifier(getCompilationUnit(getClassCompilationUnitName
+		    					(serviceContract.request)),	serviceContract.request.name)
+		    			}
+					}
+				},
+				annotationsAndModifiers = annotation : java::annotations::AnnotationInstance
+	  			{
+	  				annotation = getConcreteClassifier(getCompilationUnit('java.lang.Override.java'),
+		  				'Override')
+	  			},
+	  			annotationsAndModifiers = annotation2 : java::annotations::AnnotationInstance
+	  			{
+	  				annotation = getConcreteClassifier(getCompilationUnit('javax.ejb.Asynchronous.java'),
+		  				'Asynchronous')
+	  			},
+				annotationsAndModifiers = modifier : java::modifiers::Public{},
+				statements = return : java::statements::Return
+				{
+					returnValue = newConstructorCall : java::instantiations::NewConstructorCall
+					{
+						typeReference = namespaceClassifierReference4 : 
+							java::types::NamespaceClassifierReference
+						{
+							classifierReferences = classifierReference4 : java::types::ClassifierReference 
+			    			{	
+			    				target = getConcreteClassifier(getCompilationUnit
+			    					('javax.ejb.AsyncResult.java'),	'AsyncResult'),
+			    				typeArguments = qualifiedTypeArgument2 : java::generics::QualifiedTypeArgument
+			    				{
+		    						typeReference = namespaceClassifierReference5 : 
+		    							java::types::NamespaceClassifierReference 
+		    						{
+		    							classifierReferences = classifierReference5 : 
+		    								java::types::ClassifierReference
+		    							{
+		    								target = getConcreteClassifier(getCompilationUnit
+		    									(getClassCompilationUnitName(serviceContract.result)),	
+		    									serviceContract.result.name)
+		    							}
+		    						}
+		    					}
+			    			}
+						},
+						arguments = methodCall : java::references::MethodCall 
+						{
+							target = getMembers(class, serviceContract.name)->first().oclAsType
+								(java::members::Method),
+							arguments = identifierReference : java::references::IdentifierReference
+							{
+								target = ordinaryParameter 
+							}
+							
+						}
+					}
+				} 
+	  		}
+	  	};
+
+		when
+		{
+			ServiceContractToSynchronousClassMethod(serviceContract, class);
+		}
+	
+		where
+		{
+			ServiceContractExceptionToClassMethodThrowingException(serviceContract, classMethod);
+		}  	
+	
+	}
+	
+	relation ServiceContractExceptionToClassMethodThrowingException
+	{
+	
+		checkonly domain source serviceContract : urdad::contract::ServiceContract 
+	  	{
+	  		functionalRequirements = functionalRequirements : urdad::contract::FunctionalRequirements 
+	  		{
+	  			preConditions = preCondition : urdad::contract::PreCondition 
+	  			{
+	  				exception = exception : urdad::contract::Exception{}
+	  			}
+	  		}
+	  	
+	  	};
+	  
+	  	enforce domain target classMethod : java::members::ClassMethod
+	  	{
+	  		exceptions = namespaceClassifierReference : java::types::NamespaceClassifierReference 
+	  		{
+	  			classifierReferences = classifierReference : java::types::ClassifierReference 
+	  			{
+	  				target = getConcreteClassifier(getCompilationUnit(getClassCompilationUnitName
+		    			(exception)), exception.name)
+	  			}
+	  		}
+	  	
+	  	};
+		
+		when
+		{
+			DataStructureToClassCompilationUnit(exception, getCompilationUnit
+	  			(getClassCompilationUnitName(exception)));
+		}
+	
+	}
+	
+	top relation DataStructureToClassCompilationUnit
+	{
+	
+	 	name : String;
+	 	
+	  	checkonly domain source dataStructure : urdad::data::DataStructure
+	  	{
+	  		name = name
+	  	};	
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		name = getNamespaceAsString(dataStructure).concat('.').concat(name).concat('.java'),
+	  		namespaces = getNamespaceAsStringSequence(dataStructure),
+	  		classifiers = class : java::classifiers::Class 
+	  		{
+	  			name = name
+	  		}
+	  	};
+	  	
+	  	where
+	  	{	  		
+	  		DataStructureInstanceOfEntityToClassDefiningEntityAnnotation(dataStructure, class);
+	  		AbstractDataStructureInstanceOfEntityToCompilationUnitImportingMappedSuperclassAnnotation
+	  			(dataStructure, compilationUnit);
+	  		AbstractDataStructureInstanceOfEntityToClassDefiningMappedSuperclassAnnotation(dataStructure, 
+	  			class);
+	  		DataStructureToPublicClass(dataStructure, class);
+	  		AbstractDataStructureToAbstractClass(dataStructure, class);
+	  		DataStructureNoSuperTypeNotExceptionToCompilationUnitImportingSerializable(dataStructure, 
+	  			compilationUnit);
+	  		DataStructureNoSuperTypeNotExceptionToClassImplementingSerializable(dataStructure, class);
+	  		ExceptionDataStructureToClassExtendingException(dataStructure, class);
+	  		DataStructureToCompilationUnitImportingClassForSuperType(dataStructure, compilationUnit);
+	  		DataStructureToClassExtendingSuperType(dataStructure, class);	  		
+	  		DataStructureToCompilationUnitImportingClassesForFields(dataStructure, compilationUnit);
+	  		DataStructureInstanceOfEntityToCompilationUnitImportingClassesForFields(dataStructure, 
+	  			compilationUnit);
+	  		DataStructureFeatureToGetterAndSetterClassMethodsAndField(dataStructure, class);	  		
+	 	}
+	
+	}
+	
+	relation DataStructureToPublicClass
+	{
+	
+		checkonly domain source dataStructure : urdad::data::DataStructure{};	
+	  
+	  	enforce domain target class : java::classifiers::Class 
+	  	{
+  			annotationsAndModifiers = public : java::modifiers::Public{}
+	  	};
+	
+	}
+	
+	relation AbstractDataStructureToAbstractClass
+	{
+	
+		checkonly domain source dataStructure : urdad::data::DataStructure
+	  	{
+	  		abstract = true
+	  	};	
+	  
+	  	enforce domain target class : java::classifiers::Class 
+	  	{
+  			annotationsAndModifiers = abstract : java::modifiers::Abstract{}
+	  	};
+	
+	}
+	
+	relation DataStructureNoSuperTypeNotExceptionToCompilationUnitImportingSerializable
+	{
+
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};	
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+			imports =  classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('java.io.Serializable.java'),
+	  				'Serializable'),	  		
+	  			namespaces = Sequence{'java', 'io'}
+	  		}
+	  	};
+	  
+	  	when
+	  	{
+  			not hasSuperType(dataStructure);
+  			not isException(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureNoSuperTypeNotExceptionToClassImplementingSerializable
+	{
+	
+		checkonly domain source dataStructure : urdad::data::DataStructure{};	
+	  
+	  	enforce domain target class : java::classifiers::Class
+	  	{
+	  		implements = classifierReference : java::types::ClassifierReference 
+	  		{
+	  			target = getConcreteClassifier(getCompilationUnit('java.io.Serializable.java'), 
+	  				'Serializable')
+	  		}	  	
+	  	};
+	  
+	  	when
+	  	{
+	  		not hasSuperType(dataStructure);
+	  		not isException(dataStructure);
+	  	}
+	
+	}
+	
+	relation ExceptionDataStructureToClassExtendingException
+	{
+	
+		checkonly domain source dataStructure : urdad::data::DataStructure{};	
+	  
+	  	enforce domain target class : java::classifiers::Class 
+	  	{
+  			_extends = classifierReference : java::types::ClassifierReference
+  			{
+	    		target = getConcreteClassifier(getCompilationUnit('java.lang.Exception.java'), 'Exception')
+	    	}
+	  	};
+	
+		when
+		{
+			isException(dataStructure);
+		}
+	
+	}
+	
+	relation DataStructureToCompilationUnitImportingClassForSuperType
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getSuperType(dataStructure)),
+	  			namespaces = getNamespaceAsStringSequence(getSuperType(dataStructure))		
+	  		}
+		};
+	  
+	  	when
+		{
+			hasSuperType(dataStructure);
+			not getNamespaceAsString(dataStructure).equalsIgnoreCase(getNamespaceAsString
+				(getSuperType(dataStructure)));
+			DataStructureToClassCompilationUnit(getSuperType(dataStructure), getCompilationUnit
+				(getSuperType(dataStructure)));
+		}
+	
+	}
+	
+	relation DataStructureToClassExtendingSuperType
+	{
+	
+		checkonly domain source dataStructure : urdad::data::DataStructure{};	
+	  
+	  	enforce domain target class : java::classifiers::Class 
+	  	{
+  			_extends = classifierReference : java::types::ClassifierReference 
+  			{
+	    		target = getConcreteClassifier(getSuperType(dataStructure))
+	    	}
+	  	};
+	
+		when
+		{
+			hasSuperType(dataStructure);
+			DataStructureToClassCompilationUnit(getSuperType(dataStructure), getCompilationUnit
+				(getSuperType(dataStructure)));
+		}
+	
+	}
+		
+	relation DataStructureInstanceOfEntityToClassDefiningEntityAnnotation
+	{
+	
+		checkonly domain source dataStructure : urdad::data::DataStructure
+		{
+			abstract = false
+		};	
+	  
+	  	enforce domain target class : java::classifiers::Class 
+	  	{
+  			annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
+  			{
+  				annotation =  getConcreteClassifier(getCompilationUnit('javax.persistence.Entity.java'),
+	  				'Entity'),
+	  			namespaces = Sequence{'javax','persistence'} 
+  			}
+	  	};
+	  	
+	  	when
+	  	{
+	  		isEntityOrExtendsEntity(dataStructure);
+	  	}
+	
+	}
+	
+	relation AbstractDataStructureInstanceOfEntityToCompilationUnitImportingMappedSuperclassAnnotation
+	{
+
+	  	checkonly domain source dataStructure : urdad::data::DataStructure
+	  	{
+			abstract = true
+		};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+			imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit
+	  				('javax.persistence.MappedSuperclass.java'), 'MappedSuperclass'),	  		
+	  			namespaces = Sequence{'javax', 'persistence'}
+	  		}
+	  	};
+	  
+	  	when
+	  	{
+  			isEntityOrExtendsEntity(dataStructure);
+	  	}
+	
+	}
+
+	relation AbstractDataStructureInstanceOfEntityToClassDefiningMappedSuperclassAnnotation
+	{
+	
+		checkonly domain source dataStructure : urdad::data::DataStructure
+		{
+			abstract = true
+		};	
+	  
+	  	enforce domain target class : java::classifiers::Class 
+	  	{
+  			annotationsAndModifiers = annotationsAndModifiers : java::annotations::AnnotationInstance
+  			{
+  				annotation = getConcreteClassifier(getCompilationUnit
+  					('javax.persistence.MappedSuperclass.java'), 'MappedSuperclass')
+  			}
+	  	};
+	  	
+	  	when
+	  	{
+	  		isEntityOrExtendsEntity(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureToCompilationUnitImportingClassesForFields
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit{};
+	  
+	  	where 
+	  	{	
+	  		DataStructureWithCollectiveFeaturesToCompilationUnitImportingCollection(dataStructure, 
+	  			compilationUnit);
+	  		DataStructureWithCollectiveFeaturesToCompilationUnitImportingLinkedList(dataStructure, 
+	  			compilationUnit);
+	  		DataStructureWithDateAttributeToCompilationUnitImportingDate(dataStructure, 
+	  			compilationUnit);
+	  		DataStructureWithKindOfAssociationToCompilationUnitImportingConcreteClassifierForRelatedDataStructure
+	  			(dataStructure, compilationUnit);	
+		}
+	
+	}
+	
+	relation DataStructureInstanceOfEntityToCompilationUnitImportingClassesForFields
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit{};
+	  	
+	  	when
+	  	{
+	  		isEntityOrExtendsEntity(dataStructure);
+	  	}
+	  
+	  	where 
+	  	{	
+	  		DataStructureEntityToCompilationUnitImportingId(dataStructure, compilationUnit);
+	  		DataStructureInstanceOfEntityCollectiveAttributeToCompilationUnitImportingCollectionTable
+	  			(dataStructure, compilationUnit);
+	  		DataStructureInstanceOfEntityCollectiveAttributeToCompilationUnitImportingColumn
+	  			(dataStructure, compilationUnit);
+  			DataStructureInstanceOfEntityCollectiveAttributeToCompilationUnitImportingElementCollection
+  				(dataStructure, compilationUnit);
+  			DataStructureInstanceOfEntityCollectiveAttributeOrKindOfAssociationToCompilationUnitImportingJoinColumn
+  				(dataStructure, compilationUnit);
+  			DataStructureInstanceOfEntityWithKindOfAssociationToCompilationUnitImportingCascadeType	
+  				(dataStructure, compilationUnit);
+  			DataStructureInstanceOfEntityWithKindOfAssociationToCompilationUnitImportingFetchType	
+  				(dataStructure, compilationUnit);	
+  			DataStructureInstanceOfEntitySingleCompositionToCompilationUnitImportingOneToOne
+  				(dataStructure, compilationUnit);		
+  			DataStructureInstanceOfEntitySingleAssociationOrAggregationToCompilationUnitImportingManyToOne
+  				(dataStructure, compilationUnit);
+  			DataStructureInstanceOfEntityCollectiveKindOfAssociationToCompilationUnitImportingManyToOne
+  				(dataStructure, compilationUnit);
+	  }
+	
+	}	
+
+	relation DataStructureWithCollectiveFeaturesToCompilationUnitImportingCollection
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('java.util.Collection.java'),
+	  				'Collection'),	  		
+	  			namespaces = Sequence{'java', 'util'}
+	  		}
+		};
+	  
+	  	when
+	  	{
+	  		containsCollectiveFeatures(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureWithCollectiveFeaturesToCompilationUnitImportingLinkedList
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('java.util.LinkedList.java'),
+	  				'LinkedList'),	  		
+	  			namespaces = Sequence{'java', 'util'}
+	  		}
+		};
+	  
+	  	when
+	  	{
+	  		containsCollectiveFeatures(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureWithDateAttributeToCompilationUnitImportingDate
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('java.util.Date.java'), 'Date'),	  		
+	  			namespaces = Sequence{'java', 'util'}
+	  		}
+		};
+	  
+	  	when
+	  	{
+	  		containsDateAttribute(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureWithKindOfAssociationToCompilationUnitImportingConcreteClassifierForRelatedDataStructure
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure
+	  	{
+	  		features = association : urdad::data::Association{}
+	  	};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(association.relatedElement.oclAsType
+	  				(urdad::data::DataStructure)),
+	  			namespaces = getNamespaceAsStringSequence(association.relatedElement.oclAsType
+	  				(urdad::data::DataStructure))		
+	  		}
+		};
+	  
+	  	when
+	  	{	
+	  		not getNamespaceAsString(dataStructure).equalsIgnoreCase(getNamespaceAsString(association
+	  			.relatedElement.oclAsType(urdad::data::DataStructure)));
+	  		DataStructureToClassCompilationUnit(association.relatedElement.oclAsType
+	  			(urdad::data::DataStructure), getCompilationUnit(association.relatedElement.oclAsType
+	  			(urdad::data::DataStructure)));
+	  	}
+	
+	}
+
+	relation DataStructureEntityToCompilationUnitImportingId
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.persistence.Id.java'), 'Id'),	  		
+	  			namespaces = Sequence{'javax', 'persistence'}
+	  		}
+		};
+	  
+	  	when
+	  	{
+	  		isEntity(dataStructure);
+	  		containsSingleIdentification(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureInstanceOfEntityCollectiveAttributeToCompilationUnitImportingCollectionTable
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit
+	  				('javax.persistence.CollectionTable.java'), 'CollectionTable'),	  		
+	  			namespaces = Sequence{'javax', 'persistence'}
+	  		}
+		};
+	  
+	  	when
+	  	{
+	  		isEntityOrExtendsEntity(dataStructure);
+	  		containsCollectiveAttributes(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureInstanceOfEntityCollectiveAttributeToCompilationUnitImportingColumn
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.persistence.Column.java'), 
+	  				'Column'),	  		
+	  			namespaces = Sequence{'javax', 'persistence'}
+	  		}
+		};
+	  
+	  	when
+	  	{
+	  		isEntityOrExtendsEntity(dataStructure);
+	  		containsCollectiveAttributes(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureInstanceOfEntityCollectiveAttributeToCompilationUnitImportingElementCollection
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports =  classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit
+	  				('javax.persistence.ElementCollection.java'), 'ElementCollection'),	  		
+	  			namespaces = Sequence{'javax', 'persistence'}
+	  		}
+		};
+	  
+	  	when
+	  	{
+	  		isEntityOrExtendsEntity(dataStructure);
+	  		containsCollectiveAttributes(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureInstanceOfEntityCollectiveAttributeOrKindOfAssociationToCompilationUnitImportingJoinColumn
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.persistence.JoinColumn.java'), 
+	  				'JoinColumn'),	  		
+	  			namespaces = Sequence{'javax', 'persistence'}
+	  		}
+		};
+	  
+	  	when
+	  	{
+	  		isEntityOrExtendsEntity(dataStructure);
+	  		containsCollectiveAttributes(dataStructure) or containsKindOfAssociation(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureInstanceOfEntityWithKindOfAssociationToCompilationUnitImportingCascadeType
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.persistence.CascadeType.java'), 
+	  				'CascadeType'),	  		
+	  			namespaces = Sequence{'javax', 'persistence'}
+	  		}
+		};
+	  
+	  	when
+	  	{	
+	  		isEntityOrExtendsEntity(dataStructure);
+	  		containsKindOfAssociation(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureInstanceOfEntityWithKindOfAssociationToCompilationUnitImportingFetchType
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.persistence.FetchType.java'), 
+	  				'FetchType'),	  		
+	  			namespaces = Sequence{'javax', 'persistence'}
+	  		}
+		};
+	  
+	  	when
+	  	{	
+	  		isEntityOrExtendsEntity(dataStructure);
+	  		containsKindOfAssociation(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureInstanceOfEntitySingleCompositionToCompilationUnitImportingOneToOne
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.persistence.OneToOne.java'), 
+	  				'OneToOne'),	  		
+	  			namespaces = Sequence{'javax', 'persistence'}
+	  		}
+		};
+	  
+	  	when
+	  	{
+	  		isEntityOrExtendsEntity(dataStructure);
+	  		containsSingleComposition(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureInstanceOfEntitySingleAssociationOrAggregationToCompilationUnitImportingManyToOne
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.persistence.ManyToOne.java'), 
+	  				'ManyToOne'),	  		
+	  			namespaces = Sequence{'javax', 'persistence'}
+	  		}
+		};
+	  
+	  	when
+	  	{
+	  		isEntityOrExtendsEntity(dataStructure);
+	  		containsSingleAssociation(dataStructure) or containsSingleAggregation(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureInstanceOfEntityCollectiveKindOfAssociationToCompilationUnitImportingManyToOne
+	{
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure{};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+	  		imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit('javax.persistence.OneToMany.java'), 
+	  				'OneToMany'),	  		
+	  			namespaces = Sequence{'javax', 'persistence'}
+	  		}
+		};
+	  
+	  	when
+	  	{
+	  		isEntityOrExtendsEntity(dataStructure);
+	  		containsCollectiveKindOfAssociation(dataStructure);
+	  	}
+	
+	}
+	
+	relation DataStructureFeatureToGetterAndSetterClassMethodsAndField
+	{
+		
+		name : String;	
+		
+	  	checkonly domain source dataStructure : urdad::data::DataStructure
+	  	{
+	  		features = feature : urdad::data::Feature
+	  	  	{
+	  	  		name = name	 
+	  	  	}
+	  	};
+	  
+	  	enforce domain target class : java::classifiers::Class
+	  	{
+	  		members = getterClassMethod : java::members::ClassMethod 
+	  		{
+				name = 'get'.concat(name.firstToUpper()),
+				annotationsAndModifiers = public : java::modifiers::Public{}
+	  		},
+	  		members = setterClassMethod : java::members::ClassMethod 
+	  		{
+				name = 'set'.concat(name.firstToUpper()),
+				annotationsAndModifiers = public2 : java::modifiers::Public{} 
+	  		},
+	  		members = field : java::members::Field 
+	  		{
+				name = name,
+				annotationsAndModifiers = private : java::modifiers::Private{} 
+	  		}
+	  	};
+	  
+	  	where 
+	  	{	
+	  		SingleAttributeToField(feature, field);
+	  		SingleAttributeToGetterAndSetterMethod(feature, field, getterClassMethod, setterClassMethod);
+	  		CollectiveAttributeToField(feature, field);
+	  		CollectiveAttributeToGetterAndSetterMethod(feature, field, getterClassMethod, setterClassMethod);
+	  		SingleIdentificationToField(feature, field);
+	  		SingleIdentificationToGetterAndSetterMethod(feature, field, getterClassMethod, setterClassMethod);
+	  		CollectiveIdentificationToField(feature, field);
+	  		CollectiveIdentificationToGetterAndSetterMethod(feature, field, getterClassMethod, 
+	  			setterClassMethod);
+	  		SingleKindOfAssociationToField(feature, field);
+	  		SingleKindOfAssociationToGetterAndSetterMethod(feature, field, getterClassMethod, 
+	  			setterClassMethod);
+	  		CollectiveKindOfAssociationToField(feature, field);
+	  		CollectiveKindOfAssociationToGetterAndSetterMethod(feature, field, getterClassMethod, 
+	  			setterClassMethod);
+	  	}
+	
+	}
+	
+	relation SingleAttributeToField
+	{
+		
+	  	checkonly domain source attribute : urdad::data::Attribute{};
+	  
+	  	enforce domain target field : java::members::Field 
+	  	{
+	  		typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+	  		{
+	  			classifierReferences = classifierReference : java::types::ClassifierReference
+	  			{
+	  				target = getConcreteClassifierForAttribute(attribute)
+	  			}
+	  		}
+	  	};
+	  
+	  	when
+	  	{
+	  		isSingleFeature(attribute);
+	  	}
+	
+	}
+	
+	relation SingleAttributeToGetterAndSetterMethod
+	{
+		
+	  	checkonly domain source attribute : urdad::data::Attribute{};
+	  	
+	  	enforce domain target field : java::members::Field{};
+	  
+	  	enforce domain target getterMethod : java::members::ClassMethod 
+	  	{
+  			typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+  			{
+  				classifierReferences = classifierReference : java::types::ClassifierReference 
+  				{
+  					target = getConcreteClassifierForAttribute(attribute)
+  				}
+  			},
+	  		statements = return : java::statements::Return
+	  		{
+	  			returnValue = identifierReference : java::references::IdentifierReference
+	  			{
+	  				target = field
+	  			}
+	  		}
+	  	};
+	  	
+	  	enforce domain target setterMethod : java::members::ClassMethod 
+	  	{
+  			typeReference = void : java::types::Void{},
+  			parameters = ordinaryParameter : java::parameters::OrdinaryParameter 
+  			{
+  				name = attribute.name,
+  				typeReference = namespaceClassifierReference2 : java::types::NamespaceClassifierReference
+  				{
+  					classifierReferences = classifierReference2 : java::types::ClassifierReference 
+	  				{
+	  					target = getConcreteClassifierForAttribute(attribute)
+	  				}
+  				}
+  			},
+  			statements = expressionStatement : java::statements::ExpressionStatement 
+  			{
+  				expression = assignmentExpression : java::expressions::AssignmentExpression
+  				{
+  					child = selfReference : java::references::SelfReference
+  					{
+  						next = identifierReference2 : java::references::IdentifierReference
+  						{
+  							target = field
+  						},
+  						self = this : java::literals::This{}
+  					},
+  					assignmentOperator = assignment : java::operators::Assignment{},
+  					value = identifierReference3 : java::references::IdentifierReference
+  					{
+  						target = ordinaryParameter
+  					}
+  				}
+  			}
+	  	};
+	  
+	  	when
+	  	{
+	  		isSingleFeature(attribute);
+	  	}
+	
+	}
+	
+	relation CollectiveAttributeToField
+	{
+		
+	  	checkonly domain source attribute : urdad::data::Attribute{};
+	  
+	  	enforce domain target field : java::members::Field 
+	  	{
+	  		initialValue = newConstructorCall : java::instantiations::NewConstructorCall
+	  		{
+	  			typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference 
+	  			{
+	  				classifierReferences = classifierReference : java::types::ClassifierReference 
+	  				{
+	  					target = getConcreteClassifier(getCompilationUnit('java.util.LinkedList.java'), 
+	  						'LinkedList'),
+	  					typeArguments = typeArguments : java::generics::QualifiedTypeArgument
+		  				{
+		  					typeReference = namespaceClassifierReference2 : 
+		  						java::types::NamespaceClassifierReference
+		  					{
+		  						classifierReferences = classifierReference2 : java::types::ClassifierReference
+		  						{
+		  							target = getConcreteClassifierForAttribute(attribute)
+		  						}
+		  					}
+		  				}	
+	  				
+	  				}
+	  			}
+	  		},
+	  		typeReference = namespaceClassifierReference3 : java::types::NamespaceClassifierReference
+	  		{
+	  			classifierReferences = classifierReference3 : java::types::ClassifierReference
+	  			{
+	  				target = getConcreteClassifier(getCompilationUnit('java.util.Collection.java'), 
+	  					'Collection'),
+	  				typeArguments = typeArguments2 : java::generics::QualifiedTypeArgument
+	  				{
+	  					typeReference = namespaceClassifierReference4 : 
+	  						java::types::NamespaceClassifierReference
+	  					{
+	  						classifierReferences = classifierReference4 : java::types::ClassifierReference
+	  						{
+	  							target = getConcreteClassifierForAttribute(attribute)
+	  						}
+	  					}
+	  				}
+	  			}
+	  		}
+	  	};
+	  
+	  	when
+	  	{
+	  		isCollectiveFeature(attribute);			
+	  	}
+	  	
+	  	where
+	  	{
+	  		CollectiveAttributeBelongingToInstanceOfEntityToField(attribute, field);
+	  	}
+	
+	}
+	
+	relation CollectiveAttributeBelongingToInstanceOfEntityToField
+	{
+		
+	  	checkonly domain source attribute : urdad::data::Attribute{};
+	  
+	  	enforce domain target field : java::members::Field 
+	  	{
+	  		annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
+  			{
+  				annotation = getConcreteClassifier(getCompilationUnit
+  					('javax.persistence.ElementCollection.java'), 'ElementCollection')
+  			},
+  			annotationsAndModifiers = annotationInstance2 : java::annotations::AnnotationInstance
+  			{
+  				annotation = getConcreteClassifier(getCompilationUnit
+  					('javax.persistence.CollectionTable.java'), 'CollectionTable'),
+  				parameter = annotationParameterList : java::annotations::AnnotationParameterList
+  				{
+  					settings = annotationAttributeSetting : java::annotations::AnnotationAttributeSetting
+  					{
+  						attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+  							('javax.persistence.CollectionTable.java'), 'CollectionTable').oclAsType
+  							(java::classifiers::Annotation), 'name'),
+  						value = conditionalExpression : java::expressions::ConditionalExpression
+  						{
+  							child = stringReference : java::references::StringReference 
+  							{
+  								value = attribute.name
+  							}
+  						}
+  					},
+  					settings = annotationAttributeSetting2 : java::annotations::AnnotationAttributeSetting
+  					{
+  						attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+  							('javax.persistence.CollectionTable.java'), 'CollectionTable').oclAsType
+  							(java::classifiers::Annotation), 'joinColumns'),
+  						value = arrayInitializer : java::arrays::ArrayInitializer 
+  						{
+  							initialValues = annotationInstance3 : java::annotations::AnnotationInstance
+  							{
+  								annotation = getConcreteClassifier(getCompilationUnit
+  									('javax.persistence.JoinColumn.java'), 'JoinColumn'),
+  								parameter = annotationParameterList2 : 
+  									java::annotations::AnnotationParameterList{
+  									settings = annotationAttributeSetting3 : 
+  										java::annotations::AnnotationAttributeSetting 
+  									{
+  										attribute = getAnnotationAttribute(getConcreteClassifier
+  											(getCompilationUnit('javax.persistence.JoinColumn.java'), 
+  											'JoinColumn').oclAsType(java::classifiers::Annotation), 'name'),
+  										value = conditionalExpression2 : 
+  											java::expressions::ConditionalExpression
+				  						{
+				  							child = stringReference2 : java::references::StringReference 
+				  							{
+				  								value = getParentDataStructure(attribute).name.firstToLower()
+				  							}
+				  						}
+  									}
+  								}
+  							}
+  						}
+  					}
+  				}
+  			},
+  			annotationsAndModifiers = annotationInstance4 : java::annotations::AnnotationInstance
+  			{
+  				annotation = getConcreteClassifier(getCompilationUnit('javax.persistence.Column.java'), 
+  					'Column'),
+  				parameter = annotationParameterList3 : java::annotations::AnnotationParameterList 
+  				{
+  					settings = annotationAttributeSetting4 : java::annotations::AnnotationAttributeSetting 
+  					{
+  						attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+  							('javax.persistence.Column.java'), 'Column').oclAsType
+  							(java::classifiers::Annotation), 'name'),
+  						value = conditionalExpression3 : java::expressions::ConditionalExpression
+  						{
+  							child = stringReference3 : java::references::StringReference 
+  							{
+								value = attribute.name
+  							}
+  						}
+  					}
+  				}
+  			}
+	  	};
+	  
+	  	when
+	  	{
+	  		isCollectiveFeature(attribute);
+	  		isEntityOrExtendsEntity(getParentDataStructure(attribute));
+	  	}
+	
+	}
+	
+	relation CollectiveAttributeToGetterAndSetterMethod
+	{
+		
+	  	checkonly domain source attribute : urdad::data::Attribute{};
+	  	
+	  	enforce domain target field : java::members::Field{};
+	  
+	  	enforce domain target getterMethod : java::members::ClassMethod 
+	  	{
+  			typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+  			{
+  				classifierReferences = classifierReference : java::types::ClassifierReference 
+  				{
+  					target = getConcreteClassifier(getCompilationUnit('java.util.Collection.java'), 
+	  					'Collection'),
+  					typeArguments = qualifiedTypeArgument : java::generics::QualifiedTypeArgument
+  					{
+  						typeReference = namespaceClassifierReference2 : 
+  							java::types::NamespaceClassifierReference
+  						{
+  							classifierReferences = classifierReference2 : java::types::ClassifierReference 
+  							{
+  								target = getConcreteClassifierForAttribute(attribute)
+  							}
+  						}
+  					}
+  				}
+  			},
+	  		statements = return : java::statements::Return
+	  		{
+	  			returnValue = identifierReference : java::references::IdentifierReference
+	  			{
+	  				target = field
+	  			}
+	  		}
+	  	};
+	  	
+	  	enforce domain target setterMethod : java::members::ClassMethod 
+	  	{	
+  			typeReference = void : java::types::Void{},
+  			parameters = ordinaryParameter : java::parameters::OrdinaryParameter 
+  			{
+  				name = attribute.name,
+  				typeReference = namespaceClassifierReference3 : java::types::NamespaceClassifierReference
+	  			{
+	  				classifierReferences = classifierReference3 : java::types::ClassifierReference 
+	  				{
+	  					target = getConcreteClassifier(getCompilationUnit('java.util.Collection.java'), 
+		  					'Collection'),
+	  					typeArguments = qualifiedTypeArgument2 : java::generics::QualifiedTypeArgument
+	  					{
+	  						typeReference = namespaceClassifierReference4 : 
+	  							java::types::NamespaceClassifierReference
+	  						{
+	  							classifierReferences = classifierReference4 : java::types::ClassifierReference 
+	  							{
+	  								target = getConcreteClassifierForAttribute(attribute)
+	  							}
+	  						}
+	  					}
+	  				}
+	  			}
+  			},
+  			statements = expressionStatement : java::statements::ExpressionStatement 
+  			{
+  				expression = assignmentExpression : java::expressions::AssignmentExpression
+  				{
+  					child = selfReference : java::references::SelfReference
+  					{
+  						next = identifierReference2 : java::references::IdentifierReference
+  						{
+  							target = field
+  						},
+  						self = this : java::literals::This{}
+  					},
+  					assignmentOperator = assignment : java::operators::Assignment{},
+  					value = identifierReference3 : java::references::IdentifierReference
+  					{
+  						target = ordinaryParameter
+  					}
+  				}
+  			}
+	  	};
+	  
+	  	when
+	  	{
+	  		isCollectiveFeature(attribute);	
+	  	}
+	
+	}
+	
+	relation SingleIdentificationToField
+	{
+		
+	  	checkonly domain source identification : urdad::data::Identification{};
+	  
+	  	enforce domain target field : java::members::Field 
+	  	{
+	  		typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+	  		{
+	  			classifierReferences = classifierReference : java::types::ClassifierReference
+	  			{
+	  				target = getConcreteClassifier(getCompilationUnit('java.lang.String.java'), 'String')
+	  			}
+	  		}
+	  	};
+	  
+	  	when
+	  	{
+	  		isSingleFeature(identification);
+	  		identification.oclIsTypeOf(urdad::data::Identification);
+	  	}
+	  	
+	  	where
+	  	{
+	  		SingleIdentificationBelongingToEntityToField(identification, field);
+	  	}
+	
+	}
+	
+	relation SingleIdentificationBelongingToEntityToField
+	{
+		
+	  	checkonly domain source identification : urdad::data::Identification{};
+	  
+	  	enforce domain target field : java::members::Field 
+	  	{
+	  		annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
+  			{
+  				annotation = getConcreteClassifier(getCompilationUnit('javax.persistence.Id.java'), 'Id')
+  			}
+	  	};
+	  
+	  	when
+	  	{
+	  		isSingleFeature(identification);
+	  		identification.oclIsTypeOf(urdad::data::Identification);
+	  		isEntity(getParentDataStructure(identification));
+	  	}
+	
+	}
+	
+	relation SingleIdentificationToGetterAndSetterMethod
+	{
+		
+	  	checkonly domain source identification : urdad::data::Identification{};
+	  	
+	  	enforce domain target field : java::members::Field{};
+	  
+	  	enforce domain target getterMethod : java::members::ClassMethod 
+	  	{
+  			typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+  			{
+  				classifierReferences = classifierReference : java::types::ClassifierReference 
+  				{
+  					target = getConcreteClassifier(getCompilationUnit('java.lang.String.java'), 'String')
+  				}
+  			},
+	  		statements = return : java::statements::Return
+	  		{
+	  			returnValue = identifierReference : java::references::IdentifierReference
+	  			{
+	  				target = field
+	  			}
+	  		}
+	  	};
+	  	
+	  	enforce domain target setterMethod : java::members::ClassMethod 
+	  	{
+  			typeReference = void : java::types::Void{},
+  			parameters = ordinaryParameter : java::parameters::OrdinaryParameter 
+  			{
+  				name = identification.name,
+  				typeReference = namespaceClassifierReference2 : java::types::NamespaceClassifierReference
+  				{
+  					classifierReferences = classifierReference2 : java::types::ClassifierReference 
+	  				{
+	  					target = getConcreteClassifier(getCompilationUnit('java.lang.String.java'), 'String')
+	  				}
+  				}
+  			},
+  			statements = expressionStatement : java::statements::ExpressionStatement 
+  			{
+  				expression = assignmentExpression : java::expressions::AssignmentExpression
+  				{
+  					child = selfReference : java::references::SelfReference
+  					{
+  						next = identifierReference2 : java::references::IdentifierReference
+  						{
+  							target = field
+  						},
+  						self = this : java::literals::This{}
+  					},
+  					assignmentOperator = assignment : java::operators::Assignment{},
+  					value = identifierReference3 : java::references::IdentifierReference
+  					{
+  						target = ordinaryParameter
+  					}
+  				}
+  			}
+	  	};
+	  
+	  	when
+	  	{
+	  		isSingleFeature(identification);
+	  		identification.oclIsTypeOf(urdad::data::Identification);
+	  	}
+	
+	}
+	
+	relation CollectiveIdentificationToField
+	{
+		
+	  	checkonly domain source identification : urdad::data::Identification{};
+	  
+	  	enforce domain target field : java::members::Field 
+	  	{
+	  		initialValue = newConstructorCall : java::instantiations::NewConstructorCall
+	  		{
+	  			typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference 
+	  			{
+	  				classifierReferences = classifierReference : java::types::ClassifierReference 
+	  				{
+	  					target = getConcreteClassifier(getCompilationUnit('java.util.LinkedList.java'), 
+	  						'LinkedList'),
+	  					typeArguments = typeArguments : java::generics::QualifiedTypeArgument
+		  				{
+		  					typeReference = namespaceClassifierReference2 : 
+		  						java::types::NamespaceClassifierReference
+		  					{
+		  						classifierReferences = classifierReference2 : java::types::ClassifierReference
+		  						{
+		  							target = getConcreteClassifier(getCompilationUnit
+		  								('java.lang.String.java'),	'String')
+		  						}
+		  					}
+		  				}	
+	  				
+	  				}
+	  			}
+	  		},
+	  		typeReference = namespaceClassifierReference3 : java::types::NamespaceClassifierReference
+	  		{
+	  			classifierReferences = classifierReference3 : java::types::ClassifierReference
+	  			{
+	  				target = getConcreteClassifier(getCompilationUnit('java.util.Collection.java'), 
+	  					'Collection'),
+	  				typeArguments = typeArguments2 : java::generics::QualifiedTypeArgument
+	  				{
+	  					typeReference = namespaceClassifierReference4 : 
+	  						java::types::NamespaceClassifierReference
+	  					{
+	  						classifierReferences = classifierReference4 : java::types::ClassifierReference
+	  						{
+	  							target = getConcreteClassifier(getCompilationUnit('java.lang.String.java'), 
+	  								'String')
+	  						}
+	  					}
+	  				}
+	  			}
+	  		}
+	  	};
+	  
+	  	when
+	  	{
+	  		isCollectiveFeature(identification);
+			identification.oclIsTypeOf(urdad::data::Identification);
+	  	}
+	  	
+	  	where
+	  	{
+	  		CollectiveIdentificationBelongingToInstanceOfEntityToField(identification, field);
+	  	}
+	
+	}
+	
+	relation CollectiveIdentificationBelongingToInstanceOfEntityToField
+	{
+		
+	  	checkonly domain source identification : urdad::data::Identification{};
+	  
+	  	enforce domain target field : java::members::Field 
+	  	{
+	  		annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
+  			{
+  				annotation = getConcreteClassifier(getCompilationUnit
+  					('javax.persistence.ElementCollection.java'), 'ElementCollection')
+  			},
+  			
+  			annotationsAndModifiers = annotationInstance2 : java::annotations::AnnotationInstance
+  			{
+  				annotation = getConcreteClassifier(getCompilationUnit
+  					('javax.persistence.CollectionTable.java'), 'CollectionTable'),
+  				parameter = annotationParameterList : java::annotations::AnnotationParameterList
+  				{
+  					settings = annotationAttributeSetting : java::annotations::AnnotationAttributeSetting
+  					{
+  						attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+  							('javax.persistence.CollectionTable.java'), 'CollectionTable').oclAsType
+  							(java::classifiers::Annotation), 'name'),
+  						value = conditionalExpression : java::expressions::ConditionalExpression
+  						{
+  							child = stringReference : java::references::StringReference 
+  							{
+  								value = identification.name
+  							}
+  						}
+  					},
+  					settings = annotationAttributeSetting2 : java::annotations::AnnotationAttributeSetting
+  					{
+  						attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+  							('javax.persistence.CollectionTable.java'), 'CollectionTable').oclAsType
+  							(java::classifiers::Annotation), 'joinColumns'),
+  						value = arrayInitializer : java::arrays::ArrayInitializer 
+  						{
+  							initialValues = annotationInstance3 : java::annotations::AnnotationInstance
+  							{
+  								annotation = getConcreteClassifier(getCompilationUnit
+  									('javax.persistence.JoinColumn.java'), 'JoinColumn'),
+  								parameter = annotationParameterList2 : 
+  									java::annotations::AnnotationParameterList{
+  									settings = annotationAttributeSetting3 : 
+  										java::annotations::AnnotationAttributeSetting 
+  									{
+  										attribute = getAnnotationAttribute(getConcreteClassifier
+  											(getCompilationUnit('javax.persistence.JoinColumn.java'), 
+  											'JoinColumn').oclAsType(java::classifiers::Annotation), 'name'),
+  										value = conditionalExpression2 : 
+  											java::expressions::ConditionalExpression
+				  						{
+				  							child = stringReference2 : java::references::StringReference 
+				  							{
+				  								value = getParentDataStructure(identification).name
+				  									.firstToLower()
+				  							}
+				  						}
+  									}
+  								}
+  							}
+  						}
+  					}
+  				}
+  			},
+  			annotationsAndModifiers = annotationInstance4 : java::annotations::AnnotationInstance
+  			{
+  				annotation = getConcreteClassifier(getCompilationUnit('javax.persistence.Column.java'), 
+  					'Column'),
+  				parameter = annotationParameterList3 : java::annotations::AnnotationParameterList 
+  				{
+  					settings = annotationAttributeSetting4 : java::annotations::AnnotationAttributeSetting 
+  					{
+  						attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+  							('javax.persistence.Column.java'), 'Column').oclAsType
+  							(java::classifiers::Annotation), 'name'),
+  						value = conditionalExpression3 : java::expressions::ConditionalExpression
+  						{
+  							child = stringReference3 : java::references::StringReference 
+  							{
+								value = identification.name
+  							}
+  						}
+  					}
+  				}
+  			}
+	  	};
+	  
+	  	when
+	  	{
+	  		isCollectiveFeature(identification);
+	  		identification.oclIsTypeOf(urdad::data::Identification);
+	  		isEntityOrExtendsEntity(getParentDataStructure(identification));
+	  	}
+	
+	}
+	
+	relation CollectiveIdentificationToGetterAndSetterMethod
+	{
+		
+	  	checkonly domain source identification : urdad::data::Identification{};
+	  	
+	  	enforce domain target field : java::members::Field{};
+	  
+	  	enforce domain target getterMethod : java::members::ClassMethod 
+	  	{
+  			typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+  			{
+  				classifierReferences = classifierReference : java::types::ClassifierReference 
+  				{
+  					target = getConcreteClassifier(getCompilationUnit('java.util.Collection.java'), 
+	  					'Collection'),
+  					typeArguments = qualifiedTypeArgument : java::generics::QualifiedTypeArgument
+  					{
+  						typeReference = namespaceClassifierReference2 : 
+  							java::types::NamespaceClassifierReference
+  						{
+  							classifierReferences = classifierReference2 : java::types::ClassifierReference 
+  							{
+  								target = getConcreteClassifier(getCompilationUnit('java.lang.String.java'), 
+	  								'String')
+  							}
+  						}
+  					}
+  				}
+  			},
+	  		statements = return : java::statements::Return
+	  		{
+	  			returnValue = identifierReference : java::references::IdentifierReference
+	  			{
+	  				target = field
+	  			}
+	  		}
+	  	};
+	  	
+	  	enforce domain target setterMethod : java::members::ClassMethod 
+	  	{	
+  			typeReference = void : java::types::Void{},
+  			parameters = ordinaryParameter : java::parameters::OrdinaryParameter 
+  			{
+  				name = identification.name,
+  				typeReference = namespaceClassifierReference3 : java::types::NamespaceClassifierReference
+	  			{
+	  				classifierReferences = classifierReference3 : java::types::ClassifierReference 
+	  				{
+	  					target = getConcreteClassifier(getCompilationUnit('java.util.Collection.java'), 
+		  					'Collection'),
+	  					typeArguments = qualifiedTypeArgument2 : java::generics::QualifiedTypeArgument
+	  					{
+	  						typeReference = namespaceClassifierReference4 : 
+	  							java::types::NamespaceClassifierReference
+	  						{
+	  							classifierReferences = classifierReference4 : java::types::ClassifierReference 
+	  							{
+	  								target = getConcreteClassifier(getCompilationUnit
+	  									('java.lang.String.java'), 'String')
+	  							}
+	  						}
+	  					}
+	  				}
+	  			}
+  			},
+  			statements = expressionStatement : java::statements::ExpressionStatement 
+  			{
+  				expression = assignmentExpression : java::expressions::AssignmentExpression
+  				{
+  					child = selfReference : java::references::SelfReference
+  					{
+  						next = identifierReference2 : java::references::IdentifierReference
+  						{
+  							target = field
+  						},
+  						self = this : java::literals::This{}
+  					},
+  					assignmentOperator = assignment : java::operators::Assignment{},
+  					value = identifierReference3 : java::references::IdentifierReference
+  					{
+  						target = ordinaryParameter
+  					}
+  				}
+  			}
+	  	};
+	  
+	  	when
+	  	{
+	  		isCollectiveFeature(identification);
+			identification.oclIsTypeOf(urdad::data::Identification);
+	  	}
+	
+	}
+	
+	relation SingleKindOfAssociationToField
+	{
+		
+	  	checkonly domain source association : urdad::data::Association{};
+	  
+	  	enforce domain target field : java::members::Field 
+	  	{
+	  		typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+	  		{
+	  			classifierReferences = classifierReference : java::types::ClassifierReference
+	  			{
+	  				target = getConcreteClassifier(association.relatedElement.oclAsType
+	  					(urdad::data::DataStructure))
+	  			}
+	  		}
+	  	};
+	  
+	  	when
+	  	{
+	  		isSingleFeature(association);
+	  		association.oclIsKindOf(urdad::data::Association);
+	  		DataStructureToClassCompilationUnit(association.relatedElement.oclAsType
+	  			(urdad::data::DataStructure), getCompilationUnit(association.relatedElement.oclAsType
+	  			(urdad::data::DataStructure)));
+	  	}
+	  	
+	  	where
+	  	{
+			SingleAssociationOrAggregationBelongingToEntityToField(association, field);	  	
+	  		SingleCompositionBelongingToEntityToField(association, field);
+	  	}
+	
+	}
+	
+	relation SingleAssociationOrAggregationBelongingToEntityToField
+	{
+		
+	  	checkonly domain source association : urdad::data::Association{};
+	  
+	  	enforce domain target field : java::members::Field 
+	  	{
+	  		annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
+	  		{
+	  			annotation = getConcreteClassifier(getCompilationUnit('javax.persistence.ManyToOne.java'), 
+	  				'ManyToOne'),
+		  		parameter = annotationParameterList : java::annotations::AnnotationParameterList
+	  			{
+	  				settings = annotationAttributeSetting : java::annotations::AnnotationAttributeSetting
+	  				{
+	  					attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+	  						('javax.persistence.ManyToOne.java'), 'ManyToOne').oclAsType
+	  						(java::classifiers::Annotation), 'fetch'),
+	  					value = conditionalExpression : java::expressions::ConditionalExpression
+	  					{
+	  						child = identifierReference : java::references::IdentifierReference
+	  						{
+	  							target = getConcreteClassifier(getCompilationUnit
+	  								('javax.persistence.FetchType.java'), 'FetchType'),
+	  							next = identifierReference2 : java::references::IdentifierReference 
+	  							{
+	  								target = getEnumConstant(getConcreteClassifier(getCompilationUnit
+	  									('javax.persistence.FetchType.java'), 'FetchType').oclAsType
+	  									(java::classifiers::Enumeration), 'EAGER')
+	  							}
+	  								
+	  						}
+	  					}
+	  				}
+  				}
+	  		},
+	  		annotationsAndModifiers = annotationInstance2 : java::annotations::AnnotationInstance
+  			{
+  				annotation = getConcreteClassifier(getCompilationUnit('javax.persistence.JoinColumn.java'), 
+  					'JoinColumn'),
+  				parameter = annotationParameterList2 : java::annotations::AnnotationParameterList 
+  				{
+  					settings = annotationAttributeSetting3 : java::annotations::AnnotationAttributeSetting 
+  					{
+  						attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+  							('javax.persistence.JoinColumn.java'), 'JoinColumn').oclAsType
+  							(java::classifiers::Annotation), 'name'),
+  						value = conditionalExpression3 : java::expressions::ConditionalExpression
+  						{
+  							child = stringReference3 : java::references::StringReference 
+  							{
+								value = association.name
+  							}
+  						}
+  					}
+  				}
+  			}
+	  	};
+	  
+	  	when
+	  	{
+	  		isSingleFeature(association);
+	  		association.oclIsTypeOf(urdad::data::Association) or association.oclIsTypeOf
+	  			(urdad::data::Aggregation);
+	  		isEntityOrExtendsEntity(getParentDataStructure(association));
+	  	}
+	
+	}
+	
+	relation SingleCompositionBelongingToEntityToField
+	{
+		
+	  	checkonly domain source composition : urdad::data::Composition{};
+	  
+	  	enforce domain target field : java::members::Field 
+	  	{
+	  		annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
+	  		{
+	  			annotation = getConcreteClassifier(getCompilationUnit('javax.persistence.OneToOne.java'), 
+	  				'OneToOne'),
+		  		parameter = annotationParameterList : java::annotations::AnnotationParameterList
+	  			{
+	  				settings = annotationAttributeSetting : java::annotations::AnnotationAttributeSetting
+	  				{
+	  					attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+	  						('javax.persistence.OneToOne.java'), 'OneToOne').oclAsType
+	  						(java::classifiers::Annotation), 'cascade'),
+	  					value = conditionalExpression : java::expressions::ConditionalExpression
+	  					{
+	  						child = identifierReference : java::references::IdentifierReference
+	  						{
+	  							target = getConcreteClassifier(getCompilationUnit
+	  								('javax.persistence.CascadeType.java'), 'CascadeType'),
+	  							next = identifierReference2 : java::references::IdentifierReference 
+	  							{
+	  								target = getEnumConstant(getConcreteClassifier(getCompilationUnit
+	  									('javax.persistence.CascadeType.java'), 'CascadeType').oclAsType
+	  									(java::classifiers::Enumeration), 'ALL')
+	  							}
+	  						}
+	  					}
+	  				},
+	  				settings = annotationAttributeSetting2 : java::annotations::AnnotationAttributeSetting
+	  				{
+	  					attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+	  						('javax.persistence.OneToOne.java'), 'OneToOne').oclAsType
+	  						(java::classifiers::Annotation), 'fetch'),
+	  					value = conditionalExpression2 : java::expressions::ConditionalExpression
+	  					{
+	  						child = identifierReference3 : java::references::IdentifierReference
+	  						{
+	  							target = getConcreteClassifier(getCompilationUnit
+	  								('javax.persistence.FetchType.java'), 'FetchType'),
+	  							next = identifierReference4 : java::references::IdentifierReference 
+	  							{
+	  								target = getEnumConstant(getConcreteClassifier(getCompilationUnit
+	  									('javax.persistence.FetchType.java'), 'FetchType').oclAsType
+	  									(java::classifiers::Enumeration), 'EAGER')
+	  							}
+	  						}
+	  					}
+	  				}
+  				}
+	  		},
+	  		annotationsAndModifiers = annotationInstance2 : java::annotations::AnnotationInstance
+  			{
+  				annotation = getConcreteClassifier(getCompilationUnit('javax.persistence.JoinColumn.java'), 
+  					'JoinColumn'),
+  				parameter = annotationParameterList2 : java::annotations::AnnotationParameterList 
+  				{
+  					settings = annotationAttributeSetting3 : java::annotations::AnnotationAttributeSetting 
+  					{
+  						attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+  							('javax.persistence.JoinColumn.java'), 'JoinColumn').oclAsType
+  							(java::classifiers::Annotation), 'name'),
+  						value = conditionalExpression3 : java::expressions::ConditionalExpression
+  						{
+  							child = stringReference3 : java::references::StringReference 
+  							{
+								value = composition.name
+  							}
+  						}
+  					}
+  				}
+  			}
+	  	};
+	  
+	  	when
+	  	{
+	  		isSingleFeature(composition);
+	  		composition.oclIsTypeOf(urdad::data::Composition);
+	  		isEntityOrExtendsEntity(getParentDataStructure(composition));
+	  	}
+	
+	}
+	
+	relation SingleKindOfAssociationToGetterAndSetterMethod
+	{
+		
+	  	checkonly domain source association : urdad::data::Association{};
+	  	
+	  	enforce domain target field : java::members::Field{};
+	  
+	  	enforce domain target getterMethod : java::members::ClassMethod 
+	  	{
+  			typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+  			{
+  				classifierReferences = classifierReference : java::types::ClassifierReference 
+  				{
+  					target = getConcreteClassifier(association.relatedElement.oclAsType
+	  					(urdad::data::DataStructure))
+  				}
+  			},
+	  		statements = return : java::statements::Return
+	  		{
+	  			returnValue = identifierReference : java::references::IdentifierReference
+	  			{
+	  				target = field
+	  			}
+	  		}
+	  	};
+	  	
+	  	enforce domain target setterMethod : java::members::ClassMethod 
+	  	{
+  			typeReference = void : java::types::Void{},
+  			parameters = ordinaryParameter : java::parameters::OrdinaryParameter 
+  			{
+  				name = association.name,
+  				typeReference = namespaceClassifierReference2 : java::types::NamespaceClassifierReference
+  				{
+  					classifierReferences = classifierReference2 : java::types::ClassifierReference 
+	  				{
+	  					target = getConcreteClassifier(association.relatedElement.oclAsType
+	  						(urdad::data::DataStructure))
+	  				}
+  				}
+  			},
+  			statements = expressionStatement : java::statements::ExpressionStatement 
+  			{
+  				expression = assignmentExpression : java::expressions::AssignmentExpression
+  				{
+  					child = selfReference : java::references::SelfReference
+  					{
+  						next = identifierReference2 : java::references::IdentifierReference
+  						{
+  							target = field
+  						},
+  						self = this : java::literals::This{}
+  					},
+  					assignmentOperator = assignment : java::operators::Assignment{},
+  					value = identifierReference3 : java::references::IdentifierReference
+  					{
+  						target = ordinaryParameter
+  					}
+  				}
+  			}
+	  	};
+	  
+	  	when
+	  	{
+	  		isSingleFeature(association);
+	  		association.oclIsKindOf(urdad::data::Association);
+	  		DataStructureToClassCompilationUnit(association.relatedElement.oclAsType
+	  			(urdad::data::DataStructure), getCompilationUnit(association.relatedElement.oclAsType
+	  			(urdad::data::DataStructure)));
+	  	}
+	
+	}
+	
+	relation CollectiveKindOfAssociationToField
+	{
+		
+	  	checkonly domain source association : urdad::data::Association{};
+	  
+	  	enforce domain target field : java::members::Field 
+	  	{		  		
+	  		initialValue = newConstructorCall : java::instantiations::NewConstructorCall
+	  		{
+	  			typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference 
+	  			{
+	  				classifierReferences = classifierReference : java::types::ClassifierReference 
+	  				{
+	  					target = getConcreteClassifier(getCompilationUnit('java.util.LinkedList.java'), 
+	  						'LinkedList'),
+	  					typeArguments = typeArguments : java::generics::QualifiedTypeArgument
+		  				{
+		  					typeReference = namespaceClassifierReference2 : 
+		  						java::types::NamespaceClassifierReference
+		  					{
+		  						classifierReferences = classifierReference2 : java::types::ClassifierReference
+		  						{
+		  							target = getConcreteClassifier(association.relatedElement.oclAsType
+	  									(urdad::data::DataStructure))
+		  						}
+		  					}
+		  				}	
+	  				
+	  				}
+	  			}
+	  		},
+	  		typeReference = namespaceClassifierReference3 : java::types::NamespaceClassifierReference
+	  		{
+	  			classifierReferences = classifierReference3 : java::types::ClassifierReference
+	  			{
+	  				target = getConcreteClassifier(getCompilationUnit('java.util.Collection.java'), 
+	  					'Collection'),
+	  				typeArguments = typeArguments2 : java::generics::QualifiedTypeArgument
+	  				{
+	  					typeReference = namespaceClassifierReference4 : 
+	  						java::types::NamespaceClassifierReference
+	  					{
+	  						classifierReferences = classifierReference4 : java::types::ClassifierReference
+	  						{
+	  							target = getConcreteClassifier(association.relatedElement.oclAsType
+	  								(urdad::data::DataStructure))
+	  						}
+	  					}
+	  				}
+	  			}
+	  		}	
+	  	};
+	  
+	  	when
+	  	{
+	  		isCollectiveFeature(association);
+	  		association.oclIsKindOf(urdad::data::Association);
+	  		DataStructureToClassCompilationUnit(association.relatedElement.oclAsType
+	  			(urdad::data::DataStructure), getCompilationUnit(association.relatedElement.oclAsType
+	  			(urdad::data::DataStructure)));
+	  	}
+	  	
+	  	where
+	  	{	  		
+	  		CollectiveKindOfAssociationBelongingToEntityToField(association, field);	  		
+	  	}
+	
+	}
+	
+	relation CollectiveKindOfAssociationBelongingToEntityToField
+	{
+		
+	  	checkonly domain source association : urdad::data::Association{};
+	  
+	  	enforce domain target field : java::members::Field 
+	  	{
+			annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
+	  		{
+	  			annotation = getConcreteClassifier(getCompilationUnit('javax.persistence.OneToMany.java'), 
+	  				'OneToMany'),
+		  		parameter = annotationParameterList : java::annotations::AnnotationParameterList
+	  			{
+	  				settings = annotationAttributeSetting : java::annotations::AnnotationAttributeSetting
+	  				{
+	  					attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+	  						('javax.persistence.OneToMany.java'), 'OneToMany').oclAsType
+	  						(java::classifiers::Annotation), 'cascade'),
+	  					value = conditionalExpression : java::expressions::ConditionalExpression
+	  					{
+	  						child = identifierReference : java::references::IdentifierReference
+	  						{
+	  							target = getConcreteClassifier(getCompilationUnit
+	  								('javax.persistence.CascadeType.java'), 'CascadeType'),
+	  							next = identifierReference2 : java::references::IdentifierReference 
+	  							{
+	  								target = getEnumConstant(getConcreteClassifier(getCompilationUnit
+	  									('javax.persistence.CascadeType.java'), 'CascadeType').oclAsType
+	  									(java::classifiers::Enumeration), 'ALL')
+	  							}
+	  						}
+	  					}
+	  				},
+	  				settings = annotationAttributeSetting2 : java::annotations::AnnotationAttributeSetting
+	  				{
+	  					attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+	  						('javax.persistence.OneToMany.java'), 'OneToMany').oclAsType
+	  						(java::classifiers::Annotation), 'fetch'),
+	  					value = conditionalExpression2 : java::expressions::ConditionalExpression
+	  					{
+	  						child = identifierReference3 : java::references::IdentifierReference
+	  						{
+	  							target = getConcreteClassifier(getCompilationUnit
+	  								('javax.persistence.FetchType.java'), 'FetchType'),
+	  							next = identifierReference4 : java::references::IdentifierReference 
+	  							{
+	  								target = getEnumConstant(getConcreteClassifier(getCompilationUnit
+	  									('javax.persistence.FetchType.java'), 'FetchType').oclAsType
+	  									(java::classifiers::Enumeration), 'LAZY')
+	  							}
+	  						}
+	  					}
+	  				}
+  				}
+	  		},
+	  		annotationsAndModifiers = annotationInstance2 : java::annotations::AnnotationInstance
+  			{
+  				annotation = getConcreteClassifier(getCompilationUnit('javax.persistence.JoinColumn.java'), 
+  					'JoinColumn'),
+  				parameter = annotationParameterList2 : java::annotations::AnnotationParameterList 
+  				{
+  					settings = annotationAttributeSetting3 : java::annotations::AnnotationAttributeSetting 
+  					{
+  						attribute = getAnnotationAttribute(getConcreteClassifier(getCompilationUnit
+  							('javax.persistence.JoinColumn.java'), 'JoinColumn').oclAsType
+  							(java::classifiers::Annotation), 'name'),
+  						value = conditionalExpression3 : java::expressions::ConditionalExpression
+  						{
+  							child = stringReference3 : java::references::StringReference 
+  							{
+								value = association.name
+  							}
+  						}
+  					}
+  				}
+  			}
+	  	};
+	  
+	  	when
+	  	{
+	  		isCollectiveFeature(association);
+	  		association.oclIsKindOf(urdad::data::Association);
+	  		isEntityOrExtendsEntity(getParentDataStructure(association));
+	  	}
+	
+	}
+	
+	relation CollectiveKindOfAssociationToGetterAndSetterMethod
+	{
+		
+	  	checkonly domain source association : urdad::data::Association{};
+	  	
+	  	enforce domain target field : java::members::Field{};
+	  
+	  	enforce domain target getterMethod : java::members::ClassMethod 
+	  	{
+  			typeReference = namespaceClassifierReference : java::types::NamespaceClassifierReference
+  			{
+  				classifierReferences = classifierReference : java::types::ClassifierReference 
+  				{
+  					target = getConcreteClassifier(getCompilationUnit('java.util.Collection.java'), 
+	  					'Collection'),
+  					typeArguments = qualifiedTypeArgument : java::generics::QualifiedTypeArgument
+  					{
+  						typeReference = namespaceClassifierReference2 : 
+  							java::types::NamespaceClassifierReference
+  						{
+  							classifierReferences = classifierReference2 : java::types::ClassifierReference 
+  							{
+  								target = getConcreteClassifier(association.relatedElement.oclAsType
+	  								(urdad::data::DataStructure))
+  							}
+  						}
+  					}
+  				}
+  			},
+	  		statements = return : java::statements::Return
+	  		{
+	  			returnValue = identifierReference : java::references::IdentifierReference
+	  			{
+	  				target = field
+	  			}
+	  		}
+	  	};
+	  	
+	  	enforce domain target setterMethod : java::members::ClassMethod 
+	  	{	
+  			typeReference = void : java::types::Void{},
+  			parameters = ordinaryParameter : java::parameters::OrdinaryParameter 
+  			{
+  				name = association.name,
+  				typeReference = namespaceClassifierReference3 : java::types::NamespaceClassifierReference
+	  			{
+	  				classifierReferences = classifierReference3 : java::types::ClassifierReference 
+	  				{
+	  					target = getConcreteClassifier(getCompilationUnit('java.util.Collection.java'), 
+		  					'Collection'),
+	  					typeArguments = qualifiedTypeArgument2 : java::generics::QualifiedTypeArgument
+	  					{
+	  						typeReference = namespaceClassifierReference4 : 
+	  							java::types::NamespaceClassifierReference
+	  						{
+	  							classifierReferences = classifierReference4 : java::types::ClassifierReference 
+	  							{
+	  								target = getConcreteClassifier(association.relatedElement.oclAsType
+	  									(urdad::data::DataStructure))
+	  							}
+	  						}
+	  					}
+	  				}
+	  			}
+  			},
+  			statements = expressionStatement : java::statements::ExpressionStatement 
+  			{
+  				expression = assignmentExpression : java::expressions::AssignmentExpression
+  				{
+  					child = selfReference : java::references::SelfReference
+  					{
+  						next = identifierReference2 : java::references::IdentifierReference
+  						{
+  							target = field
+  						},
+  						self = this : java::literals::This{}
+  					},
+  					assignmentOperator = assignment : java::operators::Assignment{},
+  					value = identifierReference3 : java::references::IdentifierReference
+  					{
+  						target = ordinaryParameter
+  					}
+  				}
+  			}
+	  	};
+	  
+	  	when
+	  	{
+	  		isCollectiveFeature(association);
+	  		association.oclIsKindOf(urdad::data::Association);
+	  		DataStructureToClassCompilationUnit(association.relatedElement.oclAsType
+	  			(urdad::data::DataStructure), getCompilationUnit(association.relatedElement.oclAsType
+	  			(urdad::data::DataStructure)));
+	  	}
+	
+	}
+	
+	/* QUERIES */
+	
+	query getCommonSessionBeanInterfaceCompilationUnitName(responsibilityDomain : 
+		urdad::core::ResponsibilityDomain) : String
+	{
+		getNamespaceAsString(responsibilityDomain).concat('.').concat(responsibilityDomain.name).concat
+			('.java')
+	}
+	
+	query getLocalSessionBeanInterfaceCompilationUnitName(responsibilityDomain : 
+		urdad::core::ResponsibilityDomain) : String
+	{
+		getNamespaceAsString(responsibilityDomain).concat('.').concat(responsibilityDomain.name).concat
+			('Local.java')
+	}
+	
+	query getRemoteSessionBeanInterfaceCompilationUnitName(responsibilityDomain : 
+		urdad::core::ResponsibilityDomain) : String
+	{
+		getNamespaceAsString(responsibilityDomain).concat('.').concat(responsibilityDomain.name).concat
+			('Remote.java')
+	}
+	
+	query getSessionBeanClassCompilationUnitName(responsibilityDomain : urdad::core::ResponsibilityDomain) : 
+		String
+	{
+		getNamespaceAsString(responsibilityDomain).concat('.').concat(responsibilityDomain.name).concat
+			('Bean.java')
+	}
+	
+	query getClassCompilationUnitName(dataStructure : urdad::data::DataStructure) : String
+	{
+		getNamespaceAsString(dataStructure).concat('.').concat(dataStructure.name).concat('.java')
+	}
+	
+	query getRequestParameterName(serviceContract : urdad::contract::ServiceContract) : String
+	{
+		if serviceContract.functionalRequirements.requestVariable.oclIsUndefined()
+		then
+			serviceContract.request.name.firstToLower()
+		else
+			serviceContract.functionalRequirements.requestVariable.name
+		endif
+	}
+	
+	query getConcreteClassifierForAttribute(attribute : urdad::data::Attribute) : 
+		java::classifiers::ConcreteClassifier
+	{
+		if isBooleanAttribute(attribute)
+		then
+			getConcreteClassifier(getCompilationUnit('java.lang.Boolean.java'), 'Boolean')
+		else
+			if isIntegerAttribute(attribute)
+			then
+				getConcreteClassifier(getCompilationUnit('java.lang.Integer.java'), 'Integer')
+			else
+				if isFloatingPointNumberAttribute(attribute)
+				then
+					getConcreteClassifier(getCompilationUnit('java.lang.Double.java'), 'Double')
+				else
+					if isTextAttribute(attribute)
+					then
+						getConcreteClassifier(getCompilationUnit('java.lang.String.java'), 'String')
+					else
+						getConcreteClassifier(getCompilationUnit('java.util.Date.java'), 'Date')
+					endif
+				endif
+			endif
+		endif
+	}
+	
+	query getConcreteClassifier(compilationUnit : java::containers::CompilationUnit, concreateClassifierName : 
+		String) : java::classifiers::ConcreteClassifier{
+		compilationUnit.classifiers->select(c : java::classifiers::ConcreteClassifier | c.name = 
+		concreateClassifierName)->first()
+	}
+	
+	query getConcreteClassifier(dataType : urdad::data::DataType) : java::classifiers::ConcreteClassifier{
+		getConcreteClassifier(getCompilationUnit(dataType), dataType.name)
+	}
+	
+	query getCompilationUnit(compilationUnitName : String) : java::containers::CompilationUnit 
+	{
+		java::containers::CompilationUnit.allInstances()->select(c : java::containers::CompilationUnit | 
+			c.name = compilationUnitName)->asSequence()->first()
+	}
+	
+	query getCompilationUnit(dataType : urdad::data::DataType) : java::containers::CompilationUnit 
+	{
+		getCompilationUnit(getNamespaceAsString(dataType).concat('.').concat(name).concat('.java'))
+	}
+	
+	query getMembers(concreteClassifier : java::classifiers::ConcreteClassifier, name: String) : 
+		Sequence(java::members::Member)
+	{
+		concreteClassifier.members->select(m : java::members::Member | m.name = name)->asSequence()
+	}
+	
+	query getAnnotationAttribute(annotation : java::classifiers::Annotation, name: String) : 
+		java::annotations::AnnotationAttribute
+	{
+		annotation.members->select(m : java::members::Member | m.name = name and m.oclIsTypeOf
+			(java::annotations::AnnotationAttribute))->asSequence()->first().oclAsType
+			(java::annotations::AnnotationAttribute)
+	}
+	
+	query getEnumConstant(enumeration : java::classifiers::Enumeration, name: String) : 
+		java::members::EnumConstant
+	{
+		enumeration.constants->select(e : java::members::EnumConstant | e.name = name)->asSequence()->first()
+	}
+		
+	query getNamespaceAsString(dataType : urdad::data::DataType) : String
+	{
+		getNamespaceAsString(getResponsibilityDomainForDataType(dataType))
+	}	
+		
+	query getNamespaceAsString(responsibilityDomain : urdad::core::ResponsibilityDomain) : String
+	{
+		if not getParentResponsibilityDomainForResponsibilityDomain(responsibilityDomain)->notEmpty() 
+		then
+			responsibilityDomain.name.toLower()
+		else
+			getNamespaceAsString(getParentResponsibilityDomainForResponsibilityDomain(responsibilityDomain))
+				.concat('.').concat(responsibilityDomain.name.toLower())
+		endif
+	}
+	
+	query getNamespaceAsStringSequence(dataType : urdad::data::DataType) : Sequence(String)
+	{
+		getNamespaceAsStringSequence(getResponsibilityDomainForDataType(dataType))
+	}	
+	
+	query getNamespaceAsStringSequence(responsibilityDomain : urdad::core::ResponsibilityDomain) : 
+		Sequence(String)
+	{
+		if not getParentResponsibilityDomainForResponsibilityDomain(responsibilityDomain)->notEmpty() 
+		then
+			Sequence{responsibilityDomain.name.toLower()}
+		else
+			getNamespaceAsStringSequence(getParentResponsibilityDomainForResponsibilityDomain
+				(responsibilityDomain))->append(responsibilityDomain.name.toLower())
+		endif
+	}
+		
+	query getParentResponsibilityDomainForResponsibilityDomain(responsibilityDomain : 
+		urdad::core::ResponsibilityDomain) : urdad::core::ResponsibilityDomain
+	{
+		urdad::core::ResponsibilityDomain.allInstances()->select(r1 : urdad::core::ResponsibilityDomain | 
+			r1.responsibilityDomains->exists(r2 : urdad::core::ResponsibilityDomain | r2 = 
+			responsibilityDomain))->asSequence()->first()
+	}
+	
+	query getResponsibilityDomainForDataType(dataType : urdad::data::DataType) : 
+		urdad::core::ResponsibilityDomain
+	{
+		if usedAsServiceContractRequest(dataType)
+		then
+			getResponsibilityDomainForServiceContractRequest(dataType)
+		else
+			if usedAsServiceContractResult(dataType)
+			then
+				getResponsibilityDomainForServiceContractResult(dataType)
+			else
+				if usedAsStateConstraintParameterDataStructure(dataType)
+				then
+					getResponsibilityDomainForStateConstraintParameterDataStructure(dataType)
+				else
+					getResponsibilityDomainForResponsibilityDomainDataType(dataType)
+				endif
+			endif
+		endif
+	}	
+	
+	query getResponsibilityDomainForServiceContractRequest(dataType : urdad::data::DataType): 
+		urdad::core::ResponsibilityDomain
+	{
+		urdad::core::ResponsibilityDomain.allInstances()->select(r : urdad::core::ResponsibilityDomain | 
+			r.servicesContracts->exists(s : urdad::contract::ServiceContract | s.request = dataType))->
+			asSequence()->first()
+	}
+	
+	query getResponsibilityDomainForServiceContractResult(dataType : urdad::data::DataType): 
+		urdad::core::ResponsibilityDomain
+	{
+		urdad::core::ResponsibilityDomain.allInstances()->select(r : urdad::core::ResponsibilityDomain | 
+			r.servicesContracts->exists(s : urdad::contract::ServiceContract | s.result = dataType))->
+			asSequence()->first()
+	}
+	
+	query getResponsibilityDomainForStateConstraintParameterDataStructure(dataType : urdad::data::DataType): 
+		urdad::core::ResponsibilityDomain
+	{
+		urdad::core::ResponsibilityDomain.allInstances()->select(r : urdad::core::ResponsibilityDomain | 
+			r.constraints->exists(c : urdad::constraint::Constraint | c = 
+			getStateConstraintForStateConstraintParameterDataStructure(dataType)))->asSequence()->first()
+	}
+	
+	query getResponsibilityDomainForResponsibilityDomainDataType(dataType : urdad::data::DataType): 
+		urdad::core::ResponsibilityDomain
+	{
+		urdad::core::ResponsibilityDomain.allInstances()->select(r : urdad::core::ResponsibilityDomain | 
+			r.dataTypes->exists(d : urdad::data::DataType | d = dataType))->asSequence()->first()	
+	}
+	
+	query usedAsServiceContractRequest(dataType : urdad::data::DataType): Boolean
+	{
+		not urdad::core::ResponsibilityDomain.allInstances()->select(r : urdad::core::ResponsibilityDomain | 
+			r.servicesContracts->exists(s : urdad::contract::ServiceContract | s.request = dataType))
+			.isEmpty()
+	}
+	
+	query usedAsServiceContractResult(dataType : urdad::data::DataType): Boolean
+	{
+		not urdad::core::ResponsibilityDomain.allInstances()->select(r : urdad::core::ResponsibilityDomain | 
+			r.servicesContracts->exists(s : urdad::contract::ServiceContract | s.result = dataType)).isEmpty()
+	}
+	
+	query usedAsStateConstraintParameterDataStructure(dataType : urdad::data::DataType): Boolean
+	{
+		not urdad::constraint::StateConstraint.allInstances()->select(s : urdad::constraint::StateConstraint | 
+			s.parameterDataStructure = dataType).isEmpty()
+	}
+
+	query getStateConstraintForStateConstraintParameterDataStructure(dataType : urdad::data::DataType):  
+		urdad::constraint::StateConstraint
+	{
+		urdad::constraint::StateConstraint.allInstances()->select(s : urdad::constraint::StateConstraint | 
+			s.parameterDataStructure = dataType)-> asSequence()->first()
+	}
+	
+	query getParentDataStructure(feature : urdad::data::Feature) : urdad::data::DataStructure
+	{
+		urdad::data::DataStructure.allInstances()->select(d : urdad::data::DataStructure | d.features->
+			exists(f : urdad::data::Feature | f = feature)).asSequence()->first()
+	}
+	
+	query containsServiceContracts(responsibilityDomain : urdad::core::ResponsibilityDomain) : Boolean
+	{
+		responsibilityDomain.servicesContracts->size() > 0
+	}
+	
+	query hasSuperType(dataStructure : urdad::data::DataStructure) : Boolean
+	{
+		not dataStructure.superTypes->isEmpty()
+	}
+	
+	query getSuperType(dataStructure : urdad::data::DataStructure) : urdad::data::DataStructure
+	{
+		dataStructure.superTypes->first()
+	}
+	
+	query isException(dataStructure : urdad::data::DataStructure) : Boolean
+	{
+		dataStructure.oclIsTypeOf(urdad::contract::Exception)
+	}
+	
+	query containsCollectiveFeatures(dataStructure : urdad::data::DataStructure) : Boolean
+	{	
+		dataStructure.features->exists(f : urdad::data::Feature | isCollectiveFeature(f))
+	}
+	
+	query containsCollectiveAttributes(dataStructure : urdad::data::DataStructure) : Boolean
+	{	
+		dataStructure.features->exists(f : urdad::data::Feature | f.oclIsTypeOf(urdad::data::Attribute) and 
+			isCollectiveFeature(f))
+	}
+	
+	query containsDateAttribute(dataStructure : urdad::data::DataStructure) : Boolean
+	{	
+		 dataStructure.features->exists(f : urdad::data::Feature | f.oclIsTypeOf(urdad::data::Attribute) and 
+		 	isDateAttribute(f.oclAsType(urdad::data::Attribute)))
+	}
+	
+	query containsSingleIdentification(dataStructure : urdad::data::DataStructure) : Boolean
+	{	
+		dataStructure.features->exists(f : urdad::data::Feature | isSingleFeature(f) and f.oclIsTypeOf
+			(urdad::data::Identification))
+	}
+	
+	query containsSingleAssociation(dataStructure : urdad::data::DataStructure) : Boolean
+	{	
+		dataStructure.features->exists(f : urdad::data::Feature | isSingleFeature(f) and f.oclIsTypeOf
+			(urdad::data::Association))
+	}
+	
+	query containsSingleComposition(dataStructure : urdad::data::DataStructure) : Boolean
+	{	
+		dataStructure.features->exists(f : urdad::data::Feature | isSingleFeature(f) and f.oclIsTypeOf
+			(urdad::data::Composition))
+	}
+	
+	query containsSingleAggregation(dataStructure : urdad::data::DataStructure) : Boolean
+	{	
+		dataStructure.features->exists(f : urdad::data::Feature | isSingleFeature(f) and f.oclIsTypeOf
+			(urdad::data::Aggregation))
+	}
+	
+	query containsCollectiveKindOfAssociation(dataStructure : urdad::data::DataStructure) : Boolean
+	{	
+		dataStructure.features->exists(f : urdad::data::Feature | isCollectiveFeature(f) and f.oclIsKindOf
+			(urdad::data::Association))
+	}
+	
+	query containsCollectiveComposition(dataStructure : urdad::data::DataStructure) : Boolean
+	{	
+		dataStructure.features->exists(f : urdad::data::Feature | isCollectiveFeature(f) and f.oclIsTypeOf
+			(urdad::data::Composition))
+	}
+	
+	query containsKindOfAssociation(dataStructure : urdad::data::DataStructure) : Boolean
+	{	
+		dataStructure.features->exists(f : urdad::data::Feature | f.oclIsKindOf(urdad::data::Association))
+	}
+	
+	query isSingleFeature(feature : urdad::data::Feature) : Boolean
+	{
+		feature.multiplicityConstraint.oclIsUndefined()
+	}
+	
+	query isCollectiveFeature(feature : urdad::data::Feature) : Boolean
+	{
+		not isSingleFeature(feature)
+	}
+	 
+    query isBooleanAttribute(attribute : urdad::data::Attribute) : Boolean
+	{
+		isBooleanPrimitive(attribute.type)
+	} 
+     
+    query isIntegerAttribute(attribute : urdad::data::Attribute) : Boolean
+	{
+		isIntegerPrimitive(attribute.type)
+	}
+	
+	query isFloatingPointNumberAttribute(attribute : urdad::data::Attribute) : Boolean
+	{
+		isFloatingPointNumberPrimitive(attribute.type)
+	}
+	
+	query isTextAttribute(attribute : urdad::data::Attribute) : Boolean
+	{
+		isTextPrimitive(attribute.type)
+	}
+	
+	query isDateAttribute(attribute : urdad::data::Attribute) : Boolean
+	{
+		isDatePrimitive(attribute.type)
+	}	
+	
+	query isBooleanPrimitive(basicDataType : urdad::data::BasicDataType) : Boolean
+	{
+		basicDataType = getBooleanPrimitive()
+	}
+	
+	query getBooleanPrimitive() : urdad::data::BasicDataType
+	{
+		getUrdadStandardProfilePrimitivesResponsibilityDomain().dataTypes->select(d : urdad::data::DataType | 
+			d.name = 'Boolean')->asSequence()->first().oclAsType(urdad::data::BasicDataType)
+	}
+	
+	query isIntegerPrimitive(basicDataType : urdad::data::BasicDataType) : Boolean
+	{
+		basicDataType = getIntegerPrimitive()
+	}
+	
+	query getIntegerPrimitive() : urdad::data::BasicDataType
+	{
+		getUrdadStandardProfilePrimitivesResponsibilityDomain().dataTypes->select(d : urdad::data::DataType | 
+			d.name = 'Integer')->asSequence()->first().oclAsType(urdad::data::BasicDataType)
+	}
+	
+	query isFloatingPointNumberPrimitive(basicDataType : urdad::data::BasicDataType) : Boolean
+	{
+		basicDataType = getFloatingPointNumberPrimitive()
+	}
+	
+	query getFloatingPointNumberPrimitive() : urdad::data::BasicDataType
+	{
+		getUrdadStandardProfilePrimitivesResponsibilityDomain().dataTypes->select(d : urdad::data::DataType | 
+			d.name = 'FloatingPointNumber')->asSequence()->first().oclAsType(urdad::data::BasicDataType)
+	}
+	
+	query isTextPrimitive(basicDataType : urdad::data::BasicDataType) : Boolean
+	{
+		basicDataType = getTextPrimitive()
+	}
+	
+	query getTextPrimitive() : urdad::data::BasicDataType
+	{
+		getUrdadStandardProfilePrimitivesResponsibilityDomain().dataTypes->select(d : urdad::data::DataType | 
+			d.name = 'Text')->asSequence()->first().oclAsType(urdad::data::BasicDataType)
+	}
+	
+	query isDatePrimitive(basicDataType : urdad::data::BasicDataType) : Boolean
+	{
+		basicDataType = getDatePrimitive()
+	}
+	
+	query getDatePrimitive() : urdad::data::BasicDataType
+	{
+		getUrdadStandardProfilePrimitivesResponsibilityDomain().dataTypes->select(d : urdad::data::DataType | 
+			d.name = 'Date')->asSequence()->first().oclAsType(urdad::data::BasicDataType)
+	}
+	
+	query isEntity(dataStructure : urdad::data::DataStructure) : Boolean
+	{
+		dataStructure = getEntityDataType()
+	}
+	
+	query isEntityOrExtendsEntity(dataStructure : urdad::data::DataStructure) : Boolean
+	{
+		if hasSuperType(dataStructure)
+		then
+			isEntityOrExtendsEntity(getSuperType(dataStructure))
+		else
+			if dataStructure = getEntityDataType()
+			then
+				true
+			else
+				false
+			endif
+		endif
+	}
+		
+	query getEntityDataType() : urdad::data::DataType
+	{
+		getUrdadStandardProfileStorageResponsibilityDomain().dataTypes->select(d : urdad::data::DataType | 
+			d.name = 'Entity')->asSequence()->first()
+	}	
+	
+	query getUrdadStandardProfileStorageResponsibilityDomain(): urdad::core::ResponsibilityDomain
+	{
+		urdad::core::ResponsibilityDomain.allInstances()->select(r1 : urdad::core::ResponsibilityDomain | 
+			r1.name = 'UrdadStandardProfile').responsibilityDomains->select(r2 : 
+			urdad::core::ResponsibilityDomain | r2.name = 'Storage')->asSequence()->first()
+	}
+	
+	query getUrdadStandardProfilePrimitivesResponsibilityDomain(): urdad::core::ResponsibilityDomain
+	{
+		urdad::core::ResponsibilityDomain.allInstances()->select(r1 : urdad::core::ResponsibilityDomain | 
+			r1.name = 'UrdadStandardProfile').responsibilityDomains->select(r2 : 
+			urdad::core::ResponsibilityDomain | r2.name = 'Primitives')->asSequence()->first()
+	}
+	
+}
