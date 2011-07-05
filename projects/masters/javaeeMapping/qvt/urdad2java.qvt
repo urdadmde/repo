@@ -720,6 +720,80 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
 	
 	}
 	
+	relation DataStructureInstanceOfEntityToClassDefiningEntityAnnotation
+	{
+	
+		checkonly domain source dataStructure : urdad::data::DataStructure
+		{
+			abstract = false
+		};	
+	  
+	  	enforce domain target class : java::classifiers::Class 
+	  	{
+  			annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
+  			{
+  				annotation =  getConcreteClassifier(getCompilationUnit('javax.persistence.Entity.java'),
+	  				'Entity'),
+	  			namespaces = Sequence{'javax','persistence'} 
+  			}
+	  	};
+	  	
+	  	when
+	  	{
+	  		isEntityOrExtendsEntity(dataStructure);
+	  	}
+	
+	}
+	
+		relation AbstractDataStructureInstanceOfEntityToCompilationUnitImportingMappedSuperclassAnnotation
+	{
+
+	  	checkonly domain source dataStructure : urdad::data::DataStructure
+	  	{
+			abstract = true
+		};
+	  
+	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
+	  	{
+			imports = classifierImport : java::imports::ClassifierImport 
+	  		{
+	  			classifier = getConcreteClassifier(getCompilationUnit
+	  				('javax.persistence.MappedSuperclass.java'), 'MappedSuperclass'),	  		
+	  			namespaces = Sequence{'javax', 'persistence'}
+	  		}
+	  	};
+	  
+	  	when
+	  	{
+  			isEntityOrExtendsEntity(dataStructure);
+	  	}
+	
+	}
+
+	relation AbstractDataStructureInstanceOfEntityToClassDefiningMappedSuperclassAnnotation
+	{
+	
+		checkonly domain source dataStructure : urdad::data::DataStructure
+		{
+			abstract = true
+		};	
+	  
+	  	enforce domain target class : java::classifiers::Class 
+	  	{
+  			annotationsAndModifiers = annotationsAndModifiers : java::annotations::AnnotationInstance
+  			{
+  				annotation = getConcreteClassifier(getCompilationUnit
+  					('javax.persistence.MappedSuperclass.java'), 'MappedSuperclass')
+  			}
+	  	};
+	  	
+	  	when
+	  	{
+	  		isEntityOrExtendsEntity(dataStructure);
+	  	}
+	
+	}
+	
 	relation DataStructureToPublicClass
 	{
 	
@@ -856,80 +930,6 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
 			DataStructureToClassCompilationUnit(getSuperType(dataStructure), getCompilationUnit
 				(getSuperType(dataStructure)));
 		}
-	
-	}
-		
-	relation DataStructureInstanceOfEntityToClassDefiningEntityAnnotation
-	{
-	
-		checkonly domain source dataStructure : urdad::data::DataStructure
-		{
-			abstract = false
-		};	
-	  
-	  	enforce domain target class : java::classifiers::Class 
-	  	{
-  			annotationsAndModifiers = annotationInstance : java::annotations::AnnotationInstance
-  			{
-  				annotation =  getConcreteClassifier(getCompilationUnit('javax.persistence.Entity.java'),
-	  				'Entity'),
-	  			namespaces = Sequence{'javax','persistence'} 
-  			}
-	  	};
-	  	
-	  	when
-	  	{
-	  		isEntityOrExtendsEntity(dataStructure);
-	  	}
-	
-	}
-	
-	relation AbstractDataStructureInstanceOfEntityToCompilationUnitImportingMappedSuperclassAnnotation
-	{
-
-	  	checkonly domain source dataStructure : urdad::data::DataStructure
-	  	{
-			abstract = true
-		};
-	  
-	  	enforce domain target compilationUnit : java::containers::CompilationUnit 
-	  	{
-			imports = classifierImport : java::imports::ClassifierImport 
-	  		{
-	  			classifier = getConcreteClassifier(getCompilationUnit
-	  				('javax.persistence.MappedSuperclass.java'), 'MappedSuperclass'),	  		
-	  			namespaces = Sequence{'javax', 'persistence'}
-	  		}
-	  	};
-	  
-	  	when
-	  	{
-  			isEntityOrExtendsEntity(dataStructure);
-	  	}
-	
-	}
-
-	relation AbstractDataStructureInstanceOfEntityToClassDefiningMappedSuperclassAnnotation
-	{
-	
-		checkonly domain source dataStructure : urdad::data::DataStructure
-		{
-			abstract = true
-		};	
-	  
-	  	enforce domain target class : java::classifiers::Class 
-	  	{
-  			annotationsAndModifiers = annotationsAndModifiers : java::annotations::AnnotationInstance
-  			{
-  				annotation = getConcreteClassifier(getCompilationUnit
-  					('javax.persistence.MappedSuperclass.java'), 'MappedSuperclass')
-  			}
-	  	};
-	  	
-	  	when
-	  	{
-	  		isEntityOrExtendsEntity(dataStructure);
-	  	}
 	
 	}
 	
