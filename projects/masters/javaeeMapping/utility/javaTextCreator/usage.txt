@@ -1,0 +1,10 @@
+Usage
+-----
+
+javatextcreator -j <Java standard profile (Java model file)> -u <URDAD (Java model file)> -t <Target directory>
+  
+Example: java -jar ./javatextcreator.jar -j ./source/javastandardprofile.xmi -u ./source/training.java.xmi -t ./target
+
+
+
+
