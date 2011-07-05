@@ -525,7 +525,7 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
 				annotationsAndModifiers = public : java::modifiers::Public{},
 				statements = return : java::statements::Return
 				{
-					--comments = Sequence{'//TODO This method must be implemented manually.'}, 					
+					comments = Sequence{'//TODO This method must be manually implemented.'}, 					
 					returnValue = nullLiteral : java::literals::NullLiteral{}
 				} 
 	  		}
@@ -707,6 +707,7 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
 	  	
 	  	where
 	  	{
+	  		DataStructureInstanceOfEntityToClassDefiningEntityAnnotation(dataStructure, class);
 	  		DataStructureToPublicClass(dataStructure, class);
 	  		AbstractDataStructureToAbstractClass(dataStructure, class);
 	  		DataStructureNoSuperTypeNotExceptionToCompilationUnitImportingSerializable(dataStructure, 
@@ -716,7 +717,6 @@ transformation urdad2java2(source:urdad, javaStandardProfile:java, target:java) 
 	  		DataStructureToClassExtendingSuperType(dataStructure, class);
 	  		DataStructureInstanceOfEntityToCompilationUnitImportingEntityAnnotation(dataStructure, 
 	  			compilationUnit);
-	  		DataStructureInstanceOfEntityToClassDefiningEntityAnnotation(dataStructure, class);
 	  		AbstractDataStructureInstanceOfEntityToCompilationUnitImportingMappedSuperclassAnnotation
 	  			(dataStructure, compilationUnit);
 	  		AbstractDataStructureInstanceOfEntityToClassDefiningMappedSuperclassAnnotation(dataStructure, 
