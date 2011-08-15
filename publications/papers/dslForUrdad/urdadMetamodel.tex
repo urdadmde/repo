@@ -56,11 +56,11 @@ As depicted in Figure \ref{fig:constraintModule}, the constraints module provide
 %----------------------------
 \subsection{Service Contracts}
 
-A service contract comprises both functional and non-functional quality requirements. Every requirement is associated with a stakeholder which is either a responsibility domain or another service. Functional service requirements are expressed in terms of the above-mentioned pre- and post-conditions, together with exception rules for the case that any pre-condition is not fulfilled. 
+A service contract comprises both functional and non-functional quality requirements. Every requirement is associated with one or more stakeholders. Each stakeholder is either a responsibility domain or another service. Functional service requirements are expressed in terms of the above-mentioned pre- and post-conditions, together with exception rules for the case that any pre-condition is not fulfilled. 
 
 A post-condition can specify either the computational output of a service, or its \emph{side effects} on its environment. Due to a service potentially creating a lasting change to its environment, the URDAD DSL allows the designation of inverse services through which these lasting effects can be reversed. Explicit post-conditions thus also help to specify such undo-services.
 
-A service contract specifies a single service request object that contains information pertaining to the request and a single result object, which contains the information associated with the result of the executed service. The data structures for these request and result objects are service-specific and are not meant to be reused (though their components, which are domain objects, are most likely to be reused). 
+A service contract specifies a single service request object that contains information pertaining to the request and a single result object, which contains the information associated with the result of the executed service. The data structures for these request and result objects are service-specific and are not meant to be reused (though their components, which are domain objects, are commonly reused). 
 
 Below we illustrate the specification of a service contract in our URDAD DSL grammar.
 \lstset{language=urdad,caption=Specifying a service contract in the textual URDAD DSL syntax.,label=contractTextSyntax}
@@ -107,7 +107,7 @@ Figure \ref{fig:contractModule} shows the URDAD DSL support for the specificatio
 %--------------------------
 \subsection{Data Structures}
 
-The data module of the URDAD meta model is depicted in Figure \ref{fig:dataStructureModule}. It allows for an object-oriented approach to data structure specification which is directly aligned with UML class descriptions. In addition to the familiar type relationships - Association, Aggregation and Composition, URDAD DSL introduces a new, weaker type relationship called \emph{Identification}. This is conceptually similar to a strongly-typed \emph{Uniform Resource Identifier} (URI), in that it uniquely identifies objects within the model, but without implying an active message path to the object as UML \emph{Association}s do.
+The data module of the URDAD meta model is depicted in Figure \ref{fig:dataStructureModule}. It allows for an object-oriented approach to data structure specification which is directly aligned with UML class descriptions. In addition to the familiar type relationships - \emph{association}, \emph{aggregation} and \emph{composition}, URDAD DSL introduces a new, weaker type relationship called \emph{identification}. This is conceptually similar to a strongly-typed \emph{Uniform Resource Identifier} (URI), in that it uniquely identifies objects within the model, but without implying an active message path to the object as UML \emph{association}s do.
  
 \begin{figure*}[thbp]
   \centering
