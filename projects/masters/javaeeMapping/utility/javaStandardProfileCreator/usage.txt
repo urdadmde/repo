@@ -1,0 +1,6 @@
+Usage
+-----
+
+javastandardprofilecreator -c <Classifiers file> -j <Jar files directory> -t <Target directory>
+  
+Example: java -jar ./javastandardprofilecreator.jar -c ./source/classifiers.txt -j ./jarfiles -t ./target

@@ -1,5 +1,4 @@
 \section{URDAD's Meta Model \label{sec:metamodel}}
-
 URDAD's meta model provides a formal description of URDAD's domain of discourse. It will be used to support the URDAD methodology of requirements specification. A meta model is a ``logical information model that specifies the modeling elements used within another (or the same) modeling notation'' \cite{_ieee_2003}. 
 
 URDAD's meta model formalizes the modelling constructs needed for the specification of service requirements and the technology-neutral design of business processes which fulfil such requirements. It is specified in \emph{Ecore} which is an implementation of \emph{EMOF}. The \emph{Eclipse} modelling tool suite\cite{gronback_model_2008} supports the automatic generation of concrete textual and diagrammatic grammars, \emph{QVT}-based model transformations, as well as the integrated use of the Object Constraint Language (OCL) \cite{_object_2010}. An automatic translation of the meta model into a representation within the Web Ontology Language (OWL DL) ontology was done to facilitate automated satisfiability checking (see Section \ref{sec:assessment}).
@@ -11,7 +10,7 @@ Using tools like EMFText \cite{heidenreich_derivation_2009} one can either gener
 %--------------------------
 \subsection{The Core of URDAD's Meta Model}
 
-The core module (see Figure \ref{fig:coreModule}) introduces core concepts like the URDAD model itself, model elements, stake holders, responsibility domains, expressions and annotations.
+The core module (see Figure \ref{fig:coreModule}) introduces core concepts like the URDAD model itself, model elements, stakeholders, responsibility domains, expressions and annotations.
 \begin{figure*}[thb]
   \centering
   \includegraphics{core}\\   
@@ -25,7 +24,7 @@ A responsibility domain covers a coherent unit of functionality at a particular 
 %-----------------------
 \subsection{Constraints}
 
-Constraints are required for the specification of functional requirements (pre- and post-conditions), data structure constraints and decision points in processes. The Object-Constraint Language (OCL) has become the de-facto standard for specifying constraints across object graphs. However, in a service-oriented approach and in the context of reusable, parametrised constraints the OCL alone is not expressive enough. 
+Constraints are required for the specification of functional requirements (pre- and post-conditions), data structure constraints and decision points in processes. The Object-Constraint Language (OCL) has become the de-facto standard for specifying constraints across object gra\-phs. However, in a service-oriented approach and in the context of reusable, parametrised constraints the OCL alone is not expressive enough. 
 
 Firstly, in a service-oriented context the actual environmental state is only accessible by using services which query the environment and not by traversing an object graph. The specification of constraints must thus relate to the specification of services through which information is sourced from the environment together with a set of data structure constraints on the obtained information. OCL can be used for the latter, but is insufficient for the complete specification of a constraint.
 
@@ -164,12 +163,10 @@ Service enrollForPresentationImpl realizes enrollForPresentation receiving Varia
 }                 
 \end{lstlisting}
 
-Figure \ref{fig:processModule} shows the pocess modules of the URDAD meta model.
+Figure \ref{fig:processModule} shows the process modules of the URDAD meta model.
 \begin{figure*}[thbp]
   \centering
   \includegraphics{process}\\   
   \caption{The process definition elements of URDAD}
   \label{fig:processModule}
 \end{figure*}
- 
-\input{urdadDsl.tex}
