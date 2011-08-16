@@ -6,7 +6,7 @@ Version=4
 MainFile=dslForUrdad.tex
 UseBibTeX=1
 UseMakeIndex=0
-ActiveProfile=LaTeX => PDF
+ActiveProfile=LaTeX => PDF (Without output dir)
 ProjectLanguage=en
 ProjectDialect=GB
 

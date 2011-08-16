@@ -46,7 +46,7 @@ StateConstraint studentEnrolledForPresentation receiving Variable enrollForPrese
 \end{lstlisting}
 
 As depicted in Figure \ref{fig:constraintModule}, the constraints module provides the concept of re-usable constraints with standard logical operators to formulate complex constraint expressions.
-\begin{figure*}[thbp]
+\begin{figure*}[tb!]
   \centering
   \includegraphics{constraint}\\   
   \caption{The constraint specification elements of URDAD}
@@ -93,23 +93,21 @@ ServiceContract enrollForPresentation
 }
 \end{lstlisting}
 
-
 Figure \ref{fig:contractModule} shows the URDAD DSL support for the specification of service contracts as packaged within a contract module.
 
-\begin{figure*}[thbp]
+\begin{figure*}[tb]
   \centering
   \includegraphics{contract}\\   
   \caption{The contract specification elements of URDAD}
   \label{fig:contractModule}
 \end{figure*}
 
-
 %--------------------------
 \subsection{Data Structures}
 
 The data module of the URDAD meta model is depicted in Figure \ref{fig:dataStructureModule}. It allows for an object-oriented approach to data structure specification which is directly aligned with UML class descriptions. In addition to the familiar type relationships - \emph{association}, \emph{aggregation} and \emph{composition}, URDAD DSL introduces a new, weaker type relationship called \emph{identification}. This is conceptually similar to a strongly-typed \emph{Uniform Resource Identifier} (URI), in that it uniquely identifies objects within the model, but without implying an active message path to the object as UML \emph{association}s do.
  
-\begin{figure*}[thbp]
+\begin{figure*}[tb]
   \centering
   \includegraphics{data}\\   
   \caption{The data definition elements of URDAD}
@@ -164,7 +162,7 @@ Service enrollForPresentationImpl realizes enrollForPresentation receiving Varia
 \end{lstlisting}
 
 Figure \ref{fig:processModule} shows the process modules of the URDAD meta model.
-\begin{figure*}[thbp]
+\begin{figure*}[tb]
   \centering
   \includegraphics{process}\\   
   \caption{The process definition elements of URDAD}
