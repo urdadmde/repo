@@ -1,0 +1,148 @@
+\begin{thebibliography}{10}
+
+\bibitem{iacob_model-driven_2008}
+A {Model-Driven} perspective on the {Rule-Based} specification of services.
+\newblock Munich, Germany.
+
+\bibitem{_ieee_2003}
+{IEEE} guide for {CASE} tool interconnections - classification and description.
+\newblock {\em {IEEE} Std 1175.1-2002 {(Revision} of {IEEE} Std 1175.1-1991)},
+  2003.
+
+\bibitem{_object_2010}
+Object constraint language v2.2.
+\newblock Specification, Object Management Group, Feb. 2010.
+
+\bibitem{halpin_it_2009}
+S.~Adam, O.~\"{U}nalan, N.~Riegel, and D.~Kerkow.
+\newblock {IT} {Capability-Based} business process design through
+  {Service-Oriented} requirements engineering.
+\newblock In T.~Halpin, J.~Krogstie, S.~Nurcan, E.~Proper, R.~Schmidt,
+  P.~Soffer, and R.~Ukor, editors, {\em Enterprise, {Business-Process} and
+  Information Systems Modeling}, volume~29, pages 113--125. Springer Berlin
+  Heidelberg, Berlin, Heidelberg, 2009.
+
+\bibitem{asnina_computation_2010}
+E.~Asnina and J.~Osis.
+\newblock Computation independent models: Bridging problem and solution
+  domains.
+\newblock In {\em 5'th International Conference on Evaluation of Novel
+  Approaches to Software Engineering}, Athens, Greece, 2010.
+
+\bibitem{bashardoust-tajali_extracting_2008}
+S.~{Bashardoust-Tajali} and J.~Corriveau.
+\newblock On extracting tests from a testable model in the context of domain
+  engineering.
+\newblock In {\em 13th {IEEE} International Conference on Engineering of
+  Complex Computer Systems (iceccs 2008)}, pages 98--107, Belfast, Northern
+  Ireland, Mar. 2008.
+
+\bibitem{cao_modeling_2008}
+X.~Cao, H.~Miao, and Q.~Xu.
+\newblock Modeling and refining the {Service-Oriented} requirement.
+\newblock In {\em 2008 2nd {IFIP/IEEE} International Symposium on Theoretical
+  Aspects of Software Engineering}, pages 159--165, Nanjing, China, June 2008.
+
+\bibitem{cardei_model_2008}
+I.~Cardei, M.~Fonoage, and R.~Shankar.
+\newblock Model based requirements specification and validation for component
+  architectures.
+\newblock In {\em Systems Conference, 2008 2nd Annual {IEEE}}, pages 1--8, Apr.
+  2008.
+
+\bibitem{demarco_tom_structured_1978}
+T.~{DeMarco}.
+\newblock {\em Structured Analysis and System Specification}.
+\newblock Yourdon Press, New York, 1978.
+
+\bibitem{dick_design_2005}
+J.~Dick.
+\newblock Design traceability.
+\newblock {\em Software, {IEEE}}, 22(6):14--16, Nov. 2005.
+
+\bibitem{espana_evaluating_2009}
+S.~Espana, N.~{Condori-Fernandez}, A.~Gonzalez, and O.~Pastor.
+\newblock Evaluating the completeness and granularity of functional
+  requirements specifications: A controlled experiment.
+\newblock In {\em 2009 17th {IEEE} International Requirements Engineering
+  Conference}, pages 161--170, Atlanta, Georgia, {USA}, Aug. 2009.
+
+\bibitem{gonzalez_unity_2009}
+A.~Gonzalez, S.~Espana, and O.~Pastor.
+\newblock Unity criteria for business process modelling.
+\newblock In {\em 2009 Third International Conference on Research Challenges in
+  Information Science}, pages 155--164, Fez, Morocco, Apr. 2009.
+
+\bibitem{gronback_model_2008}
+R.~C. Gronback and E.~Merks.
+\newblock Model driven architecture at eclipse.
+\newblock {\em The European Journal for the Informatics Professional},
+  2008({II}), Apr. 2008.
+
+\bibitem{heidenreich_derivation_2009}
+F.~Heidenreich, J.~Johannes, S.~Karol, M.~Seifert, and C.~Wende.
+\newblock Derivation and refinement of textual syntax for models.
+\newblock In R.~Paige, A.~Hartman, and A.~Rensink, editors, {\em Model Driven
+  Architecture - Foundations and Applications}, volume 5562 of {\em Lecture
+  Notes in Computer Science}, pages 114--129. Springer Berlin / Heidelberg,
+  2009.
+
+\bibitem{hoffmann_towards_2009}
+V.~Hoffmann, H.~Lichter, A.~NyBen, and A.~Walter.
+\newblock Towards the integration of uml and textual use case modeling.
+\newblock {\em Journal of Object Technology}, 8(3):85--100, May 2009.
+
+\bibitem{mohagheghi_evaluating_2007}
+P.~Mohagheghi and J.~Aagedal.
+\newblock Evaluating quality in {Model-Driven} engineering.
+\newblock In {\em {MISE} '07: Proceedings of the International Workshop on
+  Modeling in Software Engineering}, pages 6--11, Washington, {DC}, {USA},
+  2007. {IEEE} Computer Society.
+
+\bibitem{osis_transforming_2010}
+J.~Osis and A.~\u{S}lihte.
+\newblock Transforming textual use cases to a computation independent model.
+\newblock In {\em 5'th International Conference on Evaluation of Novel
+  Approaches to Software Engineering}, Athens, Greece, 2010.
+
+\bibitem{parreiras_using_2010}
+F.~S. Parreiras and S.~Staab.
+\newblock Using ontologies with {UML} class-based modeling: The {TwoUse}
+  approach.
+\newblock {\em Data \& Knowledge Engineering}, 69(11):1194--1207, Nov. 2010.
+
+\bibitem{ramesh_toward_2001}
+B.~Ramesh and M.~Jarke.
+\newblock Toward reference models for requirements traceability.
+\newblock {\em {IEEE} Transactions on Software Engineering}, 27(1):58--93, Jan.
+  2001.
+
+\bibitem{schmidt_model_2006}
+D.~C. Schmidt.
+\newblock Model driven engineering.
+\newblock {\em {IEEE} Computer}, 39(2):25--31, Feb. 2006.
+
+\bibitem{solms_technology_2007}
+F.~Solms.
+\newblock Technology neutral business process design using {URDAD}.
+\newblock In {\em Proceeding of the 2007 conference on New Trends in Software
+  Methodologies, Tools and Techniques: Proceedings of the sixth {SoMeT\_07}},
+  pages 52--70, Amsterdam, The Netherlands, The Netherlands, 2007. {IOS} Press.
+
+\bibitem{solms_urdad_2010}
+F.~Solms and D.~Loubser.
+\newblock {URDAD} as a semi-formal approach to analysis and design.
+\newblock {\em Innovations in Systems and Software Engineering}, 6:155--162,
+  2010.
+
+\bibitem{wirfs-brock_object_2002}
+R.~J. {Wirfs-Brock} and A.~{McKean}.
+\newblock {\em Object Design: Roles, Responsibilities and Collaboration}.
+\newblock {Addison-Wesley} Professional, New York, 2002.
+
+\bibitem{wirfs-brock_object-oriented_1989}
+R.~J. {Wirfs-Brock} and B.~Wilkerson.
+\newblock {Object-Oriented} design: A {Responsibility-Driven} approach.
+\newblock In {\em {OOPSLA} '89 Proceedings}, pages 71--75, Oct. 1989.
+
+\end{thebibliography}
